@@ -42,7 +42,7 @@ const config = {
       '/en_US',
     ],
     collapsedNav: [
-      '/en_US', // add trailing slash if enabled above
+      // '/en_US', // add trailing slash if enabled above
     ],
     links: [{ text: 'newbe.pro', link: 'https://www.newbe.pro' }],
     frontline: false,
