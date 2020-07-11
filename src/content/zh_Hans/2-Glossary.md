@@ -1,7 +1,7 @@
 ---
-title: '快速入门'
-metaTitle: 'Newbe.Claptrap 快速入门'
-metaDescription: 'Newbe.Claptrap 快速入门'
+title: '术语表'
+metaTitle: '术语表'
+metaDescription: '术语表'
 ---
 
 import { Link } from "gatsby";
