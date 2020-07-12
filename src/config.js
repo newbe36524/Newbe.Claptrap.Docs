@@ -26,8 +26,7 @@ const config = {
 		      </div>
 		    </a>
 		  </li>-->`,
-    // links: [      { text: 'newbe.pro', link: 'https://www.newbe.pro' }    ],
-    links: [],
+    links: [{ text: 'newbe.pro', link: 'https://www.newbe.pro' }],
     search: {
       enabled: false,
       indexName: '',
