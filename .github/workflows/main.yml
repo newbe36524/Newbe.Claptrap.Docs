@@ -26,4 +26,4 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/src
           chmod +x ../tools/qsuits_linux_amd64
-          ../tools/qsuits_linux_amd64 -d -process=qupload -directories=/public -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
+          ../tools/qsuits_linux_amd64 -process=qupload -directories=/public -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
