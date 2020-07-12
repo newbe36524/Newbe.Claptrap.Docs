@@ -10,16 +10,18 @@ jobs:
     name: Build Gatsby Site
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Build Gatsby Site
-        uses: jzweifel/gatsby-cli-github-action@master
-        env:
-          GATSBY_PROJECT_PATH: "./src"
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          gatsby-arg: build
-      - name: pusblih to qiniu
-        run: |
+          node-version: "12"
+      - run: npm i -g --force yarn
+      - run: npm install -g gatsby-cli
+      - run: |
+          cd $GITHUB_WORKSPACE/src
+          yarn install
+      - run: |
           cd $GITHUB_WORKSPACE/src
           chmod +x ../tools/qsuits_linux_amd64
           ../tools/qsuits_linux_amd64 -d -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
           ../tools/qsuits_linux_amd64 qupload2 --src-dir=/public --bucket=newbeclaptrap --rescan-local --overwrite
+          npm i -g --force yarn
