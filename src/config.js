@@ -2,14 +2,13 @@ const config = {
   gatsby: {
     pathPrefix: '/',
     siteUrl: 'https://claptrap.newbe.pro',
-    gaTrackingId: null,
+    gaTrackingId: 'UA-100658571-2',
     trailingSlash: false,
   },
   header: {
-    logo: 'https://graphql-engine-cdn.hasura.io/learn-hasura/assets/homepage/brand.svg',
+    logo: '/images/brand.svg',
     logoLink: 'https://claptrap.newbe.pro/',
-    title:
-      "<a href='https://claptrap.newbe.pro'>Newbe.Claptrap</a>",
+    title: "<!--<a href='https://claptrap.newbe.pro'>Newbe.Claptrap</a>-->",
     githubUrl: 'https://github.com/newbe36524/Newbe.Claptrap',
     helpUrl: '',
     tweetText: '',
@@ -44,18 +43,21 @@ const config = {
     collapsedNav: [
       // '/en_US', // add trailing slash if enabled above
     ],
-    links: [{ text: 'newbe.pro', link: 'https://www.newbe.pro' }],
+    links: [
+      { text: 'newbe.pro', link: 'https://www.newbe.pro' },
+      { text: 'Github', link: 'https://github.com/newbe36524/Newbe.Claptrap' },
+      { text: 'Gitee', link: 'https://gitee.com/yks/Newbe.Claptrap' },
+    ],
     frontline: false,
     ignoreIndex: true,
-    title:
-      "<a href='https://claptrap.newbe.pro'>Newbe.Claptrap</a>",
+    title: "<a href='https://claptrap.newbe.pro'>Newbe.Claptrap</a>",
   },
   siteMetadata: {
     title: 'Newbe.Claptrap Documents | Newbe',
     description: 'Documentation about Newbe.Claptrap ',
     ogImage: null,
     docsLocation: 'https://github.com/newbe36524/Newbe.Claptrap.Docs/tree/master/src/content',
-    favicon: 'https://graphql-engine-cdn.hasura.io/img/hasura_icon_black.svg',
+    favicon: 'images/icon/favicon.ico',
   },
   pwa: {
     enabled: true, // disabling this will also remove the existing service worker.
@@ -69,8 +71,8 @@ const config = {
       crossOrigin: 'use-credentials',
       icons: [
         {
-          src: 'src/pwa-512.png',
-          sizes: `512x512`,
+          src: '/images/icon/apple-touch-icon.png',
+          sizes: `384x384`,
           type: `image/png`,
         },
       ],
