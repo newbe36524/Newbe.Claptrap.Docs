@@ -1,0 +1,29 @@
+name: build site
+on:
+  pull_request: 
+    branches: 
+      - master
+      - develop
+
+jobs:
+  build:
+    name: Build Gatsby Site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: install yarn
+        run: npm i -g --force yarn
+      - name: install gatsby-cli
+        run: npm install -g gatsby-cli
+      - name: restore yarn
+        run: |
+          cd $GITHUB_WORKSPACE/src
+          yarn install
+      - name: gatsby build
+        run: |
+          cd $GITHUB_WORKSPACE/src
+          mkdir -p public/images/icon 
+          npm run build
