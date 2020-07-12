@@ -25,6 +25,7 @@ jobs:
       - name: gatsby build
         run: |
           cd $GITHUB_WORKSPACE/src
+          mkdir public
           npm run build
       - name: publish to qiniu
         run: |
