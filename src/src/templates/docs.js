@@ -66,9 +66,9 @@ export default class MDXRuntimeTest extends Component {
       });
 
     // meta tags
-    const metaTitle = mdx.frontmatter.metaTitle + " | Newbe.Claptrap";
+    const metaTitle = mdx.frontmatter.metaTitle == null ? "Newbe.Claptrap" : mdx.frontmatter.metaTitle + " | Newbe.Claptrap";
 
-    const metaDescription = mdx.frontmatter.metaDescription + " | Newbe.Claptrap";
+    const metaDescription = mdx.frontmatter.metaDescription == null ? "Newbe.Claptrap" : mdx.frontmatter.metaDescription + " | Newbe.Claptrap";
 
     let canonicalUrl = config.gatsby.siteUrl;
 
