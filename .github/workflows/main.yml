@@ -18,9 +18,6 @@ jobs:
         with:
           gatsby-arg: build
       - name: pusblih to qiniu
-        env:
-          AK:
-          SK:
         run: |
           cd $GITHUB_WORKSPACE/src
           chmod +x ../tools/qsuits_linux_amd64
