@@ -14,14 +14,17 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12"
-      - run: npm i -g --force yarn
-      - run: npm install -g gatsby-cli
-      - run: |
+      - name: install yarn
+        run: npm i -g --force yarn
+      - name: install gatsby-cli
+        run: npm install -g gatsby-cli
+      - name: restore yarn
+        run: |
           cd $GITHUB_WORKSPACE/src
           yarn install
-      - run: |
+      - name: publish to qiniu
+        run: |
           cd $GITHUB_WORKSPACE/src
           chmod +x ../tools/qsuits_linux_amd64
           ../tools/qsuits_linux_amd64 -d -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
-          ../tools/qsuits_linux_amd64 qupload2 --src-dir=/public --bucket=newbeclaptrap --rescan-local --overwrite
-          npm i -g --force yarn
+          ../tools/qsuits_linux_amd64 -d -process=qupload -directories=/public -bucket=newbeclaptrap
