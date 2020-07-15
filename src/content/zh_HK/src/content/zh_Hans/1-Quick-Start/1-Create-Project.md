@@ -28,7 +28,7 @@ dotnet new --install Newbe.Claptrap.Template
 
 安裝完之後，可以响安裝結果入面睇到已經安裝的咗嘅項目模板。
 
-![newbe.claptrap.template安装完毕](/images/20200709-001.png)
+![newbe.claptrap.template安裝完成](/images/20200709-001.png)
 
 ## 建立項目
 
@@ -50,35 +50,35 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 啟動完成之後，就可以通過`http://localhost:36525/swagger`地址嚟睇例子項目嘅 API 描述啦。其中包括了三個主要的 API：
 
-- `GET` `/api/Cart/{id}` 获取特定 id 购物车中的商品和数量
-- `POST` `/api/Cart/{id}` 添加新的商品到指定 id 的购商品
-- `DELETE` `/api/Cart/{id}` 从指定 id 的购物车中移除特定的商品
+- `GET` `/api/Cart/{id}` 獲取特定 id 購物車中的商品和數量
+- `POST` `/api/Cart/{id}` 添加新的商品到指定 id 的購物商品
+- `DELETE` `/api/Cart/{id}` 從指定 id 的購物車中移除特定的商品
 
-您可以通过界面上的 Try It Out 按钮来尝试对 API 进行几次调用。
+您可以通過界面上的 Try It Out 按鈕來嘗試對 API 進行幾次呼叫。
 
-> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用華為雲加速 nuget 還原速度](https://mirrors.huaweicloud.com/)
 
 ## 第一次添加商品，没有效果？
 
-是的，您说的没错。项目模板中的业务实现是存在 BUG 的。
+是的，你說的沒錯。項目模板中的業務實現是存在 BUG 的。
 
-接下来我们来打开项目，通过添加一些断点来排查并解决这些 BUG。
+接下來我們來打開項目，通過添加一些斷點來排查並解決這些 BUG。
 
-并且通过对 BUG 的定位，您可以了解框架的代码流转过程。
+並且通過對 BUG 的定位，您可以了解框架的代碼流轉過程。
 
-## 添加断点
+## 添加中斷點
 
-以下根据不同的 IDE 说明需要增加断点的位置，您可以选择您习惯的 IDE 进行操作。
+以下根據不同的 IDE 說明需要增加中斷點的位置，您可以選擇您習慣的 IDE 進行操作。
 
-如果您当前手头没有 IDE，也可以跳过本节，直接阅读后面的内容。
+如果您當前手頭沒有 IDE，也可以跳過本節，直接閱讀後面的內容。
 
 ### Visual Studio
 
-按照上文提到的启动方式，同时启动两个项目。
+按照上文提到的執行方式，同時執行兩個項目。
 
-导入断点：打开“断点”窗口，点击按钮，从项目下选择`breakpoints.xml`文件。可以通过以下两张截图找到对应的操作位置。
+導入中斷點：打開“中斷點”窗口，點擊按鈕，從項目下選擇`breakpoints.xml`文件。可以通過以下兩張截圖找到對應的操作位置。
 
 ![Open Breakpoints Window](/images/20200709-002.png)
 
@@ -86,30 +86,30 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ### Rider
 
-按照上文提到的启动方式，同时启动两个项目。
+按照上文提到的啟動方式，同時執行兩個項目。
 
-Rider 目前没有断点导入功能。因此需要手动的在以下位置创建断点：
+Rider 目前沒有中斷點導入功能。因此需要手動的在以下位置建立中斷點：
 
-| 文件                        | 行号 |
-| ------------------------- | -- |
-| CartController            | 30 |
-| CartController            | 34 |
-| CartGrain                 | 24 |
-| CartGrain                 | 32 |
-| AddItemToCartEventHandler | 14 |
-| AddItemToCartEventHandler | 28 |
+| 檔案                        | 列編號 |
+| ------------------------- | --- |
+| CartController            | 30  |
+| CartController            | 34  |
+| CartGrain                 | 24  |
+| CartGrain                 | 32  |
+| AddItemToCartEventHandler | 14  |
+| AddItemToCartEventHandler | 28  |
 
-> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通過 Go To File 可以助你快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## 开始调试
+## 開始除錯
 
-接下来，我们通过一个请求来了解一下整个代码运行的过程。
+接下來，我們通過一個請求來了解一下整個源代碼運行的過程。
 
-首先，我们先通过 swagger 界面来发送一个 POST 请求，尝试为购物车添加商品。
+首先，我們先通過 swagger 界面來發送一個 POST 請求，嘗試為購物車增加商品。
 
 ### CartController Start
 
-首先命中断点是 Web API 层的 Controller 代码：
+首先命中斷點是 Web API 層的 Controller 代碼：
 
 ```cs
 [HttpPost("{id}")]
@@ -121,17 +121,17 @@ public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput in
 }
 ```
 
-在这段代码中，我们通过`_grainFactory`来创建一个`ICartGrain`实例。
+在這段源代碼中，我們通過`_grainFactory`來建立一個`ICartGrain`實體。
 
-这实例本质是一个代理，这个代理将指向 Backend Server 中的一个具体 Grain。
+這實體本質是一個代理，這個代理將指向 Backend Server 中的一個具體 Grain。
 
-传入的 id 可以认为是定位实例使用唯一标识符。在这个业务上下文中，可以理解为“购物车 id”或者“用户 id”（如果每个用户只有一个购物车的话）。
+傳入的 id 可以認為是定位實例使用唯一標識符。在這個業務上下文中，可以理解為“購物車 id”或者“用戶 id”（如果每個用戶只有一個購物車的話）。
 
-继续调试，进入下一步，让我们来看看 ICartGrain 内部是如何工作的。
+繼續偵錯，進入下一步，讓我們來看看 ICartGrain 內部是如何工作的。
 
 ### CartGrain Start
 
-接下来命中断点的是 CartGrain 代码：
+接下來命中斷點的是 CartGrain 源代碼：
 
 ```cs
 public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
@@ -146,24 +146,24 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此时，代码已经运行到了一个具体的购物车对象。
+此時，源代碼已經運行到了一個具體的購物車物件。
 
-可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+可以通過偵錯器看到傳入的 skuId 和 count 都是從 Controller 傳遞過來的參數。
 
-在这里您可以完成以下这些操作：
+在這裏您可以完成以下這些操作：
 
-- 通过事件对 Claptrap 中的数据进行修改
-- 读取 Claptrap 中保存的数据
+- 通過事件對 Claptrap 中的數據進行修改
+- 讀取 Claptrap 中保存的數據
 
-这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
+這段代碼中，我們建立了一個`AddItemToCartEvent`物件來表示一次對購物車的變更。
 
-然后将它传递给 Claptrap 进行处理了。
+然後將它傳遞給 Claptrap 進行處理了。
 
-Claptrap 接受了事件之后就会更新自身的 State 数据。
+Claptrap 接受了事件之後就會更新自身的 State 數據。
 
-最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
+最後我們將 StateData.Items 返回給呼叫方。（實際上 StateData.Items 是 Claptrap.State.Data.Items 的一個快捷屬性。因此實際上還是從 Claptrap 中讀取。）
 
-通过调试器，可以看到 StateData 的数据类型如下所示：
+通過偵錯器，可以看到 StateData 的數據類型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -172,13 +172,13 @@ public class CartState : IStateData
 }
 ```
 
-这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
+這就是範例中設計的購物車狀態。我們使用一個`Dictionary`來表示當前購物車中的 SkuId 及其對應的數量。
 
-继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
+繼續偵錯，進入下一步，讓我們看看 Claptrap 是如何處理傳入的事件的。
 
 ### AddItemToCartEventHandler Start
 
-再次命中断点的是下面这段代码：
+再次命中斷點的是下面這段源代碼：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -204,41 +204,41 @@ public class AddItemToCartEventHandler
 }
 ```
 
-这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
+這段源代碼中，包含有兩個重要參數，分別是表示當前購物車狀態的`CartState`和需要處理的事件`AddItemToCartEvent`。
 
-我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
+我們按照業務需求，判斷狀態中的字典是否包含 SkuId，並對其數量進行更新。
 
-继续调试，代码将会运行到这段代码的结尾。
+繼續偵錯，代碼將會運行到這段代碼的結尾。
 
-此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
+此時，通過偵錯器，可以發現，stateData.Items 這個字典雖然增加了一項，但是數量卻是 0 。原因其實就是因為上面被注釋的 else 代碼段，這就是第一次添加購物車總是失敗的 BUG 成因。
 
-在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
+在這裏，不要立即中斷偵錯。我們繼續偵錯，讓源代碼走完，來了解整個過程如何結束。
 
-实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
+實際上，繼續偵錯，中斷點將會依次命中在 CartGrain 和 CartController 對應方法的方法結尾。
 
-## 这其实就是三层架构！
+## 這其實就是三層架構！
 
-绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
+絕大多數的開發者都了解三層架構。其實，我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
 
-| 传统三层             | Newbe.Claptrap | 说明                                           |
+| 傳統三層             | Newbe.Claptrap | 说明                                           |
 | ---------------- | -------------- | -------------------------------------------- |
-| Presentation 展示层 | Controller 层   | 用来与外部的系统进行对接，提供对外的互操作能力                      |
-| Business 业务层     | Grain 层        | 根据业务对传入的业务参数进行业务处理（样例中其实没写判断，需要判断 count > 0） |
-| Persistence 持久化层 | EventHandler 层 | 对业务结果进行更新                                    |
+| Presentation 展示層 | Controller 層   | 用來與外部的系統進行連接，提供對外的互操作能力                      |
+| Business 業務層     | Grain 層        | 根據業務對傳入的業務參數進行業務處理（範例中其實沒寫判斷，需要判斷 count > 0） |
+| Persistence 持久化層 | EventHandler 層 | 對業務結果進行更新                                    |
 
-当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
+當然上面的類似只是一種簡單的描述。具體過程中，不需要太過於糾結，這只是一個輔助理解的說法。
 
-## 您还有一个待修复的 BUG
+## 你還有一個待修復的 BUG
 
-接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
+接下來我們重新回過頭來修復前面的“首次加入商品不生效”的問題。
 
-### 这是一个考虑单元测试框架
+### 這是一個考慮單元測試框架
 
-在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
+在項目模板中存在一個項目`HelloClaptrap.Actors.Tests`，該項目包含了對主要業務代碼的單元測試。
 
-我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
+我們現在已經知道，`AddItemToCartEventHandler`中注釋的代碼是導致 BUG 存在的主要原因。
 
-我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
+我們可以使用`dotnet test`運行一下測試項目中的單元測試，可以得到如下兩個錯誤:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +288,7 @@ Total tests: 7
 
 ```
 
-我们看一下其中一个出错的单元测试的代码：
+我們看一下其中一個出錯的單元測試的代碼：
 
 ```cs
 [Test]
@@ -312,20 +312,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
+`AddItemToCartEventHandler`是該測試主要測試的組件，由於 stateData 和 event 都是通過手動構建的，因此開發者可以很容易就按照需求構建出需要測試的場景。不需要建置什麼特殊的內容。
 
-现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
+現在，只要將`AddItemToCartEventHandler`中那段被注釋的源代碼還原，重新執行這個單元測試。單元測試便就通過了。BUG 也就自然的修復了。
 
-当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
+當然，上面還有另外一個關於刪除場景的單元測試也是失敗的。開發者可以按照上文中所述的“中斷點”、“單元測試”的思路，來修復這個問題。
 
-## 数据已经持久化了
+## 數據已經持久化了
 
-您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
+您可以嘗試重新啟動 Backend Server 和 Web， 您將會發現，您之前執行的數據已經被持久化的保存了。
 
-我们将会在后续的篇章中进一步介绍。
+我們將會在後續的篇章中進一步介紹。
 
-## 小结
+## 小結
 
-通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
+通過本篇，我們初步了解了一下，如何創建一個基礎的項目框架來實現一個簡單的購物車場景。
 
-这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
+這裡還有很多內容我們沒有詳細的說明：項目結構、部署、持久化等等。你可以進一步閱讀後續的文章來了解。
