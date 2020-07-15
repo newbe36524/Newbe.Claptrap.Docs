@@ -18,11 +18,11 @@ metaDescription: '這是以`反應式`、`事件溯源`和`Actor模式`作為基
 
 ## 當前項目狀態
 
-現時項目已經經進進入 Preview 階段，對應的版本將會發布到 master 分支上。你可以通過 nuget 來取得最新的開發套件。我們不建議將 Preview 版本用於發行環境。
+現時項目已經進入 Preview 階段，對應的版本將會發布到 master 分支上。你可以通過 nuget 來取得最新的開發套件。我們不建議將 Preview 版本用於發行環境。
 
 Claptrap and it`s Minions are coming.
 
-目前我們還需要更多的成員加入我們來完成這項工作，無論您對哪方面感到興趣，我們相信您都可以在這裏找到適合你的參與點。[您可以點擊此處來查看目前我們的成員需求。](https://github.com/newbe36524/Newbe.Claptrap/blob/master/docs/Teams-zh_Hans.md)
+目前我們還需要更多的成員加入我們來完成這項工作，無論您對哪一方面感到興趣，我們相信您都可以在這裏找到適合你的參與點。[您可以點擊此處來查看目前我們的成員需求。](https://github.com/newbe36524/Newbe.Claptrap/blob/master/docs/Teams-zh_Hans.md)
 
 ## 项目範例
 
