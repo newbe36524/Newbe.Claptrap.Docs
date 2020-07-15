@@ -1,0 +1,12 @@
+---
+title: '快速入門'
+metaTitle: 'Newbe.Claptrap 快速入門'
+metaDescription: 'Newbe.Claptrap 快速入門'
+---
+
+import { Link } from "gatsby";
+
+本系列，我們將通過一個簡化的電商小應用來了解如使用 Newbe.Claptrap 來開發一個服務端系統。
+
+- <link to="./1-Create-Project" />
+  第一步——建立項目，實現簡易購物車</Link>
