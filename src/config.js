@@ -37,11 +37,26 @@ const config = {
   },
   sidebar: {
     forcedNavOrder: [
-      '/zh_Hans', // add trailing slash if enabled above
-      // '/en_US',
+      "/zh_Hans", // add trailing slash if enabled above
+      "/en_US",
+      "/zh_HK",
+      "/zh_TW",
+      "/ru_RU",
+      "/de_DE",
+      "/es_ES",
+      "/fr_FR",
+      "/ja_JP",
     ],
+    
     collapsedNav: [
-      // '/en_US', // add trailing slash if enabled above
+      "/en_US",
+      "/zh_HK",
+      "/zh_TW",
+      "/ru_RU",
+      "/de_DE",
+      "/es_ES",
+      "/fr_FR",
+      "/ja_JP",
     ],
     links: [
       { text: 'newbe.pro', link: 'https://www.newbe.pro' },
