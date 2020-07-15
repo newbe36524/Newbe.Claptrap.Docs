@@ -30,7 +30,7 @@ dotnet new --install Newbe.Claptrap.Template
 
 ![newbe.claptrap.template安裝完成](/images/20200709-001.png)
 
-## 建項立目
+## 建立項目
 
 選擇一個位置，建立一個文件夾，本範例選擇在`D:\Repo`下創建一個名為`HelloClaptrap`的文件夾。該文件夾將會作為新項目的源代碼文件夾。
 
@@ -44,7 +44,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ## 建置與執行
 
-項目創建完成之後，您可以會用您偏愛的 IDE 打開解決方案進行建置。
+項目創建完成之後，您可以用您偏愛的 IDE 打開解決方案進行建置。
 
 建置完成後，通過 IDE 上“執行”功能，同時啟動 Web 和 BackendServer 兩個項目。（VS 需要以控制台方式啟動服務，如果使用 IIS Express，需要開發者看一下對應的端口號來訪問 Web 頁面）
 
