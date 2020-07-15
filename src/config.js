@@ -38,7 +38,7 @@ const config = {
   sidebar: {
     forcedNavOrder: [
       '/zh_Hans', // add trailing slash if enabled above
-      '/en_US',
+      // '/en_US',
     ],
     collapsedNav: [
       // '/en_US', // add trailing slash if enabled above
