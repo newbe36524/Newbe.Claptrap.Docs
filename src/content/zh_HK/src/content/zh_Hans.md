@@ -69,7 +69,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## ICON
 
-哩個项目依家用緊嘅ICON嚟自呢度[The Noun Project](https://thenounproject.com/)。你可以嚟[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)入面睇到各個部分的版權信息。
+哩個项目依家用緊嘅ICON嚟自呢度：[The Noun Project](https://thenounproject.com/)。你可以去[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)入面睇到各個部分的版權信息。
 
 ## Gitee
 
