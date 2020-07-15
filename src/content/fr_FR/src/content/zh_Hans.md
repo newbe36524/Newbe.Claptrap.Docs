@@ -7,9 +7,7 @@ metaDescription: 'Il s’agit d’un ensemble de cadres de développement côté
 ![Newbe.Claptrap](https://raw.githubusercontent.com/newbe36524/Newbe.Claptrap/develop/docs/main_banner.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![Tous les contributeurs](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
+[![Tous les contributeurs](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Construire](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Couverture](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Statut de porte de qualité](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Insigne de codacy](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
@@ -22,7 +20,7 @@ Le projet en cours est déjà en phase d’aperçu et la version pertinente sera
 
 Claptrap et c’est Minions sont venus.
 
-Nous avons également besoin de plus de membres pour nous joindre à nous pour y arriver, et peu importe la commodité qui vous intéresse, nous sommes sûrs que vous trouverez le bon endroit pour participer ici.[Vous pouvez cliquer ici pour voir nos besoins actuels en matière d’adhésion.](https://github.com/newbe36524/Newbe.Claptrap/blob/master/docs/Teams-zh_Hans.md)
+目前我们还需要更多的成员加入我们来完成这项工作，无论您对哪方便感兴趣，我们相信您都可以在这里找到适合你的参与点。
 
 ## Exemple de projet
 
@@ -32,6 +30,7 @@ Vous pouvez[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptra
 
 - Si le projet vous intéresse, vous pouvez [problèmes github](https://github.com/newbe36524/Newbe.Claptrap/issues) Soumettez votre avis
 - Cliquez sur le lien QQ Exchange .Newbe.Claptrap：[https://jq.qq.com/?_wv=1027&k-5uJGXf5](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Ressources
 
@@ -57,12 +56,13 @@ Merci va à ces gens merveilleux ([clé emoji](https://allcontributors.org/docs/
 <table>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Ce projet de projet de projet suivent le projet [tous les contributeurs](https://github.com/all-contributors/all-contributors) Spécification. Contributions de toute sorte bienvenue!
