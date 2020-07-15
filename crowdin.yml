@@ -1,3 +1,4 @@
+commit_message: "[ci skip]"
 files:
   - source: /src/content/zh_Hans
     translation: /src/content/%locale_with_underscore%/%original_path%/%original_file_name%
