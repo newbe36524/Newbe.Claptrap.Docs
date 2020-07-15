@@ -24,6 +24,7 @@ jobs:
           yarn install
       - name: move l10n files
         run: |
+          cd $GITHUB_WORKSPACE/src
           mv ./content/de_DE/src/content/zh_Hans/** ./content/de_DE/
           mv ./content/de_DE/src/content/zh_Hans.md ./content/de_DE.md
           mv ./content/en_US/src/content/zh_Hans/** ./content/en_US/
