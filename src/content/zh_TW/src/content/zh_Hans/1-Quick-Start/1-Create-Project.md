@@ -48,7 +48,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 建置完成後，通過 IDE 上“執行”功能，同時啟動 Web 和 BackendServer 兩個項目。（VS 需要以控制台方式啟動服務，如果使用 IIS Express，需要開發者看一下對應的端口號來訪問 Web 頁面）
 
-啟動完成後，便可以通過`http://localhost:36525/swagger`地址來查看樣例項目的 API 描述。其中包括了三个主要的 API：
+啟動完成後，便可以通過`http://localhost:36525/swagger`地址來查看樣例項目的 API 描述。其中包括了三個主要的 API：
 
 - `GET` `/api/Cart/{id}` 獲取特定 id 購物車中的商品和數量
 - `POST` `/api/Cart/{id}` 添加新的商品到指定 id 的購物商品
