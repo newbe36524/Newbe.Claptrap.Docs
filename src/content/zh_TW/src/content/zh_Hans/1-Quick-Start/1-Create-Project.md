@@ -232,7 +232,7 @@ public class AddItemToCartEventHandler
 
 接下來我們重新回過頭來修復前面的“首次加入商品不生效”的問題。
 
-### 这是一个考虑单元测试框架
+### 這是一個考慮單元測試框架
 
 在項目模板中存在一個項目`HelloClaptrap.Actors.Tests`，該項目包含了對主要業務代碼的單元測試。
 
