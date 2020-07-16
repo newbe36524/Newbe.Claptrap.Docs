@@ -14,20 +14,20 @@ There are two points:
 
 Firstly, state of actor must be change by itself. If you want to change the state, you have to call the method of actor.
 
-![Update Actor status](/images/20190226-001.gif)
+![Update Actor state](/images/20190226-001.gif)
 
 Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example: There is a `public` property in a `class` in C#, and it is a reference type, you can change the property if you get this object.It is not allowed to do so in actor pattern.
 
-![Share Actor Status](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
 But it is still allow to retrive data out of the state by method.
 
-![Read The Actor status](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int`Variable to perform`++`Operation.The final value for this state must be 100.
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int` variable to perform`++` operation.The final value for this state must be 100.
 
-![Concurrent call SActor](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
 However, single threads are not absolute, allowing concurrent processing in the absence of concurrent requests.For example, reading the state in the Actor, which usually does not have concurrency issues, allows concurrent operations at this time.
 
-![Concurrent Read Actor](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
