@@ -20,7 +20,7 @@ metaDescription: 'Это набор систем разработки на ст�
 
 Клэптрап и это Миньоны приходят.
 
-目前我们还需要更多的成员加入我们来完成这项工作，无论您对哪方便感兴趣，我们相信您都可以在这里找到适合你的参与点。
+Нам также нужно больше членов, чтобы присоединиться к нам, чтобы сделать это, и независимо от того, какое удобство вы заинтересованы в, мы уверены, что вы найдете правильное место для участия здесь.
 
 ## Образец проекта
 
@@ -30,7 +30,7 @@ metaDescription: 'Это набор систем разработки на ст�
 
 - Если вы заинтересованы в проекте, вы можете пройти [github вопросы](https://github.com/newbe36524/Newbe.Claptrap/issues) Отправить свое мнение
 - Нажмите на ссылку . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .：[https://jq.qq.com/?_wv=1027&k-5uJGXf5](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
-- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [![Гиттер.](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Ресурсы
 
@@ -56,8 +56,8 @@ metaDescription: 'Это набор систем разработки на ст�
 <table>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Ньюб36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868.</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡.</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>Котоне.</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍.</a></td>
   </tr>
 </table>
 
