@@ -7,9 +7,7 @@ metaDescription: 'Dies ist eine Reihe von serviceseitigen Entwicklungsframeworks
 ![Newbe.Claptrap](https://raw.githubusercontent.com/newbe36524/Newbe.Claptrap/develop/docs/main_banner.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![Alle Mitwirkenden](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
+[![Alle Mitwirkenden](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Bauen](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Abdeckung](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Qualitäts-Gate-Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Abzeichen](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
@@ -22,7 +20,7 @@ Das aktuelle Projekt befindet sich bereits in der Vorschauphase und die entsprec
 
 Claptrap und seine Minions sind gekommen.
 
-Wir brauchen auch mehr Mitglieder, die sich uns anschließen, um dies zu erreichen, und egal an welcher Bequemlichkeit Sie sich dafür interessieren, wir sind sicher, dass Sie hier den richtigen Ort finden, um daran teilzunehmen.[Sie können hier klicken, um unsere aktuellen Mitgliedschaftsbedürfnisse anzuzeigen.](https://github.com/newbe36524/Newbe.Claptrap/blob/master/docs/Teams-zh_Hans.md)
+Wir brauchen auch mehr Mitglieder, die sich uns anschließen, um dies zu erreichen, und egal an welcher Bequemlichkeit Sie sich dafür interessieren, wir sind sicher, dass Sie hier den richtigen Ort finden, um daran teilzunehmen.
 
 ## Projektbeispiel
 
@@ -32,6 +30,7 @@ Sie können[Newbe.Claptrap.Beispiele](https://github.com/newbe36524/Newbe.Claptr
 
 - Wenn Sie an dem Projekt interessiert sind, können Sie [Github-Probleme](https://github.com/newbe36524/Newbe.Claptrap/issues) Senden Sie Ihre Meinung
 - Klicken Sie auf den Link QQ Exchange .Newbe.Claptrap：[https://jq.qq.com/?_wv=1027&k-5uJGXf5](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [![Gitter.](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Ressourcen
 
@@ -57,12 +56,13 @@ Danke an diese wunderbaren Menschen ([Emoji-Schlüssel](https://allcontributors.
 <table>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868.</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡.</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>Kotone.</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍.</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Im Anschluss an das Projektprojekt Projekt [Alle Mitwirkenden](https://github.com/all-contributors/all-contributors) Spezifikation. Beiträge jeglicher Art willkommen!

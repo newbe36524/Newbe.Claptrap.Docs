@@ -89,11 +89,9 @@ export default class MDXRuntimeTest extends Component {
             <meta property="twitter:description" content={metaDescription} />
           ) : null}
           <link rel="canonical" href={canonicalUrl} />
-          <script type='text/javascript'>
-          { 
-            (function () {
-              ((window.gitter = {}).chat = {}).options = {room :'newbe-claptrap/community'}
-            })()
+          <script>
+          {
+             `((window.gitter = {}).chat = {}).options = {room :'newbe-claptrap/community'}`
           }
           </script>
           <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
