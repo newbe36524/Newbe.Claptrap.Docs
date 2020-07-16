@@ -4,4 +4,4 @@ metaTitle: 'Newbe.Claptrap Inicio rápido'
 metaDescription: 'Newbe.Claptrap Inicio rápido'
 ---
 
-本系列，我们将通过一个简化的电商小应用来了解如使用 Newbe.Claptrap 来开发一个服务端系统。
+En esta serie, aprenderemos a desarrollar un sistema de servicio usando Newbe.Claptrap a través de una aplicación de comercio electrónico simplificada.
