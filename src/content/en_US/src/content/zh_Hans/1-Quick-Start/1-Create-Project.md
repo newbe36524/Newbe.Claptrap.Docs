@@ -54,7 +54,7 @@ If it is started, you can visiti `http://localhost:36525/swagger` to view the AP
 - `POST` `/api/Cart/{id}` Add a new item to the purchase of the specified id
 - `DELETE` `/api/Cart/{id}` Remove a specific item from the shopping cart of the specified id
 
-You can try to make several calls to the API through the Try It Out button on the UI.
+You can try to make several calls to the API through click the Try It Out button on the UI.
 
 > - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
 > - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
@@ -66,11 +66,11 @@ Yes, you're right.There are BUGS in the business implementation in the project t
 
 Next, let's open the project and troubleshoot and resolve these bugs by adding some breakpoints.
 
-And by locating the BUG, you can understand the framework's code flow process.
+And by locating the BUG, you could understand the framework's code flow process.
 
 ## Add breakpoints
 
-The following needto increase the location of breakpoints based on the different IDE instructions, and you can choose the IDE you are used to operating.
+The following instructions about adding the location of breakpoints base on different IDE, and you can choose the IDE you are used to operating.
 
 If you don't currently have an IDE on hand, you can also skip this section and read directly what follows.
 
@@ -78,9 +78,9 @@ If you don't currently have an IDE on hand, you can also skip this section and r
 
 Start both projects at the same time, as mentioned above.
 
-Import breakpoints：Open the Breakpoint window, click the button, select from under the item`breakpoints.xml`File.The corresponding operating location can be found in the two screenshots below.
+Import breakpoints：Open the Breakpoint window, click the button, select `breakpoints.xml` file under project.You can find the location in the two screenshots below.
 
-![Openpoints Breakpoints Window](/images/20200709-002.png)
+![Open Breakpoints Window](/images/20200709-002.png)
 
 ![Import Breakpoints](/images/20200709-003.png)
 
@@ -88,7 +88,7 @@ Import breakpoints：Open the Breakpoint window, click the button, select from u
 
 Start both projects at the same time, as mentioned above.
 
-Rider does not currently have a breakpoint import feature.Therefore, you need to manually create breakpoints at the following locations：
+Rider does not currently have a breakpoint importing feature.Therefore, you need to manually create breakpoints at the following locations：
 
 | File                        | Line No. |
 | --------------------------- | -------- |
@@ -99,7 +99,7 @@ Rider does not currently have a breakpoint import feature.Therefore, you need to
 | AddItemToCart Event Handler | 14       |
 | AddItemToCart Event Handler | 28       |
 
-> [Go To File lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## Start debugging
 
@@ -112,12 +112,12 @@ First, let's send a POST request through the swagger interface and try adding it
 The first lifeline is the Controller code for the Web API layer：
 
 ```cs
-(HttpPost){id}")]
-public async Task<IActionResult> AddItemAsync (int id, [FromBody] AddItem Input Input)
+[HttpPost("{id}")]
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    var cartgrain s _grainFactory.GetGrain<ICartGrain>(id. ToString ();
-    Var items s await cartgrain.AddItemAsync (input. SkuId, input. Count);
-    return Json (items);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -134,15 +134,15 @@ Continue with debugging and move on to the next step, let's see how the inside o
 The next stop point is the CartGrain code.：
 
 ```cs
-public async Task<Dictionary<string, int>> AddItemAsync (string skuId, int count)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt s.this. CreateEvent (new AddItem ToCartEvent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        Count - Count,
-        SkuId skuId,
+        Count = count,
+        SkuId = skuId,
     });
-    await Claptrap.HandleEventAsync (evt);
-    Return StateData.Items;
+    await Claptrap.HandleEventAsync(evt);
+    return StateData.Items;
 }
 ```
 
@@ -155,7 +155,7 @@ Here you can do these things：
 - Modify the data in Claptrap with events
 - Read data saved in Claptrap
 
-In this code, we create a`AddItemToCart Event`Object to represent a change to the shopping cart.
+In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
 
 It is then passed to Claptrap for processing.
 
@@ -168,7 +168,7 @@ With the debugger, you can see the data type of StateData as shown below：
 ```cs
 public class CartState : IStateData
 {
-    public Dictionary<string, int> Items . . . get; set; . . . . . . . . . . . . . . .
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
@@ -181,52 +181,52 @@ Continue debugging and move on to the next step to see how Claptrap handles inco
 Again the point of interruption is the following code：
 
 ```cs
-public class AddItemCartEvent Handler
-    : NormalEvent Handler<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    public override ValueTask HandleEvent (CartState StateData, AddItemToCartEvent Event EventData,
-        IEventContext EventContext)
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
+        IEventContext eventContext)
     {
-        Var items . . . stateData.Items ? new Dictionary<string, int>();
-        if (items. TryGetValue (eventData.SkuId, out var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
-            itemCount s eventData.count;
+            itemCount += eventData.Count;
         }
-        else
+        // else
         // {
-        itemCount - eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
-        Items[eventData.SkuId] s itemCount;
-        StateData.Items . . .
+        items[eventData.SkuId] = itemCount;
+        stateData.Items = items;
         return new ValueTask();
     }
 }
 ```
 
-This code contains two important parameters that represent the current shopping cart status`CartState`and events that need to be handled`AddItemToCart Event`。
+This code contains two important parameters that represent the current shopping cart status`CartState`and events that need to be handled`AddItemToCartEvent`。
 
-We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
+We determine whether the dictionary in the state contains SkuId according to business needs and update its number.
 
 Continue debugging and the code will run until the end of this code.
 
 At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
 
-Here, do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
+Do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
 
 In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
 
 ## This is actually a three-tier architecture!
 
-The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe. Claptrap is actually a three-tier architecture.Let's compare it in a table.：
+The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe.Claptrap is actually a three-tier architecture.Let's compare it in a table.：
 
-| Traditional three-tiered        | Newbe.Claptrap     | Description                                                                                                                  |
-| ------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| Presentation Presentation Layer | Controller Layer   | Used to dock external systems to provide external interoperability                                                           |
-| Business Business Tier          | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
-| Persistence Persistence Layer   | EventHandler Layer | Update business results                                                                                                      |
+| Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
+| ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Presentation Layer       | Controller Layer   | Used to dock external systems to provide external interoperability                                                           |
+| Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
+| Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-Of course, the above analogy is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
+Of course, thing above is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
 
 ## You also have a BUG to fix
 
@@ -241,44 +241,44 @@ We now know that`AddItemToCart Event Handler`The code in the comments is the mai
 We can use`dotnet test`If you run the unit tests in your test project, you get two errors:
 
 ```bash
-A total of 1 test files matched the syd dh'fydd pattern.
+A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
   Error Message:
-   D'Value to be 10, but found 0.
+   Expected value to be 10, but found 0.
   Stack Trace:
-     at FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   at FluentS. Execution.TestFramework Provider.T. Throw
-   at FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   At FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   At FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   at FluentS. Execution.Ax. Scope.FailWith (String message, Object?args)
-   at FluentS.Numeric.NumericS'1.Be (T expected, String because, Object' becauseArgs)
-   At HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() in D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: line 32
-   At HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() in D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: line 32
-   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   at NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   at NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
   X RemoveOne [2ms]
   Error Message:
-   D'Value to be 90, but found 100.
+   Expected value to be 90, but found 100.
   Stack Trace:
-     at FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   at FluentS. Execution.TestFramework Provider.T. Throw
-   at FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   At FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   At FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   at FluentS. Execution.Ax. Scope.FailWith (String message, Object?args)
-   at FluentS.Numeric.NumericS'1.Be (T expected, String because, Object' becauseArgs)
-   At HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() in D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem From CartEvent HandlerTest.cs: line 40
-   At HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() in D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem From CartEvent HandlerTest.cs: line 40
-   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   at NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   at NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
 Test Run Failed.
@@ -288,35 +288,35 @@ Total tests: 7
 
 ```
 
-Let's look at the code for one of the faulty unit tests.：
+Let's look at the code for one of the error unit tests.：
 
 ```cs
 [Test]
-public async Task AddFirstOne ()
+public async Task AddFirstOne()
 {
-    using var mocker - AutoMock.GetStrict ();
+    using var mocker = AutoMock.GetStrict();
 
-    await use var handler s-mocker. Create<AddItemToCartEventHandler>();
-    var state s new CartState ();
-    var evt s new AddItemToCartEventEvent
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
+    var state = new CartState();
+    var evt = new AddItemToCartEvent
     {
-        SkuId skuId1,
-        Count s 10
+        SkuId = "skuId1",
+        Count = 10
     };
-    await handler. HandleEvent (state, evt, default);
+    await handler.HandleEvent(state, evt, default);
 
-    State. Items.Count.Down.) Be (1);
-    var (key, value) s state. Items.Single();
-    key. "What") Be (evt. SkuId);
-    value. "What") Be (evt. Count);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
 `AddItemToCart Event Handler`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-Now, as long as the`AddItemToCart Event Handler`Restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUG fixed.
 
-Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
+Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" described above.
 
 ## The data has been persisted.
 
