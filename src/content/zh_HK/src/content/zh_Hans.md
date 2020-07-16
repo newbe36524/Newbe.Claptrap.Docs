@@ -20,7 +20,7 @@ metaDescription: '呢個係以`反應式`、`事件溯源`同`Actor模式`作為
 
 Claptrap and it`s Minions are coming.
 
-目前我们还需要更多的成员加入我们来完成这项工作，无论您对哪方便感兴趣，我们相信您都可以在这里找到适合你的参与点。
+依家我哋仲需要好多member加入我哩去完成哩個項目嘅工作，無論你響邊方面感興趣，我哋都相信你可以喺呢度揾到適合你嘅參與點。
 
 ## 項目例子
 
@@ -30,7 +30,7 @@ Claptrap and it`s Minions are coming.
 
 - 如果你對哩個項目感到興趣，你可以通過 [github issues](https://github.com/newbe36524/Newbe.Claptrap/issues) 提交你哋睇法架!
 - click一click QQ 交流【Newbe.Claptrap】：<https://jq.qq.com/?_wv=1027&k=5uJGXf5>
-- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [![Gitter。](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## 參考資料
 
@@ -57,7 +57,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone。</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍。</a></td>
   </tr>
 </table>
 
