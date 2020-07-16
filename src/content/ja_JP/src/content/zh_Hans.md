@@ -20,7 +20,7 @@ metaDescription: 'これは、基本的な理論として「反応性」、「�
 
 Claptrap and it's Minions are coming.
 
-目前我们还需要更多的成员加入我们来完成这项工作，无论您对哪方便感兴趣，我们相信您都可以在这里找到适合你的参与点。
+現在、この作業に参加するより多くのメンバーが必要であり、あなたが興味を持っている場所に関係なく、私たちはあなたのための適切な参加ポイントを見つけることができると確信しています。
 
 ## プロジェクトサンプル
 
@@ -30,7 +30,7 @@ Claptrap and it's Minions are coming.
 
 - あなたがプロジェクトに興味を持っている場合は、 [github issues](https://github.com/newbe36524/Newbe.Claptrap/issues) あなたの意見を提出
 - リンクをクリックしてQQ AC [Newbe.Claptrap]：<https://jq.qq.com/?_wv=1027&k=5uJGXf5>
-- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [![ギッター。](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## 参考文献
 
@@ -56,8 +56,8 @@ Claptrap and it's Minions are coming.
 <table>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>ワンジュンジックス8868。</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡。</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>コトーン。</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍。</a></td>
   </tr>
 </table>
 
