@@ -32,35 +32,35 @@ Once installed, you can see the project templates that have already been install
 
 ## Create a project
 
-Select a location to create a folder, and this example selects the`D:\REpo`Create a name called`HelloClaptrap`the folder of the .The folder will be used as a code folder for new projects.
+Select a location to create a folder, and this example selects the`D:\Repo` and Create a directory named `HelloClaptrap`.The folder will be used as a code folder for new projects.
 
-Open the console and switch the work directory to`D:\Repo-HelloClaptrap`。Then run the following command to create a project：
+Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then run the following command to create a project：
 
 ```bash
-dotnet new newbe.claptrap -- name HelloClaptrap
+dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> In general, we recommend that the`D:\Repo-HelloClaptrap`Create a folder as a Git warehouse.Manage your source code with version control.
+> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
 
 ## Compilation and startup
 
-Once the project is created, you can compile the solution with your favorite IDE open.
+Once the project is created, you can compile the solution with your favorite IDE.
 
-Once compiled, start both web and BackendServer projects with the Startup feature on the IDE.(VS needs to start the service console, and if you use IIS Express, you need the developer to look at the corresponding port number to access the web page)
+Once compiled, start both web and BackendServer projects with the Startup feature on the IDE.(VS needs to start the service as console, and if you use IIS Express, you need the developer to look at the port number to access the web page)
 
-Once the start is complete, you can`http://localhost:36525/swagger`Address to view the API description of the sample item.This includes three main APIs：
+If it is started, you can visiti `http://localhost:36525/swagger` to view the API description of the sample.This includes three mainly APIs：
 
 - `GET` `/api/Cart/{id}` Get items and quantities in a specific id shopping cart
 - `POST` `/api/Cart/{id}` Add a new item to the purchase of the specified id
 - `DELETE` `/api/Cart/{id}` Remove a specific item from the shopping cart of the specified id
 
-You can try to make several calls to the API through the Try It Out button on the interface.
+You can try to make several calls to the API through the Try It Out button on the UI.
 
-> - [How to start multiple projects simultaneously in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [How to start multiple projects in Rider at the same time](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Use Huawei Cloud to accelerate nuget restore speed](https://mirrors.huaweicloud.com/)
+> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
 
-## First add product, no effect?
+## It is no effect when add product at first time?
 
 Yes, you're right.There are BUGS in the business implementation in the project template.
 
