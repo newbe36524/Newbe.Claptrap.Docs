@@ -23,7 +23,7 @@ First, you need to make sure that you have installed the . NetCore SDK 3.1.[You 
 Once the SDK is installed, open the console and run the following commands to install the latest project templates：
 
 ```bash
-dotnet new -- new installbe.Claptrap.Template
+dotnet new --install Newbe.Claptrap.Template
 ```
 
 Once installed, you can see the project templates that have already been installed in the installation results.
