@@ -73,7 +73,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## Gitee
 
-如果你用Github唔喺咁work，亦可以通過 Gitee 嚟拎到code同例子。
+如果你用Github唔係咁work，亦可以通過 Gitee 嚟拎到code同例子。
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
