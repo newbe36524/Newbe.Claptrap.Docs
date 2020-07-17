@@ -60,23 +60,23 @@ dotnet new newbe.claptrap --name HelloClaptrap
 > - [如何在 Rider 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
 > - [使用華為雲加速 nuget 還原速度](https://mirrors.huaweicloud.com/)
 
-## 第一次添加商品，没有效果？
+## 點解第一次禁添加商品無效果既？
 
-是的，你說的沒錯。項目模板中的業務實現是存在 BUG 的。
+係，你講得無錯。項目模板嘅業務實現係存在 BUG 的。
 
 接下來我們來打開項目，通過添加一些斷點來排查並解決這些 BUG。
 
-並且通過對 BUG 的定位，您可以了解框架的代碼流轉過程。
+並且通過對 BUG 的定位，你可以了解框架的代碼流轉過程。
 
-## 添加中斷點
+## 添加Breakpoint
 
-以下根據不同的 IDE 說明需要增加中斷點的位置，您可以選擇您習慣的 IDE 進行操作。
+以下根據不同的 IDE 說明需要增加中斷點位置，你可以選擇您習慣的 IDE 進行操作。
 
-如果您當前手頭沒有 IDE，也可以跳過本節，直接閱讀後面的內容。
+如果唔係喺有IDE嘅環境下，你可以跳過本節，直接閱讀後面嘅內容。
 
 ### Visual Studio
 
-按照上文提到的執行方式，同時執行兩個項目。
+按照上文提到嘅執行方式，同時執行兩個項目。
 
 導入中斷點：打開“中斷點”窗口，點擊按鈕，從項目下選擇`breakpoints.xml`文件。可以通過以下兩張截圖找到對應的操作位置。
 
@@ -86,24 +86,24 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ### Rider
 
-按照上文提到的啟動方式，同時執行兩個項目。
+按照上文提到嘅啟動方式，同時執行兩個項目。
 
-Rider 目前沒有中斷點導入功能。因此需要手動的在以下位置建立中斷點：
+Rider 目前無提供中斷點導入功能。因此需要手動喺以下嘅位置建立中斷點：
 
-| 檔案                        | 列編號 |
-| ------------------------- | --- |
-| CartController            | 30  |
-| CartController            | 34  |
-| CartGrain                 | 24  |
-| CartGrain                 | 32  |
-| AddItemToCartEventHandler | 14  |
-| AddItemToCartEventHandler | 28  |
+| 檔案                        | 行  |
+| ------------------------- | -- |
+| CartController            | 30 |
+| CartController            | 34 |
+| CartGrain                 | 24 |
+| CartGrain                 | 32 |
+| AddItemToCartEventHandler | 14 |
+| AddItemToCartEventHandler | 28 |
 
 > [通過 Go To File 可以助你快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## 開始除錯
+## 開始debug
 
-接下來，我們通過一個請求來了解一下整個源代碼運行的過程。
+接下來，我們通過一個請求來了解一下整個源代碼運作過程。
 
 首先，我們先通過 swagger 界面來發送一個 POST 請求，嘗試為購物車增加商品。
 
@@ -216,7 +216,7 @@ public class AddItemToCartEventHandler
 
 實際上，繼續偵錯，中斷點將會依次命中在 CartGrain 和 CartController 對應方法的方法結尾。
 
-## 這其實就是三層架構！
+## 其實係三層架構！
 
 絕大多數的開發者都了解三層架構。其實，我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
 
@@ -228,11 +228,11 @@ public class AddItemToCartEventHandler
 
 當然上面的類似只是一種簡單的描述。具體過程中，不需要太過於糾結，這只是一個輔助理解的說法。
 
-## 你還有一個待修復的 BUG
+## 咪住先，你仲有一個 BUG而搞掂呀
 
 接下來我們重新回過頭來修復前面的“首次加入商品不生效”的問題。
 
-### 這是一個考慮單元測試框架
+### 呢個係一個考慮單元測試嘅框架
 
 在項目模板中存在一個項目`HelloClaptrap.Actors.Tests`，該項目包含了對主要業務代碼的單元測試。
 

@@ -8,9 +8,9 @@ metaDescription: 'Minion'
 
 Minion is a special Claptrap defined by this framework.it's an adjustment based on Claptrap.It has the following features：
 
-**Read eventfrom the corresponding Claptrap**。Like Claptrap, minion's state is controlled by events.The difference is that Minion, like its literal meaning, always gets events from the corresponding Claptrap, changing its state.Therefore, it can asynchronously handle subsequent actions after The Claptrap-generated event.
+**Read event from the corresponding Claptrap**。Like Claptrap, minion's state is controlled by events.The difference is that Minion, like its literal meaning, always gets events from the corresponding Claptrap, changing its state.Therefore, it can asynchronously handle subsequent actions after The Claptrap-generated event.
 
-> Minion is from a game of luck played by newbe36524[The Legend of furnace stone](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), where "entourage" is described in the English version as "minion".
+> Minion is from a game of luck played by newbe36524[The Legend of furnace stone](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), where "随从" is described in the English version as "minion".
 
 ---
 
@@ -22,7 +22,7 @@ Minions can only complete tasks by collaborating with Claptrap, and they cannot 
 
 When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
 
-Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities include having the following：
+Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includs as the following：
 
 1. Responsible for inspecting and releasing vehicles in the concierge
 2. Responsible for dealing with all kinds of inquiries from passers-by
@@ -41,9 +41,9 @@ Will the cost of Notifying Minion of task details by Claptrap is high?No, it won
 
 Now, let's consider an extra scenario.：If the property manager wants Claptrap to report regularly on vehicle movements in the area.Similarly, in order to increase the sense of admission, we may as well assume that the community is very busy, with vehicles coming in and out 24 hours a day.So if you let it come up with time to report on vehicle access, it's likely that the neighborhood gate will be blocked because of Claptrap's single-threaded nature.
 
-With the experience we've had earlier, we can also equip this Claptrap with a new Minion to handle the task of reporting to the property manager.Because Claptrap will notify Minion of the details when the vehicle is being inspected.So Minion knows all the details about today's vehicle access and makes a statement, which is minute-by-minute.
+With the experience we've had earlier, we can also equip this Claptrap with a new Minion to handle the task of reporting to the property manager.Because Claptrap will notify Minion of the details when the vehicle is being inspected.So Minion knows all the details about today's vehicle access and makes a statement, which is a small case.
 
-Let's add another scene.：We need to take a census of the population.Then only need to check the access personnel at the community doorman Claptrap, the person's information is recorded.Similarly, we'll add a Minion to compile those core data and put the parent department in.Coincidentally, the parent department also receives the subordinate's data report through a Claptrap robot, and it also has a Minion that summarizes the data from the subordinate report and reports it to its superior.That's it Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… One layer up.So we completed a national and global data aggregation.
+Let's add another scene.：We need to take a census of the population.Then only need to check the access personnel at the community doorman Claptrap, the person's information is recorded.Similarly, we'll add a Minion to compile those core data and put the parent department in.Coincidentally, the parent department also receives the subordinate's data report through a Claptrap robot, and it also has a Minion that summarizes the data from the subordinate report and reports it to its superior.That's it Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… upward.So we finished the data aggregation nationally and even globally.
 
 So we can summarize.With Minion's addition, you can do at least three things better for Claptrap：
 

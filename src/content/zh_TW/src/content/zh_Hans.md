@@ -20,7 +20,7 @@ metaDescription: '這是以`反應式`、`事件溯源`和`Actor模式`作為基
 
 Claptrap and it`s Minions are coming.
 
-目前我們還需要更多的成員加入我們來完成這項工作,無論您對哪方便感興趣,我們相信您都可以在這裡找到適合你的參與點。
+目前我們還需要更多的成員加入我們來完成這項工作，無論您對哪一方面感到興趣，我們相信您都可以在這裏找到適合你的參與點。
 
 ## 项目範例
 
@@ -30,7 +30,7 @@ Claptrap and it`s Minions are coming.
 
 - 如果你對該項目感興趣，你可以透過 [github issues](https://github.com/newbe36524/Newbe.Claptrap/issues) 提交您的看法
 - 點擊以下超連結在QQ進行交流【Newbe.Claptrap】：<https://jq.qq.com/?_wv=1027&k=5uJGXf5>
-- [![Gitter。](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## 參考資料
 
@@ -56,8 +56,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868。</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡。</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone。</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍。</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
   </tr>
 </table>
 
