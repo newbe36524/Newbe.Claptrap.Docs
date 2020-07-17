@@ -12,7 +12,7 @@ metaDescription: '呢個係以`反應式`、`事件溯源`同`Actor模式`作為
 
 [![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-依個係用`反應式`、`事件溯源`同`Actor模式`作為基本理論慨一套伺服端開發框架。喺佢上面，開發者可以更加簡單咁開發出“分布式”、“可水平擴展”、“可測試性高”嘅應用系統。
+依個係用`反應式`、`事件溯源`同`Actor模式`作為基本理論嘅一套伺服端開發框架。喺佢上面，開發者可以更加簡單咁開發出“分布式”、“可水平擴展”、“可測試性高”嘅應用系統。
 
 ## 依家嘅項目狀態
 
