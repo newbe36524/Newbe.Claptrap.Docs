@@ -1,10 +1,12 @@
 ---
 title: '最初のステップ - 簡単なショッピングカートのためのプロジェクトを作成する'
-metaTitle: '最初のステップ - 簡単なショッピングカートのためのプロジェクトを作成する | Newbe.Claptrap'
+metaTitle: '第一步——创建项目，实现简易购物车'
 metaDescription: '最初のステップ - 簡単なショッピングカートのためのプロジェクトを作成する'
 ---
 
 Newbe.Claptrap を使用して開発する方法を見つけるために、単純な「Eコマース カート」のニーズを実装しましょう。
+
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ dotnet new --install Newbe.Claptrap.Template
 dotnet newbe.claptrap --name HelloClaptrap
 ```
 
-> 通常、我々は、`D:\Rエポ=ハロークアプラップ`Git ウェアハウス フォルダとして作成します。バージョン管理を使用してソースを管理します。
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
 ## コンパイルと起動
 
@@ -56,9 +58,9 @@ dotnet newbe.claptrap --name HelloClaptrap
 
 インターフェイスの [Try It Out] ボタンを使用して、API を数回呼び出すことができます。
 
-> - [VS で複数のプロジェクトを同時に開始する方法](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [ライダーで同時に複数のプロジェクトを開始する方法](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Huawei Cloud で nuget の復元速度を高速化](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
 
 ## 初めて商品を追加し、効果なし?
 
@@ -99,7 +101,7 @@ dotnet newbe.claptrap --name HelloClaptrap
 | AddItemToCartEventHandler | 14  |
 | AddItemToCartEventHandler | 28  |
 
-> [Go To File を使用すると、ファイルをすばやく配置できます。](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## デバッグの開始
 
@@ -146,24 +148,28 @@ dotnet newbe.claptrap --name HelloClaptrap
 }
 ```
 
-この時点で、コードは特定のショッピング カート オブジェクトに実行されます。
+此处便是框架实现的核心，如下图所示的关键内容：
 
-デバッガーを使用すると、着信 skuId と count の両方が Controller から渡されたパラメーターです。
+![Claptrap](/images/20190228-001.gif)
 
-ここでは、次の操作を実行できます。：
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
+
+可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+
+在这里您可以完成以下这些操作：
 
 - イベントによる Claptrap のデータの変更
 - Claptrap に保存されたデータの読み取り
 
-このコードでは、`AddItemToCartEvent`オブジェクトは、ショッピング カートへの一度の変更を表します。
+这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
 
-次に、処理のために Claptrap に渡します。
+然后将它传递给 Claptrap 进行处理了。
 
-Claptrap はイベントを受け入れると、独自の State データを更新します。
+Claptrap 接受了事件之后就会更新自身的 State 数据。
 
-最後に、StateData.Items を呼び出し元に返します。(実際には、StateData.Items は Claptrap.State.Data.Items のショートカット プロパティです。だから、実際にはClaptrapから読み取られます。 )
+最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
 
-デバッガーを使用すると、StateData のデータ型が次のようになります。：
+通过调试器，可以看到 StateData 的数据类型如下所示：
 
 ```cs
 パブリッククラスCartState : IStateData
@@ -172,13 +178,13 @@ Claptrap はイベントを受け入れると、独自の State データを更�
 }
 ```
 
-これは、サンプルで設計されたショッピング カートの状態です。我々は1つを使用する`ディセリー`は、現在のショッピング カートの SkuId とそれに対応する数量を表します。
+这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
 
-デバッグを続行し、次の手順に進み、Claptrap が着信イベントを処理する方法を見てみましょう。
+继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
 
 ### AddItemToCartEventHandler Start
 
-ブレークポイントを再びヒットするのは、次のコードです。：
+再次命中断点的是下面这段代码：
 
 ```cs
 パブリッククラス AddItemToCartEventHandler
@@ -204,21 +210,21 @@ Claptrap はイベントを受け入れると、独自の State データを更�
 }
 ```
 
-このコードには、現在のショッピング カートの状態を表す 2 つの重要なパラメーターが含まれています。`カートステート`処理が必要なイベント`AddItemToCartEvent`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
 
-ビジネス ニーズに応じて、状態のディクショナリに SkuId が含まれているかどうかを判断し、その数を更新します。
+我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
 
-デバッグを続行すると、コードはこのコードの末尾まで実行されます。
+继续调试，代码将会运行到这段代码的结尾。
 
-この時点で、デバッガーを使用すると、stateData.Items という辞書は 1 つ追加されますが、数は 0 です。理由は、上記の else スニペットがコメントされているためであり、ショッピング カートを初めて追加すると、常に失敗したバグの原因です。
+此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
 
-ここでは、デバッグをすぐに中断しないでください。デバッグを続行し、コードを終了して、プロセス全体がどのように終了するかを確認します。
+在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
 
-実際には、デバッグを続行し、ブレークポイントは、CartGrain と CartController の対応するメソッドを使用するメソッドによって終了します。
+实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
 
 ## これは実際には3層アーキテクチャです!
 
-ほとんどの開発者は、3 層アーキテクチャを理解しています。実際、Newbe.Claptrap は実際には 3 層アーキテクチャであると言えます。では、表を見てみましょう。：
+绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
 
 | 伝統的な3つの層        | Newbe.Claptrap    | 説明                                                                                 |
 | --------------- | ----------------- | ---------------------------------------------------------------------------------- |
@@ -226,19 +232,19 @@ Claptrap はイベントを受け入れると、独自の State データを更�
 | ビジネスビジネス層       | グレインレイヤー          | ビジネスに基づいて、着信ビジネス パラメータをビジネス処理します (サンプルでは、実際には判断が書かれていない場合は、カウントを判断する必要があります)。 > 0) |
 | パーシストレンス永続化層    | EventHandler レイヤー | ビジネス結果の更新                                                                          |
 
-もちろん、上記の類似は単純な説明にすぎません。特定のプロセスでは、あまりにももつれする必要はありません、これは単に理解の補助的な声明です。
+当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
 
 ## また、修正するバグがあります。
 
-次に、先ほどの「初めての商品への参加が有効でない」という問題を修正します。
+接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
 ### これは、単体テスト フレームワークを考慮します。
 
-プロジェクト テンプレートにプロジェクトが存在する`ハロープラップ.アクトース・テストス`プロジェクトには、主要なビジネス コードの単体テストが含まれています。
+在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
-我々はすでに知っている`AddItemToCartEventHandler`にコメントされたコードは、バグが存在する主な理由です。
+我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
 
-我々は使用することができます`dotnet テスト`テスト プロジェクトで単体テストを実行すると、次の 2 つのエラーが表示されます。
+我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +294,7 @@ Total tests: 7
 
 ```
 
-間違った単体テストのコードの 1 つを見てみましょう。：
+我们看一下其中一个出错的单元测试的代码：
 
 ```cs
 [Test]
@@ -312,20 +318,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`は、このテストの主要なテストコンポーネントであり、stateData と event は手動で構築されているため、開発者は必要に応じてテストする必要があるシナリオを簡単に構築できます。特別な何かを構築する必要はありません。
+`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
 
-今、ちょうど次の`AddItemToCartEventHandler`コメントされたコードの段落は復元され、単体テストが再実行されます。単体テストが合格しました。バグも自然に修正されました。
+现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
 
-もちろん、シーンの削除に関する別の単体テストも失敗しました。開発者は、上記の「ブレークポイント」と「単体テスト」の考え方に従って、この問題を修正できます。
+当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
 
 ## データは永続化されました。
 
-Backend Server と Web を再起動すると、以前に操作したデータが永続化されていることがわかります。
+您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
 
-今後の章で詳しく解説します。
+我们将会在后续的篇章中进一步介绍。
 
 ## 小結び目
 
-この記事では、単純なショッピング カート シナリオを実装するための基本的なプロジェクト フレームワークを作成する方法について説明します。
+通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
 
-詳しく説明する必要はない：プロジェクト構造、展開、永続化など。あなたはさらに、次の記事を読むことができます。
+这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
