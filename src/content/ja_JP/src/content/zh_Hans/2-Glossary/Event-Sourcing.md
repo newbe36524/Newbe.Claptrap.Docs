@@ -4,6 +4,8 @@ metaTitle: 'イベント トレース (Event Sourcing)'
 metaDescription: 'イベント トレース (Event Sourcing)'
 ---
 
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
 イベントトレーサビリティモードは、ソフトウェア設計のアイデアです。この設計思想は、通常、追加および削除の変更 (CRUD) を使用する従来のシステム設計のアイデアとは異なります。CRUD アプリには、通常、いくつかの制限があります。：
 
 1. 通常、CRUD アプリは、データ ストアを直接操作します。このような実装は、データベースの最適化が不十分なため、パフォーマンスのボトルネックになり、アプリケーションのスケーラビリティを実現するのが難しくなります。
@@ -28,7 +30,7 @@ CRUDの手法で「振込」を実現。
 
 もちろん、イベント トレース パターンの導入には、イベント トレースに関連するいくつかの技術的な問題も導入されます。例えば：イベントによって消費されるストレージは、より大きく、最終的な一貫性を適用する必要があります。関連する問題は、いくつかの記事でより詳細に説明されています。読者は、その後の拡張読書を読むことができ、理解と評価を行うことができます。
 
-> 参考文献
+> 参考资料
 > 
 > - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中国語翻訳](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
