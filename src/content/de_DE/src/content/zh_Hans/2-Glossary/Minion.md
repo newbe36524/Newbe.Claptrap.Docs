@@ -4,13 +4,15 @@ metaTitle: 'Minion'
 metaDescription: 'Minion'
 ---
 
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
 ![Minion](/images/20190228-002.gif)
 
 Minion ist eine spezielle Claptrap, die durch dieses Framework definiert wird.es ist eine Anpassung basierend auf Claptrap.Es hat die folgenden Funktionen：
 
 **Ereignis aus der entsprechenden Claptrap lesen**。Wie Claptrap wird auch der Zustand des Dieners von Ereignissen gesteuert.Der Unterschied ist, dass Minion, wie seine wörtliche Bedeutung, immer Ereignisse aus der entsprechenden Claptrap erhält und seinen Zustand ändert.Daher kann es nachfolgende Aktionen nach dem von Claptrap generierten Ereignis asynchron behandeln.
 
-> Minion stammt aus einem Glücksspiel, gespielt von newbe36524[Die Legende vom Ofenstein](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), wobei "entourage" in der englischen Version als "minion" beschrieben wird.
+> Minion 一词出自 newbe36524 玩的一款运气游戏[《炉石传说》](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4)，其中“随从”在英文版中的描述即为“minion”。
 
 ---
 
