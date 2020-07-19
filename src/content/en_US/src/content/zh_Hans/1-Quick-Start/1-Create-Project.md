@@ -1,10 +1,12 @@
 ---
 title: 'The first step - create a project and implement a simple shopping cart'
-metaTitle: 'The first step - Create a project and implement a simple shopping cart . . . Newbe.Claptrap'
+metaTitle: '第一步——创建项目，实现简易购物车'
 metaDescription: 'The first step - create a project and implement a simple shopping cart'
 ---
 
 Let's implement a simple "e-commerce cart" requirement to see how to develop using Newbe.Claptrap.
+
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then 
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
 ## Compilation and startup
 
@@ -56,9 +58,9 @@ If it is started, you can visiti `http://localhost:36525/swagger` to view the AP
 
 You can try to make several calls to the API through click the Try It Out button on the UI.
 
-> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
 
 ## It is no effect when add product at first time?
 
@@ -99,7 +101,7 @@ Rider does not currently have a breakpoint importing feature.Therefore, you need
 | AddItemToCart Event Handler | 14       |
 | AddItemToCart Event Handler | 28       |
 
-> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## Start debugging
 
@@ -146,24 +148,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-At this point, the code has run to a specific shopping cart object.
+此处便是框架实现的核心，如下图所示的关键内容：
 
-You can see through the debugger that both the incoming skuId and count are parameters passed from Controller.
+![Claptrap](/images/20190228-001.gif)
 
-Here you can do these things：
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
+
+可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+
+在这里您可以完成以下这些操作：
 
 - Modify the data in Claptrap with events
 - Read data saved in Claptrap
 
-In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
+这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
 
-It is then passed to Claptrap for processing.
+然后将它传递给 Claptrap 进行处理了。
 
-Claptrap updates its State data after accepting the event.
+Claptrap 接受了事件之后就会更新自身的 State 数据。
 
-Finally, we return StateData.Items to the caller.(Actually, StateData.Items is a quick property for Claptrap.State.Data.Items.)So it's actually still read from Claptrap. )
+最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
 
-With the debugger, you can see the data type of StateData as shown below：
+通过调试器，可以看到 StateData 的数据类型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -172,13 +178,13 @@ public class CartState : IStateData
 }
 ```
 
-This is the status of the shopping cart designed in the sample.We use a`Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
+这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
 
-Continue debugging and move on to the next step to see how Claptrap handles incoming events.
+继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
 
 ### AddItemToCart Event Handler Start
 
-Again the point of interruption is the following code：
+再次命中断点的是下面这段代码：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -204,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-This code contains two important parameters that represent the current shopping cart status`CartState`and events that need to be handled`AddItemToCartEvent`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
 
-We determine whether the dictionary in the state contains SkuId according to business needs and update its number.
+我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
 
-Continue debugging and the code will run until the end of this code.
+继续调试，代码将会运行到这段代码的结尾。
 
-At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
+此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
 
-Do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
+在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
 
-In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
+实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
 
 ## This is actually a three-tier architecture!
 
-The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe.Claptrap is actually a three-tier architecture.Let's compare it in a table.：
+绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
 
 | Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
 | ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -226,19 +232,19 @@ The vast majority of developers understand the three-tier architecture.In fact, 
 | Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
 | Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-Of course, thing above is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
+当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
 
 ## You also have a BUG to fix
 
-Then we go back and fix the previous "First Join Products Don't Take Effect" issue.
+接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
 ### This is a framework for considering unit testing
 
-There is a project in the project template`HelloClap.Actors.Tests`The project contains unit tests of the main business code.
+在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
-We now know that`AddItemToCart Event Handler`The code in the comments is the main cause of the BUG.
+我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
 
-We can use`dotnet test`If you run the unit tests in your test project, you get two errors:
+我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +294,7 @@ Total tests: 7
 
 ```
 
-Let's look at the code for one of the error unit tests.：
+我们看一下其中一个出错的单元测试的代码：
 
 ```cs
 [Test]
@@ -312,20 +318,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCart Event Handler`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
+`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
 
-Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUG fixed.
+现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
 
-Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" described above.
+当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
 
 ## The data has been persisted.
 
-You can try restarting Backend Server and the Web, and you'll find that the data you worked on before has been persisted.
+您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
 
-We will cover it further in a later chapter.
+我们将会在后续的篇章中进一步介绍。
 
 ## Summary
 
-Through this article, we have a preliminary understanding of how to create a basic project framework to implement a simple shopping cart scenario.
+通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
 
-There's a lot here that we don't have a detailed description of.：Project structure, deployment, persistence, and more.You can read further to learn more.
+这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
