@@ -1,10 +1,12 @@
 ---
 title: 'La première étape - créer un projet et mettre en œuvre un panier simple'
-metaTitle: 'La première étape - Créer un projet et mettre en œuvre un panier simple . . . Newbe.Claptrap'
+metaTitle: '第一步——创建项目，实现简易购物车'
 metaDescription: 'La première étape - créer un projet et mettre en œuvre un panier simple'
 ---
 
 Mettons en œuvre une simple exigence de « chariot de commerce électronique » pour voir comment se développer en utilisant Newbe.Claptrap.
+
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ Ouvrez la console et commutez le répertoire de travail`D:\Repo-HelloClaptrap`�
 dotnet nouveau newbe.claptrap - nom HelloClaptrap
 ```
 
-> En général, nous recommandons que le`D:\Repo-HelloClaptrap`Créez un dossier en tant qu’entrepôt Git.Gérez votre code source avec le contrôle de version.
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
 ## Compilation et démarrage
 
@@ -56,9 +58,9 @@ Une fois le début terminé, vous pouvez`http://localhost:36525/swagger`Adresse 
 
 Vous pouvez essayer de passer plusieurs appels à l’API via le bouton Try It Out de l’interface.
 
-> - [Comment démarrer plusieurs projets simultanément en VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Comment démarrer plusieurs projets dans Rider en même temps](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Utilisez Huawei Cloud pour accélérer la vitesse de restauration nuget](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
 
 ## D’abord ajouter le produit, pas d’effet?
 
@@ -99,7 +101,7 @@ Rider n’a pas actuellement de fonction d’importation de point d’arrêt.Par
 | Gestionnaire d’événements AddItemToCart | 14        |
 | Gestionnaire d’événements AddItemToCart | 28        |
 
-> [Aller au fichier vous permet de localiser rapidement où se trouvent vos fichiers](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## Démarrer le débogage
 
@@ -146,24 +148,28 @@ Tâche async du public<Dictionary<string, int>> AddItemAsync (skuId de chaîne, 
 }
 ```
 
-À ce stade, le code s’est exécuté à un objet de panier d’achat spécifique.
+此处便是框架实现的核心，如下图所示的关键内容：
 
-Vous pouvez voir à travers le débogueur que le skuId entrant et le compte sont des paramètres transmis à partir du contrôleur.
+![Claptrap](/images/20190228-001.gif)
 
-Ici, vous pouvez faire ces choses：
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
+
+可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+
+在这里您可以完成以下这些操作：
 
 - Modifier les données dans Claptrap avec des événements
 - Lire les données enregistrées dans Claptrap
 
-Dans ce code, nous créons un`AddItemToCart, événement`Objet pour représenter une modification du panier.
+这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
 
-Il est ensuite transmis à Claptrap pour traitement.
+然后将它传递给 Claptrap 进行处理了。
 
-Claptrap met à jour ses données d’état après avoir accepté l’événement.
+Claptrap 接受了事件之后就会更新自身的 State 数据。
 
-Enfin, nous ren retournerons StateData.Items à l’appelant.(En fait, StateData.Items est une propriété rapide pour Claptrap.State.Data.Items.)Donc, il est en fait encore lu de Claptrap. )
+最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
 
-Avec le débogueur, vous pouvez voir le type de données statedata comme indiqué ci-dessous：
+通过调试器，可以看到 StateData 的数据类型如下所示：
 
 ```cs
 Classe publique CartState : IStateData
@@ -172,13 +178,13 @@ Classe publique CartState : IStateData
 }
 ```
 
-C’est l’état du panier conçu dans l’échantillon.Nous utilisons un`Dictionary`pour représenter le SkuId dans le panier d’achat actuel et sa quantité correspondante.
+这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
 
-Continuez le débogage et passez à l’étape suivante pour voir comment Claptrap gère les événements entrants.
+继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
 
 ### Début du gestionnaire d’événements AddItemToCart
 
-Encore une fois, le point d’interruption est le code suivant：
+再次命中断点的是下面这段代码：
 
 ```cs
 classe publique AddItemCartEvent Handler
@@ -204,21 +210,21 @@ classe publique AddItemCartEvent Handler
 }
 ```
 
-Ce code contient deux paramètres importants qui représentent l’état actuel du panier d’achat`CartState`et les événements qui doivent être gérés`AddItemToCart, événement`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
 
-Nous déterminons si le dictionnaire dans l’état contient le mont sous-marin SkuId en fonction des besoins de l’entreprise et de mettre à jour son nombre.
+我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
 
-Continuez le débogage et le code s’exécutera jusqu’à la fin de ce code.
+继续调试，代码将会运行到这段代码的结尾。
 
-À ce stade, à travers le débogueur, vous pouvez voir que le dictionnaire stateData.Items a augmenté d’un, mais le nombre est 0.La raison en est en fait à cause de l’autre extrait ci-dessus, qui est la cause du BUG qui ne parvient toujours pas à ajouter un panier pour la première fois.
+此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
 
-Ici, n’interrompez pas immédiatement le débogage.Allons de l’avant et laissons le code passer en revue pour voir comment l’ensemble du processus se termine.
+在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
 
-En fait, en continuant le débogage, le point d’arrêt frappe à son tour l’extrémité des méthodes cartGrain et CartController.
+实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
 
 ## Il s’agit en fait d’une architecture à trois niveaux!
 
-La grande majorité des développeurs comprennent l’architecture à trois niveaux.En fait, nous pouvons aussi dire que Newbe. Claptrap est en fait une architecture à trois niveaux.Comparons-le dans un tableau.：
+绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
 
 | Traditionnel à trois niveaux           | Newbe.Claptrap       | Description                                                                                                                                     |
 | -------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -226,19 +232,19 @@ La grande majorité des développeurs comprennent l’architecture à trois nive
 | Niveau d’entreprise                    | Couche de grain      | Traitement de l’entreprise basé sur les paramètres métier entrants (l’échantillon n’écrit pas réellement le jugement, doit juger le compte > 0) |
 | Couche de persistance de persistance   | Calque EventHandler  | Mettre à jour les résultats de l’entreprise                                                                                                     |
 
-Bien sûr, l’analogie ci-dessus est une description simple.Dans le processus spécifique, il n’est pas nécessaire d’être trop empêtré, ce n’est qu’une compréhension auxiliaire de l’énoncé.
+当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
 
 ## Vous avez également un BUG à corriger
 
-Ensuite, nous revenons en arrière et fixer le précédent « Premiers produits de jointure ne prennent pas effet » question.
+接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
 ### Il s’agit d’un cadre pour l’examen des tests unitaires
 
-Il y a un projet dans le modèle de projet`HelloClap.Actors.Tests`Le projet contient des tests unitaires du code d’activité principal.
+在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
-Nous savons maintenant que`Gestionnaire d’événements AddItemToCart`Le code dans les commentaires est la cause principale du BUG.
+我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
 
-Nous pouvons utiliser`test dotnet`Si vous exécutez les tests unitaires dans votre projet de test, vous obtenez deux erreurs :
+我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
 
 ```bash
 Un total de 1 fichiers de test correspondait au modèle syd dh’fydd.
@@ -288,7 +294,7 @@ Nombre total de tests: 7
 
 ```
 
-Regardons le code pour l’un des tests unitaires défectueux.：
+我们看一下其中一个出错的单元测试的代码：
 
 ```cs
 [Test]
@@ -312,20 +318,20 @@ asynch task addFirstOne public ()
 }
 ```
 
-`Gestionnaire d’événements AddItemToCart`est le principal composant de test de ce test, et puisque les données d’état et l’événement sont construits manuellement, il est facile pour les développeurs de construire des scénarios qui doivent être testés au besoin.Il n’est pas nécessaire de construire quelque chose de spécial.
+`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
 
-Maintenant, tant que le`Gestionnaire d’événements AddItemToCart`Restaurez le code commenté et réexécuter le test unitaire.Les tests unitaires passent.LES BOGUES SONT ÉGALEMENT NATURELLEMENT CORRIGÉS.
+现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
 
-Bien sûr, il ya un autre test unitaire du scénario de suppression ci-dessus qui échoue.Les développeurs peuvent résoudre ce problème en suivant les idées de « point d’arrêt » et de « test unitaire » décrites ci-dessus.
+当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
 
 ## Les données ont été maintenues.
 
-Vous pouvez essayer de redémarrer Backend Server et le Web, et vous constaterez que les données sur lesquelles vous avez travaillé auparavant ont été maintenues.
+您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
 
-Nous le couvrirons davantage dans un chapitre ultérieur.
+我们将会在后续的篇章中进一步介绍。
 
 ## Résumé
 
-Grâce à cet article, nous avons une compréhension préliminaire de la façon de créer un cadre de projet de base pour mettre en œuvre un scénario simple panier d’achat.
+通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
 
-Il y a beaucoup de choses ici dont nous n’avons pas de description détaillée.：Structure du projet, déploiement, persistance, et plus encore.Vous pouvez lire ensuite pour en savoir plus.
+这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
