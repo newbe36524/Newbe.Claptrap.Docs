@@ -1,10 +1,12 @@
 ---
 title: '第一步——建立項目，實現簡易購物車'
-metaTitle: '第一步——建立項目，實現簡易購物車 | Newbe.Claptrap'
+metaTitle: '第一步——创建项目，实现简易购物车'
 metaDescription: '第一步——建立項目，實現簡易購物車'
 ---
 
 讓我們來實現一個簡單的“電商購物車”需求來了解一下如何使用 Newbe.Claptrap 進行開發。
+
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ dotnet new --install Newbe.Claptrap.Template
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> 通常來說，我們建議將`D:\Repo\HelloClaptrap`標記為 Git 倉庫文件夾。通過版本控制來管理您的源代碼。
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
 ## 建置與執行
 
@@ -56,9 +58,9 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 您可以通過界面上的 Try It Out 按鈕來嘗試對 API 進行幾次呼叫。
 
-> - [如何在 VS 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [如何在 Rider 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [使用华为云加速 nuget 還原速度](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
 
 ## 第一次添加商品，没有效果？
 
@@ -99,7 +101,7 @@ Rider 目前沒有中斷點導入功能。因此需要手動的在以下位置�
 | AddItemToCartEventHandler | 14  |
 | AddItemToCartEventHandler | 28  |
 
-> [通過 Go To File 可以助你快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## 開始除錯
 
@@ -146,24 +148,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此時，源代碼已經運行到了一個具體的購物車物件。
+此处便是框架实现的核心，如下图所示的关键内容：
 
-可以通過偵錯器看到傳入的 skuId 和 count 都是從 Controller 傳遞過來的參數。
+![Claptrap](/images/20190228-001.gif)
 
-在這裏您可以完成以下這些操作：
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
+
+可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+
+在这里您可以完成以下这些操作：
 
 - 通過事件對 Claptrap 中的數據進行修改
 - 讀取 Claptrap 中保存的數據
 
-這段代碼中，我們建立了一個`AddItemToCartEvent`物件來表示一次對購物車的變更。
+这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
 
-然後將它傳遞給 Claptrap 進行處理了。
+然后将它传递给 Claptrap 进行处理了。
 
-Claptrap 接受了事件之後就會更新自身的 State 數據。
+Claptrap 接受了事件之后就会更新自身的 State 数据。
 
-最後我們將 StateData.Items 返回給呼叫方。（實際上 StateData.Items 是 Claptrap.State.Data.Items 的一個快捷屬性。因此實際上還是從 Claptrap 中讀取。）
+最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
 
-通過偵錯器，可以看到 StateData 的數據類型如下所示：
+通过调试器，可以看到 StateData 的数据类型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -172,13 +178,13 @@ public class CartState : IStateData
 }
 ```
 
-這就是範例中設計的購物車狀態。我們使用一個`Dictionary`來表示當前購物車中的 SkuId 及其對應的數量。
+这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
 
-繼續偵錯，進入下一步，讓我們看看 Claptrap 是如何處理傳入的事件的。
+继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
 
 ### AddItemToCartEventHandler Start
 
-再次命中斷點的是下面這段源代碼：
+再次命中断点的是下面这段代码：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -204,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-這段源代碼中，包含有兩個重要參數，分別是表示當前購物車狀態的`CartState`和需要處理的事件`AddItemToCartEvent`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
 
-我們按照業務需求，判斷狀態中的字典是否包含 SkuId，並對其數量進行更新。
+我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
 
-繼續偵錯，代碼將會運行到這段代碼的結尾。
+继续调试，代码将会运行到这段代码的结尾。
 
-此時，通過偵錯器，可以發現，stateData.Items 這個字典雖然增加了一項，但是數量卻是 0 。原因其實就是因為上面被注釋的 else 代碼段，這就是第一次添加購物車總是失敗的 BUG 成因。
+此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
 
-在這裏，不要立即中斷偵錯。我們繼續偵錯，讓源代碼走完，來了解整個過程如何結束。
+在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
 
-實際上，繼續偵錯，中斷點將會依次命中在 CartGrain 和 CartController 對應方法的方法結尾。
+实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
 
 ## 這其實就是三層架構！
 
-絕大多數的開發者都了解三層架構。其實，我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
+绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
 
 | 傳統三層             | Newbe.Claptrap | 说明                                           |
 | ---------------- | -------------- | -------------------------------------------- |
@@ -226,19 +232,19 @@ public class AddItemToCartEventHandler
 | Business 業務層     | Grain 層        | 根據業務對傳入的業務參數進行業務處理（範例中其實沒寫判斷，需要判斷 count > 0） |
 | Persistence 持久化層 | EventHandler 層 | 對業務結果進行更新                                    |
 
-當然上面的類似只是一種簡單的描述。具體過程中，不需要太過於糾結，這只是一個輔助理解的說法。
+当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
 
 ## 你還有一個待修復的 BUG
 
-接下來我們重新回過頭來修復前面的“首次加入商品不生效”的問題。
+接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
 ### 這是一個考慮單元測試框架
 
-在項目模板中存在一個項目`HelloClaptrap.Actors.Tests`，該項目包含了對主要業務代碼的單元測試。
+在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
-我們現在已經知道，`AddItemToCartEventHandler`中注釋的代碼是導致 BUG 存在的主要原因。
+我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
 
-我們可以使用`dotnet test`運行一下測試項目中的單元測試，可以得到如下兩個錯誤:
+我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +294,7 @@ Total tests: 7
 
 ```
 
-我們看一下其中一個出錯的單元測試的代碼：
+我们看一下其中一个出错的单元测试的代码：
 
 ```cs
 [Test]
@@ -312,20 +318,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`是該測試主要測試的組件，由於 stateData 和 event 都是通過手動構建的，因此開發者可以很容易就按照需求構建出需要測試的場景。不需要建置什麼特殊的內容。
+`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
 
-現在，只要將`AddItemToCartEventHandler`中那段被注釋的源代碼還原，重新執行這個單元測試。單元測試便就通過了。BUG 也就自然的修復了。
+现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
 
-當然，上面還有另外一個關於刪除場景的單元測試也是失敗的。開發者可以按照上文中所述的“中斷點”、“單元測試”的思路，來修復這個問題。
+当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
 
 ## 數據已經持久化了
 
-您可以嘗試重新啟動 Backend Server 和 Web， 您將會發現，您之前執行的數據已經被持久化的保存了。
+您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
 
-我們將會在後續的篇章中進一步介紹。
+我们将会在后续的篇章中进一步介绍。
 
 ## 小結
 
-通過本篇，我們初步了解了一下，如何創建一個基礎的項目框架來實現一個簡單的購物車場景。
+通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
 
-這裡還有很多內容我們沒有詳細的說明：項目結構、部署、持久化等等。你可以進一步閱讀後續的文章來了解。
+这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
