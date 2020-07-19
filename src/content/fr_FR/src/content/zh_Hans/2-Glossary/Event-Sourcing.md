@@ -4,6 +4,8 @@ metaTitle: 'Sourcing d’événements'
 metaDescription: 'Sourcing d’événements'
 ---
 
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
 Le mode de traçage d’événements est une sorte d’idée de conception de logiciel.Ce genre d’idée de conception est généralement différent de l’idée traditionnelle de conception de système basée sur l’addition et la suppression (CRUD).Les applications CruD ont souvent certaines limites：
 
 1. En général, les applications CRUD prennent directement la pratique de l’exploitation du stockage de données.Une telle implémentation peut entraîner des goulots d’étranglement des performances en raison d’une optimisation inadéquate des bases de données, ce qui peut être difficile à mettre à l’échelle des applications.
@@ -28,7 +30,7 @@ Comme le montre la figure ci-dessus, les changements d’équilibre impliqués d
 
 Bien sûr, l’introduction du mode de traçage des événements a également introduit certains des problèmes techniques connexes de traçage des événements.Par exemple,：Les événements peuvent consommer de grandes quantités de stockage, la cohérence éventuelle doit être appliquée, les événements sont immuables, la refactorisation peut être difficile, et ainsi de suite.Ces questions connexes sont décrites plus en détail dans certains articles.Les lecteurs peuvent lire la lecture étendue pour mieux comprendre et évaluer.
 
-> Ressources
+> 参考资料
 > 
-> - [Modèle d’approvisionnement d’événements](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Traduit par Event Sourcing Pattern Chinois](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
