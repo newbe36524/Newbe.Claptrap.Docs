@@ -1,10 +1,12 @@
 ---
 title: '第一步——创建项目，实现简易购物车'
-metaTitle: '第一步——创建项目，实现简易购物车 | Newbe.Claptrap'
+metaTitle: '第一步——创建项目，实现简易购物车'
 metaDescription: '第一步——创建项目，实现简易购物车'
 ---
 
 让我们来实现一个简单的“电商购物车”需求来了解一下如何使用 Newbe.Claptrap 进行开发。
+
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -146,7 +148,11 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此时，代码已经运行到了一个具体的购物车对象。
+此处便是框架实现的核心，如下图所示的关键内容：
+
+![Claptrap](/images/20190228-001.gif)
+
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
 
 可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
 

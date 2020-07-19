@@ -4,11 +4,13 @@ metaTitle: 'Claptrap'
 metaDescription: 'Claptrap'
 ---
 
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
 简单来说 Claptrap = [Actor](/zh_Hans/2-Glossary/Actor-Pattern) + [事件溯源](/zh_Hans/2-Glossary/Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap 是本框架定义的一种特殊 Actor。除了上文中提到 Actor 两种特性之外，Claptrap 还被定义为具有以下特性：
+Claptrap 是本框架定义的一种特殊 Actor。除了 Actor 的基础特性之外，Claptrap 还被定义为具有以下特性：
 
 **状态由事件进行控制**。Actor 的状态在 Actor 内部进行维护。Claptrap 同样也是如此，不过改变 Claptrap 的状态除了在 Actor 之外，还限定其只能通过事件进行改变。这就将事件溯源模式与 Actor 模式进行了结合。通过事件溯源模式保证了 Actor 状态的正确性和可追溯性。这些改变 Claptrap 状态的事件是由 Claptrap 自身产生的。事件产生的原因可以是外部的调用也可以是 Claptrap 内部的类触发器机制产生的。
 

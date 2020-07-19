@@ -13,7 +13,13 @@ const calculateTreeData = edges => {
       )
     : edges;
 
-  const tree = originalData.reduce(
+  const sortedNodes = originalData.sort(function(a, b) {
+    if (a.node.fields.slug < b.node.fields.slug) return -1;
+    if (a.node.fields.slug > b.node.fields.slug) return 1;
+    return 0;
+  });
+  
+  const tree = sortedNodes.reduce(
     (
       accu,
       {

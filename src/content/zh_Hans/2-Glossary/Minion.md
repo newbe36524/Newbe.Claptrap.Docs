@@ -4,6 +4,8 @@ metaTitle: 'Minion'
 metaDescription: 'Minion'
 ---
 
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
 ![Minion](/images/20190228-002.gif)
 
 Minion 是本框架定义的一种特殊 Claptrap 。是在 Claptrap 基础上做出的调整。其具备以下特性：
