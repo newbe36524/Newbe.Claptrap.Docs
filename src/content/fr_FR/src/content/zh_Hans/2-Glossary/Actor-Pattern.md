@@ -4,7 +4,7 @@ metaTitle: 'Mode Acteur'
 metaDescription: 'Mode Acteur'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
 Le modèle Actor est un modèle de programmation concomitant.L’application de ce modèle de programmation peut résoudre les problèmes de concurrence de certains systèmes.Le problème de concurrence mentionné ici est quand un ordinateur traite logiquement les mêmes données, ce qui peut provoquer des données incorrectes en raison de plusieurs demandes simultanées.Ce problème est un problème qui doit être rencontré lors de la programmation multithreaded.Pour prendre un exemple simple, si vous utilisez 100 threads sans verrouillage synchrone,`Int`Exécution variable`++`Opération.Le résultat final de cette variable est souvent inférieur à 100.Voici comment le modèle d’acteur évite ce problème.
 
