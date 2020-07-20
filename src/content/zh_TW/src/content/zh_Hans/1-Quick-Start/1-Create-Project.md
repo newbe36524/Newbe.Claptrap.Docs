@@ -1,7 +1,7 @@
 ---
-title: '第一步——建立項目，實現簡易購物車'
+title: '第一步——創建項目，實現簡易購物車'
 metaTitle: '第一步——創建項目,實現簡易購物車'
-metaDescription: '第一步——建立項目，實現簡易購物車'
+metaDescription: '第一步——創建項目，實現簡易購物車'
 ---
 
 讓我們來實現一個簡單的“電商購物車”需求來了解一下如何使用 Newbe.Claptrap 進行開發。
@@ -101,7 +101,7 @@ Rider 目前沒有中斷點導入功能。因此需要手動的在以下位置�
 | AddItemToCartEventHandler | 14  |
 | AddItemToCartEventHandler | 28  |
 
-> [以 Go To File 可以使用您快速定位檔案](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [以 Go To File 可以助你快速定位檔案](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## 開始除錯
 
@@ -148,11 +148,11 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此處便是框架實現的核心,如下圖所示的關鍵內容。：
+此處便是框架實現的核心，如下圖所示的關鍵內容：
 
 ![Claptrap](/images/20190228-001.gif)
 
-具體說到業務上,代碼已經運行到了一個具體的購物車物件。
+具體說到業務上，代碼已經運行到了一個具體的購物車物件。
 
 可以通過調試器看到傳入的 skuId 和 count 都是從 Controller 傳遞過來的參數。
 
@@ -169,7 +169,7 @@ Claptrap 接受了事件之後就會更新自身的 State 數據。
 
 最後我們將 StateData.Items 傳回給呼叫者。(實際上 StateData.Items 是 Claptrap.State.Data.Items 的一個快捷屬性。因此實際上還是從 Claptrap 中讀取。 )
 
-以除錯器,可以看到 StateData 的資料類型的名稱：
+通過除錯器，可以看到 StateData 的資料類型是這樣的：
 
 ```cs
 public class CartState : IStateData
@@ -178,7 +178,7 @@ public class CartState : IStateData
 }
 ```
 
-這就是樣例中設計的購物車狀態。我們使用一個`Dictionary`來表示當前購物車中的 SkuId 及其對應的數量。
+這就是範例中設計的購物車狀態。我們使用一個`Dictionary`來表示當前購物車中的 SkuId 及其對應的數量。
 
 繼續調試,進入下一步,讓我們看看 Claptrap 是如何處理傳入的事件的。
 
@@ -210,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-這段代碼中,包含有兩個重要參數,分別是表示當前購物車狀態的`CartState`與需要處理的事件`AddItemToCartEvent`。
+這段代碼中，包含有兩個重要參數，分別是表示當前購物車狀態的`CartState`與需要處理的事件`AddItemToCartEvent`。
 
-我們按照業務需求,判斷狀態中的字典是否包含 SkuId,並對其數量進行更新。
+我們按照業務需求，判斷狀態中的字典是否包含 SkuId，並對其數量進行更新。
 
-繼續調試,代碼將會運行到這段代碼的結尾。
+繼續調試，代碼將會運行到這段代碼的結尾。
 
-此時,透過除錯器,可以發現,stateData.Items 這個字典雖然增加了一項,但是數量卻是 0 。原因其實就是因為上面被註釋的 else 代碼段,這就是第一次添加購物車總是失敗的 BUG 成因。
+此時，透過除錯器，可以發現,stateData.Items 這個字典雖然增加了一項，但是數量卻是 0 。原因其實就是因為上面被註釋的 else 代碼段，這就是第一次添加購物車總是失敗的 BUG 成因。
 
-在這裡,不要立即中斷調試。我們繼續調試,讓代碼走完,來瞭解整個過程如何結束。
+在這裡，不要立即中斷調試。我們繼續調試，讓代碼走完，來瞭解整個過程如何結束。
 
-實際上,繼續調試,斷點將會依次命中 CartGrain 和 CartController 對應方法的方法結尾。
+實際上，繼續調試，斷點將會依次命中 CartGrain 和 CartController 對應方法的方法結尾。
 
 ## 這其實就是三層架構！
 
-絕大多數的開發者都瞭解三層架構。其實,我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
+絕大多數的開發者都瞭解三層架構。其實，我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
 
 | 傳統三層             | Newbe.Claptrap | 说明                                           |
 | ---------------- | -------------- | -------------------------------------------- |
@@ -232,7 +232,7 @@ public class AddItemToCartEventHandler
 | Business 業務層     | Grain 層        | 根據業務對傳入的業務參數進行業務處理（範例中其實沒寫判斷，需要判斷 count > 0） |
 | Persistence 持久化層 | EventHandler 層 | 對業務結果進行更新                                    |
 
-當然上面的類似只是一種簡單的描述。具體過程中,不需要太過於糾結,這隻是一個輔助理解的說法。
+當然上面的類似只是一種簡單的描述。具體過程中，不需要太過於糾結，這隻是一個輔助理解的說法。
 
 ## 你還有一個待修復的 BUG
 
@@ -240,11 +240,11 @@ public class AddItemToCartEventHandler
 
 ### 這是一個考慮單元測試框架
 
-在項目樣本中存在一個項目`HelloClaptrap.Actors.Tests`,該專案包含了對主要業務代碼的單元測試。
+在項目樣本中存在一個項目`HelloClaptrap.Actors.Tests`，該專案包含了對主要業務代碼的單元測試。
 
-我們現在已經知道,`AddItemToCartEventHandler`中註釋的代碼是導致 BUG 存在的主要原因。
+我們現在已經知道，`AddItemToCartEventHandler`中註釋的代碼是導致 BUG 存在的主要原因。
 
-我們可以使用`dotnet test`執行一下測試專案中的單元測試,可以得到如下兩個錯誤:
+我們可以使用`dotnet test`執行一下測試專案中的單元測試，可以得到如下兩個錯誤:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -318,20 +318,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`是該測試主要測試的元件,由於 stateData 和 event 都是通過手動構建的,因此開發者可以很容易就按照需求構建出需要測試的場景。不需要構建什麼特殊的內容。
+`AddItemToCartEventHandler`是該測試主要測試的元件，由於 stateData 和 event 都是通過手動構建的, 因此開發者可以很容易就按照需求構建出需要測試的場景。不需要構建什麼特殊的內容。
 
-現在,只要將`AddItemToCartEventHandler`中那段被註釋的代碼還原,重新運行這個單元測試。單元測試便就通過了。BUG 也就自然的修復了。
+現在，只要將`AddItemToCartEventHandler`中那段被註釋的代碼還原，重新運行這個單元測試。單元測試便就通過了。BUG 也就自然的修復了。
 
-當然,上面還有另外一個關於刪除場景的單元測試也是失敗的。開發者可以按照上文中所述的"斷點"、"單元測試"的思路,來修復這個問題。
+當然，上面還有另外一個關於刪除場景的單元測試也是失敗的。開發者可以按照上文中所述的"斷點"、"單元測試"的思路，來修復這個問題。
 
 ## 數據已經持久化了
 
-您可以嘗試重新啟動 Backend Server 和 Web, 您將會發現,您之前操作的數據已經被持久化的保存了。
+你可以嘗試重新啟動 Backend Server 和 Web，你將會發現，你之前操作的數據已經被持久化的保存了。
 
 我們將會在後續的篇章中進一步介紹。
 
 ## 小結
 
-通過本篇,我們初步瞭解了一下,如何創建一個基礎的專案框架來實現一個簡單的購物車場景。
+通過本篇，我們初步瞭解了一下，如何創建一個基礎的專案框架來實現一個簡單的購物車場景。
 
 這裏還有很多內容我們沒有詳細的說明：項目結構、部署、持久化等等。您可以進一步閱讀後續的文章來瞭解。
