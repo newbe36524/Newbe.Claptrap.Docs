@@ -4,20 +4,20 @@ metaTitle: 'Newbe.Claptrap Inicio rápido'
 metaDescription: 'Newbe.Claptrap Inicio rápido'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
 En esta serie, aprenderemos a desarrollar un sistema de servicio usando Newbe.Claptrap a través de una aplicación de comercio electrónico simplificada.
 
 ```cs
-namespace HelloClaptrap.Models
+Espacio de nombres HelloClaptrap.Models.
 {
-    public static class ClaptrapCodes
+    clase estática pública ClaptrapCodes.
     {
-        public const string CartGrain = "cart_claptrap_newbe";
-        private const string CartEventSuffix = "_e_" + CartGrain;
-        public const string AddItemToCart = "addItem" + CartEventSuffix;
-        public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
-+        public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
+        cadena pública de const CartGrain s "cart_claptrap_newbe";
+        Cadena const privada CartEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        cadena const pública AddItemToCart - "addItem" s cartEventSuffix;
+        cadena pública const RemoveItem FromCart - "removeItem" s cartEventSuffix;
+public const string Remove AllItems FromCart s "remoeAllItems" s."
     }
 }
 ```
