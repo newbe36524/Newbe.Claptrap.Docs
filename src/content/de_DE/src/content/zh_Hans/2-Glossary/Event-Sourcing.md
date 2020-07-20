@@ -4,7 +4,7 @@ metaTitle: 'Event Sourcing'
 metaDescription: 'Event Sourcing'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
 Der Ereignisablaufverfolgungsmodus ist eine Art Software-Design-Idee.Diese Art von Design-Idee unterscheidet sich in der Regel von der traditionellen System-Design-Idee basierend auf Addition und Löschung (CRUD).CruD-Anwendungen haben oft einige Einschränkungen：
 
@@ -30,7 +30,7 @@ Wie in der abbildung oben dargestellt, werden die im Transfergeschäft vorgenomm
 
 Natürlich führte die Einführung des Ereignisablaufverfolgungsmodus auch einige der damit verbundenen technischen Probleme der Ereignisablaufverfolgung ein.Zum Beispiel：Ereignisse können große Mengen an Speicher verbrauchen, eventuell muss Konsistenz angewendet werden, Ereignisse sind unveränderlich, die Umgestaltung kann schwierig sein usw.Diese verwandten Themen werden in einigen Artikeln ausführlicher beschrieben.Die Leser können die erweiterte Lektüre zum weiteren Verständnis und zur Auswertung lesen.
 
-> 参考资料
+> Ressourcen
 > 
-> - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing-Muster](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+> - [Übersetzt von Event Sourcing Pattern Chinese](https://www.infoq.cn/article/event-sourcing)
