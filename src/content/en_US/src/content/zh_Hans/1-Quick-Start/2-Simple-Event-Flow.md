@@ -14,54 +14,54 @@ With this reading, you're ready to try using Claptrap to implement your business
 
 In this article, I learned how to add a business implementation to an existing project sample by implementing the need to "empty the shopping cart".
 
-The main includethese of these steps.：
+Mainly consists of the following these steps：
 
 1. Define EventCode.
 2. Define Event.
 3. Implement EventHandler.
-4. Sign up for EventHandler.
+4. Register EventHandler
 5. Modify the Grain interface.
 6. Implement grain.
 7. Modify the Controller.
 
-This is a bottom-up process, and the actual coding process can also be developed from top to bottom.
+This is a process from down-up, and the development of the actual coding process can also be achieved top-down.
 
 ## Define Event Code.
 
 EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-Open it.`HelloClap.Models.`Project.`Claptrap Codes.`Class.
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
 Add EventCode for "Empty Shopping Cart Events."
 
 ```cs
-  Namespace HelloClaptrap.Models.
+  namespace HelloClaptrap.Models
   {
-      public static class ClaptrapCodes.
+      public static class ClaptrapCodes
       {
-          public const string CartGrain s "cart_claptrap_newbe";
-          Private const string CartEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-          public const string AddItemToCart - "addItem" s cartEventSuffix;
-          public const string RemoveItem FromCart - "removeItem" s cartEventSuffix;
-public const string Remove AllItems FromCart s "remoeAllItems" s."
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
++         public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
       }
   }
 ```
 
 ## Define Event.
 
-Event is the key to the origin of events.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
+Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-In.`HelloClap.Models.`The project.`Cart/Events.`Create under the folder.`Remove AllItems from Cart Event.`Class.
+Create the`RemoveAllItemsFromCartEvent`class under the`Cart/Events`folder of the`HelloCladaptrap.Models`project.
 
 Add the following code.：
 
 ```cs
-susing Newbe.Claptrap;
++ using Newbe.Claptrap;
 +
-Snamespace HelloClaptrap.Models.Cart.Events.
++ namespace HelloClaptrap.Models.Cart.Events
 + {
-public class remove AllAllItems FromCartEvent: IEventData.
++     public class RemoveAllItemsFromCartEvent : IEventData
 +     {
 +     }
 + }
@@ -69,33 +69,33 @@ public class remove AllAllItems FromCartEvent: IEventData.
 
 Because in this simple business scenario, emptying a shopping cart does not require specific parameters.Therefore, just create an empty type.
 
-`IEventData.`An interface is an empty interface in a framework that represents events and is used when generic inferences.
+The `IEventData`interface is an empty interface that represents an event in the frame, for use when generaltype inference.
 
 ## Implement EventHandler.
 
-`Event Handler.`Used to update events to Claptrap.`State.`on.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
+`EventHandler.`Used to update events to Claptrap.`State.`.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
 
-In.`HelloClap.Actors.`The project.`Cart/Events.`Create under the folder.`Remove All Items From Cart Event Handler.`Class.
+Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
 
 Add the following code.：
 
 ```cs
-susing System.Threading.Tasks;
-- Hello UsingClaptrap.Models.Cart;
-- HelloClaptrap.Models.Cart.Events;
-susing Newbe.Claptrap;
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models.Cart;
++ using HelloClaptrap.Models.Cart.Events;
++ using Newbe.Claptrap;
 +
-Snamespace HelloClaptrap.Actors.Cart.Events.
++ namespace HelloClaptrap.Actors.Cart.Events
 + {
-public class class Remove AllItems From CartEvent Handler.
-: NormalEventHandler.<CartState, RemoveAllItemsFromCartEvent>
++     public class RemoveAllItemsFromCartEventHandler
++         : NormalEventHandler<CartState, RemoveAllItemsFromCartEvent>
 +     {
-public override ValueTask HandleEvent (CartState StateData,
-RemoveAllItems FromCart Event EventData,
-IEventContext EventContext)
++         public override ValueTask HandleEvent(CartState stateData,
++             RemoveAllItemsFromCartEvent eventData,
++             IEventContext eventContext)
 +         {
-statedata.Items snull;
-return new ValueTask();
++             stateData.Items = null;
++             return new ValueTask();
 +         }
 +     }
 + }
@@ -103,13 +103,13 @@ return new ValueTask();
 
 Here are some common problems.：
 
-1. What is Normal Event Handler?
+1. What is NormalEventHandler?
 
    NormalEventHandler is a simple base class defined by the framework for easy implementation of Handler. The first generic parameter is the State type for Claptrap.In conjunction with the previous document, our cart State type is CartState. The second generic parameter is the Event type that Handler needs to handle.
 
-2. Why use it.`StateData.Items snull;`Not.`StateData.Items.Clear();`
+2. Why with`stateData.Items = null;`without`stateData.Items.Clear ();`
 
-   StateData is an object that is kept in memory, and Clear does not reduce the dictionary's own memory.Of course, there are usually no shopping carts with hundreds of thousands of items.But the point is, when updating State, it's important to note that Claptrap is a memory-based object that increases in number and increases memory consumption.Therefore, keep as little data as possible in State.
+   stateData is the object saved in the memory, and Clear does not narrow the own memory that the dictionary already occupies.Of course, there will not be a several hundred thousand item for a shopping cart in general.But in fact the key is that when updating the State, it is important to note that Clatrap is a kind of object resident in memory, which increases the consumption of memory when the number increases.As a result, keep less data in the State as far as possible.
 
 3. What is ValueTask?
 
@@ -129,20 +129,20 @@ Mark with Attribute.
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      (Claptrap Event Handler(Typeof (AddItemToCartEvent Handler), ClaptrapCodes.AddItemToCart)
-      (Claptrap Event Handler( RemoveitemFromCartEvent Handler), ClaptrapCodes.RemoveItemFromCart)
-- "Claptrap Event Handler (Typeof (Remove AllItems From Cart Event Handler), ClaptrapCodes.RemoveAllFromItems Cart)
-      public class CartGrain : ClaptrapBoxGrain.<CartState>, ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
-          public CartGrain ()
-              IClaptrapGrainCommon Service ClapGrainGrainCommonService
-              : base (claptrapGrain Common Service)
+          public CartGrain(
+              IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-....
+          ....
 ```
 
 `Claptrap Event Handler Handler.`Is an attribute defined by the framework that can be marked on grain's implementation class to achieve the association between EventHandler, EventCode, and ClaptrapGrain.
@@ -158,26 +158,26 @@ Open it.`HelloClaptrap.IActors.`The project.`ICartGrain.`Interface.
 Add interfaces and Attributes.
 
 ```cs
-  Using System.Collections.Generic;
-  Using System.Threading.Tasks;
-  Using HelloClaptrap.Models;
-  Using HelloClaptrap.Models.Cart;
-  Using HelloClaptrap.Models.Cart.Events;
+  using System.Collections.Generic;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Cart;
+  using HelloClaptrap.Models.Cart.Events;
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.IActor.
+  namespace HelloClaptrap.IActor
   {
-      (ClaptrapState(typeof, ClaptrapCodes.CartGrain))
-      (ClaptrapEvent(Typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)
-      (ClaptrapEvent(Typeof (RemoveItemFromCartEventEvent), ClaptrapCodes.RemoveItemFromCart)
-- "ClaptrapEvent (Typeof (Remove AllItems from CartEventEvent), ClaptrapCodes.RemoveAllItemsfromCart)
-      public interface ICartGrain : IClaptrapGrain.
+      [ClaptrapState(typeof(CartState), ClaptrapCodes.CartGrain)]
+      [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEvent(typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public interface ICartGrain : IClaptrapGrain
       {
-          Task.<Dictionary<string, int>> AddItemAsync (string skuId, int count);
-          Task.<Dictionary<string, int>> Remove ItemAsync (string skuId, int count);
-          Task.<Dictionary<string, int>> GetItemsAsync ();
-Task AllItemsAsync ();
+          Task<Dictionary<string, int>> AddItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> GetItemsAsync();
++         Task RemoveAllItemsAsync();
       }
   }
 ```
@@ -196,41 +196,41 @@ Open it.`HelloClap.Actors.`Project.`Cart.`under the folder.`CartGrain.`Class.
 Add the corresponding implementation.
 
 ```cs
-  Using System;
-  Using System.Collections.Generic;
-  Using System.Linq;
-  Using System.Threading.Tasks;
-  Using HelloClaptrap.Actors.Cart.Events;
-  Using HelloClaptrap.IActor;
-  Using HelloClaptrap.Models;
-  Using HelloClaptrap.Models.Cart;
-  Using HelloClaptrap.Models.Cart.Events;
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Actors.Cart.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Cart;
+  using HelloClaptrap.Models.Cart.Events;
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      (Claptrap Event Handler(Typeof (AddItemToCartEvent Handler), ClaptrapCodes.AddItemToCart)
-      (Claptrap Event Handler( RemoveitemFromCartEvent Handler), ClaptrapCodes.RemoveItemFromCart)
-      (Claptrap Event Handler(TypeofAllItems From Cart Event Handler), ClaptrapCodes.RemoveAllItems From Cart)
-      public class CartGrain : ClaptrapBoxGrain.<CartState>, ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
+      [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
-          public CartGrain ()
-              IClaptrapGrainCommon Service ClapGrainGrainCommonService
-              : base (claptrapGrain Common Service)
+          public CartGrain(
+              IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-public Task Remove AllItemsAsync ()
++         public Task RemoveAllItemsAsync()
 +         {
-if (StateData.Items?. Any() ! . . . . . . . . . . . . . . .
++             if (StateData.Items?.Any() != true)
 +             {
-Return Task.CompletedTask;
++                 return Task.CompletedTask;
 +             }
 +
-the var removeAllItems FromCartEvent s new RemoveAllItems FromCartEvent ();
-svar evt s.this. CreateEvent (removeAllItems From CartEvent);
-return Claptrap.HandleEventAsync (evt);
++             var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
++             var evt = this.CreateEvent(removeAllItemsFromCartEvent);
++             return Claptrap.HandleEventAsync(evt);
 +         }
       }
   }
@@ -240,45 +240,45 @@ The corresponding implementation of the interface method has been added.There ar
 
 1. Be sure to increase.`if (StateData.Items?? Any() ! . . . . . . . . . . . . . . .`This line of judgment.This can significantly reduce the overhead of storage.
 
-   The event is executed when.`Claptrap.HandleEventAsync (evt)`will persist.In the case of the scene here, if there is nothing in the shopping cart, emptying or persisting the event just adds to the overhead, but doesn't make sense. Therefore, adding judgment prior to this can reduce the useless consumption of storage.
+   The event is persistent when executing`Clatrap.HandleEventAsync (evt)`.And as far as the scene here is concerned, if there is otherwise nothing in the shopping cart, emptying or lasting this event is just an increase in overhead, without the actual meaning. Thus, an increase in judgment prior to this can reduce the useless consumption of the storage.
 
-2. It is important to determine whether State and the incoming parameters meet the criteria for event execution.
+2. Be sure to judge the State as well as whether the incoming parameter meets the conditions for the execution of the event.
 
-   This is different from the emphasis described in the previous point.The previous emphasis on "don't produce meaningless events" suggests that "there will never be events that EventHandler cannot consume". In the event-tracing mode, the completion of the business is based on the persistence of the event as the basis for the completion of the business determination.This means that as long as the event is in stock, it can be considered that the event has been completed. In EventHandler, you can only accept events read from the persistence layer.At this point, the event can no longer be modified as the event is immutable, so it is important to ensure that the event can be consumed by EventHandler.So, in.`Claptrap.HandleEventAsync (evt)`It is especially important to make a judgment before. Therefore, it is important to implement unit testing to ensure that event generation and EventHandler's processing logic are overwritten.
+   This is different from the one described in the previous point.The previous emphasis on "don't produce meaningless events", and this emphasis on "don't produce events that can not be consume by event handler". In the event-sourcing pattern, the completion of the business is based on the persistence of the event as the basis for the completion of the business determination.That is to say that the event can be thought of as long as it is in storage, it can be considered that this event has been completed. And in EventHandler, you can only accept events that are read out from the persistence layer.At this time, the event can no longer be modified in accordance with the immutability of the event, so be sure to ensure that the event can be consumed by EventHandler.So, it is particularly important to judge before`Clatrap.HandleEventAsync (evt)`. Therefore, a unit test must be realized to ensure that the production of the Event and the processing logic of EventHandler are already covered.
 
-3. Here are some methods in the TAP library that you can use, see .[Task-based asynchronous pattern.](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+3. Some of the ways to use to some TAP libraries are needed here, see[Task-based asynchronous mode](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 
 ## Modify the Controller.
 
-Once all the previous steps have been completed, you have completed all the parts of Claptrap.However, Claptrap is unable to provide interoperability with external programs directly.Therefore, you also need to add an API to the Controller layer for external "emptying the shopping cart".
+Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.Therefore, it is also necessary to add an API on the Controller layer for the operation of "emptying the cart" externally.
 
-Open it.`HelloClap.Web.`The project.`Controllers.`under the folder.`CartController.`Class.
+Open the`CartController`class under the`Controllers`folder of the`HelloCladaptrap.Web`project.
 
 ```cs
-  Using System.Threading.Tasks;
-  Using HelloClaptrap.IActor;
+  using System.Threading.Tasks;
+  using HelloClaptrap.IActor;
   using Microsoft.AspNetCore.Mvc;
-  Using Orleans;
+  using Orleans;
 
-  Namespace HelloClaptrap.Web.Controllers.
+  namespace HelloClaptrap.Web.Controllers
   {
-      Route ("api/[controller]")]
-      public class CartController : Controller.
+      [Route("api/[controller]")]
+      public class CartController : Controller
       {
-          Private readonly Igrain Factory _grainFactory;
+          private readonly IGrainFactory _grainFactory;
 
-          public CartController (public CartController)
-              IGrain FactorY Grain Factory)
+          public CartController(
+              IGrainFactory grainFactory)
           {
-              _grainFactory - grain factory;
+              _grainFactory = grainFactory;
           }
 
-httppost ("{id}/clean")
-public async Task.<IActionResult> RemoveAllItemAsync (int id)
++         [HttpPost("{id}/clean")]
++         public async Task<IActionResult> RemoveAllItemAsync(int id)
 +         {
-the var cartgrain s _grainFactory.GetGrain.<ICartGrain>(id. ToString ();
-await cartgrain.RemoveAllItemsAsync ();
-return Json ("clean success");
++             var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
++             await cartGrain.RemoveAllItemsAsync();
++             return Json("clean success");
 +         }
       }
   }
@@ -286,7 +286,7 @@ return Json ("clean success");
 
 ## Summary
 
-At this point, we've done everything we need to "empty your shopping cart."
+At this point, we complete all the contents of this simple requirement of "emptying the cart".
 
 You can get the source code for this article from the following address.：
 
