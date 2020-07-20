@@ -4,7 +4,7 @@ metaTitle: 'Súbdito'
 metaDescription: 'Súbdito'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
 ![Súbdito](/images/20190228-002.gif)
 
@@ -12,7 +12,7 @@ Minion es un Claptrap especial definido por este marco.es un ajuste basado en Cl
 
 **Leer evento de la Claptrap correspondiente**。Al igual que Claptrap, el estado del súbdito está controlado por eventos.La diferencia es que Minion, al igual que su significado literal, siempre obtiene eventos de la Claptrap correspondiente, cambiando su estado.Por lo tanto, puede controlar de forma asincrónica las acciones posteriores después del evento generado por The Claptrap.
 
-> Minion 一词出自 newbe36524 玩的一款运气游戏[《炉石传说》](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4)，其中“随从”在英文版中的描述即为“minion”。
+> La palabra Minion proviene de un juego de suerte jugado por newbe36524.[La leyenda de la piedra del horno](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), donde "entourage" se describe en la versión en inglés como "minion".
 
 ---
 
