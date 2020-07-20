@@ -30,7 +30,7 @@ As shown in the figure above, the balance changes involved in the transfer busin
 
 Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> Resources
+> Reference
 > 
 > - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Translated by Event Sourcing Pattern Chinese](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
