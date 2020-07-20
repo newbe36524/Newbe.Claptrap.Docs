@@ -9,15 +9,15 @@ metaDescription: 'Newbe.Claptrap Quick Start'
 This series, we will learn about the development of a service-end system through a simplified e-commerce small application such as the use of Newbe.Claptrap.
 
 ```cs
-Namespace HelloClaptrap.Models.
+namespace HelloClaptrap.Models
 {
-    public static class ClaptrapCodes.
+    public static class ClaptrapCodes
     {
-        public const string CartGrain s "cart_claptrap_newbe";
-        Private const string CartEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-        public const string AddItemToCart - "addItem" s cartEventSuffix;
-        public const string RemoveItem FromCart - "removeItem" s cartEventSuffix;
-public const string Remove AllItems FromCart s "remoeAllItems" s."
+        public const string CartGrain = "cart_claptrap_newbe";
+        private const string CartEventSuffix = "_e_" + CartGrain;
+        public const string AddItemToCart = "addItem" + CartEventSuffix;
+        public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
++        public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
     }
 }
 ```
