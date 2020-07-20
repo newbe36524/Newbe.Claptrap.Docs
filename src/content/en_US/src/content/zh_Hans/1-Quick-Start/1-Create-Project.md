@@ -42,7 +42,7 @@ Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then 
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> In general, we recommend that you.`D:\Repo.HelloClaptrap.`Create a folder as a Git warehouse.Manage your source code with version control.
+> In general, we recommend that you create `D:\Repo\HelloClaptrap` as Git repository.Manage your source code with version control.
 
 ## Compilation and startup
 
