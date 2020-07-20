@@ -4,7 +4,7 @@ metaTitle: '事件溯源（Event Sourcing）'
 metaDescription: '事件溯源（Event Sourcing）'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文,並進行人工校對的結果。若文檔中存在任何翻譯不當的地方,歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 事件溯源模式是一種軟體設計思路。這種設計思路通常與傳統的採用增刪查改（CRUD）為主的系統設計思路相區別。CRUD 應用通常存在一些局限性：
 
@@ -30,7 +30,7 @@ metaDescription: '事件溯源（Event Sourcing）'
 
 當然引入事件溯源模式之後也就引入了事件溯源相關的一些技術問題。例如：事件所消耗的存儲可能較為巨大；不得不應用最終一致性；事件具備不可變性，重構時可能較為困難等。相關的這些問題在一些文章中會有較為細緻的說明。讀者可以閱讀後續的延伸閱讀內容，進而進行了解與評估。
 
-> 参考资料
+> 參考資料
 > 
 > - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern 中文譯文](https://www.infoq.cn/article/event-sourcing)
