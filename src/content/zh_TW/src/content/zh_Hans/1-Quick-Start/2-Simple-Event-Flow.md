@@ -1,36 +1,36 @@
 ---
-title: '第二步——簡單業務,清空購物車。'
-metaTitle: '第二步——簡單業務,清空購物車。'
-metaDescription: '第二步——簡單業務,清空購物車。'
+title: '第二步——簡單業務，清空購物車。'
+metaTitle: '第二步——簡單業務，清空購物車。'
+metaDescription: '第二步——簡單業務，清空購物車。'
 ---
 
-通過本篇閱讀,您便可以開始嘗試使用 Claptrap 實現業務了。
+通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
 
-> [當前查看的版本是由機器翻譯自簡體中文,並進行人工校對的結果。若文檔中存在任何翻譯不當的地方,歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
-## 開篇摘要。
+## 開篇摘要
 
-本篇,我通過實現"清空購物車"的需求來瞭解一下如何在已有的項目樣例中增加一個業務實現。
+本篇，通過實現"清空購物車"的需求來瞭解一下如何在已有的項目範例中增加一個業務的實現。
 
-主要包含有以下這些步驟。：
+主要包含有以下這些步驟：
 
-1. 定義 EventCode。
-2. 定義 Event。
-3. 實現 EventHandler。
-4. 註冊 EventHandler。
-5. 修改 Grain 介面。
-6. 實現 Grain。
-7. 修改 Controller。
+1. 定義 EventCode
+2. 定義 Event
+3. 實現 EventHandler
+4. 註冊 EventHandler
+5. 修改 Grain 介面
+6. 實現 Grain
+7. 修改 Controller
 
-這是一個從下向上的過程,實際的編碼過程中開發也可以自上而下進行實現。
+這是一個從下向上的過程，實際的編碼過程中開發也可以自上而下進行實現。
 
-## 定義 Event Code。
+## 定義 Event Code
 
-EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別,序列化等方面起到了重要的作用。
+EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別，序列化等方面起到了重要的作用。
 
-打開。`HelloClaptrap.Models。`專案中的。`ClaptrapCodes。`類。
+打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
 
 添加「清空購物車事件」的 EventCode。
 
@@ -48,13 +48,13 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
   }
 ```
 
-## 定義 Event。
+## 定義 Event
 
 Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
 
-在。`HelloClaptrap.Models。`專案的。`Cart/Events。`資料夾下創建。`RemoveAllItemsFromCartEvent。`類。
+在`HelloClaptrap.Models`專案的`Cart/Events`資料夾下創建`RemoveAllItemsFromCartEvent`類。
 
-添加如下代碼。：
+添加如下代碼：
 
 ```cs
 + using Newbe.Claptrap;
@@ -67,17 +67,17 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + }
 ```
 
-由於在這個簡單的業務場景中,清空購物車不需要特定的參數。因此,只要創建空類型即可。
+由於在這個簡單的業務場景中，清空購物車不需要特定的參數。因此，只要創建空類型即可。
 
-`IEventData。`介面是框架中表示事件的空介面,用於在泛型推斷時使用。
+`IEventData`介面是框架中表示事件的空介面，用於在泛型推斷時使用。
 
-## 實現 EventHandler。
+## 實現 EventHandler
 
-`EventHandler。`用於將事件更新到 Claptrap 的。`State。`上。例如此次的業務場景,那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
+`EventHandler`用於將事件更新到 Claptrap 的`State`上。例如此次的業務場景，那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
 
-在。`HelloClaptrap.Actors。`專案的。`Cart/Events。`資料夾下創建。`RemoveAllItemsFromCartEventHandler。`類。
+在`HelloClaptrap.Actors`專案的`Cart/Events`資料夾下創建。`RemoveAllItemsFromCartEventHandler`類。
 
-添加如下代碼。：
+添加如下代碼：
 
 ```cs
 + using System.Threading.Tasks;
@@ -101,27 +101,27 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + }
 ```
 
-這裡有一些常見的問題。：
+這裡有一些常見的問題：
 
 1. NormalEventHandler 是什麼?
 
-   NormalEventHandler 是框架定義的一個簡單基類,用於方便實現 Handler。 其中第一個泛型參數是 Claptrap 對應的 State 類型。結合前篇文檔中,我們的購物車 State 類型就是 CartState。 第二個泛型參數是該 Handler 需要處理的 Event 類型。
+   NormalEventHandler 是框架定義的一個簡單基類，用於方便實現 Handler。 其中第一個泛型參數是 Claptrap 對應的 State 類型。結合前篇文檔中，我們的購物車 State 類型就是 CartState。 第二個泛型參數是該 Handler 需要處理的 Event 類型。
 
-2. 為什麼用。`stateData.Items = null;`而不用。`stateData.Items.Clear();`
+2. 為什麼用`stateData.Items = null;`而不用`stateData.Items.Clear();`
 
-   stateData 是保存在記憶體中的物件,Clear 不會縮小字典已佔用的自身記憶體。當然,一般一個購物車也不會有數十萬商品。但其實關鍵是在於,更新 State 時,需要注意的是 Claptrap 是一種常駐於記憶體中的物件,數量增加時會加劇記憶體的消耗。因此,盡可能在 State 中保持更少的數據。
+   stateData 是保存在記憶體中的物件,Clear 不會縮小字典已佔用的自身記憶體。當然，一般一個購物車也不會有數十萬商品。但其實關鍵是在於，更新 State 時，需要注意的是 Claptrap 是一種常駐於記憶體中的物件，數量增加時會加劇記憶體的消耗。因此，盡可能在 State 中保持更少的數據。
 
-3. ValueTask 是什麼?
+3. ValueTask 是甚麼?
 
-   可以通過這篇。[《Understanding the Whys, Whats, and Whens of ValueTask》](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)進行瞭解。
+   可以通過這篇[《Understanding the Whys, Whats, and Whens of ValueTask》](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)進行瞭解。
 
-EventHandler 實現完成之後,不要忘記對其進行單元測試。這裡就不羅列了。
+EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡就不羅列了。
 
-## 註冊 EventHandler。
+## 註冊 EventHandler
 
-實現並測試完 EventHandler 之後,便可以將 EventHandler 進行註冊,以便與 EventCode 以及 Claptrap 進行關聯。
+實現並測試完 EventHandler 之後，便可以將 EventHandler 進行註冊，以便與 EventCode 以及 Claptrap 進行關聯。
 
-打開。`HelloClaptrap.Actors。`專案的。`CartGrain。`類。
+打開`HelloClaptrap.Actors`專案的`CartGrain`類。
 
 使用 Attribute 進行標記。
 
@@ -145,15 +145,15 @@ EventHandler 實現完成之後,不要忘記對其進行單元測試。這裡就
 ....
 ```
 
-`ClaptrapEventHandlerAttribute。`是框架定義的一個 Attribute,可以標記在 Grain 的實現類上,以實現 EventHandler 、 EventCode 和 ClaptrapGrain 三者之間的關聯。
+`ClaptrapEventHandlerAttribute`是框架定義的一個 Attribute，可以標記在 Grain 的實現類上，以實現 EventHandler 、 EventCode 和 ClaptrapGrain 三者之間的關聯。
 
 關聯之後,如果在此 Grain 中產生的對應 EventCode 的事件將會由指定的 EventHandler 進行處理。
 
-## 修改 Grain 介面。
+## 修改 Grain 介面
 
-修改 Grain 介面的定義,才能夠提供外部與 Claptrap 的互通性。
+修改 Grain 介面的定義，才能夠提供外部與 Claptrap 的互通性。
 
-打開。`HelloClaptrap.IActors。`專案的。`ICartGrain。`介面。
+打開`HelloClaptrap.IActors`專案的`ICartGrain`介面。
 
 添加介面以及 Attribute。
 
@@ -184,14 +184,14 @@ EventHandler 實現完成之後,不要忘記對其進行單元測試。這裡就
 
 其中增加了兩部分內容。：
 
-1. 標記了。`ClaptrapEvent。`,使得事件與 Grain 進行關聯。注意,這裡與前一步的。`ClaptrapEventHandler。`是不同的。此處標記的是 Event,上一步標記的是 EventHandler。
-2. 增加了 RemoveAllItemsAsync 方法,表示「清空購物車」的業務行為。需要注意的是 Grain 的方法定義有一定限制。詳細可以參見。[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+1. 標記了`ClaptrapEvent`，使得事件與 Grain 進行關聯。注意，這裡與前一步的`ClaptrapEventHandler`是不同的。此處標記的是 Event，上一步標記的是 EventHandler。
+2. 增加了 RemoveAllItemsAsync 方法，表示「清空購物車」的業務行為。需要注意的是 Grain 的方法定義有一定限制。詳細可以參見[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## 實現 Grain。
+## 實現 Grain
 
-接下來按照上一步的介面修改,來修改相應的實現類。
+接下來按照上一步的介面修改，來修改相應的實現類。
 
-打開。`HelloClaptrap.Actors。`專案中的。`Cart。`資料夾下的。`CartGrain。`類。
+打開`HelloClaptrap.Actors`專案中的`Cart`資料夾下的`CartGrain`類。
 
 添加對應的實現。
 
@@ -236,23 +236,23 @@ EventHandler 實現完成之後,不要忘記對其進行單元測試。這裡就
   }
 ```
 
-增加了對介面方法的對應實現。需要注意的有以下幾點。：
+增加了對介面方法的對應實現。需要注意的有以下幾點：
 
-1. 一定要增加。`if (StateData.Items?. Any() != true)`這行判斷。因為這可以明顯的減小存儲的開銷。
+1. 一定要增加`if (StateData.Items?. Any() != true)`這行判斷。因為這可以明顯的減小存儲的開銷。
 
-   事件在當執行。`Claptrap.HandleEventAsync(evt)`便會持久化。而就此處的場景而言,如果購物車中原本就沒有內容,清空或者持久化這個事件只是增加開銷,而沒有實際的意義。 因此,在此之前增加判斷可以減小存儲的無用消耗。
+   事件在當執行`Claptrap.HandleEventAsync(evt)`便會持久化。而就此處的場景而言，如果購物車中原本就沒有內容，清空或者持久化這個事件只是增加開銷，而沒有實際的意義。 因此，在此之前增加判斷可以減小存儲的無用消耗。
 
 2. 一定要判斷 State 以及傳入參數是否滿足事件執行的條件。
 
-   這與上一點所描述的內容側重不同。上一點側重表明"不要產生沒有意義的事件",這一點表明"絕不產生 EventHandler 無法消費的事件"。 在事件溯源模式中,業務的完成是以事件的持久化完成作為業務確定完成的依據。也就是說事件只要入庫了,就可以認為這個事件已經完成了。 而在 EventHandler 中,只能接受從持久化層讀出的事件。此時,按照事件的不可變性,已經無法再修改事件,因此一定要確保事件是可以被 EventHandler 消費的。所以,在。`Claptrap.HandleEventAsync(evt)`之前進行判斷尤為重要。 因此,一定要實現單元測試來確保 Event 的產生和 EventHandler 的處理邏輯已經被覆蓋。
+   這與上一點所描述的內容側重不同。上一點側重表明"不要產生沒有意義的事件"，這一點表明"絕不產生 EventHandler 無法消費的事件"。 在事件溯源模式中，業務的完成是以事件的持久化完成作為業務確定完成的依據。也就是說事件只要入庫了，就可以認為這個事件已經完成了。 而在 EventHandler 中，只能接受從持久化層讀出的事件。此時，按照事件的不可變性，已經無法再修改事件，因此一定要確保事件是可以被 EventHandler 消費的。所以，在`Claptrap.HandleEventAsync(evt)`之前進行判斷尤為重要。 因此，一定要實現單元測試來確保 Event 的產生和 EventHandler 的處理邏輯已經被覆蓋。
 
-3. 此處需要使用到一些 TAP 庫中的一些方法,可以參見。[基於任務的非同步模式。](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+3. 此處需要使用到一些 TAP 庫中的一些方法，可以參見[基於任務的非同步模式。](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 
-## 修改 Controller。
+## 修改 Controller
 
-前面的所有步驟完成之後,就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此,還需要在在 Controller 層增加一個 API 以便外部進行「清空購物車」的操作。
+前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「清空購物車」的操作。
 
-打開。`HelloClaptrap.Web。`專案的。`Controllers。`資料夾下的。`CartController。`類。
+打開`HelloClaptrap.Web`專案的`Controllers`資料夾下的`CartController。`類。
 
 ```cs
   using System.Threading.Tasks;
@@ -286,9 +286,9 @@ EventHandler 實現完成之後,不要忘記對其進行單元測試。這裡就
 
 ## 小結
 
-至此,我們就完成了"清空購物車"這個簡單需求的所有內容。
+至此，我們就完成了"清空購物車"這個簡單需求的所有內容。
 
-您可以從以下位址來獲取本文章對應的原始程式碼。：
+您可以從以下位址來獲取本文章對應的原始程式碼：
 
-- [Github。](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
+- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
