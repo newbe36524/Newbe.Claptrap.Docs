@@ -58,9 +58,9 @@ If it is started, you can visiti `http://localhost:36525/swagger` to view the AP
 
 You can try to make several calls to the API through click the Try It Out button on the UI.
 
-> - [How to start multiple projects simultaneously in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [How to start multiple projects in Rider at the same time](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Use Huawei Cloud to accelerate nuget restore speed](https://mirrors.huaweicloud.com/)
+> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
 
 ## It is no effect when add product at first time?
 
@@ -101,7 +101,7 @@ Rider does not currently have a breakpoint importing feature.Therefore, you need
 | AddItemToCart Event Handler | 14       |
 | AddItemToCart Event Handler | 28       |
 
-> [Go To File lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## Start debugging
 
@@ -161,7 +161,7 @@ Here you can do these things.：
 - Modify the data in Claptrap with events
 - Read data saved in Claptrap
 
-In this code, we create one.`AddItemToCart Event.`Object to represent a change to the shopping cart.
+In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
 
 It is then passed to Claptrap for processing.
 
@@ -178,7 +178,7 @@ public class CartState : IStateData
 }
 ```
 
-This is the status of the shopping cart designed in the sample.We use one.`Dictionary.`to represent the SkuId in the current shopping cart and its corresponding quantity.
+This is the status of the shopping cart designed in the sample.We use a `Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
 
 Continue debugging and move on to the next step to see how Claptrap handles incoming events.
 
@@ -210,7 +210,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCart Event.`。
+This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
 
 We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 
@@ -242,7 +242,7 @@ Then we go back and fix the previous "First Join Products Don't Take Effect" iss
 
 There is a project in the project template.`HelloClaptrap.Actors.Tests.`The project contains unit tests of the main business code.
 
-We now know that`AddItem ToCart Event Handler.`The code in the comments is the main cause of the BUG.
+We now know that`AddItemToCartEventHandler.`The code in the comments is the main cause of the BUG.
 
 We can use it.`dotnet test.`If you run the unit tests in your test project, you get two errors:
 
@@ -318,9 +318,9 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItem ToCart Event Handler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
+`AddItemToCartEventHandler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-Now, as long as it will.`AddItem ToCart Event Handler.`Restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
 
 Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
 
