@@ -4,7 +4,7 @@ metaTitle: 'Event Sourcing'
 metaDescription: 'Event Sourcing'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
 The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
@@ -30,7 +30,7 @@ As shown in the figure above, the balance changes involved in the transfer busin
 
 Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> 参考资料
+> Resources
 > 
 > - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
+> - [Translated by Event Sourcing Pattern Chinese](https://www.infoq.cn/article/event-sourcing)
