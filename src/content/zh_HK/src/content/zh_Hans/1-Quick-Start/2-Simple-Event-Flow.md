@@ -59,9 +59,9 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models.Cart.Events。
++ namespace HelloClaptrap.Models.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEvent : IEventData。
++     public class RemoveAllItemsFromCartEvent : IEventData
 +     {
 +     }
 + }
@@ -85,17 +85,17 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + using HelloClaptrap.Models.Cart.Events;
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Actors.Cart.Events。
++ namespace HelloClaptrap.Actors.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEventHandler。
-+ : NormalEventHandler。<CartState, RemoveAllItemsFromCartEvent>
++     public class RemoveAllItemsFromCartEventHandler
++         : NormalEventHandler<CartState, RemoveAllItemsFromCartEvent>
 +     {
-+ public override ValueTask HandleEvent(CartState state Data,
-+ RemoveAllItemsFromCartEvent eventData,
-+ IEventContext eventContext)
++         public override ValueTask HandleEvent(CartState stateData,
++             RemoveAllItemsFromCartEvent eventData,
++             IEventContext eventContext)
 +         {
-+ stateData.Items = null;
-+ return new ValueTask();
++             stateData.Items = null;
++             return new ValueTask();
 +         }
 +     }
 + }
@@ -127,7 +127,7 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
 
 ```cs
   using Newbe.Claptrap;
-using Newbe.Claptrap.Orleans;
+  using Newbe.Claptrap.Orleans;
 
   namespace HelloClaptrap.Actors.Cart
   {
@@ -166,18 +166,18 @@ using Newbe.Claptrap.Orleans;
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.IActor。
+  namespace HelloClaptrap.IActor
   {
       [ClaptrapState(typeof(CartState), ClaptrapCodes.CartGrain)]
       [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)]
       [ClaptrapEvent(typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart)]
-+ [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public interface ICartGrain : IClaptrapGrain。
++     [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public interface ICartGrain : IClaptrapGrain
       {
-          Task。<Dictionary<string, int>> AddItemAsync(string skuId, int count);
-          Task。<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
-          Task。<Dictionary<string, int>> GetItemsAsync();
-+ Task RemoveAllItemsAsync();
+          Task<Dictionary<string, int>> AddItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> GetItemsAsync();
++         Task RemoveAllItemsAsync();
       }
   }
 ```
@@ -208,12 +208,12 @@ using Newbe.Claptrap.Orleans;
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.Actors.Cart。
+  namespace HelloClaptrap.Actors.Cart
   {
       [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
       [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
       [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public class CartGrain : ClaptrapBoxGrain。<CartState>, ICartGrain。
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
           public CartGrain(
               IClaptrapGrainCommonService claptrapGrainCommonService)
@@ -221,16 +221,16 @@ using Newbe.Claptrap.Orleans;
           {
           }
 
-+ public Task RemoveAllItemsAsync()
++         public Task RemoveAllItemsAsync()
 +         {
-+ if (StateData.Items?. Any() != true)
++             if (StateData.Items?.Any() != true)
 +             {
-+ return Task.CompletedTask;
++                 return Task.CompletedTask;
 +             }
 +
-+ var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
-+ var evt = this. CreateEvent(removeAllItemsFromCartEvent);
-+ return Claptrap.HandleEventAsync(evt);
++             var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
++             var evt = this.CreateEvent(removeAllItemsFromCartEvent);
++             return Claptrap.HandleEventAsync(evt);
 +         }
       }
   }
@@ -260,10 +260,10 @@ using Newbe.Claptrap.Orleans;
   using Microsoft.AspNetCore.Mvc;
   using Orleans;
 
-  namespace HelloClaptrap.Web.Controllers。
+  namespace HelloClaptrap.Web.Controllers
   {
       [Route("api/[controller]")]
-      public class CartController : Controller。
+      public class CartController : Controller
       {
           private readonly IGrainFactory _grainFactory;
 
@@ -273,12 +273,12 @@ using Newbe.Claptrap.Orleans;
               _grainFactory = grainFactory;
           }
 
-+ [HTTPPost("{id}/clean")]
-+ public async Task。<IActionResult> RemoveAllItemAsync(int id)
++         [HttpPost("{id}/clean")]
++         public async Task<IActionResult> RemoveAllItemAsync(int id)
 +         {
-+ var cartGrain = _grainFactory.GetGrain。<ICartGrain>(id. ToString());
-+ await cartGrain.RemoveAllItemsAsync();
-+ return Json("clean success");
++             var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
++             await cartGrain.RemoveAllItemsAsync();
++             return Json("clean success");
 +         }
       }
   }
