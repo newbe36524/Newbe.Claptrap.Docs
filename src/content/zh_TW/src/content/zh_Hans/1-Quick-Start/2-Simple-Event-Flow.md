@@ -35,15 +35,15 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
 添加「清空購物車事件」的 EventCode。
 
 ```cs
-  namespace HelloClaptrap.Models。
+  namespace HelloClaptrap.Models
   {
-      public static class ClaptrapCodes。
+      public static class ClaptrapCodes
       {
           public const string CartGrain = "cart_claptrap_newbe";
           private const string CartEventSuffix = "_e_" + CartGrain;
           public const string AddItemToCart = "addItem" + CartEventSuffix;
           public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
-+ public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
++         public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
       }
   }
 ```
@@ -59,9 +59,9 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models.Cart.Events。
++ namespace HelloClaptrap.Models.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEvent : IEventData。
++     public class RemoveAllItemsFromCartEvent : IEventData
 +     {
 +     }
 + }
@@ -85,17 +85,17 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + using HelloClaptrap.Models.Cart.Events;
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Actors.Cart.Events。
++ namespace HelloClaptrap.Actors.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEventHandler。
-+ : NormalEventHandler。<CartState, RemoveAllItemsFromCartEvent>
++     public class RemoveAllItemsFromCartEventHandler
++         : NormalEventHandler<CartState, RemoveAllItemsFromCartEvent>
 +     {
-+ public override ValueTask HandleEvent(CartState state Data,
-+ RemoveAllItemsFromCartEvent eventData,
-+ IEventContext eventContext)
++         public override ValueTask HandleEvent(CartState stateData,
++             RemoveAllItemsFromCartEvent eventData,
++             IEventContext eventContext)
 +         {
-+ stateData.Items = null;
-+ return new ValueTask();
++             stateData.Items = null;
++             return new ValueTask();
 +         }
 +     }
 + }
@@ -109,7 +109,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 2. 為什麼用`stateData.Items = null;`而不用`stateData.Items.Clear();`
 
-   stateData 是保存在記憶體中的物件,Clear 不會縮小字典已佔用的自身記憶體。當然，一般一個購物車也不會有數十萬商品。但其實關鍵是在於，更新 State 時，需要注意的是 Claptrap 是一種常駐於記憶體中的物件，數量增加時會加劇記憶體的消耗。因此，盡可能在 State 中保持更少的數據。
+   stateData 是保存在記憶體中的物件，Clear 不會縮小字典已佔用的自身記憶體。當然，一般一個購物車也不會有數十萬商品。但其實關鍵是在於，更新 State 時，需要注意的是 Claptrap 是一種常駐於記憶體中的物件，數量增加時會加劇記憶體的消耗。因此，盡可能在 State 中保持更少的數據。
 
 3. ValueTask 是甚麼?
 
@@ -129,12 +129,12 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.Actors.Cart。
+  namespace HelloClaptrap.Actors.Cart
   {
       [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
       [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
-+ [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public class CartGrain : ClaptrapBoxGrain。<CartState>, ICartGrain。
++     [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
           public CartGrain(
               IClaptrapGrainCommonService claptrapGrainCommonService)
@@ -142,12 +142,12 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
           {
           }
 
-....
+          ....
 ```
 
 `ClaptrapEventHandlerAttribute`是框架定義的一個 Attribute，可以標記在 Grain 的實現類上，以實現 EventHandler 、 EventCode 和 ClaptrapGrain 三者之間的關聯。
 
-關聯之後,如果在此 Grain 中產生的對應 EventCode 的事件將會由指定的 EventHandler 進行處理。
+關聯之後，如果在此 Grain 中產生的對應 EventCode 的事件將會由指定的 EventHandler 進行處理。
 
 ## 修改 Grain 介面
 
@@ -166,23 +166,23 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.IActor。
+  namespace HelloClaptrap.IActor
   {
       [ClaptrapState(typeof(CartState), ClaptrapCodes.CartGrain)]
       [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)]
       [ClaptrapEvent(typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart)]
-+ [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public interface ICartGrain : IClaptrapGrain。
++     [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public interface ICartGrain : IClaptrapGrain
       {
-          Task。<Dictionary<string, int>> AddItemAsync(string skuId, int count);
-          Task。<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
-          Task。<Dictionary<string, int>> GetItemsAsync();
-+ Task RemoveAllItemsAsync();
+          Task<Dictionary<string, int>> AddItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> GetItemsAsync();
++         Task RemoveAllItemsAsync();
       }
   }
 ```
 
-其中增加了兩部分內容。：
+其中增加了兩部分內容：
 
 1. 標記了`ClaptrapEvent`，使得事件與 Grain 進行關聯。注意，這裡與前一步的`ClaptrapEventHandler`是不同的。此處標記的是 Event，上一步標記的是 EventHandler。
 2. 增加了 RemoveAllItemsAsync 方法，表示「清空購物車」的業務行為。需要注意的是 Grain 的方法定義有一定限制。詳細可以參見[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
@@ -208,12 +208,12 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.Actors.Cart。
+  namespace HelloClaptrap.Actors.Cart
   {
       [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
       [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
       [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public class CartGrain : ClaptrapBoxGrain。<CartState>, ICartGrain。
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
           public CartGrain(
               IClaptrapGrainCommonService claptrapGrainCommonService)
@@ -221,16 +221,16 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
           {
           }
 
-+ public Task RemoveAllItemsAsync()
++         public Task RemoveAllItemsAsync()
 +         {
-+ if (StateData.Items?. Any() != true)
++             if (StateData.Items?.Any() != true)
 +             {
-+ return Task.CompletedTask;
++                 return Task.CompletedTask;
 +             }
 +
-+ var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
-+ var evt = this. CreateEvent(removeAllItemsFromCartEvent);
-+ return Claptrap.HandleEventAsync(evt);
++             var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
++             var evt = this.CreateEvent(removeAllItemsFromCartEvent);
++             return Claptrap.HandleEventAsync(evt);
 +         }
       }
   }
@@ -252,7 +252,7 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
 
 前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「清空購物車」的操作。
 
-打開`HelloClaptrap.Web`專案的`Controllers`資料夾下的`CartController。`類。
+打開`HelloClaptrap.Web`專案的`Controllers`資料夾下的`CartController`類。
 
 ```cs
   using System.Threading.Tasks;
@@ -260,10 +260,10 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
   using Microsoft.AspNetCore.Mvc;
   using Orleans;
 
-  namespace HelloClaptrap.Web.Controllers。
+  namespace HelloClaptrap.Web.Controllers
   {
       [Route("api/[controller]")]
-      public class CartController : Controller。
+      public class CartController : Controller
       {
           private readonly IGrainFactory _grainFactory;
 
@@ -273,12 +273,12 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
               _grainFactory = grainFactory;
           }
 
-+ [HTTPPost("{id}/clean")]
-+ public async Task。<IActionResult> RemoveAllItemAsync(int id)
++         [HttpPost("{id}/clean")]
++         public async Task<IActionResult> RemoveAllItemAsync(int id)
 +         {
-+ var cartGrain = _grainFactory.GetGrain。<ICartGrain>(id. ToString());
-+ await cartGrain.RemoveAllItemsAsync();
-+ return Json("clean success");
++             var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
++             await cartGrain.RemoveAllItemsAsync();
++             return Json("clean success");
 +         }
       }
   }
@@ -288,7 +288,7 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
 
 至此，我們就完成了"清空購物車"這個簡單需求的所有內容。
 
-您可以從以下位址來獲取本文章對應的原始程式碼：
+你可以從以下位址來獲取本文章對應的原始程式碼：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
