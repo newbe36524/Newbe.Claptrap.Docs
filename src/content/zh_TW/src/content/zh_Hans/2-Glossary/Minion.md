@@ -4,7 +4,7 @@ metaTitle: 'Minion'
 metaDescription: 'Minion'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文,並進行人工校對的結果。若文檔中存在任何翻譯不當的地方,歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 ![Minion](/images/20190228-002.gif)
 
@@ -12,7 +12,7 @@ Minion 是本框架定義的一種特殊 Claptrap 。是在 Claptrap 基礎上�
 
 **從對應的 Claptrap 讀取事件**。與 Claptrap 相同，Minion 的狀態也由事件進行控制。不同的是，Minion 就像其字面意思一樣，總是從對應的 Claptrap 處獲取事件，從而改變自身的狀態。因此，其可以異步的處理 Claptrap 產生事件之後的後續操作。
 
-> Minion 一词出自 newbe36524 玩的一款运气游戏[《炉石传说》](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4)，其中“随从”在英文版中的描述即为“minion”。
+> Minion 一詞出自 newbe36524 玩的一款運氣遊戲[《爐石傳說》](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4),其中"隨從"在英文版中的描述即為"minion"。
 
 ---
 
