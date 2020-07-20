@@ -1,12 +1,12 @@
 ---
 title: '第一步——建立項目，實現簡易購物車'
-metaTitle: '第一步——创建项目，实现简易购物车'
+metaTitle: '第一步——建立項目，實現簡易購物車'
 metaDescription: '第一步——建立項目，實現簡易購物車'
 ---
 
 等我哋嚟了解一下點樣用Newbe.Claptrap開發實現一個簡單嘅“電商購物車”。
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -42,7 +42,7 @@ dotnet new --install Newbe.Claptrap.Template
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
+> 通常嚟講，我哋建議將`D:\Repo\HelloClaptrap`標記做 Git 倉庫嘅文件夾。通過版本控制嚟管理你嘅源代碼。
 
 ## 建置與執行
 
@@ -58,9 +58,9 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 您可以通過界面上的 Try It Out 按鈕來嘗試對 API 進行幾次呼叫。
 
-> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用華為雲加速 nuget restore 速度](https://mirrors.huaweicloud.com/)
 
 ## 點解第一次禁添加商品無效果既？
 
@@ -101,7 +101,7 @@ Rider 目前無提供中斷點導入功能。因此需要手動喺以下嘅位�
 | AddItemToCartEventHandler | 14 |
 | AddItemToCartEventHandler | 28 |
 
-> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通過 Go To File 可以助你快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
 ## 開始debug
 
@@ -148,28 +148,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此处便是框架实现的核心，如下图所示的关键内容：
+呢度就係框架實現嘅核心，圖中所示就係關鍵內容：
 
 ![Claptrap](/images/20190228-001.gif)
 
-具体说到业务上，代码已经运行到了一个具体的购物车对象。
+具體講到業務上，程式已經運行到了一個具體的購物車Object。
 
-可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
+可以通過偵錯工具睇到傳入嘅 skuId 同 count 都係由 Controller 傳遞過來嘅參數。
 
-在这里您可以完成以下这些操作：
+去到呢一步，你可以完成以下呢哋動作：
 
 - 通過事件對 Claptrap 中的數據進行修改
 - 讀取 Claptrap 中保存的數據
 
-这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
+這段Codeode入面，我地建立咗一個`AddItemToCartEvent`Object嚟表示一次對購物車嘅變更。
 
-然后将它传递给 Claptrap 进行处理了。
+然後將佢傳遞俾 Claptrap 進行處理了。
 
-Claptrap 接受了事件之后就会更新自身的 State 数据。
+Claptrap 接受咗事件之後就會更新自身嘅 State 數據。
 
-最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
+最後我地將 StateData.Items 返回番俾Caller。（實際上 StateData.Items 係 Claptrap.State.Data.Items 嘅一個快捷屬性。因此實際上仲係響 Claptrap 入面讀取。）
 
-通过调试器，可以看到 StateData 的数据类型如下所示：
+通過偵錯工具，可以睇到 StateData 嘅數據類型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -178,13 +178,13 @@ public class CartState : IStateData
 }
 ```
 
-这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
+呢個就係範例中設計購物車嘅狀態。我地用`Dictionary`嚟表示呢個購物車中嘅 SkuId 同對應數量。
 
-继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
+繼續debug，進入下一步，等我們睇睇 Claptrap 係點樣處理傳入嘅事件。
 
 ### AddItemToCartEventHandler Start
 
-再次命中断点的是下面这段代码：
+呢次命中嘅reakpoint係下面呢段源代碼
 
 ```cs
 public class AddItemToCartEventHandler
@@ -210,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-这段代码中，包含有两个重要参数，分别是表示当前购物车状态的`CartState`和需要处理的事件`AddItemToCartEvent`。
+這段code入面，包含咗兩個重要參數，分別係表示當前購物車狀態嘅`CartState`同需要處理嘅事件`AddItemToCartEvent`。
 
-我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
+我地按照業務需求，判斷狀態入面嘅字典係咪包含 SkuId，並對佢嘅數量進行更新。
 
-继续调试，代码将会运行到这段代码的结尾。
+繼續debug，直至執行到呢度結尾。
 
-此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
+呢個時候，通過偵錯工作可以發現，stateData.Items 字典入面雖然增加了一項，但數量仲會係 0 。原因其實就係因為上面被comment 嘅 else 呢部分，亦都係第一次添加購物車唔得嘅成因。
 
-在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
+去到呢度，唔好結束debugger。我地繼續落去等佢行完，嚟了解成個過程點去結束。
 
-实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
+實際上，繼續行落去，Breakpoint會依次命中reakpoint會依次命中喺 CartGrain 同 CartController 對應方法嘅method結尾。
 
 ## 其實係三層架構！
 
-绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
+絕大多數嘅開發者都了解三層架構。其實，我地亦可以話 Newbe.Claptrap 就係一個三層架構。下面我們通過一個表格對比一下：
 
 | 傳統三層             | Newbe.Claptrap | 说明                                           |
 | ---------------- | -------------- | -------------------------------------------- |
@@ -232,19 +232,19 @@ public class AddItemToCartEventHandler
 | Business 業務層     | Grain 層        | 根據業務對傳入的業務參數進行業務處理（範例中其實沒寫判斷，需要判斷 count > 0） |
 | Persistence 持久化層 | EventHandler 層 | 對業務結果進行更新                                    |
 
-当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
+當然上面只係一種簡單嘅描述。具體過程唔需要太過深究，因為只係一個輔助理解嘅說法。
 
 ## 咪住先，你仲有一個 BUG而搞掂呀
 
-接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
+跟往落嚟，我地重新番到去“首次加入商品不生效”呢個問題上。
 
 ### 呢個係一個考慮單元測試嘅框架
 
-在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
+在項目模板入面存在一個項目`HelloClaptrap.Actors.Tests`，而呢個項目包含咗對主要業務嘅單元測試。
 
-我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
+我地而家已經知道，`AddItemToCartEventHandler`入面Comment咗既代碼就係導致 BUG 存在嘅主要原因。
 
-我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
+我地可以用`dotnet test`運行一下測試項目中嘅單元測試，可以得到呢兩個錯誤:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -294,7 +294,7 @@ Total tests: 7
 
 ```
 
-我们看一下其中一个出错的单元测试的代码：
+我地睇一下其中一個出錯嘅單元測試：
 
 ```cs
 [Test]
