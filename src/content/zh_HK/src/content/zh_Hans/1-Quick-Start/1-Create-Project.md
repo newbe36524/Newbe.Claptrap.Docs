@@ -111,7 +111,7 @@ Rider 目前無提供中斷點導入功能。因此需要手動喺以下嘅位�
 
 ### CartController Start
 
-首先命中斷點是 Web API 層的 Controller 代碼：
+首先係命中Web API 層breakpoint嘅 Controller 代碼：
 
 ```cs
 [HttpPost("{id}")]
@@ -240,11 +240,11 @@ public class AddItemToCartEventHandler
 
 ### 呢個係一個考慮單元測試嘅框架
 
-在項目模板入面存在一個項目`HelloClaptrap.Actors.Tests`，而呢個項目包含咗對主要業務嘅單元測試。
+在項目模板入面存在一個項目`HelloClaptrap.Actors.Tests`，而呢個項目包含咗對主要業務嘅unit test。
 
 我地而家已經知道，`AddItemToCartEventHandler`入面Comment咗既代碼就係導致 BUG 存在嘅主要原因。
 
-我地可以用`dotnet test`運行一下測試項目中嘅單元測試，可以得到呢兩個錯誤:
+我地可以用`dotnet test`運行一下測試項目中嘅unit test，可以得到呢兩個錯誤:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -294,7 +294,7 @@ Total tests: 7
 
 ```
 
-我地睇一下其中一個出錯嘅單元測試：
+我地睇一下其中一個出錯嘅unit test：
 
 ```cs
 [Test]
@@ -318,20 +318,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
+`AddItemToCartEventHandler`係該測試主要測試嘅組件，由於 stateData 同埋 event 都係通過手動構建，因此開發者可以好容易咁按照需求構建出需要測試嘅場景。而唔需要建置咩古靈精怪嘅內容。
 
-现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
+而家，只要將`AddItemToCartEventHandler`果段被Comment嘅Code還原，重新執行呢個unit test。unit test就會通過了。BUG 亦都會自然咁消失咗。
 
-当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
+當然，上面仲有另外一個關於刪除場景的單元測試係失敗既。開發者可以按照上文中所述嘅“breakpoint”、“unit test”嘅思路，嚟修復呢個問題。
 
 ## 數據已經持久化了
 
-您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
+您可以嘗試重新啟動 Backend Server 同埋 Web， 你會發現之前執行嘅數據已經被持久化保存了。
 
-我们将会在后续的篇章中进一步介绍。
+我地將會喺後續篇章進一步介紹。
 
 ## 小結
 
-通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
+通過本篇，我們初步了解了一下，如何創建一個基礎的項目框架來實現一個簡單的購物車場景。
 
-这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
+這裡還有很多內容我們沒有詳細的說明：項目結構、部署、持久化等等。你可以進一步閱讀後續的文章來了解。
