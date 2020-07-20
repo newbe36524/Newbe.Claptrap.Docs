@@ -10,7 +10,7 @@ metaDescription: 'Claptrap'
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap 是本框架定義的一種特殊 Actor。除了 Actor 的基礎特性之外,Claptrap 還被定義為具有以下特性。：
+Claptrap 是本框架定義的一種特殊 Actor。除了 Actor 的基礎特性之外，Claptrap 還被定義為具有以下特性：
 
 **狀態由事件進行控制**。Actor 的狀態在 Actor 內部進行維護。Claptrap 同樣也是如此，不過改變 Claptrap 的狀態除了在 Actor 之外，還限定其只能通過事件進行改變。这就将事件溯源模式与 Actor 模式进行了结合。通過事件溯源模式保證了 Actor 狀態的正確性和可追溯性。這些改變 Claptrap 狀態的事件是由 Claptrap 自身產生的。事件產生的原因可以是外部的調用也可以是 Claptrap 內部的類別 觸發器機制產生的。
 
