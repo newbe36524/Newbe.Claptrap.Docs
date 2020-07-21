@@ -4,15 +4,17 @@ metaTitle: 'Claptrap'
 metaDescription: 'Claptrap'
 ---
 
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
+
 Kurz gesagt, Claptrap . . . [Schauspieler](/zh_Hans/2-Glossary/Actor-Pattern) + [Ereignisablaufverfolgung](/zh_Hans/2-Glossary/Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap ist ein spezieller Akteur, der in diesem Framework definiert ist.Zusätzlich zu den beiden oben genannten Merkmalen ist Claptrap definiert als mit den folgenden Merkmalen：
+Claptrap ist ein spezieller Akteur, der in diesem Framework definiert ist.Zusätzlich zu den zugrunde liegenden Eigenschaften von Actor ist Claptrap definiert als mit den folgenden Eigenschaften.：
 
 **Der Zustand wird durch das Ereignis gesteuert**。Der Status des Schauspielers wird innerhalb des Schauspielers beibehalten.Dasselbe gilt für Claptrap, aber die Änderung des Zustands von Claptrap, zusätzlich zum Actor, beschränkt es auf Änderungen nur durch Ereignisse.Dadurch wird das Ereignisrückverfolgbarkeitsmuster mit dem Actor-Muster kombiniert.Die Korrektheit und Rückverfolgbarkeit des Actor-Status wird durch den Ereignisrückverfolgbarkeitsmodus gewährleistet.Diese Ereignisse, die den Zustand von Claptrap ändern, werden von Claptrap selbst generiert.Das Ereignis kann aufgrund eines externen Aufrufs oder aufgrund eines Klassentriggermechanismus in Claptrap auftreten.
 
-> Claptrap ist ein klassischer Charakter in einem alten Spiel, das newbe36524 gespielt hat.[Klicken Sie hier, um mehr zu erfahren](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
+> Claptrap ist ein klassischer Charakter in einem alten Spiel, das newbe36524 gespielt hat.[Klicken Sie hier, um mehr zu erfahren.](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
 
 ---
 

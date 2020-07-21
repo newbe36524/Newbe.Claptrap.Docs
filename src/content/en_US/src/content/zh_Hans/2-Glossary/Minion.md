@@ -4,6 +4,8 @@ metaTitle: 'Minion'
 metaDescription: 'Minion'
 ---
 
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
+
 ![Minion](/images/20190228-002.gif)
 
 Minion is a special Claptrap defined by this framework.it's an adjustment based on Claptrap.It has the following features：

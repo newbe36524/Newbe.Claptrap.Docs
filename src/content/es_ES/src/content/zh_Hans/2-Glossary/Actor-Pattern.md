@@ -4,6 +4,8 @@ metaTitle: 'Modo actor'
 metaDescription: 'Modo actor'
 ---
 
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
+
 El patrón Actor es un modelo de programación simultáneo.La aplicación de este modelo de programación puede resolver los problemas de simultaneidad de algunos sistemas.El problema de simultaneidad mencionado aquí es cuando un equipo procesa lógicamente los mismos datos, lo que puede provocar datos incorrectos debido a varias solicitudes simultáneas.Este problema es un problema que se debe encontrar cuando la programación multiproceso.Por ejemplo, si utiliza 100 subprocesos sin bloqueo sincrónico,`Int`Ejecución variable`++`Operación.El resultado final de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
 
 En primer lugar, para facilitar la comprensión, los lectores pueden pensar en Actor como un objeto aquí.En lenguajes orientados a objetos (Java, C, etc.), se puede pensar en Actor como un`Nuevo`El objeto creado por la palabra clave.Pero este objeto tiene algunas características especiales.：

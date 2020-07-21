@@ -4,15 +4,17 @@ metaTitle: 'Claptrap'
 metaDescription: 'Claptrap'
 ---
 
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
+
 En pocas palabras, Claptrap . . . [Actor](/zh_Hans/2-Glossary/Actor-Pattern) + [Seguimiento de eventos](/zh_Hans/2-Glossary/Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap es un actor especial definido en este marco.Además de las dos características mencionadas anteriormente, Claptrap se define como tener las siguientes características：
+Claptrap es un actor especial definido en este marco.Además de las características subyacentes de Actor, Claptrap se define como que tiene las siguientes características.：
 
 **El estado está controlado por el evento**。El estado del Actor se mantiene dentro del Actor.Lo mismo ocurre con Claptrap, pero cambiar el estado de Claptrap, además del actor, lo limita a cambiar sólo a través de eventos.Esto combina el patrón de trazabilidad de eventos con el patrón Actor.La corrección y trazabilidad del estado Actor están garantizadas por el modo de trazabilidad de eventos.Estos eventos que cambian el estado de Claptrap son generados por Claptrap sí mismo.El evento puede ocurrir debido a una llamada externa o debido a un mecanismo de desencadenador de clase dentro de Claptrap.
 
-> Claptrap es un personaje clásico en un viejo juego que newbe36524 ha jugado.[Haga clic aquí para obtener más información](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
+> Claptrap es un personaje clásico en un viejo juego que newbe36524 ha jugado.[Haga clic aquí para obtener más información.](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
 
 ---
 

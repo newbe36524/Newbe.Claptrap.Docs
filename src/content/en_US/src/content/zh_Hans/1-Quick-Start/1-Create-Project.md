@@ -1,10 +1,12 @@
 ---
 title: 'The first step - create a project and implement a simple shopping cart'
-metaTitle: 'The first step - Create a project and implement a simple shopping cart . . . Newbe.Claptrap'
+metaTitle: 'The first step - create a project and implement a simple shopping cart'
 metaDescription: 'The first step - create a project and implement a simple shopping cart'
 ---
 
 Let's implement a simple "e-commerce cart" requirement to see how to develop using Newbe.Claptrap.
+
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then 
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
+> In general, we recommend that you create `D:\Repo\HelloClaptrap` as Git repository.Manage your source code with version control.
 
 ## Compilation and startup
 
@@ -146,11 +148,15 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-At this point, the code has run to a specific shopping cart object.
+Here is the core of the framework implementation, as shown in the following image.：
+
+![Claptrap](/images/20190228-001.gif)
+
+Specifically, the code has run to a specific shopping cart object.
 
 You can see through the debugger that both the incoming skuId and count are parameters passed from Controller.
 
-Here you can do these things：
+Here you can do these things.：
 
 - Modify the data in Claptrap with events
 - Read data saved in Claptrap
@@ -163,7 +169,7 @@ Claptrap updates its State data after accepting the event.
 
 Finally, we return StateData.Items to the caller.(Actually, StateData.Items is a quick property for Claptrap.State.Data.Items.)So it's actually still read from Claptrap. )
 
-With the debugger, you can see the data type of StateData as shown below：
+From the debugger, you can see that the data types of StateData are shown below.：
 
 ```cs
 public class CartState : IStateData
@@ -172,13 +178,13 @@ public class CartState : IStateData
 }
 ```
 
-This is the status of the shopping cart designed in the sample.We use a`Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
+This is the status of the shopping cart designed in the sample.We use a `Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
 
 Continue debugging and move on to the next step to see how Claptrap handles incoming events.
 
 ### AddItemToCart Event Handler Start
 
-Again the point of interruption is the following code：
+Again, the point of interruption is this code below.：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -204,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-This code contains two important parameters that represent the current shopping cart status`CartState`and events that need to be handled`AddItemToCartEvent`。
+This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
 
-We determine whether the dictionary in the state contains SkuId according to business needs and update its number.
+We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 
 Continue debugging and the code will run until the end of this code.
 
 At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
 
-Do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
+Here, do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
 
 In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
 
 ## This is actually a three-tier architecture!
 
-The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe.Claptrap is actually a three-tier architecture.Let's compare it in a table.：
+The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe. Claptrap is actually a three-tier architecture.Let's compare it in a table.：
 
 | Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
 | ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -226,7 +232,7 @@ The vast majority of developers understand the three-tier architecture.In fact, 
 | Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
 | Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-Of course, thing above is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
+Of course, the above analogy is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
 
 ## You also have a BUG to fix
 
@@ -234,11 +240,11 @@ Then we go back and fix the previous "First Join Products Don't Take Effect" iss
 
 ### This is a framework for considering unit testing
 
-There is a project in the project template`HelloClap.Actors.Tests`The project contains unit tests of the main business code.
+There is a project in the project template.`HelloClaptrap.Actors.Tests.`The project contains unit tests of the main business code.
 
-We now know that`AddItemToCart Event Handler`The code in the comments is the main cause of the BUG.
+We now know that`AddItemToCartEventHandler.`The code in the comments is the main cause of the BUG.
 
-We can use`dotnet test`If you run the unit tests in your test project, you get two errors:
+We can use it.`dotnet test.`If you run the unit tests in your test project, you get two errors:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +294,7 @@ Total tests: 7
 
 ```
 
-Let's look at the code for one of the error unit tests.：
+Let's look at the code for one of the faulty unit tests.：
 
 ```cs
 [Test]
@@ -312,11 +318,11 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCart Event Handler`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
+`AddItemToCartEventHandler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUG fixed.
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
 
-Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" described above.
+Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
 
 ## The data has been persisted.
 
@@ -328,4 +334,4 @@ We will cover it further in a later chapter.
 
 Through this article, we have a preliminary understanding of how to create a basic project framework to implement a simple shopping cart scenario.
 
-There's a lot here that we don't have a detailed description of.：Project structure, deployment, persistence, and more.You can read further to learn more.
+There's a lot of things we don't have to explain in detail.：Project structure, deployment, persistence, and more.You can read further to learn more.

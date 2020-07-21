@@ -1,10 +1,12 @@
 ---
 title: 'Первый шаг - создать проект и реализовать простую корзину'
-metaTitle: 'Первый шаг - создать проект и реализовать простую корзину. . . Ньюб.Клэптрап'
+metaTitle: 'Первый шаг - создать проект и реализовать простую корзину'
 metaDescription: 'Первый шаг - создать проект и реализовать простую корзину'
 ---
 
 Давайте внедрим простое требование «корзины электронной коммерции», чтобы увидеть, как развиваться с помощью Newbe.Claptrap.
+
+> [Рассматриваемая в настоящее время версия является результатом машинного перевода китайского упрощенного и ручного корректуры.Если в документе есть неправильный перевод, пожалуйста, нажмите здесь, чтобы представить свое предложение о переводе.](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ dotnet новый - новый installbe.Claptrap.Template
 dotnet newbe.claptrap - название HelloClaptrap
 ```
 
-> В целом мы рекомендуем`D:\Rэпо-HelloClaptrap`Создайте папку в виде склада Git.Управляйте исходным кодом с помощью управления версиями.
+> В общем, мы рекомендуем вам.`D:\Repo.HelloClaptrap.`Создайте папку в виде склада Git.Управляйте исходным кодом с помощью управления версиями.
 
 ## Компиляция и запуск
 
@@ -90,14 +92,14 @@ dotnet newbe.claptrap - название HelloClaptrap
 
 Райдер в настоящее время не имеет функцию импорта брейк-пойнта.Поэтому необходимо вручную создавать точки разрыва в следующих местах：
 
-| Файл                             | Номер строки |
-| -------------------------------- | ------------ |
-| КартКонтроллер                   | 30           |
-| КартКонтроллер                   | 34           |
-| КартГрейн                        | 24           |
-| КартГрейн                        | 32           |
-| Обработчик событий AddItemToCart | 14           |
-| Обработчик событий AddItemToCart | 28           |
+| Файл                      | Номер строки |
+| ------------------------- | ------------ |
+| CartController            | 30           |
+| CartController            | 34           |
+| CartGrain                 | 24           |
+| CartGrain                 | 32           |
+| AddItemToCartEventHandler | 14           |
+| AddItemToCartEventHandler | 28           |
 
 > [Go To File позволяет быстро определить, где находятся ваши файлы](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
@@ -112,12 +114,12 @@ dotnet newbe.claptrap - название HelloClaptrap
 Первым спасательным кругом является код контроллера для слоя Web API：
 
 ```cs
-(HttpPost){id}")]
-публичная задача async<IActionResult> AddItemAsync (int id, [FromBody] Ввод ввода AddItem)
+[HttpPost("{id}")]
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    вар картгрейн s _grainFactory.GetGrain<ICartGrain>(id. ToString ();
-    Вар пунктов s ждут cartgrain.AddItemAsync (вход. SkuId, вход. Граф);
-    возвращение Json (предметы);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -134,28 +136,32 @@ dotnet newbe.claptrap - название HelloClaptrap
 Следующей точкой остановки является код CartGrain.：
 
 ```cs
-публичная задача async<Dictionary<string, int>> AddItemAsync (строка skuId, int кол)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt s.this. Создать вент (новый AddItem ToCartevent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        Граф - Граф,
-        SkuId skuId,
+        Count = count,
+        SkuId = skuId,
     });
-    ждут Claptrap.HandleEventAsync (evt);
-    Возвращение StateData.Items;
+    await Claptrap.HandleEventAsync(evt);
+    return StateData.Items;
 }
 ```
 
-На этом этапе код был запущен к конкретному объекту корзины.
+Вот ядро реализации фреймворка, как показано на следующем изображении.：
+
+![Клэптрап](/images/20190228-001.gif)
+
+В частности, код был запущен к определенному объекту корзины.
 
 Вы можете видеть через отлада, что как входящие skuId, так и подсчет являются параметрами, передаваемыми от контроллера.
 
-Здесь вы можете сделать эти вещи：
+Здесь вы можете сделать эти вещи.：
 
 - Изменить данные в Claptrap с событиями
 - Читать данные, сохраненные в Claptrap
 
-В этом коде мы создаем`Событие AddItemToCart`Объект для представления изменения корзины.
+В этом коде мы создаем его.`Событие AddItemToCart.`Объект для представления изменения корзины.
 
 Затем он передается в Claptrap для обработки.
 
@@ -163,48 +169,48 @@ Claptrap обновляет данные о состоянии после при
 
 Наконец, мы возвращаем вызывающему абоненту StateData.Items.(На самом деле, StateData.Items является быстрым свойством для Claptrap.State.Data.Items.)Так что это на самом деле все еще читать из Claptrap. )
 
-С отладать, вы можете увидеть тип данных StateData, как показано ниже：
+Из отладальщика видно, что типы данных StateData показаны ниже.：
 
 ```cs
-общественный класс CartState : IStateData
+public class CartState : IStateData
 {
-    публичный словарь<string, int> Предметы ... . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
-Это состояние корзины, разработанной в образце.Мы используем`Словарь`представлять SkuId в текущей корзине и соответствующем количестве.
+Это состояние корзины, разработанной в образце.Мы используем один.`Словарь.`представлять SkuId в текущей корзине и соответствующем количестве.
 
 Продолжить отладку и перейти к следующему шагу, чтобы увидеть, как Claptrap обрабатывает входящие события.
 
 ### AddItemToCart Запуск обработчика событий
 
-Опять же точка прерывания является следующий код：
+Опять же, точка прерывания этого кода ниже.：
 
 ```cs
-общественный класс AddItemCartEvent Обработчик
-    : НормальныйСевент Хэндлер<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    публичное переопределение ValueTask HandleEvent (CartState StateData, AddItemToCartEvent EventData,
-        IEventContext EventContext)
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
+        IEventContext eventContext)
     {
-        Элементы Var . . . stateData.Items? новый словарь<string, int>();
-        если (элементы. TryGetValue (eventData.SkuId, из var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
-            itemCount s eventData.count;
+            itemCount += eventData.Count;
         }
-        Еще
+        // else
         // {
-        itemCount - eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
-        Элементы[eventData.SkuId] s itemCount;
-        StateData.Items . . .
-        возвращение нового ValueTask ();
+        items[eventData.SkuId] = itemCount;
+        stateData.Items = items;
+        return new ValueTask();
     }
 }
 ```
 
-Этот код содержит два важных параметра, представляющих текущий статус корзины`КартаГосударство`и события, которые необходимо обрабатывать`Событие AddItemToCart`。
+Этот код содержит два важных параметра, представляющих текущее состояние корзины.`Картгосударство.`и события, которые должны быть обработаны.`Событие AddItemToCart.`。
 
 Мы определяем, содержит ли словарь в государстве подводную гору SkuId в соответствии с бизнес-потребностями, и обновляем его номер.
 
@@ -234,57 +240,57 @@ Claptrap обновляет данные о состоянии после при
 
 ### Это основа для рассмотрения модульного тестирования
 
-В шаблоне проекта есть проект`HelloClap.Actors.Tests`Проект содержит модульные тесты основного бизнес-кода.
+В шаблоне проекта есть проект.`HelloClaptrap.Actors.Tests.`Проект содержит модульные тесты основного бизнес-кода.
 
-Теперь мы знаем, что`Обработчик событий AddItemToCart`Код в комментариях является основной причиной BUG.
+Теперь мы знаем, что`Обработчик событий AddItem ToCart.`Код в комментариях является основной причиной BUG.
 
-Мы можем использовать`Тест дотнета`При запуске модульных тестов в тестовом проекте вы получаете две ошибки:
+Мы можем им воспользоваться.`Тест дотнета.`При запуске модульных тестов в тестовом проекте вы получаете две ошибки:
 
 ```bash
-В общей сложности 1 тестовый файл соответствовал шаблону syd dh'fydd.
+A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
-  Сообщение об ошибке:
-   D'Value будет 10, но нашел 0.
-  Стек След:
-     на FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   на FluentS. Execution.TestFramework Provider.T. Бросьте
-   на FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   на FluentS. Execution.Ax. Scope.FailWith (Строка сообщение, объект?args)
-   на FluentS.Numeric.NumericS'1.Be (T ожидается, строка, потому что, объект' becauseArgs)
-   На HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne () в D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: линия 32
-   На HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne () в D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: линия 32
-   в NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   в NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   в NUnit.Framework.Internal.Команды.TestMethodCommand.RunTestMethod (Контекст TestExecution)
-   в NUnit.Framework.Internal.Command.TestMethod Command.Execute (контекст testExecution)
-   на NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork ()
+  Error Message:
+   Expected value to be 10, but found 0.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
   X RemoveOne [2ms]
-  Сообщение об ошибке:
-   D'Value будет 90, но нашел 100.
-  Стек След:
-     на FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   на FluentS. Execution.TestFramework Provider.T. Бросьте
-   на FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   на FluentS. Execution.Ax. Scope.FailWith (Строка сообщение, объект?args)
-   на FluentS.Numeric.NumericS'1.Be (T ожидается, строка, потому что, объект' becauseArgs)
-   На HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventhandlerHandler.RemoveOne () в D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem от HandlerTest.cs CartEvent: линия 40
-   На HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventhandlerHandler.RemoveOne () в D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem от HandlerTest.cs CartEvent: линия 40
-   в NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   в NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   в NUnit.Framework.Internal.Команды.TestMethodCommand.RunTestMethod (Контекст TestExecution)
-   в NUnit.Framework.Internal.Command.TestMethod Command.Execute (контекст testExecution)
-   на NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork ()
+  Error Message:
+   Expected value to be 90, but found 100.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
-Тестовый запуск не удался.
-Всего тестов: 7
-     Пройдено: 5
-     Не удалось: 2
+Test Run Failed.
+Total tests: 7
+     Passed: 5
+     Failed: 2
 
 ```
 
@@ -292,29 +298,29 @@ Claptrap обновляет данные о состоянии после при
 
 ```cs
 [Test]
-публичная async Задача AddFirstOne ()
+public async Task AddFirstOne()
 {
-    использование var mocker - AutoMock.GetStrict ();
+    using var mocker = AutoMock.GetStrict();
 
-    ждут использования var обработчик s-mocker. Создать<AddItemToCartEventHandler>();
-    var state s новый CartState ();
-    var evt новый AddItemToCartEventEvent
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
+    var state = new CartState();
+    var evt = new AddItemToCartEvent
     {
-        SkuId skuId1,
-        Граф s 10
+        SkuId = "skuId1",
+        Count = 10
     };
-    ждать обработчика. HandleEvent (состояние, evt, по умолчанию);
+    await handler.HandleEvent(state, evt, default);
 
-    Государства. Элементы.Граф.Вниз.) Будьте (1);
-    var (ключ, значение) s состояние. Элементы.Одинократный ();
-    Ключ. "Что") Будьте (evt. Скуид);
-    Значение. "Что") Будьте (evt. Граф);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
-`Обработчик событий AddItemToCart`является основным компонентом тестирования этого теста, и так как как StateData и event построены вручную, разработчикам легко создавать сценарии, которые необходимо тестировать по мере необходимости.Нет необходимости строить что-то особенное.
+`Обработчик событий AddItem ToCart.`является основным компонентом тестирования этого теста, и так как как StateData и event построены вручную, разработчикам легко создавать сценарии, которые необходимо тестировать по мере необходимости.Нет необходимости строить что-то особенное.
 
-Теперь, до тех пор, как`Обработчик событий AddItemToCart`Восстановите код прокомментировали и перезахоите модульный тест.Модульные тесты проходят.ОШИБКИ ТАКЖЕ ЕСТЕСТВЕННО ИСПРАВЛЕНЫ.
+Теперь, до тех пор, как это будет.`Обработчик событий AddItem ToCart.`Восстановите код прокомментировали и перезахоите модульный тест.Модульные тесты проходят.ОШИБКИ ТАКЖЕ ЕСТЕСТВЕННО ИСПРАВЛЕНЫ.
 
 Конечно, есть еще один модульный тест сценария удаления выше, что не удается.Разработчики могут решить эту проблему, следуя описанным выше идеям «точка разрыва» и «модульный тест».
 
@@ -328,4 +334,4 @@ Claptrap обновляет данные о состоянии после при
 
 В этой статье мы имеем предварительное понимание того, как создать базовую структуру проекта для реализации простого сценария корзины.
 
-Здесь много чего у нас нет подробного описания.：Структура проекта, развертывание, настойчивость и многое другое.Вы можете прочитать далее, чтобы узнать больше.
+Есть много вещей, которые мы не должны подробно объяснять.：Структура проекта, развертывание, настойчивость и многое другое.Вы можете прочитать далее, чтобы узнать больше.

@@ -4,6 +4,8 @@ metaTitle: 'Abastecimiento de eventos'
 metaDescription: 'Abastecimiento de eventos'
 ---
 
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
+
 El modo de seguimiento de eventos es una especie de idea de diseño de software.Este tipo de idea de diseño suele ser diferente de la idea de diseño del sistema tradicional basada en la adición y eliminación (CRUD).Las aplicaciones CruD a menudo tienen algunas limitaciones：
 
 1. En general, las aplicaciones CRUD toman la práctica de operar el almacenamiento de datos directamente.Esta implementación puede dar lugar a cuellos de botella de rendimiento debido a la optimización inadecuada de la base de datos, y esto puede ser difícil de escalar las aplicaciones.

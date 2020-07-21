@@ -1,10 +1,12 @@
 ---
 title: '第一步——建立項目，實現簡易購物車'
-metaTitle: '第一步——建立項目，實現簡易購物車 | Newbe.Claptrap'
+metaTitle: '第一步——建立項目，實現簡易購物車'
 metaDescription: '第一步——建立項目，實現簡易購物車'
 ---
 
 等我哋嚟了解一下點樣用Newbe.Claptrap開發實現一個簡單嘅“電商購物車”。
+
+> [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ dotnet new --install Newbe.Claptrap.Template
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> 通常黎講，我哋建議將`D:\Repo\HelloClaptrap`標記做 Git 倉庫嘅文件夾。通過版本控制來管理你嘅源代碼。
+> 通常嚟講，我哋建議將`D:\Repo\HelloClaptrap`標記做 Git 倉庫嘅文件夾。通過版本控制嚟管理你嘅源代碼。
 
 ## 建置與執行
 
@@ -58,7 +60,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 > - [如何在 VS 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
 > - [如何在 Rider 中同時執行多個項目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [使用華為雲加速 nuget 還原速度](https://mirrors.huaweicloud.com/)
+> - [使用華為雲加速 nuget restore 速度](https://mirrors.huaweicloud.com/)
 
 ## 點解第一次禁添加商品無效果既？
 
@@ -109,7 +111,7 @@ Rider 目前無提供中斷點導入功能。因此需要手動喺以下嘅位�
 
 ### CartController Start
 
-首先命中斷點是 Web API 層的 Controller 代碼：
+首先係命中Web API 層breakpoint嘅 Controller 代碼：
 
 ```cs
 [HttpPost("{id}")]
@@ -146,24 +148,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-此時，源代碼已經運行到了一個具體的購物車物件。
+呢度就係框架實現嘅核心，圖中所示就係關鍵內容：
 
-可以通過偵錯器看到傳入的 skuId 和 count 都是從 Controller 傳遞過來的參數。
+![Claptrap](/images/20190228-001.gif)
 
-在這裏您可以完成以下這些操作：
+具體講到業務上，程式已經運行到了一個具體的購物車Object。
+
+可以通過偵錯工具睇到傳入嘅 skuId 同 count 都係由 Controller 傳遞過來嘅參數。
+
+去到呢一步，你可以完成以下呢哋動作：
 
 - 通過事件對 Claptrap 中的數據進行修改
 - 讀取 Claptrap 中保存的數據
 
-這段代碼中，我們建立了一個`AddItemToCartEvent`物件來表示一次對購物車的變更。
+這段Codeode入面，我地建立咗一個`AddItemToCartEvent`Object嚟表示一次對購物車嘅變更。
 
-然後將它傳遞給 Claptrap 進行處理了。
+然後將佢傳遞俾 Claptrap 進行處理了。
 
-Claptrap 接受了事件之後就會更新自身的 State 數據。
+Claptrap 接受咗事件之後就會更新自身嘅 State 數據。
 
-最後我們將 StateData.Items 返回給呼叫方。（實際上 StateData.Items 是 Claptrap.State.Data.Items 的一個快捷屬性。因此實際上還是從 Claptrap 中讀取。）
+最後我地將 StateData.Items 返回番俾Caller。（實際上 StateData.Items 係 Claptrap.State.Data.Items 嘅一個快捷屬性。因此實際上仲係響 Claptrap 入面讀取。）
 
-通過偵錯器，可以看到 StateData 的數據類型如下所示：
+通過偵錯工具，可以睇到 StateData 嘅數據類型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -172,13 +178,13 @@ public class CartState : IStateData
 }
 ```
 
-這就是範例中設計的購物車狀態。我們使用一個`Dictionary`來表示當前購物車中的 SkuId 及其對應的數量。
+呢個就係範例中設計購物車嘅狀態。我地用`Dictionary`嚟表示呢個購物車中嘅 SkuId 同對應數量。
 
-繼續偵錯，進入下一步，讓我們看看 Claptrap 是如何處理傳入的事件的。
+繼續debug，進入下一步，等我們睇睇 Claptrap 係點樣處理傳入嘅事件。
 
 ### AddItemToCartEventHandler Start
 
-再次命中斷點的是下面這段源代碼：
+呢次命中嘅reakpoint係下面呢段源代碼
 
 ```cs
 public class AddItemToCartEventHandler
@@ -204,21 +210,21 @@ public class AddItemToCartEventHandler
 }
 ```
 
-這段源代碼中，包含有兩個重要參數，分別是表示當前購物車狀態的`CartState`和需要處理的事件`AddItemToCartEvent`。
+這段code入面，包含咗兩個重要參數，分別係表示當前購物車狀態嘅`CartState`同需要處理嘅事件`AddItemToCartEvent`。
 
-我們按照業務需求，判斷狀態中的字典是否包含 SkuId，並對其數量進行更新。
+我地按照業務需求，判斷狀態入面嘅字典係咪包含 SkuId，並對佢嘅數量進行更新。
 
-繼續偵錯，代碼將會運行到這段代碼的結尾。
+繼續debug，直至執行到呢度結尾。
 
-此時，通過偵錯器，可以發現，stateData.Items 這個字典雖然增加了一項，但是數量卻是 0 。原因其實就是因為上面被注釋的 else 代碼段，這就是第一次添加購物車總是失敗的 BUG 成因。
+呢個時候，通過偵錯工作可以發現，stateData.Items 字典入面雖然增加了一項，但數量仲會係 0 。原因其實就係因為上面被comment 嘅 else 呢部分，亦都係第一次添加購物車唔得嘅成因。
 
-在這裏，不要立即中斷偵錯。我們繼續偵錯，讓源代碼走完，來了解整個過程如何結束。
+去到呢度，唔好結束debugger。我地繼續落去等佢行完，嚟了解成個過程點去結束。
 
-實際上，繼續偵錯，中斷點將會依次命中在 CartGrain 和 CartController 對應方法的方法結尾。
+實際上，繼續行落去，Breakpoint會依次命中reakpoint會依次命中喺 CartGrain 同 CartController 對應方法嘅method結尾。
 
 ## 其實係三層架構！
 
-絕大多數的開發者都了解三層架構。其實，我們也可以說 Newbe.Claptrap 其實就是一個三層架構。下面我們通過一個表格來對比一下：
+絕大多數嘅開發者都了解三層架構。其實，我地亦可以話 Newbe.Claptrap 就係一個三層架構。下面我們通過一個表格對比一下：
 
 | 傳統三層             | Newbe.Claptrap | 说明                                           |
 | ---------------- | -------------- | -------------------------------------------- |
@@ -226,19 +232,19 @@ public class AddItemToCartEventHandler
 | Business 業務層     | Grain 層        | 根據業務對傳入的業務參數進行業務處理（範例中其實沒寫判斷，需要判斷 count > 0） |
 | Persistence 持久化層 | EventHandler 層 | 對業務結果進行更新                                    |
 
-當然上面的類似只是一種簡單的描述。具體過程中，不需要太過於糾結，這只是一個輔助理解的說法。
+當然上面只係一種簡單嘅描述。具體過程唔需要太過深究，因為只係一個輔助理解嘅說法。
 
 ## 咪住先，你仲有一個 BUG而搞掂呀
 
-接下來我們重新回過頭來修復前面的“首次加入商品不生效”的問題。
+跟往落嚟，我地重新番到去“首次加入商品不生效”呢個問題上。
 
 ### 呢個係一個考慮單元測試嘅框架
 
-在項目模板中存在一個項目`HelloClaptrap.Actors.Tests`，該項目包含了對主要業務代碼的單元測試。
+在項目模板入面存在一個項目`HelloClaptrap.Actors.Tests`，而呢個項目包含咗對主要業務嘅unit test。
 
-我們現在已經知道，`AddItemToCartEventHandler`中注釋的代碼是導致 BUG 存在的主要原因。
+我地而家已經知道，`AddItemToCartEventHandler`入面Comment咗既代碼就係導致 BUG 存在嘅主要原因。
 
-我們可以使用`dotnet test`運行一下測試項目中的單元測試，可以得到如下兩個錯誤:
+我地可以用`dotnet test`運行一下測試項目中嘅unit test，可以得到呢兩個錯誤:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -288,7 +294,7 @@ Total tests: 7
 
 ```
 
-我們看一下其中一個出錯的單元測試的代碼：
+我地睇一下其中一個出錯嘅unit test：
 
 ```cs
 [Test]
@@ -312,17 +318,17 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`是該測試主要測試的組件，由於 stateData 和 event 都是通過手動構建的，因此開發者可以很容易就按照需求構建出需要測試的場景。不需要建置什麼特殊的內容。
+`AddItemToCartEventHandler`係該測試主要測試嘅組件，由於 stateData 同埋 event 都係通過手動構建，因此開發者可以好容易咁按照需求構建出需要測試嘅場景。而唔需要建置咩古靈精怪嘅內容。
 
-現在，只要將`AddItemToCartEventHandler`中那段被注釋的源代碼還原，重新執行這個單元測試。單元測試便就通過了。BUG 也就自然的修復了。
+而家，只要將`AddItemToCartEventHandler`果段被Comment嘅Code還原，重新執行呢個unit test。unit test就會通過了。BUG 亦都會自然咁消失咗。
 
-當然，上面還有另外一個關於刪除場景的單元測試也是失敗的。開發者可以按照上文中所述的“中斷點”、“單元測試”的思路，來修復這個問題。
+當然，上面仲有另外一個關於刪除場景的單元測試係失敗既。開發者可以按照上文中所述嘅“breakpoint”、“unit test”嘅思路，嚟修復呢個問題。
 
 ## 數據已經持久化了
 
-您可以嘗試重新啟動 Backend Server 和 Web， 您將會發現，您之前執行的數據已經被持久化的保存了。
+您可以嘗試重新啟動 Backend Server 同埋 Web， 你會發現之前執行嘅數據已經被持久化保存了。
 
-我們將會在後續的篇章中進一步介紹。
+我地將會喺後續篇章進一步介紹。
 
 ## 小結
 

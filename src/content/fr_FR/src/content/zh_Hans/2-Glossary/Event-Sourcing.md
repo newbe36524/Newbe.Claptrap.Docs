@@ -4,6 +4,8 @@ metaTitle: 'Sourcing d’événements'
 metaDescription: 'Sourcing d’événements'
 ---
 
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
+
 Le mode de traçage d’événements est une sorte d’idée de conception de logiciel.Ce genre d’idée de conception est généralement différent de l’idée traditionnelle de conception de système basée sur l’addition et la suppression (CRUD).Les applications CruD ont souvent certaines limites：
 
 1. En général, les applications CRUD prennent directement la pratique de l’exploitation du stockage de données.Une telle implémentation peut entraîner des goulots d’étranglement des performances en raison d’une optimisation inadéquate des bases de données, ce qui peut être difficile à mettre à l’échelle des applications.

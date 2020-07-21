@@ -4,13 +4,15 @@ metaTitle: 'Minion'
 metaDescription: 'Minion'
 ---
 
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
+
 ![Minion](/images/20190228-002.gif)
 
 Minion est un Claptrap spécial défini par ce cadre.c’est un ajustement basé sur Claptrap.Il a les caractéristiques suivantes：
 
 **Lire l’événement du Claptrap correspondant**。Comme Claptrap, l’état du sbire est contrôlé par des événements.La différence est que Minion, comme son sens littéral, obtient toujours des événements de la Claptrap correspondant, en changeant son état.Par conséquent, il peut gérer asynchronement les actions suivantes après l’événement généré par Claptrap.
 
-> Minion est d’un jeu de chance joué par newbe36524[La légende de la pierre de four](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), où « entourage » est décrit dans la version anglaise comme « minion ».
+> Le mot Minion vient d’un jeu de chance joué par newbe36524.[La légende de la pierre de four](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), où « entourage » est décrit dans la version anglaise comme « minion ».
 
 ---
 

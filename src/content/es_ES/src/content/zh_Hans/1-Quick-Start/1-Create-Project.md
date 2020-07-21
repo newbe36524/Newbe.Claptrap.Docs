@@ -1,10 +1,12 @@
 ---
 title: 'El primer paso - crear un proyecto e implementar un simple carrito de compras'
-metaTitle: 'El primer paso - Crear un proyecto e implementar un simple carro de la compra . . . Newbe.Claptrap'
+metaTitle: 'El primer paso - crear un proyecto e implementar un simple carrito de compras'
 metaDescription: 'El primer paso - crear un proyecto e implementar un simple carrito de compras'
 ---
 
 Vamos a implementar un simple requisito de "carro de comercio electrónico" para ver cómo desarrollar usando Newbe.Claptrap.
+
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
@@ -40,7 +42,7 @@ Abra la consola y cambie el directorio de trabajo a`D:\Repo-HelloClaptrap`。A c
 dotnet newbe.claptrap - nombre HelloClaptrap
 ```
 
-> En general, recomendamos que el`D:\Repo-HelloClaptrap`Cree una carpeta como un almacén de Git.Administre el código fuente con el control de versiones.
+> En general, le recomendamos que.`D:\Repo.HelloClaptrap.`Cree una carpeta como un almacén de Git.Administre el código fuente con el control de versiones.
 
 ## Compilación y puesta en marcha
 
@@ -90,14 +92,14 @@ Inicie ambos proyectos al mismo tiempo, como se mencionó anteriormente.
 
 Rider no tiene actualmente una función de importación de punto de interrupción.Por lo tanto, debe crear manualmente puntos de interrupción en las siguientes ubicaciones：
 
-| Archivo                              | Línea No. |
-| ------------------------------------ | --------- |
-| CartController                       | 30        |
-| CartController                       | 34        |
-| CartGrain                            | 24        |
-| CartGrain                            | 32        |
-| Controlador de eventos AddItemToCart | 14        |
-| Controlador de eventos AddItemToCart | 28        |
+| Archivo                   | Línea No. |
+| ------------------------- | --------- |
+| CartController            | 30        |
+| CartController            | 34        |
+| CartGrain                 | 24        |
+| CartGrain                 | 32        |
+| AddItemToCartEventHandler | 14        |
+| AddItemToCartEventHandler | 28        |
 
 > [Ir a archivo le permite localizar rápidamente dónde se encuentran sus archivos](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
@@ -112,12 +114,12 @@ En primer lugar, vamos a enviar una solicitud POST a través de la interfaz swag
 La primera línea de vida es el código del controlador para la capa Web API：
 
 ```cs
-(HttpPost){id}")]
-tarea asincrónica pública<IActionResult> AddItemAsync (int id, [FromBody] Entrada de entrada AddItem)
+[HttpPost("{id}")]
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    var cartgrain s _grainFactory.GetGrain<ICartGrain>(id. ToString ();
-    Var items s await cartgrain.AddItemAsync (entrada. SkuId, entrada. Contar);
-    devolver Json (elementos);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -134,28 +136,32 @@ Continúe con la depuración y pase al siguiente paso, veamos cómo funciona el 
 El siguiente punto de parada es el código CartGrain.：
 
 ```cs
-tarea asincrónica pública<Dictionary<string, int>> AddItemAsync (string skuId, int count)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt s.this. CreateEvent (nuevo AddItem ToCartEvent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        Count - Conde,
-        SkuId skuId,
+        Count = count,
+        SkuId = skuId,
     });
-    await Claptrap.HandleEventAsync (evt);
-    Devolver StateData.Items;
+    await Claptrap.HandleEventAsync(evt);
+    return StateData.Items;
 }
 ```
 
-En este punto, el código se ha ejecutado en un objeto de carrito de compras específico.
+Aquí está el núcleo de la implementación del marco de trabajo, como se muestra en la siguiente imagen.：
+
+![Claptrap](/images/20190228-001.gif)
+
+En concreto, el código se ha ejecutado en un objeto de carrito de compras específico.
 
 Puede ver a través del depurador que el skuId entrante y count son parámetros pasados desde Controller.
 
-Aquí puedes hacer estas cosas：
+Aquí puedes hacer estas cosas.：
 
 - Modifique los datos en Claptrap con eventos
 - Leer los datos guardados en Claptrap
 
-En este código, creamos un`Evento AddItemToCart`Objeto para representar un cambio en el carro de la compra.
+En este código, creamos uno.`Evento AddItemToCart.`Objeto para representar un cambio en el carro de la compra.
 
 A continuación, se pasa a Claptrap para su procesamiento.
 
@@ -163,48 +169,48 @@ Claptrap actualiza sus datos de estado después de aceptar el evento.
 
 Por último, devolvemos StateData.Items al autor de la llamada.(En realidad, StateData.Items es una propiedad rápida para Claptrap.State.Data.Items.)Así que en realidad todavía se lee de Claptrap. )
 
-Con el depurador, puede ver el tipo de datos de StateData como se muestra a continuación：
+En el depurador, puede ver que los tipos de datos de StateData se muestran a continuación.：
 
 ```cs
-clase pública CartState : IStateData
+public class CartState : IStateData
 {
-    diccionario público<string, int> Artículos . . . get; set; . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
-Este es el estado del carro de la compra diseñado en la muestra.Usamos un`Diccionario`para representar el SkuId en el carro de la compra actual y su cantidad correspondiente.
+Este es el estado del carro de la compra diseñado en la muestra.Usamos uno.`Diccionario.`para representar el SkuId en el carro de la compra actual y su cantidad correspondiente.
 
 Continúe con la depuración y pase al siguiente paso para ver cómo Claptrap controla los eventos entrantes.
 
 ### Inicio del controlador de eventos AddItemToCart
 
-Una vez más el punto de interrupción es el siguiente código：
+Una vez más, el punto de interrupción es este código a continuación.：
 
 ```cs
-clase pública AddItemCartEvent Handler
-    : Controlador NormalEvent<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    invalidación pública ValueTask HandleEvent (CartState StateData, AddItemToCartEvent EventData,
-        IEventContext EventContext)
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
+        IEventContext eventContext)
     {
-        Var elementos . . . stateData.Items ? nuevo Diccionario<string, int>();
-        si (artículos. TryGetValue (eventData.SkuId, out var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
-            itemCount s eventData.count;
+            itemCount += eventData.Count;
         }
-        Más
+        // else
         // {
-        itemCount - eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
-        Artículos[eventData.SkuId] s itemCount;
-        StateData.Items . . .
-        devolver new ValueTask();
+        items[eventData.SkuId] = itemCount;
+        stateData.Items = items;
+        return new ValueTask();
     }
 }
 ```
 
-Este código contiene dos parámetros importantes que representan el estado actual del carro de la compra`CartState`y eventos que necesitan ser manejados`Evento AddItemToCart`。
+Este código contiene dos parámetros importantes que representan el estado actual del carro de la compra.`CartState.`y eventos que necesitan ser manejados.`Evento AddItemToCart.`。
 
 Determinamos si el diccionario en el estado contiene El monte mar SkuId según las necesidades del negocio y actualizamos su número.
 
@@ -234,57 +240,57 @@ Luego volvemos y solucionamos el anterior problema "First Join Products Don't Ta
 
 ### Este es un marco para considerar las pruebas unitarias
 
-Hay un proyecto en la plantilla de proyecto`HelloClap.Actors.Tests`El proyecto contiene pruebas unitarias del código de negocio principal.
+Hay un proyecto en la plantilla de proyecto.`HelloClaptrap.Actors.Tests.`El proyecto contiene pruebas unitarias del código de negocio principal.
 
-Ahora sabemos que`Controlador de eventos AddItemToCart`El código de los comentarios es la causa principal del BUG.
+Ahora sabemos que`Controlador de eventos AddItem ToCart.`El código de los comentarios es la causa principal del BUG.
 
-Podemos usar`prueba de dotnet`Si ejecuta las pruebas unitarias en el proyecto de prueba, obtendrá dos errores:
+Podemos usarlo.`prueba de dotnet.`Si ejecuta las pruebas unitarias en el proyecto de prueba, obtendrá dos errores:
 
 ```bash
-Un total de 1 archivos de prueba coincidieron con el patrón syd dh'fydd.
+A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
-  Mensaje de error:
-   D'Value para ser 10, pero encontró 0.
-  Rastreo de pila:
-     en FluentS. Execution.LateTestBoundFramework.Throw (Mensaje de cadena)
-   en FluentS. Execution.TestFramework Provider.T. Throw
-   en FluentS. Execution.DefaultKStrategy.HandleFailure (Mensaje de cadena)
-   En FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   En FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   en FluentS. Execution.Ax. Scope.FailWith (mensaje de cadena, Object?args)
-   en FluentS.Numeric.NumericS'1.Be (T expected, String because, Object' becauseArgs)
-   En HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() en D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: línea 32
-   En HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() en D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: línea 32
-   en NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   en NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   en NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   en NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   en NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+  Error Message:
+   Expected value to be 10, but found 0.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
   X RemoveOne [2ms]
-  Mensaje de error:
-   D'Value para ser 90, pero encontró 100.
-  Rastreo de pila:
-     en FluentS. Execution.LateTestBoundFramework.Throw (Mensaje de cadena)
-   en FluentS. Execution.TestFramework Provider.T. Throw
-   en FluentS. Execution.DefaultKStrategy.HandleFailure (Mensaje de cadena)
-   En FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   En FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   en FluentS. Execution.Ax. Scope.FailWith (mensaje de cadena, Object?args)
-   en FluentS.Numeric.NumericS'1.Be (T expected, String because, Object' becauseArgs)
-   En HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() en D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Eventos\RMoveItem From CartEvent HandlerTest.cs: línea 40
-   En HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() en D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Eventos\RMoveItem From CartEvent HandlerTest.cs: línea 40
-   en NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   en NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   en NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   en NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   en NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+  Error Message:
+   Expected value to be 90, but found 100.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
-Error en la ejecución de la prueba.
-Total de pruebas: 7
-     Aprobado: 5
-     Error: 2
+Test Run Failed.
+Total tests: 7
+     Passed: 5
+     Failed: 2
 
 ```
 
@@ -292,29 +298,29 @@ Echemos un vistazo al código de una de las pruebas unitarias defectuosas.：
 
 ```cs
 [Test]
-tarea asincrónica pública AddFirstOne ()
+public async Task AddFirstOne()
 {
-    usando var mocker - AutoMock.GetStrict ();
+    using var mocker = AutoMock.GetStrict();
 
-    await use var handler s-mocker. Crear<AddItemToCartEventHandler>();
-    var state s new CartState ();
-    var evt s nuevo AddItemToCartEventEvent
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
+    var state = new CartState();
+    var evt = new AddItemToCartEvent
     {
-        SkuId skuId1,
-        Recuento s 10
+        SkuId = "skuId1",
+        Count = 10
     };
-    esperar manejador. HandleEvent (state, evt, default);
+    await handler.HandleEvent(state, evt, default);
 
-    Estado. Items.Count.Down.) Ser (1);
-    var (clave, valor) s estado. Items.Single();
-    Clave. "Qué") Ser (evt. SkuId);
-    Valor. "Qué") Ser (evt. Contar);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
-`Controlador de eventos AddItemToCart`es el componente de prueba principal de esta prueba, y dado que stateData y event se compilan manualmente, es fácil para los desarrolladores crear escenarios que deben probarse según sea necesario.No hay necesidad de construir nada especial.
+`Controlador de eventos AddItem ToCart.`es el componente de prueba principal de esta prueba, y dado que stateData y event se compilan manualmente, es fácil para los desarrolladores crear escenarios que deben probarse según sea necesario.No hay necesidad de construir nada especial.
 
-Ahora, siempre y cuando el`Controlador de eventos AddItemToCart`Restaure el código comentado y vuelva a ejecutar la prueba unitaria.Pasan las pruebas unitarias.LOS ERRORES TAMBIÉN SE CORRIGEN DE FORMA NATURAL.
+Ahora, mientras sea.`Controlador de eventos AddItem ToCart.`Restaure el código comentado y vuelva a ejecutar la prueba unitaria.Pasan las pruebas unitarias.LOS ERRORES TAMBIÉN SE CORRIGEN DE FORMA NATURAL.
 
 Por supuesto, hay otra prueba unitaria del escenario de eliminación anterior que falla.Los desarrolladores pueden solucionar este problema siguiendo las ideas de "punto de interrupción" y "prueba unitaria" descritas anteriormente.
 
@@ -328,4 +334,4 @@ Lo cubriremos más adelante en un capítulo posterior.
 
 A través de este artículo, tenemos una comprensión preliminar de cómo crear un marco de proyecto básico para implementar un escenario de carrito de compras simple.
 
-Hay muchas aquí de las que no tenemos una descripción detallada.：Estructura del proyecto, implementación, persistencia y mucho más.Puede leer más para obtener más información.
+Hay muchas cosas que no tenemos que explicar en detalle.：Estructura del proyecto, implementación, persistencia y mucho más.Puede leer más para obtener más información.

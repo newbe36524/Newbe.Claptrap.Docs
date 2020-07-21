@@ -4,6 +4,8 @@ metaTitle: 'Actor-Modus'
 metaDescription: 'Actor-Modus'
 ---
 
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
+
 Das Actor-Muster ist ein gleichzeitiges Programmiermodell.Die Anwendung dieses Programmiermodells kann die Parallelitätsprobleme einiger Systeme lösen.Das hier erwähnte Parallelitätsproblem ist, wenn ein Computer dieselben Daten logisch verarbeitet, was aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dieses Problem ist ein Problem, das beim Programmieren mit mehreren Threads auftreten muss.Um ein einfaches Beispiel zu nehmen: Wenn Sie 100 Threads ohne synchrone Sperre verwenden,`Int`Variablenausführung`++`Vorgang.Das Endergebnis dieser Variablen ist oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
 
 Erstens, um das Verständnis zu erleichtern, können leserende Schauspieler als Objekt hier betrachten.In objektorientierten Sprachen (Java, C, etc.) kann man sich Schauspieler als`Neu`Das vom Schlüsselwort erstellte Objekt.Aber dieses Objekt hat einige Besonderheiten.：

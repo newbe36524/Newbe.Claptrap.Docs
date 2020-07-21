@@ -4,6 +4,8 @@ metaTitle: 'Event Sourcing'
 metaDescription: 'Event Sourcing'
 ---
 
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
+
 Der Ereignisablaufverfolgungsmodus ist eine Art Software-Design-Idee.Diese Art von Design-Idee unterscheidet sich in der Regel von der traditionellen System-Design-Idee basierend auf Addition und Löschung (CRUD).CruD-Anwendungen haben oft einige Einschränkungen：
 
 1. Im Allgemeinen übernehmen CRUD-Anwendungen die Praxis, Datenspeicherung direkt zu betreiben.Eine solche Implementierung kann aufgrund unzureichender Datenbankoptimierung zu Leistungsengpässen führen, und dies kann schwierig sein, Anwendungen zu skalieren.
