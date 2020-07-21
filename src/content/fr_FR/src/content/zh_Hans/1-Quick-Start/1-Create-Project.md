@@ -25,7 +25,7 @@ Tout d’abord, vous devez vous assurer que vous avez installé le . SDK NetCore
 Une fois le SDK installé, ouvrez la console et exécutez les commandes suivantes pour installer les derniers modèles de projet：
 
 ```bash
-dotnet nouveau - nouveau installbe.Claptrap.Template
+dotnet new --install Newbe.Claptrap.Template
 ```
 
 Une fois installés, vous pouvez voir les modèles de projet qui ont déjà été installés dans les résultats d’installation.
@@ -39,7 +39,7 @@ Sélectionnez un emplacement pour créer un dossier, et cet exemple sélectionne
 Ouvrez la console et commutez le répertoire de travail`D:\Repo-HelloClaptrap`。Exécutez ensuite la commande suivante pour créer un projet：
 
 ```bash
-dotnet nouveau newbe.claptrap - nom HelloClaptrap
+dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
 > En général, nous vous recommandons.`D:\Repo.HelloClaptrap.`Créez un dossier en tant qu’entrepôt Git.Gérez votre code source avec le contrôle de version.
@@ -114,12 +114,12 @@ Tout d’abord, nous allons envoyer une demande post par l’interface swagger e
 La première bouée de sauvetage est le code Contrôleur pour la couche API Web：
 
 ```cs
-(HttpPost){id}")]
-Tâche async du public<IActionResult> AddItemAsync (id int, [FromBody] Entrée AddItem)
+[HttpPost("{id}")]
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    var cartgrain s _grainFactory.GetGrain<ICartGrain>(id. ToString ();
-    Les éléments var attendent cartgrain.AddItemAsync (entrée. SkuId, entrée. Compte);
-    retour Json (articles);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -136,15 +136,15 @@ Continuez avec le débogage et passons à l’étape suivante, voyons comment fo
 Le point d’arrêt suivant est le code CartGrain.：
 
 ```cs
-Tâche async du public<Dictionary<string, int>> AddItemAsync (skuId de chaîne, nombre int)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt s.this. CreateEvent (nouveau AddItem ToCartEvent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        Comte - Comte,
-        SkuId skuId,
+        Count = count,
+        SkuId = skuId,
     });
-    attendre Claptrap.HandleEventAsync (evt);
-    Renvoyer StateData.Items;
+    await Claptrap.HandleEventAsync(evt);
+    return StateData.Items;
 }
 ```
 
@@ -172,9 +172,9 @@ Enfin, nous ren retournerons StateData.Items à l’appelant.(En fait, StateData
 À partir du débogueur, vous pouvez voir que les types de données de StateData sont affichés ci-dessous.：
 
 ```cs
-Classe publique CartState : IStateData
+public class CartState : IStateData
 {
-    Dictionnaire public<string, int> Articles . . . obtenir; ensemble; . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
@@ -187,25 +187,25 @@ Continuez le débogage et passez à l’étape suivante pour voir comment Claptr
 Encore une fois, le point d’interruption est ce code ci-dessous.：
 
 ```cs
-classe publique AddItemCartEvent Handler
-    : Gestionnaire NormalEvent<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    contrôle public ValueTask HandleEvent (CartState StateData, AddItemToCartEvent Event EventData,
-        IEventContext EventContext)
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
+        IEventContext eventContext)
     {
-        Articles Var . . . stateData.Items ? nouveau Dictionnaire<string, int>();
-        si (articles. TryGetValue (eventData.SkuId, out var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
-            itemCount s eventData.count;
+            itemCount += eventData.Count;
         }
-        Autre
+        // else
         // {
-        itemCount - eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
-        Articles[eventData.SkuId] s itemCount;
-        StateData.Items . . .
-        retourner de nouvelles ValueTask();
+        items[eventData.SkuId] = itemCount;
+        stateData.Items = items;
+        return new ValueTask();
     }
 }
 ```
@@ -247,50 +247,50 @@ Nous savons maintenant que`AddItem ToCart Gestionnaire d’événements.`Le code
 On peut l’utiliser.`test dotnet.`Si vous exécutez les tests unitaires dans votre projet de test, vous obtenez deux erreurs :
 
 ```bash
-Un total de 1 fichiers de test correspondait au modèle syd dh’fydd.
+A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
-  Message d’erreur :
-   D’Value à 10 ans, mais trouvé 0.
-  Trace de pile :
-     à FluentS. Execution.LateTestBoundFramework.Throw (Message de chaîne)
-   à FluentS. Execution.TestFramework Provider.T. Throw
-   à FluentS. Execution.DefaultKStrategy.HandleFailure (Message de chaîne)
-   À FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   À FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   à FluentS. Execution.Ax. Scope.FailWith (Message de chaîne, Objet?args)
-   à FluentS.Numeric.NumericS'1.Be (T attendu, String because, Object' becauseArgs)
-   À HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() en D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: ligne 32
-   À HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne() en D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: ligne 32
-   à NUnit.Framework.Internal.TaskWaitAdapter.GenericAdapter'1.GetResult ()
-   à NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   à NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   à NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   à NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+  Error Message:
+   Expected value to be 10, but found 0.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
   X RemoveOne [2ms]
-  Message d’erreur :
-   D’Value à 90 ans, mais en a trouvé 100.
-  Trace de pile :
-     à FluentS. Execution.LateTestBoundFramework.Throw (Message de chaîne)
-   à FluentS. Execution.TestFramework Provider.T. Throw
-   à FluentS. Execution.DefaultKStrategy.HandleFailure (Message de chaîne)
-   À FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   À FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   à FluentS. Execution.Ax. Scope.FailWith (Message de chaîne, Objet?args)
-   à FluentS.Numeric.NumericS'1.Be (T attendu, String because, Object' becauseArgs)
-   à HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() en D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Evénements\RMoveItem De CartEvent HandlerTest.cs: ligne 40
-   à HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventHandlerHandler.RemoveOne() en D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Evénements\RMoveItem De CartEvent HandlerTest.cs: ligne 40
-   à NUnit.Framework.Internal.TaskWaitAdapter.GenericAdapter'1.GetResult ()
-   à NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   à NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod (TestExecution Context)
-   à NUnit.Framework.Internal.Commands.TestMethod Command.Execute (TestExecution Context)
-   à NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork()
+  Error Message:
+   Expected value to be 90, but found 100.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
-Échec de l’exécution de test.
-Nombre total de tests: 7
-     Passé: 5
-     Échec: 2
+Test Run Failed.
+Total tests: 7
+     Passed: 5
+     Failed: 2
 
 ```
 
@@ -298,23 +298,23 @@ Regardons le code pour l’un des tests unitaires défectueux.：
 
 ```cs
 [Test]
-asynch task addFirstOne public ()
+public async Task AddFirstOne()
 {
-    utilisation var mocker - AutoMock.GetStrict ();
+    using var mocker = AutoMock.GetStrict();
 
-    attendre l’utilisation var handler s-mocker. Créer<AddItemToCartEventHandler>();
-    var état s nouveau CartState ();
-    var evt s nouveau AddItemToCartEventEvent
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
+    var state = new CartState();
+    var evt = new AddItemToCartEvent
     {
-        SkuId skuId1,
-        Compte s 10
+        SkuId = "skuId1",
+        Count = 10
     };
-    attendre gestionnaire. HandleEvent (état, evt, par défaut);
+    await handler.HandleEvent(state, evt, default);
 
-    État. Items.Count.Down.) Être (1);
-    var (clé, valeur) s état. Items.Single();
-    Clé. « Quoi ») Soyez (evt. SkuId);
-    Valeur. « Quoi ») Soyez (evt. Compte);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
