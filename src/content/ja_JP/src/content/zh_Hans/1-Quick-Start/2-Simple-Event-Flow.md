@@ -35,15 +35,15 @@ EventCode は、Claptrap システムの各イベントの唯一のエンコー�
 "ショッピング カート イベントを空にする" の EventCode を追加します。
 
 ```cs
-  namespace HelloClaptrap.Models.
+  namespace HelloClaptrap.Models
   {
-      public static class ClaptrapCodes.
+      public static class ClaptrapCodes
       {
           public const string CartGrain = "cart_claptrap_newbe";
-          プリヴァトコンスト string CartEventSuffix = "_e_" + CartGrain;
+          private const string CartEventSuffix = "_e_" + CartGrain;
           public const string AddItemToCart = "addItem" + CartEventSuffix;
           public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
-+ public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
++         public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
       }
   }
 ```
@@ -57,11 +57,11 @@ Event は、イベントのトレースの鍵です。Claptrap でステート�
 次のようなコードを追加します。：
 
 ```cs
-@ using Newbe.Claptrap;
++ using Newbe.Claptrap;
 +
-+namespace HelloClaptrap.Models.Cart.Events.
++ namespace HelloClaptrap.Models.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEvent : IEventData.
++     public class RemoveAllItemsFromCartEvent : IEventData
 +     {
 +     }
 + }
@@ -83,19 +83,19 @@ Event は、イベントのトレースの鍵です。Claptrap でステート�
 + using System.Threading.Tasks;
 + using HelloClaptrap.Models.Cart;
 + using HelloClaptrap.Models.Cart.Events;
-@ using Newbe.Claptrap;
++ using Newbe.Claptrap;
 +
-+namespace HelloClaptrap.Actors.Cart.Events.
++ namespace HelloClaptrap.Actors.Cart.Events
 + {
-+ public class RemoveAllItemsFromCartEventHandler.
-+ : NormalEventHandler.<CartState, RemoveAllItemsFromCartEvent>
++     public class RemoveAllItemsFromCartEventHandler
++         : NormalEventHandler<CartState, RemoveAllItemsFromCartEvent>
 +     {
-+ public override ValueTask HandleEvent (CartState stateData,
-+ RemoveAllItemsFromCartEvent eventData,
-+ IEventContext eventContext)
++         public override ValueTask HandleEvent(CartState stateData,
++             RemoveAllItemsFromCartEvent eventData,
++             IEventContext eventContext)
 +         {
-+ stateData.Items = null;
-+ return new ValueTask();
++             stateData.Items = null;
++             return new ValueTask();
 +         }
 +     }
 + }
@@ -129,20 +129,20 @@ EventHandler を実装してテストしたら、EventHandler を登録して、
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      [ClaptrapEventHandler(typeof(AddItemToArtEventHandler), ClaptrapCodes.AddItemToCart]
-      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler),ClaptrapCodes.RemoveItemFromCart]
-+ [ClaptrapEventHandler (typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public class CartGrain : ClaptrapBoxGrain.<CartState>、ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
           public CartGrain(
               IClaptrapGrainCommonService claptrapGrainCommonService)
-              : ベース (claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-....
+          ....
 ```
 
 `ClaptrapEventHandlerAttribute。`は、EventHandler、EventCode、ClaptrapGrain の 3 つの関連付けを実装するために Grain の実装クラスにタグ付けできるフレームワーク定義の Attribute です。
@@ -166,18 +166,18 @@ Attribute と同様にインターフェイスを追加します。
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.IActor.
+  namespace HelloClaptrap.IActor
   {
-      [ClaptrapState(typeof(CartState),ClaptrapCodes.CartGrain) ]
-      [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart]に
-      [ClaptrapEvent (typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart]]
-+ [ClaptrapEvent (typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart]]
-      public interface ICartGrain : IClaptrapGrain.
+      [ClaptrapState(typeof(CartState), ClaptrapCodes.CartGrain)]
+      [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEvent(typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public interface ICartGrain : IClaptrapGrain
       {
-          Task.<Dictionary<string, int>> AddItemAsync (string skuId, int count);
-          Task.<Dictionary<string, int>> RemoveItemAsync (string skuId, int count);
-          Task.<Dictionary<string, int>> GetItemsAsync();
-+ Task RemoveAllItemsAsync();
+          Task<Dictionary<string, int>> AddItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> GetItemsAsync();
++         Task RemoveAllItemsAsync();
       }
   }
 ```
@@ -196,7 +196,7 @@ Attribute と同様にインターフェイスを追加します。
 対応する実装を追加します。
 
 ```cs
-  using システム;
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
@@ -208,29 +208,29 @@ Attribute と同様にインターフェイスを追加します。
   using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
-  namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      [ClaptrapEventHandler(typeof(AddItemToArtEventHandler), ClaptrapCodes.AddItemToCart]
-      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler),ClaptrapCodes.RemoveItemFromCart]
-      [ClaptrapEventHandler (typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
-      public class CartGrain : ClaptrapBoxGrain.<CartState>、ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
+      [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
           public CartGrain(
               IClaptrapGrainCommonService claptrapGrainCommonService)
-              : ベース (claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-+ public Task RemoveAllItemsAsync()
++         public Task RemoveAllItemsAsync()
 +         {
-+ if (StateData.Items?) Any() != true)
++             if (StateData.Items?.Any() != true)
 +             {
-+ return Task.CompletedTask;
++                 return Task.CompletedTask;
 +             }
 +
-+ var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
-+ var evt – this. CreateEvent (removeAllItemsFromCartEvent);
-+ return Claptrap.handleEventAsync (evt);
++             var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
++             var evt = this.CreateEvent(removeAllItemsFromCartEvent);
++             return Claptrap.HandleEventAsync(evt);
 +         }
       }
   }
@@ -260,12 +260,12 @@ Claptrap のすべての部分は、前のすべての手順が完了すると�
   using Microsoft.AspNetCore.Mvc;
   using Orleans;
 
-  namespace HelloClaptrap.web.Controllers.
+  namespace HelloClaptrap.Web.Controllers
   {
-      [ルート("api/[controller]")]
-      public class CartController : Controller.
+      [Route("api/[controller]")]
+      public class CartController : Controller
       {
-          プリヴァト・readonly IGrainFactory _grainFactory;
+          private readonly IGrainFactory _grainFactory;
 
           public CartController(
               IGrainFactory grainFactory)
@@ -273,12 +273,12 @@ Claptrap のすべての部分は、前のすべての手順が完了すると�
               _grainFactory = grainFactory;
           }
 
-+ [HttpPost("{id}/clean")]
-+ public async Task.<IActionResult> RemoveAllItemAsync (int id)
++         [HttpPost("{id}/clean")]
++         public async Task<IActionResult> RemoveAllItemAsync(int id)
 +         {
-+var cartGrain + _grainFactory.GetGrain.<ICartGrain>(id. ToString();
-+ await cartGrain.RemoveAllItemsAsync();
-+ return Json ("clean success") )
++             var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
++             await cartGrain.RemoveAllItemsAsync();
++             return Json("clean success");
 +         }
       }
   }
