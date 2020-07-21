@@ -92,14 +92,14 @@ dotnet newbe.claptrap - название HelloClaptrap
 
 Райдер в настоящее время не имеет функцию импорта брейк-пойнта.Поэтому необходимо вручную создавать точки разрыва в следующих местах：
 
-| Файл                             | Номер строки |
-| -------------------------------- | ------------ |
-| КартКонтроллер                   | 30           |
-| КартКонтроллер                   | 34           |
-| КартГрейн                        | 24           |
-| КартГрейн                        | 32           |
-| Обработчик событий AddItemToCart | 14           |
-| Обработчик событий AddItemToCart | 28           |
+| Файл                      | Номер строки |
+| ------------------------- | ------------ |
+| CartController            | 30           |
+| CartController            | 34           |
+| CartGrain                 | 24           |
+| CartGrain                 | 32           |
+| AddItemToCartEventHandler | 14           |
+| AddItemToCartEventHandler | 28           |
 
 > [Go To File позволяет быстро определить, где находятся ваши файлы](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
@@ -114,12 +114,12 @@ dotnet newbe.claptrap - название HelloClaptrap
 Первым спасательным кругом является код контроллера для слоя Web API：
 
 ```cs
-(HttpPost){id}")]
-публичная задача async<IActionResult> AddItemAsync (int id, [FromBody] Ввод ввода AddItem)
+[HttpPost("{id}")]
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    вар картгрейн s _grainFactory.GetGrain<ICartGrain>(id. ToString ();
-    Вар пунктов s ждут cartgrain.AddItemAsync (вход. SkuId, вход. Граф);
-    возвращение Json (предметы);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -136,15 +136,15 @@ dotnet newbe.claptrap - название HelloClaptrap
 Следующей точкой остановки является код CartGrain.：
 
 ```cs
-публичная задача async<Dictionary<string, int>> AddItemAsync (строка skuId, int кол)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt s.this. Создать вент (новый AddItem ToCartevent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        Граф - Граф,
-        SkuId skuId,
+        Count = count,
+        SkuId = skuId,
     });
-    ждут Claptrap.HandleEventAsync (evt);
-    Возвращение StateData.Items;
+    await Claptrap.HandleEventAsync(evt);
+    return StateData.Items;
 }
 ```
 
@@ -172,9 +172,9 @@ Claptrap обновляет данные о состоянии после при
 Из отладальщика видно, что типы данных StateData показаны ниже.：
 
 ```cs
-общественный класс CartState : IStateData
+public class CartState : IStateData
 {
-    публичный словарь<string, int> Предметы ... . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
@@ -187,25 +187,25 @@ Claptrap обновляет данные о состоянии после при
 Опять же, точка прерывания этого кода ниже.：
 
 ```cs
-общественный класс AddItemCartEvent Обработчик
-    : НормальныйСевент Хэндлер<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    публичное переопределение ValueTask HandleEvent (CartState StateData, AddItemToCartEvent EventData,
-        IEventContext EventContext)
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
+        IEventContext eventContext)
     {
-        Элементы Var . . . stateData.Items? новый словарь<string, int>();
-        если (элементы. TryGetValue (eventData.SkuId, из var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
-            itemCount s eventData.count;
+            itemCount += eventData.Count;
         }
-        Еще
+        // else
         // {
-        itemCount - eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
-        Элементы[eventData.SkuId] s itemCount;
-        StateData.Items . . .
-        возвращение нового ValueTask ();
+        items[eventData.SkuId] = itemCount;
+        stateData.Items = items;
+        return new ValueTask();
     }
 }
 ```
@@ -247,50 +247,50 @@ Claptrap обновляет данные о состоянии после при
 Мы можем им воспользоваться.`Тест дотнета.`При запуске модульных тестов в тестовом проекте вы получаете две ошибки:
 
 ```bash
-В общей сложности 1 тестовый файл соответствовал шаблону syd dh'fydd.
+A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
-  Сообщение об ошибке:
-   D'Value будет 10, но нашел 0.
-  Стек След:
-     на FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   на FluentS. Execution.TestFramework Provider.T. Бросьте
-   на FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   на FluentS. Execution.Ax. Scope.FailWith (Строка сообщение, объект?args)
-   на FluentS.Numeric.NumericS'1.Be (T ожидается, строка, потому что, объект' becauseArgs)
-   На HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne () в D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: линия 32
-   На HelloClaptrap.Actors.Tests.Cart.Events.AddItemCartEventHandler.AddFirstOne () в D:\Repo?HelloClaptrap?HelloClaptrap?HelloClaptrap?HelloClaptrap.Actors.Tests?Cart?Events?AddToCartEventHandlerTest.cs: линия 32
-   в NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   в NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   в NUnit.Framework.Internal.Команды.TestMethodCommand.RunTestMethod (Контекст TestExecution)
-   в NUnit.Framework.Internal.Command.TestMethod Command.Execute (контекст testExecution)
-   на NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork ()
+  Error Message:
+   Expected value to be 10, but found 0.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
   X RemoveOne [2ms]
-  Сообщение об ошибке:
-   D'Value будет 90, но нашел 100.
-  Стек След:
-     на FluentS. Execution.LateTestBoundFramework.Throw (String Message)
-   на FluentS. Execution.TestFramework Provider.T. Бросьте
-   на FluentS. Execution.DefaultKStrategy.HandleFailure (String Message)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   На FluentS. Execution.Ax. Scope.FailWith (Func'1 failReasonFunc)
-   на FluentS. Execution.Ax. Scope.FailWith (Строка сообщение, объект?args)
-   на FluentS.Numeric.NumericS'1.Be (T ожидается, строка, потому что, объект' becauseArgs)
-   На HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventhandlerHandler.RemoveOne () в D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem от HandlerTest.cs CartEvent: линия 40
-   На HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemCartEventhandlerHandler.RemoveOne () в D:\Repo?HelloClaptrap?HelloClap.Actors.Tests?Cart?Events\RMoveItem от HandlerTest.cs CartEvent: линия 40
-   в NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult ()
-   в NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 Invoke)
-   в NUnit.Framework.Internal.Команды.TestMethodCommand.RunTestMethod (Контекст TestExecution)
-   в NUnit.Framework.Internal.Command.TestMethod Command.Execute (контекст testExecution)
-   на NUnit.Framework.Internal.Execution SimpleWorkItem.PerformWork ()
+  Error Message:
+   Expected value to be 90, but found 100.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
-Тестовый запуск не удался.
-Всего тестов: 7
-     Пройдено: 5
-     Не удалось: 2
+Test Run Failed.
+Total tests: 7
+     Passed: 5
+     Failed: 2
 
 ```
 
@@ -298,23 +298,23 @@ Claptrap обновляет данные о состоянии после при
 
 ```cs
 [Test]
-публичная async Задача AddFirstOne ()
+public async Task AddFirstOne()
 {
-    использование var mocker - AutoMock.GetStrict ();
+    using var mocker = AutoMock.GetStrict();
 
-    ждут использования var обработчик s-mocker. Создать<AddItemToCartEventHandler>();
-    var state s новый CartState ();
-    var evt новый AddItemToCartEventEvent
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
+    var state = new CartState();
+    var evt = new AddItemToCartEvent
     {
-        SkuId skuId1,
-        Граф s 10
+        SkuId = "skuId1",
+        Count = 10
     };
-    ждать обработчика. HandleEvent (состояние, evt, по умолчанию);
+    await handler.HandleEvent(state, evt, default);
 
-    Государства. Элементы.Граф.Вниз.) Будьте (1);
-    var (ключ, значение) s состояние. Элементы.Одинократный ();
-    Ключ. "Что") Будьте (evt. Скуид);
-    Значение. "Что") Будьте (evt. Граф);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
