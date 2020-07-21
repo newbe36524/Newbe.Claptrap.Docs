@@ -35,15 +35,15 @@ EventCode ist die eindeutige Codierung jedes Ereignisses im Claptrap-System.Es s
 Fügen Sie EventCode für "Leere Warenkorbereignisse" hinzu.
 
 ```cs
-  Namespace HelloClaptrap.Models.
+  namespace HelloClaptrap.Models
   {
-      öffentliche statische Klasse ClaptrapCodes.
+      public static class ClaptrapCodes
       {
-          public const string CartGrain s "cart_claptrap_newbe";
-          Private const string CartEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-          public const string AddItemToCart - "addItem" s cartEventSuffix;
-          public const string RemoveItem FromCart - "removeItem" s cartEventSuffix;
-public const string Entfernen Sie AllItems FromCarts "remoeAllItems" s."
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
++         public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
       }
   }
 ```
@@ -57,11 +57,11 @@ In.`HelloClap.Models.`Das Projekt.`Cart/Events.`Erstellen Sie unter dem Ordner.`
 Fügen Sie den folgenden Code hinzu.：
 
 ```cs
-Susing Newbe.Claptrap;
++ using Newbe.Claptrap;
 +
-Snamespace HelloClaptrap.Models.Cart.Events.
++ namespace HelloClaptrap.Models.Cart.Events
 + {
-öffentliche Klasse entfernen AllAllItems FromCartEvent: IEventData.
++     public class RemoveAllItemsFromCartEvent : IEventData
 +     {
 +     }
 + }
@@ -80,22 +80,22 @@ In.`HelloClap.Actors.`Das Projekt.`Cart/Events.`Erstellen Sie unter dem Ordner.`
 Fügen Sie den folgenden Code hinzu.：
 
 ```cs
-susing System.Threading.Tasks;
-- Hallo UsingClaptrap.Models.Cart;
-- HelloClaptrap.Models.Cart.Events;
-Susing Newbe.Claptrap;
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models.Cart;
++ using HelloClaptrap.Models.Cart.Events;
++ using Newbe.Claptrap;
 +
-Snamespace HelloClaptrap.Actors.Cart.Events.
++ namespace HelloClaptrap.Actors.Cart.Events
 + {
-öffentliche Klassenklasse AlleItems aus CartEvent Handler entfernen.
-: NormalEventHandler.<CartState, RemoveAllItemsFromCartEvent>
++     public class RemoveAllItemsFromCartEventHandler
++         : NormalEventHandler<CartState, RemoveAllItemsFromCartEvent>
 +     {
-ValueTask HandleEvent (CartState StateData,
-RemoveAllItems FromCart-Ereignisereignisdaten,
-IEventContext-Ereigniscontext)
++         public override ValueTask HandleEvent(CartState stateData,
++             RemoveAllItemsFromCartEvent eventData,
++             IEventContext eventContext)
 +         {
-statedata.Items snull;
-neue ValueTask();
++             stateData.Items = null;
++             return new ValueTask();
 +         }
 +     }
 + }
@@ -126,23 +126,23 @@ Nachdem Sie EventHandler implementiert und getestet haben, können Sie EventHand
 Markieren Sie mit Attribut.
 
 ```cs
-  verwendung von Newbe.Claptrap;
-  mit Newbe.Claptrap.Orleans;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      (Claptrap-Ereignishandler(Typeof (AddItemToCartEvent-Handler), ClaptrapCodes.AddItemToCart)
-      (Claptrap-Ereignishandler( RemoveitemFromCartEvent Handler), ClaptrapCodes.RemoveItemFromCart)
-- "Claptrap-Ereignishandler (Typeof (Entfernen von AllItems aus Cart-Ereignishandler), ClaptrapCodes.RemoveAllFromItems Cart)
-      öffentliche Klasse CartGrain : ClaptrapBoxGrain.<CartState>, ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
-          öffentliches CartGrain ()
-              IClaptrapGrainCommon Service ClapGrainGrainCommonService
-              : Basis (claptrapGrain Common Service)
+          public CartGrain(
+              IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-....
+          ....
 ```
 
 `Claptrap-Ereignishandlerhandler.`Ein Attribut, das durch das Framework definiert wird, das für die Implementierungsklasse von grain markiert werden kann, um die Zuordnung zwischen EventHandler, EventCode und ClaptrapGrain zu erreichen.
@@ -158,26 +158,26 @@ Wenn nach der Zuordnung das Ereignis für EventCode in diesem Korn generiert wir
 Fügen Sie Schnittstellen und Attribute hinzu.
 
 ```cs
-  Verwenden von System.Collections.Generic;
-  Verwenden von System.Threading.Tasks;
-  Verwenden von HelloClaptrap.Models;
-  Verwenden von HelloClaptrap.Models.Cart;
-  Verwenden von HelloClaptrap.Models.Cart.Events;
-  verwendung von Newbe.Claptrap;
-  mit Newbe.Claptrap.Orleans;
+  using System.Collections.Generic;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Cart;
+  using HelloClaptrap.Models.Cart.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.IActor.
+  namespace HelloClaptrap.IActor
   {
-      (ClaptrapState(typeof, ClaptrapCodes.CartGrain))
-      (ClaptrapEvent(Typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)
-      (ClaptrapEvent(Typeof (RemoveItemFromCartEventEvent), ClaptrapCodes.RemoveItemFromCart)
-- "ClaptrapEvent (Typeof (Entfernen von AllItems aus CartEventEvent), ClaptrapCodes.RemoveAllItemsfromCart)
-      öffentliche Schnittstelle ICartGrain : IClaptrapGrain.
+      [ClaptrapState(typeof(CartState), ClaptrapCodes.CartGrain)]
+      [ClaptrapEvent(typeof(AddItemToCartEvent), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEvent(typeof(RemoveItemFromCartEvent), ClaptrapCodes.RemoveItemFromCart)]
++     [ClaptrapEvent(typeof(RemoveAllItemsFromCartEvent), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public interface ICartGrain : IClaptrapGrain
       {
-          Aufgabe.<Dictionary<string, int>> AddItemAsync (Zeichenfolge skuId, int count);
-          Aufgabe.<Dictionary<string, int>> Entfernen ItemAsync (String skuId, int count);
-          Aufgabe.<Dictionary<string, int>> GetItemsAsync ();
-Task AllItemsAsync ();
+          Task<Dictionary<string, int>> AddItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> RemoveItemAsync(string skuId, int count);
+          Task<Dictionary<string, int>> GetItemsAsync();
++         Task RemoveAllItemsAsync();
       }
   }
 ```
@@ -196,41 +196,41 @@ Folgen Sie als Nächstes der vorherigen Schnittstellenänderung, um die entsprec
 Fügen Sie die entsprechende Implementierung hinzu.
 
 ```cs
-  Verwenden von System;
-  Verwenden von System.Collections.Generic;
-  Verwenden von System.Linq;
-  Verwenden von System.Threading.Tasks;
-  Verwenden von HelloClaptrap.Actors.Cart.Events;
-  Verwenden von HelloClaptrap.IActor;
-  Verwenden von HelloClaptrap.Models;
-  Verwenden von HelloClaptrap.Models.Cart;
-  Verwenden von HelloClaptrap.Models.Cart.Events;
-  verwendung von Newbe.Claptrap;
-  mit Newbe.Claptrap.Orleans;
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Actors.Cart.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Cart;
+  using HelloClaptrap.Models.Cart.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.Actors.Cart.
+  namespace HelloClaptrap.Actors.Cart
   {
-      (Claptrap-Ereignishandler(Typeof (AddItemToCartEvent-Handler), ClaptrapCodes.AddItemToCart)
-      (Claptrap-Ereignishandler( RemoveitemFromCartEvent Handler), ClaptrapCodes.RemoveItemFromCart)
-      (Claptrap-Ereignishandler(TypeofAllItems From Cart Event Handler), ClaptrapCodes.RemoveAllItems from Cart)
-      öffentliche Klasse CartGrain : ClaptrapBoxGrain.<CartState>, ICartGrain.
+      [ClaptrapEventHandler(typeof(AddItemToCartEventHandler), ClaptrapCodes.AddItemToCart)]
+      [ClaptrapEventHandler(typeof(RemoveItemFromCartEventHandler), ClaptrapCodes.RemoveItemFromCart)]
+      [ClaptrapEventHandler(typeof(RemoveAllItemsFromCartEventHandler), ClaptrapCodes.RemoveAllItemsFromCart)]
+      public class CartGrain : ClaptrapBoxGrain<CartState>, ICartGrain
       {
-          öffentliches CartGrain ()
-              IClaptrapGrainCommon Service ClapGrainGrainCommonService
-              : Basis (claptrapGrain Common Service)
+          public CartGrain(
+              IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-Öffentliche Aufgabe Entfernen Von AllItemsAsync ()
++         public Task RemoveAllItemsAsync()
 +         {
-wenn (StateData.Items?. Beeinen() ! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++             if (StateData.Items?.Any() != true)
 +             {
-Return Task.CompletedTask;
++                 return Task.CompletedTask;
 +             }
 +
-die var removeAllItems FromCartEvent s neue RemoveAllItems FromCartEvent ();
-svar evt s.this. CreateEvent (removeAllItems From CartEvent);
-Claptrap.HandleEventAsync (evt) zurückgeben;
++             var removeAllItemsFromCartEvent = new RemoveAllItemsFromCartEvent();
++             var evt = this.CreateEvent(removeAllItemsFromCartEvent);
++             return Claptrap.HandleEventAsync(evt);
 +         }
       }
   }
@@ -255,30 +255,30 @@ Nachdem alle vorherigen Schritte abgeschlossen sind, haben Sie alle Teile von Cl
 Öffnen Sie es.`HelloClap.Web.`Das Projekt.`Controller.`unter dem Ordner.`CartController.`Klasse.
 
 ```cs
-  Verwenden von System.Threading.Tasks;
-  Verwenden von HelloClaptrap.IActor;
-  Verwenden von Microsoft.AspNetCore.Mvc;
-  Verwenden von Orleans;
+  using System.Threading.Tasks;
+  using HelloClaptrap.IActor;
+  using Microsoft.AspNetCore.Mvc;
+  using Orleans;
 
-  Namespace HelloClaptrap.Web.Controllers.
+  namespace HelloClaptrap.Web.Controllers
   {
-      Route ("api/[controller]")]
-      öffentliche Klasse CartController : Controller.
+      [Route("api/[controller]")]
+      public class CartController : Controller
       {
-          Private lesidierende Igrain Factory _grainFactory;
+          private readonly IGrainFactory _grainFactory;
 
-          öffentlicher CartController (öffentlicher CartController)
-              IGrain Factory Getreidefabrik)
+          public CartController(
+              IGrainFactory grainFactory)
           {
-              _grainFactory - Getreidefabrik;
+              _grainFactory = grainFactory;
           }
 
-httppost ("{id}/sauber")
-öffentliche async-Aufgabe.<IActionResult> RemoveAllItemAsync (int-ID)
++         [HttpPost("{id}/clean")]
++         public async Task<IActionResult> RemoveAllItemAsync(int id)
 +         {
-die var cartgrain s _grainFactory.GetGrain.<ICartGrain>(id. ToString ();
-warten cartgrain.RemoveAllItemsAsync ();
-Json zurückgeben ("sauberer Erfolg");
++             var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
++             await cartGrain.RemoveAllItemsAsync();
++             return Json("clean success");
 +         }
       }
   }
