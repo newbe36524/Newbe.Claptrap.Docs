@@ -94,10 +94,10 @@ dotnet newbe.claptrap --name HelloClaptrap
 
 | ファイル                      | 行番号 |
 | ------------------------- | --- |
-| カートコントローラ                 | 30  |
-| カートコントローラ                 | 34  |
-| カートグライン                   | 24  |
-| カートグライン                   | 32  |
+| CartController            | 30  |
+| CartController            | 34  |
+| CartGrain                 | 24  |
+| CartGrain                 | 32  |
 | AddItemToCartEventHandler | 14  |
 | AddItemToCartEventHandler | 28  |
 
@@ -115,11 +115,11 @@ dotnet newbe.claptrap --name HelloClaptrap
 
 ```cs
 [HttpPost("{id}")]
-パブリック async Task<IActionResult> AddItemAsync (int id, [FromBody] AddItemInput input)
+public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput input)
 {
-    バーカートグライン – _grainFactory.GetGrain<ICartGrain>(id. ToString();
-    var items = await cartGrain.AddItemAsync (input.) スクイド、インチ。 カウント);
-    return Json (items);
+    var cartGrain = _grainFactory.GetGrain<ICartGrain>(id.ToString());
+    var items = await cartGrain.AddItemAsync(input.SkuId, input.Count);
+    return Json(items);
 }
 ```
 
@@ -136,14 +136,14 @@ dotnet newbe.claptrap --name HelloClaptrap
 次にブレークポイントにヒットするのは CartGrain コードです。：
 
 ```cs
-パブリック async Task<Dictionary<string, int>> AddItemAsync (string skuId, int count)
+public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 {
-    var evt = this. CreateEvent (new AddItemToCartEvent)
+    var evt = this.CreateEvent(new AddItemToCartEvent
     {
-        カウント = count,
+        Count = count,
         SkuId = skuId,
     });
-    await Claptrap.handleEventAsync (evt);
+    await Claptrap.HandleEventAsync(evt);
     return StateData.Items;
 }
 ```
@@ -187,20 +187,20 @@ Claptrap はイベントを受け入れると、独自の State データを更�
 ブレークポイントを再度使用するのは、次のコードです。：
 
 ```cs
-パブリッククラス AddItemToCartEventHandler
-    : ノルマル・ヴェント・ハンドラー<CartState, AddItemToCartEvent>
+public class AddItemToCartEventHandler
+    : NormalEventHandler<CartState, AddItemToCartEvent>
 {
-    public override ValueTask HandleEvent (CartState stateData, AddItemToCartEvent eventData,
+    public override ValueTask HandleEvent(CartState stateData, AddItemToCartEvent eventData,
         IEventContext eventContext)
     {
-        var items = stateData.Items ?? ニューディセクションリー<string, int>();
-        if (items. TryGetValue (eventData.SkuId, out var itemCount))
+        var items = stateData.Items ?? new Dictionary<string, int>();
+        if (items.TryGetValue(eventData.SkuId, out var itemCount))
         {
             itemCount += eventData.Count;
         }
-        エルゼ
+        // else
         // {
-        itemCount = eventData.Count;
+        //     itemCount = eventData.Count;
         // }
 
         items[eventData.SkuId] = itemCount;
@@ -249,48 +249,48 @@ Claptrap はイベントを受け入れると、独自の State データを更�
 ```bash
 A total of 1 test files matched the specified pattern.
   X AddFirstOne [130ms]
-  エラー メッセージ:
+  Error Message:
    Expected value to be 10, but found 0.
-  スタックトレース:
-     at FluentAssertions.Execution.LateBoundTestFramework.Throw (String message)
-   at FluentAssertions.Execution.TestFrameworkProvider.Throw (String message)
-   at FluentAssertions.Execution.DefaultAssertionStrategy.Handle Failure (String message)
-   at FluentAssertions.Execution.AssertionScope.FailWith (Func'1 failReason Func)
-   at FluentAssertions.Execution.AssertionScope.FailWith (Func'1 failReason Func)
-   at FluentAssertions.Execution.AssertionScope.FailWith (String message, Object[] args)
-   at FluentAssertions.Numeric.NumericAssertions'1.Be (T expected, String because, Object[] becauseArgs)
-   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D.\Repo_HelloClaptrap_HelloClaptrap.Actors.Tests_Cart_Events_AddItemToCartEventHandlerTest.cs:line 32
-   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D.\Repo_HelloClaptrap_HelloClaptrap.Actors.Tests_Cart_Events_AddItemToCartEventHandlerTest.cs:line 32
-   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult()
-   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 invoke)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand. RunTestMethod (TestExecutionContext context)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute (TestExecutionContext context)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at HelloClaptrap.Actors.Tests.Cart.Events.AddItemToCartEventHandlerTest.AddFirstOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\AddItemToCartEventHandlerTest.cs:line 32
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
    at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
-  XレmoveOne [2ms]
-  エラー メッセージ:
+  X RemoveOne [2ms]
+  Error Message:
    Expected value to be 90, but found 100.
-  スタックトレース:
-     at FluentAssertions.Execution.LateBoundTestFramework.Throw (String message)
-   at FluentAssertions.Execution.TestFrameworkProvider.Throw (String message)
-   at FluentAssertions.Execution.DefaultAssertionStrategy.Handle Failure (String message)
-   at FluentAssertions.Execution.AssertionScope.FailWith (Func'1 failReason Func)
-   at FluentAssertions.Execution.AssertionScope.FailWith (Func'1 failReason Func)
-   at FluentAssertions.Execution.AssertionScope.FailWith (String message, Object[] args)
-   at FluentAssertions.Numeric.NumericAssertions'1.Be (T expected, String because, Object[] becauseArgs)
-   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo_HelloClaptrap_HelloClaptrap_HelloClaptrap.Actors.Tests_Cart_Events\RemoveItemFromCartEventHandlerTest.cs:line 40
-   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo_HelloClaptrap_HelloClaptrap_HelloClaptrap.Actors.Tests_Cart_Events\RemoveItemFromCartEventHandlerTest.cs:line 40
-   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter'1.GetResult()
-   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await (Func'1 invoke)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand. RunTestMethod (TestExecutionContext context)
-   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute (TestExecutionContext context)
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at HelloClaptrap.Actors.Tests.Cart.Events.RemoveItemFromCartEventHandlerTest.RemoveOne() in D:\Repo\HelloClaptrap\HelloClaptrap\HelloClaptrap.Actors.Tests\Cart\Events\RemoveItemFromCartEventHandlerTest.cs:line 40
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.GetResult()
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
    at NUnit.Framework.Internal.Execution.SimpleWorkItem.PerformWork()
 
 
-テストランファイル。
+Test Run Failed.
 Total tests: 7
-     パス: 5
-     ファイレド: 2
+     Passed: 5
+     Failed: 2
 
 ```
 
@@ -300,21 +300,21 @@ Total tests: 7
 [Test]
 public async Task AddFirstOne()
 {
-    using var mocker – AutoMock.GetStrict();
+    using var mocker = AutoMock.GetStrict();
 
-    await using var handler @ mocker. クリエイト<AddItemToCartEventHandler>();
+    await using var handler = mocker.Create<AddItemToCartEventHandler>();
     var state = new CartState();
-    バーのevt – new AddItemToCartEvent
+    var evt = new AddItemToCartEvent
     {
         SkuId = "skuId1",
-        カウント = 10
+        Count = 10
     };
-    アwait handler. HandleEvent (state, evt, default);
+    await handler.HandleEvent(state, evt, default);
 
-    ステート. Items.Count.Should(). Be(1);
-    var (key, value) = state. Items.Single();
-    キー ショアド()。 Be (evt. SkuId;
-    私は値を見る。 ショアド()。 Be (evt. カウント);
+    state.Items.Count.Should().Be(1);
+    var (key, value) = state.Items.Single();
+    key.Should().Be(evt.SkuId);
+    value.Should().Be(evt.Count);
 }
 ```
 
