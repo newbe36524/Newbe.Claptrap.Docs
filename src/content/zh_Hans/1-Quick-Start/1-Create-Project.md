@@ -46,7 +46,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ## 编译与启动
 
-项目创建完成之后，您可以会用您偏爱的 IDE 打开解决方案进行编译。
+项目创建完成之后，您可以用您偏爱的 IDE 打开解决方案进行编译。
 
 编译完成后，通过 IDE 上“启动”功能，同时启动 Web 和 BackendServer 两个项目。（VS 需要以控制台方式启动服务，如果使用 IIS Express，需要开发者看一下对应的端口号来访问 Web 页面）
 
@@ -238,7 +238,7 @@ public class AddItemToCartEventHandler
 
 接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
-### 这是一个考虑单元测试框架
+### 这是一个考虑单元测试的框架
 
 在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
