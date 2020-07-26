@@ -4,10 +4,12 @@ metaTitle: 'Newbe.Claptrap 中文说明文档'
 metaDescription: '这是以`反应式`、`事件溯源`和`Actor模式`作为基本理论的一套服务端开发框架。于此之上，开发者可以更为简单的开发出“分布式”、“可水平扩展”、“可测试性高”的应用系统。'
 ---
 
-![Newbe.Claptrap](https://raw.githubusercontent.com/newbe36524/Newbe.Claptrap/develop/docs/main_banner.png)
+> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+
+![Newbe.Claptrap](https://www.newbe.pro/images/main_banner.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions)
@@ -25,17 +27,17 @@ metaDescription: '这是以`反应式`、`事件溯源`和`Actor模式`作为基
 
 Claptrap and it`s Minions are coming.
 
-目前我们还需要更多的成员加入我们来完成这项工作，无论您对哪方便感兴趣，我们相信您都可以在这里找到适合你的参与点。
-
 ## 项目样例
 
 您可以通过[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)来获取关于该项目的样例代码，以便您了解如何使用该项目。
 
 ## 参与讨论
 
-- 如果你对该项目感兴趣，你可以通过 [github issues](https://github.com/newbe36524/Newbe.Claptrap/issues) 提交您的看法
-- 点击链接 QQ 交流【Newbe.Claptrap】：<https://jq.qq.com/?_wv=1027&k=5uJGXf5>
-- [![Gitter](https://badges.gitter.im/newbe-claptrap/community.svg)](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+-  [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
+-  [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
+-  公开邮箱 newbe-claptrap@googlegroups.com （发送到该邮箱的内容将被公开）
+-  [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+-  [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 参考资料
 
@@ -63,6 +65,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
