@@ -1,34 +1,34 @@
 ---
-title: 'Claptrap 设计图 （Claptrap Design）'
-metaTitle: 'Claptrap 设计图 （Claptrap Design）'
-metaDescription: 'Claptrap 设计图 （Claptrap Design）'
+title: 'Claptrap Design'
+metaTitle: 'Claptrap Design'
+metaDescription: 'Claptrap Design'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体到 Claptrap Design 对象上。
+Claptrap a un haut degré de personnalisation.Les développeurs peuvent spécifier un ensemble personnalisé de composants pour l’objet Claptrap, tels que la méthode Event Loader/Event Saver/State Saver/State Saver/EventNotification, etc.Tout cela peut être personnalisé à l’objet Claptrap Design.
 
-Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，以下有一些常见的细节：
+Claptrap Design est comme un design qui détermine chaque détail de Claptrap, avec quelques détails communs ci-dessous.：
 
-1. 采用什么样的 Event Loader / Event Saver 来处理事件。
-2. 多久保存一次 State 快照。
-3. 是否一个 Minion ，如果是，那么 Master 是谁。
-4. 有多少种事件，对应的 Event Handler 分别是什么。
+1. Quel événement Chargeur / Event Saver est utilisé pour gérer l’événement.
+2. À quelle fréquence enregistrez-vous un instantané d’état.
+3. Qu’il s’agisse ou non d’un Minion, et si oui, alors maîtriser qui.
+4. Combien d’événements y a-t-il et quel est le gestionnaire d’événements correspondant.
 
-而这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。从而形成完整的 Claptrap Design。并且，启动时会对 Claptrap Design 进行合理性的验证，确保 Claptrap Design 都是基本可用的。不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
+Ces détails sont configurés de diverses façons, telles que l’analyse de type, les balises de propriétés, les interfaces cohérentes, les profils, et ainsi de suite, lorsque l’application démarre.Il en résulte un claptrap design complet.En outre, Claptrap Design est validé pour le caractère raisonnable au démarrage pour s’assurer que Claptrap Design est essentiellement disponible.Il n’y aura pas d’erreurs de bas niveau comme « Oubliez d’écrire Handler for Event ».
 
-所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 查阅。
+Tous les claptrap design se trouvent au centre d’un objet de mémoire tel que l’IClaptrap Design Store afin que Claptrap Factory puisse regarder vers le haut dans le bâtiment Claptrap.
 
-开发者也可以基于 IClaptrapDesignStore 中的所有数据，来生成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码而高于代码。
+Les développeurs peuvent également générer du texte ou des graphiques que les humains peuvent lire en fonction de toutes les données de l’IClaptrapDesign Store, ce qui facilite la compréhension des relations et des détails de configuration entre Claptrap dans le système actuel à un niveau élevé, dérivé du code et supérieur au code.
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+Ce qui suit est une description basée sur l’histoire pour aider à comprendre.Je m’en fiche.
 
-Claptrap Design 是 Claptrap Factory 进行 Claptrap 生产的重要依据。在 Design 中记录了对特定种类 Claptrap 所需要配备的定制化装置。例如：决定多功能任务处理器中的任务执行模组；决定手持型备忘录的设备型号；决定内存恢复控制器的恢复策略。
+Claptrap Design Design est une base importante pour la production Claptrap Factory Claptrap.Les périphériques personnalisés requis pour un type particulier de Claptrap sont documentés dans Design.Par exemple.：Décidez du module d’exécution des tâches dans le processeur de tâches multifonctions, décidez du modèle de périphérique pour la note de service de poche et décidez de la stratégie de récupération du contrôleur de récupération de mémoire.
 
-在决定 Claptrap 投产之前，设计好 Claptrap Design 是确保最终产物符合需求的重要一环。
+La conception de Claptrap Design est une partie importante de s’assurer que le produit final répond à vos besoins avant de décider d’entrer en production.
 
-## ICON
+## Icône.
 
-![claptrap](/images/claptrap_icons/claptrap_design.svg)
+![Claptrap.](/images/claptrap_icons/claptrap_design.svg)
