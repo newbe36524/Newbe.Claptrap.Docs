@@ -1,11 +1,11 @@
 ---
-title: '状态快照 （State Snapshot）'
-metaTitle: '状态快照 （State Snapshot）'
-metaDescription: '状态快照 （State Snapshot）'
+title: '狀態快照 (State Snapshot)'
+metaTitle: '狀態快照 (State Snapshot)'
+metaDescription: '狀態快照 (State Snapshot)'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文,並進行人工校對的結果。若文檔中存在任何翻譯不當的地方,歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
-一个处于激活状态的 Claptrap ，它的 State 就表现了它当前的最新数据状态。这是通过事件溯源的方式来从持久化层还原的。有时，事件的数量可能非常庞大。那么通过事件来还原 State 将会花费更多的时间。
+一個處於啟動狀態的 Claptrap ,它的 State 就表現了它當前的最新數據狀態。這是通過事件溯源的方式來從持久化層還原的。有時,事件的數量可能非常龐大。那麼通過事件來還原 State 將會花費更多的時間。
 
-TBD
+TBD。
