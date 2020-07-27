@@ -1,34 +1,34 @@
 ---
-title: 'Claptrap 设计图 （Claptrap Design）'
-metaTitle: 'Claptrap 设计图 （Claptrap Design）'
-metaDescription: 'Claptrap 设计图 （Claptrap Design）'
+title: 'Diseño de Claptrap'
+metaTitle: 'Diseño de Claptrap'
+metaDescription: 'Diseño de Claptrap'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
-Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体到 Claptrap Design 对象上。
+Claptrap tiene un alto grado de personalización.Los desarrolladores pueden especificar un conjunto personalizado de componentes para el objeto Claptrap, como Event Loader/Event Saver/State Saver/State Saver/EventNotification Method, etc.Todo esto se puede personalizar para el objeto Claptrap Design.
 
-Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，以下有一些常见的细节：
+Claptrap Design es como un diseño que determina cada detalle de Claptrap, con algunos detalles comunes a continuación.：
 
-1. 采用什么样的 Event Loader / Event Saver 来处理事件。
-2. 多久保存一次 State 快照。
-3. 是否一个 Minion ，如果是，那么 Master 是谁。
-4. 有多少种事件，对应的 Event Handler 分别是什么。
+1. Qué event Loader / Event Saver se utiliza para controlar el evento.
+2. Con qué frecuencia se guarda una instantánea de estado.
+3. Si un esbirro, y si es así, entonces domina quién.
+4. Cuántos eventos hay y cuál es el controlador de eventos correspondiente.
 
-而这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。从而形成完整的 Claptrap Design。并且，启动时会对 Claptrap Design 进行合理性的验证，确保 Claptrap Design 都是基本可用的。不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
+Estos detalles se configuran de varias maneras, como el análisis de tipos, las etiquetas de propiedad, las interfaces coherentes, los perfiles, etc., cuando se inicia la aplicación.Esto da como resultado un diseño completo de Claptrap.Además, Claptrap Design se valida por razonabilidad al inicio para garantizar que Claptrap Design esté disponible básicamente.No habrá errores de bajo nivel como "Olvidar escribir controlador para evento."
 
-所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 查阅。
+Todo Claptrap Design se encuentra de forma centralizada en un objeto de memoria como IClaptrap Design Store para que Claptrap Factory pueda buscar en el edificio Claptrap.
 
-开发者也可以基于 IClaptrapDesignStore 中的所有数据，来生成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码而高于代码。
+Los desarrolladores también pueden generar texto o gráficos que los seres humanos pueden leer en función de todos los datos de IClaptrapDesign Store, lo que facilita la comprensión de las interrelaciones y los detalles de configuración entre Claptrap en el sistema actual a un alto nivel, derivado del código y superior al código.
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+La siguiente es una descripción basada en la historia para ayudar a la comprensión.No me importa demasiado.
 
-Claptrap Design 是 Claptrap Factory 进行 Claptrap 生产的重要依据。在 Design 中记录了对特定种类 Claptrap 所需要配备的定制化装置。例如：决定多功能任务处理器中的任务执行模组；决定手持型备忘录的设备型号；决定内存恢复控制器的恢复策略。
+Claptrap Design Design es una base importante para la producción claptrap de Claptrap Factory.Los dispositivos personalizados necesarios para un tipo particular de Claptrap se documentan en Diseño.Por ejemplo.：Decida el módulo de ejecución de tareas en el procesador de tareas multifunción, decida el modelo de dispositivo para la nota de mano y decida la estrategia de recuperación del controlador de recuperación de memoria.
 
-在决定 Claptrap 投产之前，设计好 Claptrap Design 是确保最终产物符合需求的重要一环。
+Diseñar Claptrap Design es una parte importante para garantizar que el producto final satisfaga sus necesidades antes de decidir entrar en producción.
 
-## ICON
+## Icono.
 
-![claptrap](/images/claptrap_icons/claptrap_design.svg)
+![Una trampa.](/images/claptrap_icons/claptrap_design.svg)
