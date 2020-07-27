@@ -1,36 +1,36 @@
 ---
-title: '状态 （State）'
-metaTitle: '状态 （State）'
-metaDescription: '状态 （State）'
+title: 'Staat'
+metaTitle: 'Staat'
+metaDescription: 'Staat'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-State 在 Actor 模式中代表了 Actor 对象当前的数据表现。而在 Claptrap 仅仅只是在此之上增加了一个限制：“State 只能通过事件溯源的方式进行更新”。由于事件溯源的可靠性。Claptrap 中的 State 也就拥有了更好的可靠性。
+Status stellt die aktuelle Datendarstellung des Actor-Objekts im Actor-Muster dar.Claptrap fügt nur ein Limit hinzu.："Der Zustand kann nur ereignisverfolgt aktualisiert werden."Aufgrund der Zuverlässigkeit der Ereignisrückverfolgbarkeit.State in Claptrap hat auch eine bessere Zuverlässigkeit.
 
-State 的版本号。在 Claptrap 中的 State 中有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
+Die Versionsnummer des Bundeslandes.In State in Claptrap gibt es eine Eigenschaft namens Version, die die aktuelle Version von State darstellt.Eine Versionsnummer ist eine selbsterhöhende Zahl, die bei 0 beginnt und sich selbst jedes Mal erhöht, wenn ein Ereignis verarbeitet wird.
 
-版本号为 0 的 State 是 Claptrap 的初始状态，也可以被称为创世状态。初始状态可以根据业务需要进行定制。
+State Claptrap mit der Versionsnummer 0 ist der Anfangszustand von Claptrap und kann auch als Genesis-Zustand bezeichnet werden.Der Anfangsstatus kann an die Geschäftsanforderungen angepasst werden.
 
-Claptrap 和 Minion 对于版本号的处理也有一些区别。
+Es gibt einige Unterschiede zwischen Claptrap und Minions Handhabung von Versionsnummern.
 
-对于 Claptrap 而言，Claptrap 是事件的生产者，因此，事件的版本号本身就是由 Claptrap 进行赋予的。例如，在一次事件的处理过程中，以下这些事情将会依次发生：
+Für Claptrap ist Claptrap der Produzent des Ereignisses, so dass die Versionsnummer des Ereignisses selbst von Claptrap angegeben wird.Beispielsweise werden bei der Verarbeitung eines Ereignisses die folgenden Dinge nacheinander auftreten.：
 
-1. State Version = 1000
-2. 开始处理 Event ，其 Version = State Version + 1 = 1001
-3. Event 处理完毕，更新 State Version = 1001
+1. Zustandsversion . . . 1000.
+2. Beginnen Sie mit Event, dessen Version State Version s 1 s 1001 ist.
+3. Das Ereignis ist beendet, und die Zustandsversion wird für 1001 aktualisiert.
 
-对于 Minion 而言，由于它是 Claptrap 事件的消费者。因此版本号的处理略有不同。例如，在一次事件的处理过程中，以下事件将会依次发生：
+Für Minion, weil es ein Verbraucher von The Claptrap Ereignis ist.Daher ist die Verarbeitung der Versionsnummer etwas anders.Beispielsweise treten bei der Verarbeitung eines Ereignisses die folgenden Ereignisse nacheinander auf.：
 
-1. State Version = 1000
-2. 读取到了 Event Version 为 1001 的事件
-3. Event 处理完毕，更新 State Version = 1001
+1. Zustandsversion . . . 1000.
+2. Lesen Sie das Ereignis, dass die Ereignisversion 1001 ist.
+3. Das Ereignis ist beendet, und die Zustandsversion wird für 1001 aktualisiert.
 
-State 的版本号和 Event 的版本号相互依存，相互验证，是事件有序性的关键。如果在处理过程中，出现 State 的版本号和 Event 的版本号不匹配的情况，将会是严重的问题。通常来说，出现版本号不匹配，只有两种情况：
+Die Versionsnummer des Status und die Versionsnummer des Ereignisses sind voneinander abhängig und gegenseitig überprüft, was für die Ereignisreihenfolge entscheidend ist.Wenn während der Verarbeitung eine Diskrepanz zwischen der Versionsnummer des Bundeslandes und der Versionsnummer des Ereignisses besteht, kann dies ein schwerwiegendes Problem darstellen.Im Allgemeinen gibt es in zwei Fällen eine Nichtübereinstimmung zwischen versionsnummern.：
 
-1. 持久化层中的事件出现了丢失
-2. 框架恶性 BUG
+1. Ereignisse in der Persistenzebene fehlen.
+2. Rahmen bösartige BUG.
 
-## ICON
+## Symbol.
 
-![claptrap](/images/claptrap_icons/state.svg)
+![Claptrap.](/images/claptrap_icons/state.svg)
