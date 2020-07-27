@@ -25,7 +25,7 @@ Claptrap Design 就像一張設計圖，決定了 Claptrap 的每個細節，以
 
 以下是關於故事化描述,用於輔助理解。不必太過在意。
 
-Claptrap Design 是Claptrap Factory進行Claptrap生產的重要依據。在 Design 中記錄了對特定種類 Claptrap 所需要配備的定制化裝置。例如。：決定多功能任務處理器中的任務執行模組;決定手持型備忘錄的設備型號;決定記憶體恢復控制器的恢復策略。
+Claptrap Design 是Claptrap Factory進行Claptrap生產的重要依據。在 Design 中記錄了對特定種類 Claptrap 所需要配備的定制化裝置。例如：決定多功能任務處理器中的任務執行模組；決定手持型備忘錄的設備型號；決定記憶體恢復控制器的恢復策略。
 
 在決定 Claptrap 投產之前，設計好 Claptrap Design 是確保最終產物符合需求的重要一環。
 
