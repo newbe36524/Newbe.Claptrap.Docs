@@ -1,11 +1,11 @@
 ---
-title: '状态快照 （State Snapshot）'
-metaTitle: '状态快照 （State Snapshot）'
-metaDescription: '状态快照 （State Snapshot）'
+title: 'Instantané d’état'
+metaTitle: 'Instantané d’état'
+metaDescription: 'Instantané d’état'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-一个处于激活状态的 Claptrap ，它的 State 就表现了它当前的最新数据状态。这是通过事件溯源的方式来从持久化层还原的。有时，事件的数量可能非常庞大。那么通过事件来还原 State 将会花费更多的时间。
+Claptrap dans un état actif qui représente son état actuel de données.Ceci est restauré à partir de la couche de persistance en traçant l’origine des événements.Parfois, le nombre d’événements peut être très important.Il faudra plus de temps pour restaurer l’État à travers les événements.
 
-TBD
+Tbd.
