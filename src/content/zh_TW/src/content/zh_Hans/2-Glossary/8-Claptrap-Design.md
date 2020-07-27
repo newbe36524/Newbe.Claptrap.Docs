@@ -6,7 +6,7 @@ metaDescription: 'Claptrap 設計圖 (Claptrap Design)'
 
 > [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
-Claptrap 擁有較高的可定製性。開發者可以為 Claptrap 物件指定自訂的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列元件。而這一切的自定義,都可以具體到 Claptrap Design 物件上。
+Claptrap 擁有較高的可定製性。開發者可以為 Claptrap 物件指定自訂的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列元件。而這一切的自定義，都可以具體到 Claptrap Design 物件上。
 
 Claptrap Design 就像一張設計圖，決定了 Claptrap 的每個細節，以下有一些常見的細節：
 
@@ -27,7 +27,7 @@ Claptrap Design 就像一張設計圖，決定了 Claptrap 的每個細節，以
 
 Claptrap Design 是Claptrap Factory進行Claptrap生產的重要依據。在 Design 中記錄了對特定種類 Claptrap 所需要配備的定制化裝置。例如。：決定多功能任務處理器中的任務執行模組;決定手持型備忘錄的設備型號;決定記憶體恢復控制器的恢復策略。
 
-在決定 Claptrap 投產之前,設計好 Claptrap Design 是確保最終產物符合需求的重要一環。
+在決定 Claptrap 投產之前，設計好 Claptrap Design 是確保最終產物符合需求的重要一環。
 
 ## ICON
 
