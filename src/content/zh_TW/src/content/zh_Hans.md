@@ -4,7 +4,7 @@ metaTitle: 'Newbe.Claptrap 正體中文說明文件'
 metaDescription: '這是以`反應式`、`事件溯源`和`Actor模式`作為基本理論的一套服務端開發框架。於此之上，開發者可以更為簡單的開發出“分布式”、“可水平擴展”、“可測試性高”的應用系統。'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 ![Newbe.Claptrap](https://www.newbe.pro/images/main_banner.png)
 
@@ -24,19 +24,19 @@ Claptrap and it`s Minions are coming.
 
 ## 项目範例
 
-您可以通过[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)来获取关于该项目的样例代码，以便您了解如何使用该项目。
+您可以通過[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)以取得關於該項目的範例代碼，以便您瞭解如何使用該專案。
 
 ## 参加討論
 
 -  [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 -  [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
--  公开邮箱 newbe-claptrap@googlegroups.com （发送到该邮箱的内容将被公开）
+-  公開信箱 newbe-claptrap@googlegroups.com （發送到該郵箱的內容將被公開）
 -  [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 -  [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 參考資料
 
-该项目受启发于众多开源项目与博客文章：
+該項目受啟發於眾多開源項目與博客文章：
 
 - [基於 Actor 框架 Orleans 構建的分布式、事件溯源、事件驅動、最終一致性的高性能框架——Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
@@ -72,11 +72,11 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## 圖標
 
-本项目目前使用的图标均来自于[The Noun Project](https://thenounproject.com/)。您可以在[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)中查看各个部分的版权信息。
+本項目目前使用的圖標均來自於[The Noun Project](https://thenounproject.com/)。你可以在[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)中查看各個部分的版權信息。
 
 ## Gitee
 
-如果您无法正常的使用 Github，也可以通过 Gitee 来获取源码以及样例。
+如果您無法正常的使用 Github，也可以透過 Gitee 來獲取源代碼以及範例。
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
