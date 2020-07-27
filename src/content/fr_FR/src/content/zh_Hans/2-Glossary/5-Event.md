@@ -1,36 +1,36 @@
 ---
-title: '事件 （Event）'
-metaTitle: '事件 （Event）'
-metaDescription: '事件 （Event）'
+title: 'Événements'
+metaTitle: 'Événements'
+metaDescription: 'Événements'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-Claptrap 是基于事件溯源的 Actor 模式。事件自然就起到了至关重要的作用。
+Claptrap est un modèle d’acteur basé sur l’événement.Les événements jouent naturellement un rôle crucial.
 
-想要操作 Claptrap 就需要对其传递事件。事件也是改变 Claptrap State 的唯一参数。因此，在使用 Claptrap 构建系统时，所有的系统操作都会转换为事件而传入到 Claptrap 中。事件具有以下这些特点：
+Vous devez transmettre des événements si vous voulez manipuler Claptrap.Les événements sont également les seuls paramètres qui modifient l’état de Claptrap.Par conséquent, lorsque vous construisez un système avec Claptrap, toutes les opérations du système sont converties en événements et passées dans Claptrap.Les événements ont ces caractéristiques.：
 
-## 事件是有序的
+## Les événements sont ordonnés.
 
-每个事件都包含有一个唯一的序列号。在本框架中，这个序列号被称为版本号（Version）。事件的版本号是一个从 1 开始逐 1 递增的序列。事件的有序性，确保了状态的计算不存在并发问题。这是状态数据可靠性的重要保证。
+Chaque événement contient un numéro de série unique.Dans ce cadre, ce numéro de série est appelé numéro de version.Le numéro de version de l’événement est une séquence qui incrémente 1 par un.L’ordre de l’événement garantit que l’état est calculé sans concurrence.Il s’agit d’une garantie importante de fiabilité des données de l’État.
 
-事件的有序性直接反应了 Claptrap 执行事件的先后顺序。而由于需要确保这种顺序，Claptrap 在执行事件时，必须逐个事件进行处理。这点恰好与 Actor 模式的单线程特性产生了天然的契合。
+L’ordre des événements reflète directement la séquence dans laquelle Claptrap exécute des événements.Et en raison de la nécessité d’assurer cet ordre, Claptrap doit gérer les événements sur une base incident par événement.Cela se trouve avoir un ajustement naturel avec la nature à un seul filet du modèle de l’acteur.
 
-## 事件是不可变的
+## Les événements sont immuables.
 
-事件一旦产生，它就是不可变的。事件溯源，正由于事件的不可变性，才使得数据是可靠的。因为只要读取事件，就能够还原出任何一个事件执行之后的状态。但不可变性并不是物理上的限制。你仍然可以修改物理存储中的事件数据。但请注意，这是危险的，极为不建议的行为。让我们联系设计模式中的“开闭原则”，经典的可以被概括为“对扩展开放，对修改封闭”。其中为什么要强调“对修改封闭”呢？就笔者看来，对修改封闭的原因其实是因为修改所带来的未知性。因为过往执行的代码，产生的数据。他们都已经形成了一定的封闭性。他们是经过已有的测试所验证的。如果尝试修改他们，势必就需要调整相应的测试，而这就更进一步加剧了修改，这可不是一件好事。事件的不可变是一种性质，更是一种要求。
+Une fois qu’un événement est produit, il est immuable.L’origine des événements, en raison de l’immuabilité des événements, rend les données fiables.Parce que tant que l’événement est lu, il est possible de restaurer l’état après l’exécution d’un événement.Mais l’immuabilité n’est pas une limitation physique.Vous pouvez toujours modifier les données d’événements dans le stockage physique.S’il vous plaît noter, cependant, que c’est dangereux et extrêmement unre recommandé comportement.Portons-nous au " principe ouvert et proche " du mode design, qui peut se résumer à « ouvert à l’expansion, fermé à la modification ».Pourquoi devrait-on mettre l’accent sur la « fermeture à la modification »?De l’avis de l’auteur, la raison de la fermeture de la modification est en fait due à la nature inconnue provoquée par la modification.En raison de l’exécution passée du code, les données sont générées.Ils ont tous formé un certain degré de fermeture.Ils ont été validés par des tests existants.Si vous essayez de les modifier, vous devez obligé d’ajuster les tests, ce qui exacerbe davantage les modifications, ce qui n’est pas une bonne chose.La nature immuable des événements est une exigence.
 
-那如果由于一个 BUG 导致了过往的产生事件数据不正确，现在需要修正这个 BUG，该怎么办呢？笔者的建议，不要尝试修改已有的事件。应该追加新的事件和算法来修正当前的状态。不要去调整旧的内容。笔者认为这更符合开闭原则。开发者可以自行斟酌。
+Alors que se passe-t-il si les données d’événements générées par le passé sont incorrectes en raison d’un BOGUE et que le bogue doit être corrigé dès maintenant ?Le conseil de l’auteur n’est pas d’essayer de modifier les événements existants.De nouveaux événements et algorithmes doivent être ajoutés pour corriger l’état actuel.N’ajustez pas le contenu ancien.L’auteur pense que cela est plus conforme au principe de l’ouverture et de la fermeture.Les développeurs sont à leur discrétion.
 
-## 事件是永久的
+## L’événement est permanent.
 
-事件是确保 Claptrap State 正确性的重要参数。因此，需要确保事件被永久保存。但，这不是绝对的情况，如果满足以下条件，那么事件就允许被丢失：
+Les événements sont un paramètre important pour assurer la justesse de l’état claptrap.Par conséquent, vous devez vous assurer que l’événement est enregistré de façon permanente.Toutefois, il ne s’agit pas d’un cas absolu, et si les conditions suivantes sont remplies, l’événement est autorisé à être perdu.：
 
-1. 在丢失事件之前存在一个永久的 State 快照
-2. 对应的 Claptrap 已经生命终结，永远都不会再被激活
+1. Il y a un instantané permanent de l’État avant que l’événement ne soit perdu.
+2. Le Claptrap correspondant est mort et ne sera plus jamais activé.
 
-反之，如果不满足以上的条件，那么请必须确保在生产环境中的事件被正确的保存在持久化层，并且已经有相应的容灾手段。
+Inversement, si les conditions ci-dessus ne sont pas remplies, il est important de s’assurer que les événements dans l’environnement de production sont correctement préservés dans la couche de persistance et qu’il existe des analyses appropriées de tolérance aux catastrophes.
 
-## ICON
+## Icône.
 
-![claptrap](/images/claptrap_icons/event.svg)
+![Claptrap.](/images/claptrap_icons/event.svg)
