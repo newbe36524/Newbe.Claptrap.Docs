@@ -1,34 +1,34 @@
 ---
-title: 'Claptrap 设计图 （Claptrap Design）'
-metaTitle: 'Claptrap 设计图 （Claptrap Design）'
-metaDescription: 'Claptrap 设计图 （Claptrap Design）'
+title: 'クアプラップデザインフィギュア(クアプラップデザイン)'
+metaTitle: 'クアプラップデザインフィギュア(クアプラップデザイン)'
+metaDescription: 'クアプラップデザインフィギュア(クアプラップデザイン)'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [現在表示されているバージョンは、機械が簡体字中国語から翻訳され、手動校正の結果です。ドキュメントに不適切な翻訳がある場合は、こちらをクリックして翻訳提案を提出してください。](https://crwd.in/newbeclaptrap)
 
-Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体到 Claptrap Design 对象上。
+Claptrapは高いカスタマイズ性を有する。開発者は、Claptrap オブジェクトにカスタムの Event Loader/ Event Saver / State Loader / State Saver / EventNotification Method などの一連のコンポーネントを指定できます。そして、すべてのカスタマイズは、Claptrap Design オブジェクトに固有のことができます。
 
-Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，以下有一些常见的细节：
+Claptrap Design は、Claptrap の各詳細を決定するデザイン図のようなもので、いくつかの一般的な詳細があります。：
 
-1. 采用什么样的 Event Loader / Event Saver 来处理事件。
-2. 多久保存一次 State 快照。
-3. 是否一个 Minion ，如果是，那么 Master 是谁。
-4. 有多少种事件，对应的 Event Handler 分别是什么。
+1. イベントを処理するためにどのような Event Loader / Event Saver が使用されます。
+2. State スナップショットを保存する頻度。
+3. Minion かどうか、もしそうなら、マスターは誰です。
+4. イベントの数と、対応するイベント Handler がそれぞれ何を持っているか。
 
-而这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。从而形成完整的 Claptrap Design。并且，启动时会对 Claptrap Design 进行合理性的验证，确保 Claptrap Design 都是基本可用的。不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
+これらの詳細は、アプリケーションの起動時に、タイプ スキャン、プロパティ タグ、コヒーレント インターフェイス、プロファイルなどを使用して構成されます。これにより、完全なクアプラップデザインを形成します。そして、Claptrap Designは起動時に正当化され、Claptrap Designが基本的に利用可能であることを確認します。"Event に対応する Handler を書くのを忘れた" などの低レベルのエラーは表示されません。
 
-所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 查阅。
+すべての Claptrap Design は、Claptrap Factory が Claptrap を構築している間に参照できるように、IClaptrapDesignStore などのメモリオブジェクトに一元的に保存されます。
 
-开发者也可以基于 IClaptrapDesignStore 中的所有数据，来生成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码而高于代码。
+開発者は、IClaptrapDesignStore のすべてのデータに基づいて、人間が読むことができるテキストやグラフィックスを生成し、現在のシステムにおける Claptrap の相互関係と構成の詳細を、コードよりもコードよりも高いレベルで簡単に把握できます。
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+以下は、理解を補助するストーリー化された説明です。あまり気にする必要はありません。
 
-Claptrap Design 是 Claptrap Factory 进行 Claptrap 生产的重要依据。在 Design 中记录了对特定种类 Claptrap 所需要配备的定制化装置。例如：决定多功能任务处理器中的任务执行模组；决定手持型备忘录的设备型号；决定内存恢复控制器的恢复策略。
+Claptrap Designは、Claptrap FactoryによるClaptrapの生産のための重要な基盤です。特定の種類の Claptrap に必要なカスタマイズされたデバイスは、デザインで文書化されています。たとえば、次のようにします。：多機能タスク プロセッサのタスク実行モジュールを決定し、ハンドヘルド メモのデバイス モデルを決定し、メモリ回復コントローラの回復戦略を決定します。
 
-在决定 Claptrap 投产之前，设计好 Claptrap Design 是确保最终产物符合需求的重要一环。
+Claptrap Design の設計は、Claptrap の生産開始を決定する前に、最終製品がニーズに確実に適合することを保証する重要なリンクです。
 
-## ICON
+## ICON.
 
-![claptrap](/images/claptrap_icons/claptrap_design.svg)
+![claptrap.](/images/claptrap_icons/claptrap_design.svg)
