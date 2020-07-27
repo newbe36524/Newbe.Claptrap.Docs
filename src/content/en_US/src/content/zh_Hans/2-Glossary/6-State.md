@@ -1,36 +1,36 @@
 ---
-title: '状态 （State）'
-metaTitle: '状态 （State）'
-metaDescription: '状态 （State）'
+title: 'State'
+metaTitle: 'State'
+metaDescription: 'State'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-State 在 Actor 模式中代表了 Actor 对象当前的数据表现。而在 Claptrap 仅仅只是在此之上增加了一个限制：“State 只能通过事件溯源的方式进行更新”。由于事件溯源的可靠性。Claptrap 中的 State 也就拥有了更好的可靠性。
+State represents the current data representation of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-traced manner."Due to the reliability of the event traceability.State in Claptrap also has better reliability.
 
-State 的版本号。在 Claptrap 中的 State 中有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
+The version number of State.In State in Claptrap there is a property called Version, which represents the current version of State.A version number is a self-increasing number that starts at 0 and increases itself each time an event is processed.
 
-版本号为 0 的 State 是 Claptrap 的初始状态，也可以被称为创世状态。初始状态可以根据业务需要进行定制。
+State Claptrap with version number 0 is the initial state of Claptrap and can also be called the Genesis state.The initial status can be customized to the business needs.
 
-Claptrap 和 Minion 对于版本号的处理也有一些区别。
+There are some differences between Claptrap and Minion's handling of version numbers.
 
-对于 Claptrap 而言，Claptrap 是事件的生产者，因此，事件的版本号本身就是由 Claptrap 进行赋予的。例如，在一次事件的处理过程中，以下这些事情将会依次发生：
+For Claptrap, Claptrap is the producer of the event, so the version number of the event itself is given by Claptrap.For example, during the processing of an event, the following things will occur in turn.：
 
-1. State Version = 1000
-2. 开始处理 Event ，其 Version = State Version + 1 = 1001
-3. Event 处理完毕，更新 State Version = 1001
+1. State Version . . . 1000.
+2. Start working with Event, whose Version is state Version s 1 s 1001.
+3. Event is finished, and the State Version is updated for 1001.
 
-对于 Minion 而言，由于它是 Claptrap 事件的消费者。因此版本号的处理略有不同。例如，在一次事件的处理过程中，以下事件将会依次发生：
+For Minion, because it is a consumer of The Claptrap event.Therefore, the processing of the version number is slightly different.For example, during the processing of an event, the following events occur in turn.：
 
-1. State Version = 1000
-2. 读取到了 Event Version 为 1001 的事件
-3. Event 处理完毕，更新 State Version = 1001
+1. State Version . . . 1000.
+2. Read the event that Event Version is 1001.
+3. Event is finished, and the State Version is updated for 1001.
 
-State 的版本号和 Event 的版本号相互依存，相互验证，是事件有序性的关键。如果在处理过程中，出现 State 的版本号和 Event 的版本号不匹配的情况，将会是严重的问题。通常来说，出现版本号不匹配，只有两种情况：
+State's version number and Event's version number are interdependent and mutually verified, which is key to event ordering.If there is a mismatch between The State's version number and Event's version number during processing, this can be a serious problem.In general, there is a version number mismatch, in two cases.：
 
-1. 持久化层中的事件出现了丢失
-2. 框架恶性 BUG
+1. Events in the persistence layer are missing.
+2. Frame malignant BUG.
 
-## ICON
+## ICON.
 
-![claptrap](/images/claptrap_icons/state.svg)
+![Claptrap.](/images/claptrap_icons/state.svg)
