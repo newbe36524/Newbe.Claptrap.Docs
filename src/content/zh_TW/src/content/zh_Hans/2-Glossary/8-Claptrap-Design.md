@@ -1,34 +1,34 @@
 ---
-title: 'Claptrap 设计图 （Claptrap Design）'
-metaTitle: 'Claptrap 设计图 （Claptrap Design）'
-metaDescription: 'Claptrap 设计图 （Claptrap Design）'
+title: 'Claptrap 設計圖 (Claptrap Design)'
+metaTitle: 'Claptrap 設計圖 (Claptrap Design)'
+metaDescription: 'Claptrap 設計圖 (Claptrap Design)'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文,並進行人工校對的結果。若文檔中存在任何翻譯不當的地方,歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
-Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体到 Claptrap Design 对象上。
+Claptrap 擁有較高的可定製性。開發者可以為 Claptrap 物件指定自訂的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列元件。而這一切的自定義,都可以具體到 Claptrap Design 物件上。
 
-Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，以下有一些常见的细节：
+Claptrap Design 就像一個設計圖,決定了 Claptrap 的每個細節,以下有一些常見的細節。：
 
-1. 采用什么样的 Event Loader / Event Saver 来处理事件。
+1. 採用什麼樣的 Event Loader / Event Saver 來處理事件。
 2. 多久保存一次 State 快照。
-3. 是否一个 Minion ，如果是，那么 Master 是谁。
-4. 有多少种事件，对应的 Event Handler 分别是什么。
+3. 是否一個 Minion ,如果是,那麼 Master 是誰。
+4. 有多少種事件,對應的 Event Handler 分別是什麼。
 
-而这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。从而形成完整的 Claptrap Design。并且，启动时会对 Claptrap Design 进行合理性的验证，确保 Claptrap Design 都是基本可用的。不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
+而這些細節都會在應用程式啟動時,將會通過類型掃描、屬性標記、連貫介面、配置檔等等多種方式進行配置。從而形成完整的 Claptrap Design。並且,啟動時會對 Claptrap Design 進行合理性的驗證,確保 Claptrap Design 都是基本可用的。不會出現類似於"忘記編寫 Event 對應的 Handler"這樣低級的錯誤。
 
-所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 查阅。
+所有的 Claptrap Design 都會被集中保存在 IClaptrapDesignStore 這樣一個記憶體物件中,以便 Claptrap Factory 在構建 Claptrap 查閱。
 
-开发者也可以基于 IClaptrapDesignStore 中的所有数据，来生成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码而高于代码。
+開發者也可以基於 IClaptrapDesignStore 中的所有數據,來生成可供人類閱讀的文本或者圖形,以便更容易地從高層面來瞭解當前系統中 Claptrap 之間的相互關係和配置細節,源於代碼而高於代碼。
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+以下是關於故事化描述,用於輔助理解。不必太過在意。
 
-Claptrap Design 是 Claptrap Factory 进行 Claptrap 生产的重要依据。在 Design 中记录了对特定种类 Claptrap 所需要配备的定制化装置。例如：决定多功能任务处理器中的任务执行模组；决定手持型备忘录的设备型号；决定内存恢复控制器的恢复策略。
+Claptrap Design 是Claptrap Factory進行Claptrap生產的重要依據。在 Design 中記錄了對特定種類 Claptrap 所需要配備的定制化裝置。例如。：決定多功能任務處理器中的任務執行模組;決定手持型備忘錄的設備型號;決定記憶體恢復控制器的恢復策略。
 
-在决定 Claptrap 投产之前，设计好 Claptrap Design 是确保最终产物符合需求的重要一环。
+在決定 Claptrap 投產之前,設計好 Claptrap Design 是確保最終產物符合需求的重要一環。
 
-## ICON
+## ICON。
 
-![claptrap](/images/claptrap_icons/claptrap_design.svg)
+![claptrap。](/images/claptrap_icons/claptrap_design.svg)
