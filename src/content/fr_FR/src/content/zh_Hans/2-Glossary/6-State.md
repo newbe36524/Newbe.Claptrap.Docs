@@ -1,36 +1,36 @@
 ---
-title: '状态 （State）'
-metaTitle: '状态 （State）'
-metaDescription: '状态 （State）'
+title: 'État'
+metaTitle: 'État'
+metaDescription: 'État'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-State 在 Actor 模式中代表了 Actor 对象当前的数据表现。而在 Claptrap 仅仅只是在此之上增加了一个限制：“State 只能通过事件溯源的方式进行更新”。由于事件溯源的可靠性。Claptrap 中的 State 也就拥有了更好的可靠性。
+L’État représente la représentation de données actuelle de l’objet Acteur dans le modèle Acteur.Claptrap ajoute juste une limite à cela.：« L’État ne peut être mis à jour que d’une manière retracée par l’événement. »En raison de la fiabilité de la traçabilité de l’événement.State in Claptrap a également une meilleure fiabilité.
 
-State 的版本号。在 Claptrap 中的 State 中有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
+Numéro de version de l’État.Dans State in Claptrap il ya une propriété appelée Version, qui représente la version actuelle de l’État.Un numéro de version est un nombre auto-croissant qui commence à 0 et s’augmente chaque fois qu’un événement est traité.
 
-版本号为 0 的 State 是 Claptrap 的初始状态，也可以被称为创世状态。初始状态可以根据业务需要进行定制。
+Claptrap d’état avec le numéro de version 0 est l’état initial de Claptrap et peut également être appelé l’état de genèse.Le statut initial peut être adapté aux besoins de l’entreprise.
 
-Claptrap 和 Minion 对于版本号的处理也有一些区别。
+Il y a quelques différences entre claptrap et la manipulation des numéros de version par Minion.
 
-对于 Claptrap 而言，Claptrap 是事件的生产者，因此，事件的版本号本身就是由 Claptrap 进行赋予的。例如，在一次事件的处理过程中，以下这些事情将会依次发生：
+Pour Claptrap, Claptrap est le producteur de l’événement, de sorte que le numéro de version de l’événement lui-même est donné par Claptrap.Par exemple, pendant le traitement d’un événement, les choses suivantes se produiront à tour de rôle.：
 
-1. State Version = 1000
-2. 开始处理 Event ，其 Version = State Version + 1 = 1001
-3. Event 处理完毕，更新 State Version = 1001
+1. Version d’état . . . 1000.
+2. Commencez à travailler avec Event, dont la version est état Version s 1 s 1001.
+3. L’événement est terminé et la version d’état est mise à jour pour 1001.
 
-对于 Minion 而言，由于它是 Claptrap 事件的消费者。因此版本号的处理略有不同。例如，在一次事件的处理过程中，以下事件将会依次发生：
+Pour Minion, parce que c’est un consommateur de l’événement Claptrap.Par conséquent, le traitement du numéro de version est légèrement différent.Par exemple, lors du traitement d’un événement, les événements suivants se produisent à tour de rôle.：
 
-1. State Version = 1000
-2. 读取到了 Event Version 为 1001 的事件
-3. Event 处理完毕，更新 State Version = 1001
+1. Version d’état . . . 1000.
+2. Lisez l’événement que Event Version est 1001.
+3. L’événement est terminé et la version d’état est mise à jour pour 1001.
 
-State 的版本号和 Event 的版本号相互依存，相互验证，是事件有序性的关键。如果在处理过程中，出现 State 的版本号和 Event 的版本号不匹配的情况，将会是严重的问题。通常来说，出现版本号不匹配，只有两种情况：
+Le numéro de version de l’État et le numéro de version de l’événement sont interdépendants et mutuellement vérifiés, ce qui est essentiel à la commande d’événements.S’il y a un décalage entre le numéro de version de l’État et le numéro de version de l’événement pendant le traitement, cela peut être un problème grave.En général, il y a un décalage de nombre de version, dans deux cas.：
 
-1. 持久化层中的事件出现了丢失
-2. 框架恶性 BUG
+1. Les événements de la couche de persistance sont manquants.
+2. Cadre bug malin.
 
-## ICON
+## Icône.
 
-![claptrap](/images/claptrap_icons/state.svg)
+![Claptrap.](/images/claptrap_icons/state.svg)
