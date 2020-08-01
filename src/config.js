@@ -2,7 +2,7 @@ const config = {
   gatsby: {
     pathPrefix: '/',
     siteUrl: 'https://claptrap.newbe.pro',
-    gaTrackingId: 'UA-100658571-2',
+    gaTrackingId: 'UA-100658571-3',
     trailingSlash: false,
   },
   header: {
@@ -49,7 +49,6 @@ const config = {
     ],
     
     collapsedNav: [
-      "/en_US",
       "/zh_HK",
       "/zh_TW",
       "/ru_RU",

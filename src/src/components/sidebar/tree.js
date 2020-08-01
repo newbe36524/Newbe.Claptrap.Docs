@@ -14,8 +14,22 @@ const calculateTreeData = edges => {
     : edges;
 
   const sortedNodes = originalData.sort(function(a, b) {
-    if (a.node.fields.slug < b.node.fields.slug) return -1;
-    if (a.node.fields.slug > b.node.fields.slug) return 1;
+
+    function getOrderNum(s){
+      let numberStartIndex = s.lastIndexOf('/');
+      let index = s.indexOf('-', numberStartIndex);
+      if(index <= 0){
+        return 9999;
+      }
+      let numberStr = s.substring(numberStartIndex + 1, index);
+      let re = parseInt(numberStr);
+      return re;
+    }
+
+    let aa = getOrderNum(a.node.fields.slug);
+    let bb = getOrderNum(b.node.fields.slug);
+    if (aa < bb) return -1;
+    if (aa > bb) return 1;
     return 0;
   });
   
