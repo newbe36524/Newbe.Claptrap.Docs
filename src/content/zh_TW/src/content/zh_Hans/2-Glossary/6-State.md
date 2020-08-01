@@ -6,9 +6,11 @@ metaDescription: '狀態 (State)'
 
 > [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
-State 在 Actor 模式中代表了 Actor 物件當前的數據表現。而在 Claptrap 僅僅只是在此之上增加了一個限制："State 只能通過事件溯源的方式進行更新"。由於事件溯源的可靠性。Claptrap 中的 State 也就擁有了更好的可靠性。
+State 在 Actor 模式中代表了 Actor 物件當前的數據表現。而在 Claptrap 僅僅只是在此之上增加了一個限制："State 只能通過事件溯源的方式進行更新"。由于事件溯源的可靠性，Claptrap 中的 State 也就拥有了更好的可靠性。
 
-State 的版本號──在 Claptrap 中的 State 中有一個名為 Version 的屬性，它表示 State 當前的版本。版本號是一個從 0 開始的自動遞增值，會在每次處理一個事件之後進行自增。
+## State 的版本号
+
+在 Claptrap 中的 State 有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
 
 版本號為 0 的 State 是 Claptrap 的初始狀態，也可以被稱為創世狀態。初始狀態可以根據業務需要進行定製。
 
