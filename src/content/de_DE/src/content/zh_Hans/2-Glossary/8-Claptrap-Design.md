@@ -6,20 +6,22 @@ metaDescription: 'Claptrap Design'
 
 > [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-Claptrap hat einen hohen Grad an Anpassung.Entwickler können einen benutzerdefinierten Satz von Komponenten für das Claptrap-Objekt angeben, z. B. Event Loader/Event Saver/State Saver/State Saver/EventNotification-Methode usw.All dies kann an das Claptrap Design-Objekt angepasst werden.
+## Claptrap Design 实现 Claptrap 的高可定制性
 
-Claptrap Design ist wie ein Design, das jedes Detail von Claptrap bestimmt, mit einigen allgemeinen Details unten.：
+Claptrap hat einen hohen Grad an Anpassung.开发者可以为 Claptrap 对象设置自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体反映到 Claptrap Design 对象上。
+
+Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，常见的包括：
 
 1. Welches Ereignis Loader / Event Saver wird verwendet, um das Ereignis zu behandeln.
 2. Wie oft speichern Sie einen Status-Snapshot.
-3. Ob ein Minion oder nicht, und wenn ja, dann meistern, wer.
+3. Minion ，如果是，那么 Master 是谁。
 4. Wie viele Ereignisse vorhanden sind und wie hoch ist der entsprechende Ereignishandler.
 
-Diese Details werden auf verschiedene Arten konfiguriert, z. B. Typscannen, Eigenschafts-Tags, kohärente Schnittstellen, Profile usw., wenn die Anwendung gestartet wird.Dies führt zu einem vollständigen Claptrap-Design.Außerdem wird Claptrap Design beim Start auf Angemessenheit überprüft, um sicherzustellen, dass Claptrap Design grundsätzlich verfügbar ist.Es werden keine Low-Level-Fehler wie "Vergessen Sie handler für Ereignis schreiben" angezeigt.
+这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。Dies führt zu einem vollständigen Claptrap-Design.Außerdem wird Claptrap Design beim Start auf Angemessenheit überprüft, um sicherzustellen, dass Claptrap Design grundsätzlich verfügbar ist.从而不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
 
-Das gesamte Claptrap Design befindet sich zentral in einem Speicherobjekt wie dem IClaptrap Design Store, sodass Claptrap Factory im Gebäude Claptrap nachschlagen kann.
+所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 检索。
 
-Entwickler können auch Text oder Grafiken generieren, die Menschen basierend auf allen Daten im IClaptrapDesign Store lesen können, was es einfacher macht, die Zusammenhänge und Konfigurationsdetails zwischen Claptrap im aktuellen System auf einer hohen Ebene zu verstehen, die von Code abgeleitet und höher als Code ist.
+开发者也可以基于 IClaptrapDesignStore 中的所有数据，来构成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码却高于代码。
 
 ---
 
@@ -29,6 +31,6 @@ Claptrap Design Design ist eine wichtige Grundlage für die Claptrap-Produktion 
 
 Das Entwerfen von Claptrap Design ist ein wichtiger Teil, um sicherzustellen, dass das Endprodukt Ihren Anforderungen entspricht, bevor Sie sich entscheiden, in Produktion zu gehen.
 
-## Symbol.
+## ICON
 
 ![Claptrap.](/images/claptrap_icons/claptrap_design.svg)
