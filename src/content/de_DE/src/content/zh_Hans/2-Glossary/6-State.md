@@ -6,9 +6,11 @@ metaDescription: 'Staat'
 
 > [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-Status stellt die aktuelle Datendarstellung des Actor-Objekts im Actor-Muster dar.Claptrap fügt nur ein Limit hinzu.："Der Zustand kann nur ereignisverfolgt aktualisiert werden."Aufgrund der Zuverlässigkeit der Ereignisrückverfolgbarkeit.State in Claptrap hat auch eine bessere Zuverlässigkeit.
+Status stellt die aktuelle Datendarstellung des Actor-Objekts im Actor-Muster dar.Claptrap fügt nur ein Limit hinzu.："Der Zustand kann nur ereignisverfolgt aktualisiert werden."由于事件溯源的可靠性，Claptrap 中的 State 也就拥有了更好的可靠性。
 
-Die Versionsnummer des Bundeslandes.In State in Claptrap gibt es eine Eigenschaft namens Version, die die aktuelle Version von State darstellt.Eine Versionsnummer ist eine selbsterhöhende Zahl, die bei 0 beginnt und sich selbst jedes Mal erhöht, wenn ein Ereignis verarbeitet wird.
+## State 的版本号
+
+在 Claptrap 中的 State 有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
 
 State Claptrap mit der Versionsnummer 0 ist der Anfangszustand von Claptrap und kann auch als Genesis-Zustand bezeichnet werden.Der Anfangsstatus kann an die Geschäftsanforderungen angepasst werden.
 
@@ -31,6 +33,6 @@ Die Versionsnummer des Status und die Versionsnummer des Ereignisses sind vonein
 1. Ereignisse in der Persistenzebene fehlen.
 2. Rahmen bösartige BUG.
 
-## Symbol.
+## ICON
 
 ![Claptrap.](/images/claptrap_icons/state.svg)
