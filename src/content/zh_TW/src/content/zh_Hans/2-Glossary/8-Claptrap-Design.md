@@ -6,20 +6,22 @@ metaDescription: 'Claptrap 設計圖 (Claptrap Design)'
 
 > [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
-Claptrap 擁有較高的可定製性。開發者可以為 Claptrap 物件指定自訂的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列元件。而這一切的自定義，都可以具體到 Claptrap Design 物件上。
+## Claptrap Design 实现 Claptrap 的高可定制性
 
-Claptrap Design 就像一張設計圖，決定了 Claptrap 的每個細節，以下有一些常見的細節：
+Claptrap 擁有較高的可定製性。开发者可以为 Claptrap 对象设置自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。而这一切的自定义，都可以具体反映到 Claptrap Design 对象上。
+
+Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，常见的包括：
 
 1. 採用什麼樣的 Event Loader / Event Saver 來處理事件。
 2. 多久保存一次 State 快照。
-3. 是否一個 Minion ,如果是,那麼 Master 是誰。
+3. Minion ，如果是，那么 Master 是谁。
 4. 有多少種事件,對應的 Event Handler 分別是什麼。
 
-而這些細節都會在應用程式啟動時,將會通過類型掃描、屬性標記、連貫介面、配置檔等等多種方式進行配置。從而形成完整的 Claptrap Design。並且,啟動時會對 Claptrap Design 進行合理性的驗證,確保 Claptrap Design 都是基本可用的。不會出現類似於"忘記編寫 Event 對應的 Handler"這樣低級的錯誤。
+这些细节都会在应用程序启动时，将会通过类型扫描、属性标记、连贯接口、配置文件等等多种方式进行配置。從而形成完整的 Claptrap Design。並且,啟動時會對 Claptrap Design 進行合理性的驗證,確保 Claptrap Design 都是基本可用的。从而不会出现类似于“忘记编写 Event 对应的 Handler”这样低级的错误。
 
-所有的 Claptrap Design 都會被集中保存在 IClaptrapDesignStore 這樣一個記憶體物件中,以便 Claptrap Factory 在構建 Claptrap 查閱。
+所有的 Claptrap Design 都会被集中保存在 IClaptrapDesignStore 这样一个内存对象中，以便 Claptrap Factory 在构建 Claptrap 检索。
 
-開發者也可以基於 IClaptrapDesignStore 中的所有數據,來生成可供人類閱讀的文本或者圖形,以便更容易地從高層面來瞭解當前系統中 Claptrap 之間的相互關係和配置細節,源於代碼而高於代碼。
+开发者也可以基于 IClaptrapDesignStore 中的所有数据，来构成可供人类阅读的文本或者图形，以便更容易地从高层面来了解当前系统中 Claptrap 之间的相互关系和配置细节，源于代码却高于代码。
 
 ---
 
