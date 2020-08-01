@@ -6,9 +6,11 @@ metaDescription: 'State'
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-State represents the current data representation of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-traced manner."Due to the reliability of the event traceability.State in Claptrap also has better reliability.
+State represents the current data representation of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-traced manner."由于事件溯源的可靠性，Claptrap 中的 State 也就拥有了更好的可靠性。
 
-The version number of State.In State in Claptrap there is a property called Version, which represents the current version of State.A version number is a self-increasing number that starts at 0 and increases itself each time an event is processed.
+## State 的版本号
+
+在 Claptrap 中的 State 有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
 
 State Claptrap with version number 0 is the initial state of Claptrap and can also be called the Genesis state.The initial status can be customized to the business needs.
 
@@ -31,6 +33,6 @@ State's version number and Event's version number are interdependent and mutuall
 1. Events in the persistence layer are missing.
 2. Frame malignant BUG.
 
-## ICON.
+## ICON
 
 ![Claptrap.](/images/claptrap_icons/state.svg)
