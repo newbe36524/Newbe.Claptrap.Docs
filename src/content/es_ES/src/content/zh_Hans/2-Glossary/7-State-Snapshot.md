@@ -6,29 +6,29 @@ metaDescription: 'Instantánea de estado'
 
 > [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
-## State Snapshot 加速状态还原速度
+## Instantánea de estado acelera la velocidad de restauración del estado.
 
-一个处于激活状态的 Claptrap ，它的 State 即是当前的最新数据状态。Esto se restaura a partir de la capa de persistencia mediante el seguimiento del origen de los eventos.A veces, el número de eventos puede ser muy grande.Tomará más tiempo restaurar el estado a través de eventos.因此，在 Claptrap 框架中提供了状态快照来持久化特定 Claptrap 在一定条件之后的状态。这个条件通常来说是以下几种：
+Un Claptrap activo cuyo estado es el estado actual de los datos más recientes.Esto se restaura a partir de la capa de persistencia mediante el seguimiento del origen de los eventos.A veces, el número de eventos puede ser muy grande.Tomará más tiempo restaurar el estado a través de eventos.Por lo tanto, se proporciona una instantánea de estado en el marco de Claptrap para conservar el estado de una Claptrap determinada después de una determinada condición.Esta afección suele ser la siguiente.：
 
-1. 执行了若干个事件之后。
-2. 在 Claptrap Deactive 时。
-3. 在一定的时间周期内。
+1. Se ejecutaron varios eventos.
+2. En Claptrap Deactive.
+3. En un cierto período de tiempo.
 
-事件快照的存在，使得状态从持久层还原的速度得到了提升。如果持久层存在快照，则一个状态的还原通常是按照以下步骤进行的：
+La presencia de instantáneas de eventos aumenta la velocidad a la que se restauran los estados de la capa persistente.Si existe una instantánea en la capa persistente, normalmente se realiza una restauración de estado en los pasos siguientes.：
 
-1. 读取状态快照。
-2. 从状态快照对应的版本号开始，向后读取所有的事件进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Lea la instantánea de estado.
+2. A partir del número de versión correspondiente a la instantánea de estado, lea todos los eventos hacia atrás para obtener actualizaciones de estado.
+3. Actualice el estado hasta que la capa persistente no tenga eventos restantes.
 
-但是，如果没有快照，则还原步骤则变为如下所示：
+Sin embargo, si no hay instantáneas, el paso de restauración cambia a lo siguiente.：
 
-1. 通过用户自定义方法来创建初始状态。
-2. 从事件库中读取所有事件来进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Cree el estado inicial a través de un método definido por el usuario.
+2. Lea todos los eventos de la biblioteca de eventos para actualizar el estado.
+3. Actualice el estado hasta que la capa persistente no tenga eventos restantes.
 
-不过。快照的存在也会带来一些特殊性。结合上面的工作步骤，我们很容易就发现，一旦形成了快照：
+Pero.La presencia de instantáneas también aporta cierta especialidad.Combinado con los pasos de trabajo anteriores, es fácil ver que una vez que se forma una instantánea.：
 
-1. 将不会再执行用户的自定义方法。
-2. 小于快照版本号的事件将不会被再次执行。
+1. El método personalizado del usuario ya no se ejecutará.
+2. Los eventos que sean menores que el número de versión de instantánea no se volverán a ejecutar.
 
-目前，框架对于每个 Id 仅仅能够保存一个最后的快照。
+Actualmente, el marco de trabajo solo puede contener una instantánea final para cada identificador.
