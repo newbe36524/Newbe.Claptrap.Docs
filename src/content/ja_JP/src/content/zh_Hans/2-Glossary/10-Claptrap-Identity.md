@@ -1,25 +1,25 @@
 ---
-title: 'Claptrap Identity'
-metaTitle: 'Claptrap Identity'
-metaDescription: 'Claptrap Identity'
+title: 'Claptrap Identity.'
+metaTitle: 'Claptrap Identity.'
+metaDescription: 'Claptrap Identity.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [現在表示されているバージョンは、機械が簡体字中国語から翻訳され、手動校正の結果です。ドキュメントに不適切な翻訳がある場合は、こちらをクリックして翻訳提案を提出してください。](https://crwd.in/newbeclaptrap)
 
-## Claptrap Identity 是定位一个 Claptrap 的唯一标识
+## Claptrap Identity は、Claptrap をターゲットにする一意の ID です。
 
-它是一个结构体。其包含有以下几个主要的字段：
+これは、構造体です。以下の主要なフィールドが含まれています。：
 
-Claptrap Type Code，Claptrap 分类代码。分类代码是由开发者自行定义的代码。通常和对应 Claptrap 所关联的业务有关。值得特别注意的是， Claptrap 及其 Minion 的 Claptrap Type Code 之间没有强制的关联关系，但通常在开发过程中，Minion 的 Claptrap Type Code 应该被设计为其 Master Claptrap 的部分，这样更有利于业务上的理解。
+Claptrap Type Code、Claptrap分類コード。分類コードは、開発者自身によって定義されるコードです。通常、Claptrap に関連するビジネスに関連しています。特に、Claptrap と Minion の Claptrap Type Code の間には強制的な相関関係はありませんが、通常、Minion の Claptrap Type Code は、ビジネス理解を容易にするため、Master Claptrap のセクションとして設計する必要があります。
 
-Id, Claptrap 业务 Id。这是业务的 Id。通常来说是业务的主键。在实际的代码、文档中，Claptrap Identity 都会以全称的方式出现，而出现 Id 时，通常是指业务 Id。
+Id、ClaptrapビジネスID。これはビジネスの ID です。通常、ビジネスの主キーです。実際のコード、ドキュメントでは、Claptrap Identity はフルネームで表示され、Id は通常ビジネス ID を参照します。
 
-## Claptrap Identity 这是与运行平台无关的设计
+## Claptrap Identity これは、プラットフォームの実行に関係のない設計です。
 
-因而在与具体的平台结合时，需要明确其结合点。
+したがって、特定のプラットフォームと組み合わせる場合、その結合ポイントを明確にする必要があります。
 
-Claptrap Identity 在 Orleans 中的体现。
+オルリアンスに登場するClaptrap Identity。
 
-Claptrap Type Code：在 Orleans 中，通常每个 Claptrap 都会被放置在 ClaptrapBoxGrain 中运行。此时，Claptrap Type Code 通常会以属性标记的方式，标记在类或者接口上。
+Claptrap Type Code。：Orleansでは、通常、ClaptrapBoxGrainで実行するためにすべてのClaptrapが配置されます。この時点で、Claptrap Type Code は、通常、クラスまたはインターフェイスに属性タグを付けます。
 
-Id：在 Orleans 中，Grain 本身就带有一个 PrimaryKey 。因而，在 ClaptrapBoxGrain 中也直接重用了该 PrimaryKey 作为 Claptrap Id。
+ID。：Orleans では、Grain 自体には PrimaryKey が付属しています。その結果、ClaptrapIdとしてPrimaryKeyもClaptrapBoxGrainで直接再利用された。
