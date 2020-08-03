@@ -1,42 +1,42 @@
 ---
-title: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaTitle: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaDescription: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
+title: 'Claptrap-Lebenszyklus'
+metaTitle: 'Claptrap-Lebenszyklus'
+metaDescription: 'Claptrap-Lebenszyklus'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-Claptrap 生命周期按照笔者的看法分为两大类进行阐述：运行时生命周期和设计时生命周期。
+Der Claptrap-Lebenszyklus wird nach Ansicht des Autors in zwei großen Kategorien dargestellt.：Laufzeitlebenszyklus und Entwurfszeitlebenszyklus.
 
-## 运行时生命周期
+## Der Laufzeitlebenszyklus.
 
-运行时生命周期是指 Claptrap 系统在运行过程中各个对象在内存中的生命周期行为。例如：在 Web 系统中，每个 Web 请求通常都会被分配为一个生命周期，而 Claptrap 系统也存在类似的生命周期设计。这些生命周期对于开发者进行组件扩展或者业务开发都具有一定的影响。Claptrap 框架的运行时生命周期分为：进程级（Process）、Claptrap 级和事件处理器级（Event Handler）。
+Der Laufzeitlebenszyklus ist das Lebenszyklusverhalten jedes Objekts im Arbeitsspeicher während des Betriebs des Claptrap-Systems.Zum Beispiel.：In einem Websystem wird jede Webanforderung in der Regel als Lebenszyklus zugewiesen, und das Claptrap-System verfügt über einen ähnlichen Lebenszyklusentwurf.Diese Lebenszyklen haben Auswirkungen auf die Komponentenerweiterungen oder die Geschäftsentwicklung von Entwicklern.Der Laufzeitlebenszyklus des Claptrap-Frameworks ist unterteilt in.：Prozess, Claptrap und Event Handler.
 
-进程级。被设计为进程级上生命周期的对象，属于常规意义上的单例对象。每个正在运行的 Claptrap 进程都具有自己的单例对象。典型地，例如在 Claptrap 框架中，为了提高向持久层写入事件的速度，每个持久层目标都会对应一个批量处理器（Batch Event Saver）。它们在整个进程的生命周期中只有一个实例，分别与对应的持久层一一对应，这样才能将事件进行合并写入持久层，从而提升写入性能。一般来说，被设计为进程级生命周期的对象具备以下一个或多个特点：
+Prozessebene.Ein Objekt, das als Lebenszyklus auf Prozessebene entwickelt wurde, ist ein Singleton-Objekt im allgemeinen Sinne.Jeder ausgeführte Claptrap-Prozess verfügt über ein eigenes Singleton-Objekt.In der Regel entspricht in einem Claptrap-Framework z. B. jedes persistente Layer-Ziel einem Batchprozessor (Batch Saver Event), um die Geschwindigkeit zu erhöhen, mit der Ereignisse in die persistente Ebene geschrieben werden.Sie haben während des gesamten Lebenszyklus des Prozesses nur eine Instanz, 1:1, die der entsprechenden Persistenzschicht entspricht, sodass Ereignisse zusammengeführt werden können, um in die Persistenzschicht zu schreiben, wodurch die Schreibleistung verbessert wird.Im Allgemeinen weisen Objekte, die als Lebenszyklus auf Prozessebene konzipiert sind, eines oder mehrere der folgenden Merkmale auf.：
 
-1. 只需要在整个进程生命周期中运行一次的逻辑或代码。通常可以借助 Lazy 以及单例的方式实现。
-2. 整个进程生命周期中只需要单个对象。例如 Claptrap Design Store、Claptrap Options 等等。
-3. 整个进程生命周期中只能有单个对象。例如 Orleans Client。
+1. Sie müssen die Logik oder den Code nur einmal während des gesamten Prozesslebenszyklus ausführen.Dies kann in der Regel mit Lazy und einem Singleton getan werden.
+2. Während des gesamten Prozesslebenszyklus ist nur ein einzelnes Objekt erforderlich.Beispiel: Claptrap Design Store, Claptrap-Optionen usw.
+3. Es kann nur ein einzelnes Objekt während des gesamten Prozesslebenszyklus vorhanden sein.Zum Beispiel Orleans Client.
 
-Claptrap 级。Claptrap 级生命周期的对象会随着 Claptrap 的激活而创建，随 Claptrap 的失活而释放。这些对象通常来说与一个 Claptrap Identity 有很强的关联关系。例如，与该 Claptrap Identity 关联的 Claptrap Design、Event Saver、Event Loader、State Saver 和 State Loader 等等。
+Claptrap-Ebene.Objekte im Lebenszyklus auf Claptrap-Ebene werden mit der Aktivierung von Claptrap erstellt und mit der Inaktivierung von Claptrap freigegeben.Diese Objekte sind in der Regel stark mit einer Claptrap-Identität verknüpft.Z. B. Claptrap Design, Event Saver, Event Loader, State Saver, State Loader usw., die dieser Claptrap-Identität zugeordnet sind.
 
-事件处理器级（Event Handler）。事件处理器级生命周期对象随着事件处理器创建而创建，随事件处理器释放而释放。与 Web 对应来说，这一级别的生命周期和 Web 请求生命周期类似。典型的，统一数据库事务的工作单元（Unit of Work）就属于这一级别。
+Ereignisprozessorebene (Ereignishandler).Lebenszyklusobjekte auf Ereignisprozessorebene werden erstellt, wenn der Ereignisprozessor erstellt und mit der Ereignisprozessorversion freigegeben wird.Diese Lebenszyklusebene ähnelt dem Lebenszyklus von Webanfragen als Reaktion auf das Web.In der Regel fällt die Arbeitseinheit für eine einheitliche Datenbanktransaktion auf diese Ebene.
 
-## 设计时生命周期
+## Lebensdauer der Entwurfszeit.
 
-设计时生命周期，是指 Claptrap 对应的业务对象的生命周期。这与程序是否运行无关，甚至与是否使用程序都无关。举个具体的例子，常规电商系统中的订单。一个订单的活动业务时间限界一般不会超过三到六个月。当超过这个时间限界后，订单的数据就已经不能修改。此处就这个“三到六个月”的时间限界称为订单的设计时生命周期。在 Claptrap 系统中，如果一个对象已经超过了其设计时生命周期，就表现为“业务上再也不需要激活这个 Claptrap”。由此可以得到以下推论：
+Design-Time-Lebenszyklen sind die Lebenszyklen von Geschäftsobjekten für Claptrap.Dies hat nichts damit zu tun, ob das Programm ausgeführt wird oder nicht, oder ob das Programm verwendet wird oder nicht.Um ein konkretes Beispiel zu nennen: Bestellungen in einem regulären E-Commerce-System.Die aktive Geschäftsfrist für einen Auftrag beträgt in der Regel nicht mehr als drei bis sechs Monate.Wenn dieses Zeitlimit überschritten wird, können die Auftragsdaten nicht geändert werden.Hier wird diese "drei bis sechs Monate" Frist als Entwurfszeitlebenszyklus eines Auftrags bezeichnet.Wenn ein Objekt in einem Claptrap-System seinen Entwurfszeitlebenszyklus überschritten hat, manifestiert es sich als "es besteht keine Notwendigkeit mehr, dieses Claptrap-Geschäft zu aktivieren."Daraus lassen sich die folgenden Schlussfolgerungen abziehen.：
 
-1. 该 Claptrap 已经存储的事件失去了意义，删除这些事件可以腾出可用空间。
-2. 该 Claptrap 对应的业务代码不再需要维护，可以选择被移除引用或者移除代码。
+1. Die Ereignisse, die Claptrap gespeichert hat, sind bedeutungslos, und das Löschen gibt freien Speicherplatz frei.
+2. Der Geschäftscode für die Claptrap muss nicht mehr gewartet werden, und Sie können den Verweis entfernen oder den Code entfernen.
 
-所以，如果 Claptrap 的设计时生命周期越短，就更有利于减少资源的占用和代码维护成本，反之，则增加了存储成本和维护难度。故而，在设计 Claptrap 系统时，倾向于使用更短的设计时生命周期。而这个名词，也直接反应了其实完全由“设计”来决定。 接下来，我们列举一些常用的设计时生命周期划分法。
+Je kürzer der Entwurfslebenszyklus von Claptrap, desto günstiger ist es daher, den Ressourcenbedarf und die Kosten für die Codewartung zu reduzieren und umgekehrt, was die Lagerkosten und Wartungsschwierigkeiten erhöht.Daher besteht beim Entwerfen von Claptrap-Systemen die Tendenz, einen kürzeren Lebenszyklus der Entwurfszeit zu verwenden.Und dieses Nobiss, spiegelt auch direkt das tatsächliche vollständig durch "Design" zu bestimmen. Als Nächstes listen wir einige gängige Entwurfszeit-Lebenszyklusklassifizierungen auf.
 
-### 业务边界划分法
+### Abgrenzung der Geschäftsgrenze.
 
-这是最为常见的划分法。基于领域建模的要求对业务对象进行划分。并且这些业务对象通常有固定的生命周期。就如前文的“订单”就是常见的按照业务边界划分生命周期的例子。在使用该方法进行划分时，只需要注意 Claptrap 满足“大于等于最小竞争资源范围”的基础要求就可以了。开发者可以通过“火车售票系统”的样例来体验这种划分法。
+Dies ist die häufigste Teilung.Die Geschäftsobjekte werden nach den Anforderungen der Domänenmodellierung unterteilt.Und diese Geschäftsobjekte haben oft einen festen Lebenszyklus.Wie in der vorherigen "Ordnung" ist ein häufiges Beispiel für die Aufteilung des Lebenszyklus durch Geschäftsgrenzen.Bei der Teilung mit dieser Methode müssen Sie nur beachten, dass Claptrap die grundlegende Anforderung erfüllt, dass "der minimale wettbewerbsfähige Ressourcenbereich größer oder gleich ist".Entwickler können diese Aufteilung mit einem Beispiel für ein "Zugticketsystem" erleben.
 
-### 条件边界划分法
+### Bedingte Grenzabgrenzung.
 
-一般来说，基于业务边界划分法已经能够划分出合理的生命周期。但是，如果只是按照业务边界划分，可能会出现设计时生命周期为永久的对象。假如这些对象又拥有非常密集的事件操作。那么随着生成的事件量将异常多。为此，我们引入人为控制的方式来缩短设计时生命周期。这种划分是基于特定的条件划分的。因此称为条件边界划分法。而在此之中最为经典的就是采用“时间限界”来划分。
+Im Allgemeinen konnte die geschäftsgrenzenbasierte Divisionsmethode einen angemessenen Lebenszyklus aufteilen.Wenn Sie jedoch einfach entlang von Geschäftsgrenzen unterteilt sind, verfügen Sie möglicherweise über Entwurfszeit-Lebenszyklus-zu-permanente Objekte.Angenommen, diese Objekte haben sehr dichte Ereignisoperationen.Dann ist die Anzahl der generierten Ereignisse ungewöhnlich groß.Dazu führen wir menschengesteuerte Wege ein, um den Lebenszyklus der Entwurfszeit zu verkürzen.Diese Aufteilung basiert auf bestimmten Bedingungen.Es wird daher als bedingte Grenzabgrenzung bezeichnet.Und die klassischste davon ist die Verwendung von "Zeitlimit" zu teilen.
 
-此处我们借由“快速入门”例子中的购物车对象来说明一下这种划分法。首先，购物车是和用户相关的对象，只要用户一直存在于这个系统中，那么就有可能被激活，也就是说，它的设计时生命周期是“永久”的。因此就无法删除相关的事件，必须永久保存这些事件来确保购物车数据的正确性。但，假如我们对于购物车在一年前所产生的的事件已经不再关心。我们就可以手动的按照年份对单个用户的购物车进行划分。同时，我们可以在相邻两个年份的购物车进行“状态拷贝”。这样就延续前一年的状态数据，从而使用户的购物车在设计时生命周期上产生更短，而且这样也不影响业务。我们可以借助中国的一个经典传说故事《愚公移山》来理解这种基于时间的设计时生命周期划分法。故事中，愚公是凡人，虽然不能长生不老（较短的设计时生命周期），但愚公的精神（较长的设计时生命周期）却可以随着子孙后代而延续，因而可以完成移山的伟业。当每代“愚公”进行换代时，就发生了上文中提到的“状态拷贝”（精神延续）。从而用较短的设计时生命周期，实现了较长的甚至永久的设计时生命周期的要求。
+Hier veranschaulichen wir diese Aufteilung anhand des Warenkorbobjekts im Schnellstartbeispiel.Erstens ist ein Warenkorb ein benutzerbezogenes Objekt, und solange der Benutzer im System war, ist es möglich, aktiviert zu werden, d.h. sein Design-Lebenszyklus ist "permanent".Daher können Sie verwandte Ereignisse nicht löschen, und sie müssen dauerhaft gespeichert werden, um sicherzustellen, dass die Warenkorbdaten korrekt sind.Aber wenn uns die Ereignisse, die ein Einkaufswagen vor einem Jahr verursacht hat, egal sind.Wir können die Einkaufswagen einzelner Benutzer manuell nach Jahr aufteilen.Gleichzeitig können wir für zwei angrenzende Jahre eine "Statuskopie" in einem Warenkorb erstellen.Dadurch werden die Zustandsdaten des Vorjahres erweitert, was zu einem kürzeren Entwurfslebenszyklus für den Einkaufswagen des Benutzers führt, und es wirkt sich nicht auf das Geschäft aus.Wir können eine klassische chinesische Legende verwenden, "The Fool es Move Mountain", um diese zeitbasierte Design-Lebenszyklus-Klassifizierung zu verstehen.In der Geschichte sind Narren Sterbliche, und obwohl sie nicht ewig leben können (kürzere Design-Lebenszyklen), kann der Geist der Narren (längere Design-Time-Lebenszyklen) mit zukünftigen Generationen weitergehen und somit die große Ursache der Bergwanderung vollenden.Wenn jede Generation von "Narren" ersetzt wird, tritt die oben erwähnte "Staatskopie" (spirituelle Fortsetzung) auf.Dies führt zu einem kürzeren Lebenszyklus der Entwurfszeit, der einen längeren oder sogar dauerhaften Design-Lebenszyklus ermöglicht.
