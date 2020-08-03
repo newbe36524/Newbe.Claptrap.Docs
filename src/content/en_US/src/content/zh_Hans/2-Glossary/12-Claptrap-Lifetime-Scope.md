@@ -1,42 +1,42 @@
 ---
-title: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaTitle: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaDescription: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
+title: 'Claptrap Life Cycle'
+metaTitle: 'Claptrap Life Cycle'
+metaDescription: 'Claptrap Life Cycle'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-Claptrap 生命周期按照笔者的看法分为两大类进行阐述：运行时生命周期和设计时生命周期。
+The Claptrap life cycle is illustrated in two broad categories according to the author's view.：Run-time lifecycle and design-time lifecycle.
 
-## 运行时生命周期
+## The runtime lifecycle.
 
-运行时生命周期是指 Claptrap 系统在运行过程中各个对象在内存中的生命周期行为。例如：在 Web 系统中，每个 Web 请求通常都会被分配为一个生命周期，而 Claptrap 系统也存在类似的生命周期设计。这些生命周期对于开发者进行组件扩展或者业务开发都具有一定的影响。Claptrap 框架的运行时生命周期分为：进程级（Process）、Claptrap 级和事件处理器级（Event Handler）。
+The runtime lifecycle is the life cycle behavior of each object in memory during the operation of the Claptrap system.For example.：In a Web system, each Web request is typically assigned as a lifecycle, and the Claptrap system has a similar lifecycle design.These lifecycles have an impact on developers' component extensions or business development.The runtime lifecycle of the Claptrap framework is divided into.：Process, Claptrap, and Event Handler.
 
-进程级。被设计为进程级上生命周期的对象，属于常规意义上的单例对象。每个正在运行的 Claptrap 进程都具有自己的单例对象。典型地，例如在 Claptrap 框架中，为了提高向持久层写入事件的速度，每个持久层目标都会对应一个批量处理器（Batch Event Saver）。它们在整个进程的生命周期中只有一个实例，分别与对应的持久层一一对应，这样才能将事件进行合并写入持久层，从而提升写入性能。一般来说，被设计为进程级生命周期的对象具备以下一个或多个特点：
+Process-level.An object designed as a life cycle at the process level is a singleton object in the general sense.Each running Claptrap process has its own singleton object.Typically, in a Claptrap framework, for example, each persistent layer target corresponds to a batch processor (Batch Saver Event) to increase the speed at which events are written to the persistent layer.They have only one instance throughout the life cycle of the process, one-to-one corresponding to the corresponding persistence layer, so that events can be merged to write to the persistence layer, improving write performance.In general, objects that are designed to be process-level lifecycles have one or more of the following characteristics.：
 
-1. 只需要在整个进程生命周期中运行一次的逻辑或代码。通常可以借助 Lazy 以及单例的方式实现。
-2. 整个进程生命周期中只需要单个对象。例如 Claptrap Design Store、Claptrap Options 等等。
-3. 整个进程生命周期中只能有单个对象。例如 Orleans Client。
+1. You only need to run the logic or code once throughout the process lifecycle.This can usually be done with Lazy and a singleton.
+2. Only a single object is required throughout the process life cycle.For example, Claptrap Design Store, Claptrap Options, and so on.
+3. There can only be a single object throughout the process life cycle.For example, Orleans Client.
 
-Claptrap 级。Claptrap 级生命周期的对象会随着 Claptrap 的激活而创建，随 Claptrap 的失活而释放。这些对象通常来说与一个 Claptrap Identity 有很强的关联关系。例如，与该 Claptrap Identity 关联的 Claptrap Design、Event Saver、Event Loader、State Saver 和 State Loader 等等。
+Claptrap level.Objects in the Claptrap-level lifecycle are created with the activation of Claptrap and are released with the inactivation of Claptrap.These objects are usually strongly associated with a Claptrap Identity.For example, Claptrap Design, Event Saver, Event Loader, State Saver, State Loader, and so on associated with this Claptrap Identity.
 
-事件处理器级（Event Handler）。事件处理器级生命周期对象随着事件处理器创建而创建，随事件处理器释放而释放。与 Web 对应来说，这一级别的生命周期和 Web 请求生命周期类似。典型的，统一数据库事务的工作单元（Unit of Work）就属于这一级别。
+Event processor level (Event Handler).Event processor-level lifecycle objects are created as the event processor is created and released with the event processor release.This level of lifecycle is similar to the Web request lifecycle in response to the Web.Typically, unit of work for a unified database transaction falls to this level.
 
-## 设计时生命周期
+## Design-time life cycle.
 
-设计时生命周期，是指 Claptrap 对应的业务对象的生命周期。这与程序是否运行无关，甚至与是否使用程序都无关。举个具体的例子，常规电商系统中的订单。一个订单的活动业务时间限界一般不会超过三到六个月。当超过这个时间限界后，订单的数据就已经不能修改。此处就这个“三到六个月”的时间限界称为订单的设计时生命周期。在 Claptrap 系统中，如果一个对象已经超过了其设计时生命周期，就表现为“业务上再也不需要激活这个 Claptrap”。由此可以得到以下推论：
+Design-time lifecycles are the lifecycles of business objects for Claptrap.This has nothing to do with whether the program is running or not, or even whether or not the program is used.To give a specific example, orders in a regular e-commerce system.The active business time limit for an order is generally no more than three to six months.When this time limit is exceeded, the order data cannot be modified.Here, this "three to six months" time limit is called the design time life cycle of an order.In a Claptrap system, if an object has exceeded its design-time lifecycle, it manifests itself as "there is no longer a need to activate this Claptrap business."The following inferences can be obtained from this.：
 
-1. 该 Claptrap 已经存储的事件失去了意义，删除这些事件可以腾出可用空间。
-2. 该 Claptrap 对应的业务代码不再需要维护，可以选择被移除引用或者移除代码。
+1. The events that Claptrap has stored are meaningless, and deleting them frees up free space.
+2. The business code for the Claptrap no longer needs maintenance and you can choose to remove the reference or remove the code.
 
-所以，如果 Claptrap 的设计时生命周期越短，就更有利于减少资源的占用和代码维护成本，反之，则增加了存储成本和维护难度。故而，在设计 Claptrap 系统时，倾向于使用更短的设计时生命周期。而这个名词，也直接反应了其实完全由“设计”来决定。 接下来，我们列举一些常用的设计时生命周期划分法。
+Therefore, the shorter the design life cycle of Claptrap, it is more conducive to reducing resource footprint and code maintenance costs, and vice versa, increasing storage costs and maintenance difficulties.Therefore, when designing Claptrap systems, there is a tendency to use a shorter design-time life cycle.And this noun, also directly reflects the actual entirely by "design" to determine. Next, let's list some common design-time life cycle classification.
 
-### 业务边界划分法
+### Business boundary demarcation.
 
-这是最为常见的划分法。基于领域建模的要求对业务对象进行划分。并且这些业务对象通常有固定的生命周期。就如前文的“订单”就是常见的按照业务边界划分生命周期的例子。在使用该方法进行划分时，只需要注意 Claptrap 满足“大于等于最小竞争资源范围”的基础要求就可以了。开发者可以通过“火车售票系统”的样例来体验这种划分法。
+This is the most common division.The business objects are divided based on the requirements of domain modeling.And these business objects often have a fixed lifecycle.As in the previous "order" is a common example of dividing the life cycle by business boundaries.When dividing using this method, you only need to note that Claptrap meets the basic requirement that "the minimum competitive resource range is greater than or equal to".Developers can experience this division with an example of a "train ticketing system".
 
-### 条件边界划分法
+### Conditional boundary demarcation.
 
-一般来说，基于业务边界划分法已经能够划分出合理的生命周期。但是，如果只是按照业务边界划分，可能会出现设计时生命周期为永久的对象。假如这些对象又拥有非常密集的事件操作。那么随着生成的事件量将异常多。为此，我们引入人为控制的方式来缩短设计时生命周期。这种划分是基于特定的条件划分的。因此称为条件边界划分法。而在此之中最为经典的就是采用“时间限界”来划分。
+In general, the business boundary-based division method has been able to divide a reasonable life cycle.However, if you are simply divided along business boundaries, you may have design-time lifecycle-to-permanent objects.Suppose these objects have very dense event operations.Then the number of events generated will be unusually large.To do this, we introduce human-controlled ways to shorten the design-time life cycle.This division is based on specific conditions.It is therefore called conditional boundary demarcation.And the most classic of these is the use of "time limit" to divide.
 
-此处我们借由“快速入门”例子中的购物车对象来说明一下这种划分法。首先，购物车是和用户相关的对象，只要用户一直存在于这个系统中，那么就有可能被激活，也就是说，它的设计时生命周期是“永久”的。因此就无法删除相关的事件，必须永久保存这些事件来确保购物车数据的正确性。但，假如我们对于购物车在一年前所产生的的事件已经不再关心。我们就可以手动的按照年份对单个用户的购物车进行划分。同时，我们可以在相邻两个年份的购物车进行“状态拷贝”。这样就延续前一年的状态数据，从而使用户的购物车在设计时生命周期上产生更短，而且这样也不影响业务。我们可以借助中国的一个经典传说故事《愚公移山》来理解这种基于时间的设计时生命周期划分法。故事中，愚公是凡人，虽然不能长生不老（较短的设计时生命周期），但愚公的精神（较长的设计时生命周期）却可以随着子孙后代而延续，因而可以完成移山的伟业。当每代“愚公”进行换代时，就发生了上文中提到的“状态拷贝”（精神延续）。从而用较短的设计时生命周期，实现了较长的甚至永久的设计时生命周期的要求。
+Here we illustrate this division by using the shopping cart object in the Quick Start example.First, a shopping cart is a user-related object, and as long as the user has been in the system, it is possible to be activated, that is, its design life cycle is "permanent".Therefore, you cannot delete related events, and they must be permanently saved to ensure that the shopping cart data is correct.But if we don't care about the events that a shopping cart caused a year ago.We can manually divide individual users' shopping carts by year.At the same time, we can make a "status copy" in a shopping cart for two adjacent years.This extends the previous year's state data, resulting in a shorter design life cycle for the user's shopping cart, and it does not affect the business.We can use a classic Chinese legend story, "The Fool's Move Mountain", to understand this time-based design life cycle classification.In the story, fools are mortals, and although they cannot live forever (shorter design-time life cycles), the spirit of fools (longer design-time life cycles) can continue with future generations, and thus can complete the great cause of mountain migration.When each generation of "fools" is replaced, the "state copy" (spiritual continuation) mentioned above occurs.This results in a shorter design-time life cycle, enabling a longer or even permanent design-time life cycle.
