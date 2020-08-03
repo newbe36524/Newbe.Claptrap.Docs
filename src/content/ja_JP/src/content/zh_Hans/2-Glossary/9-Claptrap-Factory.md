@@ -6,22 +6,22 @@ metaDescription: 'クアプラップファクトリー(クアプラップファ�
 
 > [現在表示されているバージョンは、機械が簡体字中国語から翻訳され、手動校正の結果です。ドキュメントに不適切な翻訳がある場合は、こちらをクリックして翻訳提案を提出してください。](https://crwd.in/newbeclaptrap)
 
-## Claptrap Factory 组装 Claptrap
+## Claptrap FactoryはClaptrapをアセンブルする。
 
-Claptrapは高いカスタマイズ性を有する。開発者は、Claptrap オブジェクトにカスタムの Event Loader/ Event Saver / State Loader / State Saver / EventNotification Method などの一連のコンポーネントを指定できます。为了适应这种可定制性，故而需要选用良好的方案来实现 Claptrap 对象的装配。
+Claptrapは高いカスタマイズ性を有する。開発者は、Claptrap オブジェクトにカスタムの Event Loader/ Event Saver / State Loader / State Saver / EventNotification Method などの一連のコンポーネントを指定できます。このカスタマイズ性に対応するためには、Claptrap オブジェクトのアセンブリを実装するための優れたオプションが必要です。
 
-現在のフレームは、アセンブラーとして Autofac を使用して行われます。主要原因是 Autofac 支持 Delegate Factory / Decorator / Generic Type / Module 等等一些相较于 System.DepenedencyInjection 更丰富的特性。
+現在のフレームは、アセンブラーとして Autofac を使用して行われます。主な理由は、AutofacがDelegate Factory/ Decorator / Generic Type / Moduleなど、System.DepenedencyInjectionよりも豊富な機能をサポートしているからである。
 
-## Claptrap Factory 控制 Claptrap 生命周期
+## Claptrap Factory は、Claptrap のライフサイクルを制御します。
 
-由于 Claptrap Factory 是 Claptrap 的生产者，因此一般也负责 Claptrap 级的生命周期控制功能。在基于 Autofac 实现的 Claptrap Factory，这种生命周期控制就体现在使用 Autofac 的 LifetimeScope 对象来控制整个装载、创建和卸载的过程。
+Claptrap FactoryはClaptrapのプロデューサーであるため、Claptrapレベルのライフサイクル制御機能も一般的に担っている。Autofac に基づく Claptrap Factory では、このライフサイクル制御は、Autofac の LifetimeScope オブジェクトを使用して、ロード、作成、およびアンロード全体を制御するプロセスに反映されます。
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+以下は、理解を補助するストーリー化された説明です。あまり気にする必要はありません。
 
-Claptrap Factory 是进行 Claptrap 进行生产的主要场所。它将依照给定的 Claptrap Design 对每一个出厂的 Claptrap 执行定制化装配，而它拥有着极高的产品合格率和工作效能。
+Claptrap Factoryは、クラプラップの生産のための主要な会場です。これは、特定のClaptrap Designに従って、非常に高い製品合格率と作業効率を持つ各工場出荷時のClaptrapに合わせてカスタマイズされたアセンブリを実行します。
 
-## ICON
+## ICON.
 
-![claptrap](/images/claptrap_icons/claptrap_factory.svg)
+![claptrap.](/images/claptrap_icons/claptrap_factory.svg)
