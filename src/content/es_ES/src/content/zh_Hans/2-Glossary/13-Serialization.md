@@ -1,28 +1,28 @@
 ---
-title: '序列化（Serialization）'
-metaTitle: '序列化（Serialization）'
-metaDescription: '序列化（Serialization）'
+title: 'Serialización'
+metaTitle: 'Serialización'
+metaDescription: 'Serialización'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
-由于在 Claptrap 系统中需要对事件和状态进行传输与存储，因此需要对事件和状态进行序列化，这样才能够应对种类繁多的传输和存储方案。
+Dado que los eventos y estados deben transferirse y almacenarse en el sistema Claptrap, es necesario serializar los eventos y estados para poder controlar una amplia variedad de escenarios de transporte y almacenamiento.
 
-## 如何选择序列化方案
+## Cómo seleccionar un esquema de serialización.
 
-可选的序列化方式多种多样，典型的就如：JSON、MessagePack、Protobuf 等等。实际项目中序列化的方案可以基于以下几点进行考虑：
+Los métodos de serialización opcionales están disponibles de varias maneras, normalmente.：JSON, MessagePack, Protobuf, etc.Los esquemas de serialización en proyectos reales se pueden considerar en los siguientes puntos.：
 
-1. 可读性。如果对可读性有越高的要求，则越应该考虑以文本为主的序列化方案。
-2. 传输效率、存储空间利用率。如果对于传输效率和存储空间有越高的要求，则越应该考虑以二进制为主的序列化方案。
+1. Legibilidad.Si hay requisitos más altos para la legibilidad, más debe tener en cuenta los escenarios de serialización basados en texto.
+2. Eficiencia de transferencia, utilización del espacio de almacenamiento.Si hay requisitos más altos para la eficiencia de transferencia y el espacio de almacenamiento, se deben tener en cuenta los escenarios de serialización más basados en binarios.
 
-在 Claptrap 系统中，由于每个 Claptrap 都有完全独立的可定制性，因而开发者可以为不同的 Claptrap 选择不同的序列化方案。但唯一需要注意的就是，序列化方案一旦选定就很难变更，故需在设计阶段就慎重考虑。
+En el sistema Claptrap, dado que cada Claptrap tiene personalización completamente independiente, los desarrolladores pueden elegir diferentes escenarios de serialización para diferentes Claptraps.Sin embargo, lo único a tener en cuenta es que una vez seleccionado el esquema de serialización, es difícil cambiar, por lo que debe considerarse cuidadosamente en la etapa de diseño.
 
-## 序列化与载体的独立性
+## Serialización e independencia del transportista.
 
-在 Claptrap 框架中，存储、传输和序列化是相互独立。换言之，可以在传输时使用更利于阅读的 JSON 序列化，在存储时选择更有利于存储利用率的二进制序列化，反之亦然。
+En el marco de Claptrap, el almacenamiento, el transporte y la serialización son independientes entre sí.En otras palabras, puede usar la serialización jSON, que es más legible, cuando se transfiere, y la serialización binaria que es más propicio para la utilización del almacenamiento, y viceversa.
 
-## 序列化与载体的制约性
+## Serialización y la restricción del portador.
 
-在面对特定的存储或者传输的载体时，序列化的方式也将受到限制。例如：当前正在使用一种不支持二进制直接存储的数据库来作为事件的持久层，那么选择想要通过二进制序列化来保存事件就将变得不可行。故而，在选择序列化方案之前，需要优先确定传输和存储方案。
+La forma en que la serialización también está limitada frente a un vector de almacenamiento o edición de transporte determinado.Por ejemplo.：Actualmente usando una base de datos que no admite archivos binarios para el almacenamiento directo como una capa persistente de eventos, se vuelve poco práctico elegir guardar eventos a través de la serialización binaria.Por lo tanto, antes de seleccionar un esquema de serialización, es necesario dar prioridad al escenario de transporte y almacenamiento.
 
-目前，所有支持的序列化方案均以“Newbe.Claptrap.DataSerializer.\*”的名称发布在 nuget 上。
+Actualmente, todos los esquemas de serialización admitidos se publican en nuget bajo el nombre "Newbe.Claptrap.DataSerializer."
