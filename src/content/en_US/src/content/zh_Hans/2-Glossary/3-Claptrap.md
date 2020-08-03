@@ -37,3 +37,7 @@ A multifunction task processor.Based on cost considerations, the multifunction t
 Handheld memo.Claptrap uses a handheld memo to record all the details of the task before doing each task to ensure that every detail of the task is accurate.
 
 Memory printer.The data in memory can be printed into a physical format that can be persisted, and more in real production is the DNA memory.Because of the volatile power loss of memory data, the data in memory after the restart can only be retrieved one by one through memo records.But because memo data is likely to be large, recovery will be slow.With the help of a memory printer, you can fully print out the memory state at some point, which speeds up memory data recovery when you restart recovery.
+
+## ICON
+
+![claptrap](/images/claptrap_icons/claptrap.svg)
