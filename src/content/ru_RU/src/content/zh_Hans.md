@@ -4,7 +4,7 @@ metaTitle: 'Newbe.Claptrap Китайская документация'
 metaDescription: 'Это набор систем разработки на стороне службы, основанных на «реактивной», «прослеживаемости событий» и «режиме актера» в качестве основных теорий.Кроме того, разработчики могут более легко разрабатывать "распределенные", "горизонтально масштабируемые" и "высоко тестируемые" приложения.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Рассматриваемая в настоящее время версия является результатом машинного перевода китайского упрощенного и ручного корректуры.Если в документе есть неправильный перевод, пожалуйста, нажмите здесь, чтобы представить свое предложение о переводе.](https://crwd.in/newbeclaptrap)
 
 ![Ньюб.Клэптрап](https://www.newbe.pro/images/main_banner.png)
 
@@ -24,19 +24,19 @@ metaDescription: 'Это набор систем разработки на ст�
 
 ## Образец проекта
 
-您可以通过[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)来获取关于该项目的样例代码，以便您了解如何使用该项目。
+Ты можешь пройти.[Ньюб.Клэпрап.Примеры.](https://github.com/newbe36524/Newbe.Claptrap.Examples)получить образец кода для проекта, чтобы вы могли узнать, как его использовать.
 
 ## Участие в обсуждении
 
--  [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
--  [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
--  公开邮箱 newbe-claptrap@googlegroups.com （发送到该邮箱的内容将被公开）
--  [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
--  [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+-  [Выпуск Github.](https://github.com/newbe36524/Newbe.Claptrap/issues)
+-  [Gitee Выпуск.](https://gitee.com/yks/Newbe.Claptrap/issues)
+-  Общедоступный почтовый ящик newbe-claptrap@googlegroups.com (содержимое, отправленное в почтовый ящик, будет разоблачено)
+-  [Гиттер.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+-  [Группа 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Ресурсы
 
-该项目受启发于众多开源项目与博客文章：
+Проект был вдохновлен многочисленными проектами с открытым исходным кодом и блогами.：
 
 - [Высокопроизводительные рамки, основанные на актер Рамочный Орлеан для распределенных, события-Источник, События-Driven, UltimateLy Последовательно - Рэй](https://github.com/RayTale/Ray)
 - [Шаблон поиска событий](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
@@ -46,21 +46,21 @@ metaDescription: 'Это набор систем разработки на ст�
 
 ## Stargazers с течением времени
 
-[![Stargazers over time](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
+[![Stargazers с течением времени](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
 
 ## Вкладчики ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Спасибо идет к этим замечательным людям ([ключ смайликов.](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524.</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇.</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️.</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻.</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868.</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡.</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>Котоне.</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍.</a></td>
+    <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer.</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛.</a></td>
   </tr>
 </table>
 
@@ -68,15 +68,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Это следовать проект проекта проекта проекта. [все-вкладчиков.](https://github.com/all-contributors/all-contributors) Спецификация. Вклад любого рода добро пожаловать!
 
 ## Значок
 
-本项目目前使用的图标均来自于[The Noun Project](https://thenounproject.com/)。您可以在[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)中查看各个部分的版权信息。
+Иконки, используемые в настоящее время в этом проекте, получены.[Проект существительного.](https://thenounproject.com/)。Вы можете сделать это в .[/docs/noun_source.](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)просматривать информацию об авторском праве для каждого раздела.
 
 ## Гити
 
-如果您无法正常的使用 Github，也可以通过 Gitee 来获取源码以及样例。
+Если вы не можете использовать Github должным образом, вы также можете получить исходный код и образцы через Gitee.
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
