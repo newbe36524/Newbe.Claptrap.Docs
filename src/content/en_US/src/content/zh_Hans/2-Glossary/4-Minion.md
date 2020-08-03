@@ -20,9 +20,7 @@ The following is a story-based description of Minion to aid understanding.Don't 
 
 For more complex tasks, a single Claptrap can be difficult to complete.Therefore, when designing this type of Claptrap, a few younger brothers are added to the Claptrap as needed to assist it with the task at hand.These little brothers are called Minions.Minion's essence is also a Claptrap robot, but they reduce the handheld memo device compared to the full version of Claptrap.This is why it works slightly differently from Claptrap.
 
-Minions can only complete tasks by collaborating with Claptrap, and they cannot decide whether to do a task.So a handheld memo that records the details of the task as long as claptrap holds it.
-
-When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
+Minions can only complete tasks by collaborating with Claptrap, and they cannot decide whether to do a task.So a handheld memo that records the details of the task as long as claptrap holds it.When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
 
 Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includs as the following：
 
