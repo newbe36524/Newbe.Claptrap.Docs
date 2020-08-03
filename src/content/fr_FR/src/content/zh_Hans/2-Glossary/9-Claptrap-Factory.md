@@ -6,22 +6,22 @@ metaDescription: 'Claptrap Factory'
 
 > [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-## Claptrap Factory 组装 Claptrap
+## Claptrap Factory assemble Claptrap.
 
-Claptrap a un haut degré de personnalisation.Les développeurs peuvent spécifier un ensemble personnalisé de composants pour l’objet Claptrap, tels que la méthode Event Loader/Event Saver/State Saver/State Saver/EventNotification, etc.为了适应这种可定制性，故而需要选用良好的方案来实现 Claptrap 对象的装配。
+Claptrap a un haut degré de personnalisation.Les développeurs peuvent spécifier un ensemble personnalisé de composants pour l’objet Claptrap, tels que la méthode Event Loader/Event Saver/State Saver/State Saver/EventNotification, etc.Afin de s’adapter à cette personnalisation, une bonne solution est nécessaire pour réaliser l’assemblage des objets Claptrap.
 
-Le cadre actuel est fait en utilisant Autofac comme assembleur.主要原因是 Autofac 支持 Delegate Factory / Decorator / Generic Type / Module 等等一些相较于 System.DepenedencyInjection 更丰富的特性。
+Le cadre actuel est fait en utilisant Autofac comme assembleur.La raison principale est que Autofac prend en charge certaines des fonctionnalités les plus riches de System.Depenedency Injection, tels que Delegate Factory /Decorator/Generic Type/Module.
 
-## Claptrap Factory 控制 Claptrap 生命周期
+## Claptrap Factory contrôle le cycle de vie de Claptrap.
 
-由于 Claptrap Factory 是 Claptrap 的生产者，因此一般也负责 Claptrap 级的生命周期控制功能。在基于 Autofac 实现的 Claptrap Factory，这种生命周期控制就体现在使用 Autofac 的 LifetimeScope 对象来控制整个装载、创建和卸载的过程。
+Comme Claptrap Factory est un producteur de Claptrap, il est également généralement responsable de la fonction de contrôle du cycle de vie au niveau claptrap.Chez Autofac-based Claptrap Factory, ce contrôle du cycle de vie se reflète dans le processus d’utilisation de l’objet LifetimeScope d’Autofac pour contrôler l’ensemble du processus de chargement, de création et de déchargement.
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+Ce qui suit est une description basée sur l’histoire pour aider à comprendre.Je m’en fiche.
 
-Claptrap Factory 是进行 Claptrap 进行生产的主要场所。它将依照给定的 Claptrap Design 对每一个出厂的 Claptrap 执行定制化装配，而它拥有着极高的产品合格率和工作效能。
+Claptrap Factory est le site principal de la production de Claptrap.Il sera personnalisé pour chaque claptrap fabriqué en usine selon le Claptrap Design donné, et il a un taux de réussite de produit très élevé et l’efficacité de l’emploi.
 
-## ICON
+## Icône.
 
-![claptrap](/images/claptrap_icons/claptrap_factory.svg)
+![Claptrap.](/images/claptrap_icons/claptrap_factory.svg)
