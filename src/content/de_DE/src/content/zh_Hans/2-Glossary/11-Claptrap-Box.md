@@ -1,27 +1,27 @@
 ---
-title: 'Claptrap Box'
-metaTitle: 'Claptrap Box'
-metaDescription: 'Claptrap Box'
+title: 'Claptrap Box.'
+metaTitle: 'Claptrap Box.'
+metaDescription: 'Claptrap Box.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-## Claptrap Box 使 Claptrap 能够运行在更多框架之上
+## Claptrap Box ermöglicht Claptrap, auf mehr Frameworks ausgeführt zu werden.
 
-Claptrap 是基于 Actor 模式实现的一种对象。其仅具备处理事件和状态控制相关的能力。因此，在实际场景中，往往需要依托于具体的运行环境来承载它，或者需要根据业务来设计对外的业务接口。
+Claptrap ist ein Objekt, das basierend auf dem Actor-Muster implementiert wird.Es hat nur die Möglichkeit, Ereignis- und Zustandssteuerungsbezogene zu behandeln.Daher ist es im tatsächlichen Szenario häufig erforderlich, sich auf die spezifische Betriebsumgebung zu verlassen, um sie zu hosten, oder die externe Geschäftsschnittstelle entsprechend dem Unternehmen zu entwerfen.
 
-最典型的用例，就是与 Orleans 的 Grain 进行结合。Grain 是 Orleans 的虚拟 Actor 实现，而 Claptrap 也是 Actor。在 Claptrap 和 Grain 结合时，我们选择将 Claptrap 封装在 Grain 内部。这样，我们就使得 Claptrap 这种结合了事件溯源的 Actor 运行在 Grain 中，这就可以充分利用 Orleans 支持分布式的特点。当我们将 Claptrap 放入到 Grain 中运行时，可以将 Grain 看做是一个盒子，这种对象的组合方式非常类似于设计模式中的门面模式，Grain 为 Claptrap 提供了一个门面与外部进行通信，屏蔽内部细节的同时也使得外部更理解其交互方式。此处我们将这种“将 Claptrap 装入到特定门面对象中运行的方式”称为 Claptrap Box 模式，而其中的门面对象被称为 Claptrap Box 。有了这种方式的存在，才使得 Claptrap 能够应用于更加复杂的平台和业务。在 Orleans 中，这种 Claptrap Box 则被称为 ClaptrapBoxGrain。
+Der typischste Anwendungsfall ist, mit dem Grain of Orleans zu kombinieren.Grain ist die virtuelle Actor-Implementierung von Orleans, und Claptrap ist ein Schauspieler.Wenn Claptrap und Grain kombiniert werden, entscheiden wir uns dafür, Claptrap in Grain einzuhüllen.Auf diese Weise haben wir The Actor, das Event-Tracing kombiniert, läuft in Grain, das die verteilten Funktionen von Orleans voll ausnutzt.Wenn wir Claptrap in Korn setzen, können wir uns Grain als Eine Schachtel vorstellen, und die Kombination von Objekten ist dem Fassadenmuster im Designmodus sehr ähnlich, wo Grain Claptrap mit einer Fassade versorgt, um mit der Außenseite zu kommunizieren, interne Details zu maskieren und gleichzeitig das Äußere bewusster zu machen, wie es interagiert.Hier nennen wir dies "wie Claptrap in einem bestimmten Fassadenobjekt funktioniert" als Das Claptrap Box-Muster, bei dem das Fassadenobjekt Claptrap Box genannt wird.Dieser Ansatz ermöglicht die Anwendung von Claptrap auf komplexere Plattformen und Unternehmen.In Orleans heißt diese Claptrap Box Claptrap BoxGrain.
 
-由于 Claptrap Box 的存在，Claptrap 即使脱离了 Orleans 也可以保持事件溯源和 Actor 模式的基本条件。例如在简单的控制台程序中，开发者仍然可以使用 NormalClaptrapBox 来作为门面对象。然而这就失去了 Orleans 分布式的优势。
+Dank The Claptrap Box kann Claptrap die Grundbedingungen der Ereignisverfolgung und des Actor-Modus beibehalten, auch wenn er von Orleans getrennt ist.In einem einfachen Konsolenprogramm können Entwickler beispielsweise normalClaptrapBox weiterhin als Fassadenobjekt verwenden.Dies verliert jedoch den Vorteil von Orleans verteilt.
 
-依托 Claptrap Box 概念的存在，使得 Claptrap 能够在更多的基础平台和框架之上运行。虽然目前仅有 Orleans / Akka.net / 无承载 等可以选用的门面对象。
+Die Existenz des Claptrap Box-Konzepts ermöglicht es Claptrap, auf grundlegenderen Plattformen und Frameworks zu arbeiten.Obwohl derzeit nur Orleans / Akka.net / kein Träger, etc. stehen für die Auswahl von Gesichtsobjekten zur Verfügung.
 
 ---
 
-以下是关于故事化描述，用于辅助理解。不必太过在意。
+Im Folgenden finden Sie eine Story-basierte Beschreibung, um das Verständnis zu unterstützen.Kümmern Sie sich nicht zu sehr.
 
-Claptrap 是一种可定制化程度很高的机器人。为了能够让 Claptrap 在更缤纷复杂的环境下运行，需要针对不同的实际环境设计一些可以装载 Claptrap 的载具，以便它们能够完美地运行。例如：在海底工作的 Claptrap 需要配备足够承受水压的载具；在沼泽工作的 Claptrap 需要配备防陷防潮的载具；在火山口附近工作的 Claptrap 则需要配备耐高温材料制成的载具。这一系列的载具，我们统称为 Claptrap Box 。这是因为这些载具都有一个共同的特点，它们都是全包裹式的盒装，当然形状各异，但是我们统称为 Box 。有了这些载具，Claptrap 便可以良好的运行在各种不同的环境中。
+Claptrap ist ein hochgradig anpassbarer Roboter.Damit Claptrap in einer komplexeren Umgebung arbeiten kann, müssen Sie geladene Lasten für verschiedene reale Umgebungen so entwerfen, dass sie perfekt funktionieren.Zum Beispiel.：Claptrap, das auf dem Meeresboden arbeitet, erfordert einen Träger, der ausreicht, um dem Wasserdruck standzuhalten; Claptrap, der in einem Sumpf arbeitet, erfordert ein fallsicheres Fahrzeug; und Claptrap, der in der Nähe des Kraters arbeitet, erfordert einen Träger aus Hochtemperaturmaterialien.Diese Serie von Fahrzeugen, kollektiv bekannt als Claptrap Box.Das liegt daran, dass diese Träger alle ein gemeinsames Merkmal haben, sie sind alle voll verpackte Boxen, natürlich in verschiedenen Formen, aber wir beziehen uns gemeinsam auf Box.Mit diesen Fahrzeugen funktioniert Claptrap gut in einer Vielzahl von verschiedenen Umgebungen.
 
-## ICON
+## Symbol.
 
-![claptrap](/images/claptrap_icons/claptrap_box.svg)
+![Claptrap.](/images/claptrap_icons/claptrap_box.svg)
