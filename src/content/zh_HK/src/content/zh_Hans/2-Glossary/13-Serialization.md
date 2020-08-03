@@ -4,7 +4,7 @@ metaTitle: '序列化（Serialization）'
 metaDescription: '序列化（Serialization）'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [當前查看的版本是由機器翻譯自簡體中文，並進行人工校對的結果。若文檔中存在任何翻譯不當的地方，歡迎點擊此處提交您的翻譯建議。](https://crwd.in/newbeclaptrap)
 
 由于在 Claptrap 系统中需要对事件和状态进行传输与存储，因此需要对事件和状态进行序列化，这样才能够应对种类繁多的传输和存储方案。
 
