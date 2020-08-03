@@ -6,29 +6,29 @@ metaDescription: 'State Snapshot'
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-## State Snapshot 加速状态还原速度
+## State Snapshot accelerates state restore speed.
 
-一个处于激活状态的 Claptrap ，它的 State 即是当前的最新数据状态。This is restored from the persistence layer by tracing the origin of events.Sometimes, the number of events can be very large.It will take more time to restore State through events.因此，在 Claptrap 框架中提供了状态快照来持久化特定 Claptrap 在一定条件之后的状态。这个条件通常来说是以下几种：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by tracing the origin of events.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following.：
 
-1. 执行了若干个事件之后。
-2. 在 Claptrap Deactive 时。
-3. 在一定的时间周期内。
+1. Several events were executed.
+2. At Claptrap Deactive.
+3. In a certain time period.
 
-事件快照的存在，使得状态从持久层还原的速度得到了提升。如果持久层存在快照，则一个状态的还原通常是按照以下步骤进行的：
+The presence of event snapshots increases the speed at which states are restored from the persistent layer.If a snapshot exists in the persistent layer, a state restore is usually performed in the following steps.：
 
-1. 读取状态快照。
-2. 从状态快照对应的版本号开始，向后读取所有的事件进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Read the state snapshot.
+2. Starting with the version number corresponding to the state snapshot, read all events backward for status updates.
+3. Update the state until the persistent layer has no remaining events.
 
-但是，如果没有快照，则还原步骤则变为如下所示：
+However, if there are no snapshots, the restore step changes to the following.：
 
-1. 通过用户自定义方法来创建初始状态。
-2. 从事件库中读取所有事件来进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Create the initial state through a user-defined method.
+2. Read all events from the event library to update the status.
+3. Update the state until the persistent layer has no remaining events.
 
-不过。快照的存在也会带来一些特殊性。结合上面的工作步骤，我们很容易就发现，一旦形成了快照：
+But.The presence of snapshots also brings some speciality.Combined with the above work steps, it is easy to see that once a snapshot is formed.：
 
-1. 将不会再执行用户的自定义方法。
-2. 小于快照版本号的事件将不会被再次执行。
+1. The user's custom method will no longer be executed.
+2. Events that are less than the snapshot version number will not be executed again.
 
-目前，框架对于每个 Id 仅仅能够保存一个最后的快照。
+Currently, the framework can hold only one final snapshot for each Id.
