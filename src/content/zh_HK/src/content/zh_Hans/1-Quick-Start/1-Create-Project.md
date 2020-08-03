@@ -46,7 +46,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ## 建置與執行
 
-項目創建完成之後，你可以用自己偏愛的 IDE 打開解決方案嚟進行建置。
+项目创建完成之后，您可以用您偏爱的 IDE 打开解决方案进行编译。
 
 建置完成之後，通過 IDE 上面嘅“執行”功能，同時啟動 Web 和 BackendServer 哩兩個項目。（VS 需要以控制台方式啟動服務，如果使用 IIS Express，需要開發者看一下對應的端口號來訪問 Web 頁面）
 
@@ -238,7 +238,7 @@ public class AddItemToCartEventHandler
 
 跟往落嚟，我地重新番到去“首次加入商品不生效”呢個問題上。
 
-### 呢個係一個考慮單元測試嘅框架
+### 这是一个考虑单元测试的框架
 
 在項目模板入面存在一個項目`HelloClaptrap.Actors.Tests`，而呢個項目包含咗對主要業務嘅unit test。
 
