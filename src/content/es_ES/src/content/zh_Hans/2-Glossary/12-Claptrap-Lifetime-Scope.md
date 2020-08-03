@@ -1,42 +1,42 @@
 ---
-title: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaTitle: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-metaDescription: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
+title: 'Ciclo de vida de Claptrap'
+metaTitle: 'Ciclo de vida de Claptrap'
+metaDescription: 'Ciclo de vida de Claptrap'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
-Claptrap 生命周期按照笔者的看法分为两大类进行阐述：运行时生命周期和设计时生命周期。
+El ciclo de vida de Claptrap se ilustra en dos amplias categorías según la opinión del autor.：Ciclo de vida en tiempo de ejecución y ciclo de vida en tiempo de diseño.
 
-## 运行时生命周期
+## El ciclo de vida en tiempo de ejecución.
 
-运行时生命周期是指 Claptrap 系统在运行过程中各个对象在内存中的生命周期行为。例如：在 Web 系统中，每个 Web 请求通常都会被分配为一个生命周期，而 Claptrap 系统也存在类似的生命周期设计。这些生命周期对于开发者进行组件扩展或者业务开发都具有一定的影响。Claptrap 框架的运行时生命周期分为：进程级（Process）、Claptrap 级和事件处理器级（Event Handler）。
+El ciclo de vida en tiempo de ejecución es el comportamiento del ciclo de vida de cada objeto en la memoria durante el funcionamiento del sistema Claptrap.Por ejemplo.：En un sistema Web, cada solicitud Web se asigna normalmente como ciclo de vida y el sistema Claptrap tiene un diseño de ciclo de vida similar.Estos ciclos de vida tienen un impacto en las extensiones de componentes de los desarrolladores o en el desarrollo empresarial.El ciclo de vida en tiempo de ejecución del marco de Trabajo de Claptrap se divide en.：Proceso, Claptrap y controlador de eventos.
 
-进程级。被设计为进程级上生命周期的对象，属于常规意义上的单例对象。每个正在运行的 Claptrap 进程都具有自己的单例对象。典型地，例如在 Claptrap 框架中，为了提高向持久层写入事件的速度，每个持久层目标都会对应一个批量处理器（Batch Event Saver）。它们在整个进程的生命周期中只有一个实例，分别与对应的持久层一一对应，这样才能将事件进行合并写入持久层，从而提升写入性能。一般来说，被设计为进程级生命周期的对象具备以下一个或多个特点：
+Nivel de proceso.Un objeto diseñado como un ciclo de vida a nivel de proceso es un objeto singleton en el sentido general.Cada proceso de Claptrap en ejecución tiene su propio objeto singleton.Normalmente, en un marco de Claptrap, por ejemplo, cada destino de capa persistente corresponde a un procesador por lotes (Evento de ahorro por lotes) para aumentar la velocidad a la que se escriben los eventos en la capa persistente.Solo tienen una instancia a lo largo del ciclo de vida del proceso, uno a uno correspondiente a la capa de persistencia correspondiente, de modo que los eventos se pueden combinar para escribir en la capa de persistencia, mejorando el rendimiento de escritura.En general, los objetos diseñados para ser ciclos de vida de nivel de proceso tienen una o varias de las siguientes características.：
 
-1. 只需要在整个进程生命周期中运行一次的逻辑或代码。通常可以借助 Lazy 以及单例的方式实现。
-2. 整个进程生命周期中只需要单个对象。例如 Claptrap Design Store、Claptrap Options 等等。
-3. 整个进程生命周期中只能有单个对象。例如 Orleans Client。
+1. Solo necesita ejecutar la lógica o el código una vez a lo largo del ciclo de vida del proceso.Esto generalmente se puede hacer con Lazy y un singleton.
+2. Solo se requiere un solo objeto durante todo el ciclo de vida del proceso.Por ejemplo, Claptrap Design Store, Opciones de Claptrap, etc.
+3. Sólo puede haber un único objeto durante todo el ciclo de vida del proceso.Por ejemplo, cliente de Orleans.
 
-Claptrap 级。Claptrap 级生命周期的对象会随着 Claptrap 的激活而创建，随 Claptrap 的失活而释放。这些对象通常来说与一个 Claptrap Identity 有很强的关联关系。例如，与该 Claptrap Identity 关联的 Claptrap Design、Event Saver、Event Loader、State Saver 和 State Loader 等等。
+Nivel de claptrap.Los objetos del ciclo de vida a nivel de Claptrap se crean con la activación de Claptrap y se liberan con la inactivación de Claptrap.Estos objetos suelen estar fuertemente asociados con una identidad de Claptrap.Por ejemplo, Claptrap Design, Event Saver, Event Loader, State Saver, State Loader, etc. asociados a esta identidad de Claptrap.
 
-事件处理器级（Event Handler）。事件处理器级生命周期对象随着事件处理器创建而创建，随事件处理器释放而释放。与 Web 对应来说，这一级别的生命周期和 Web 请求生命周期类似。典型的，统一数据库事务的工作单元（Unit of Work）就属于这一级别。
+Nivel de procesador de eventos (controlador de eventos).Los objetos de ciclo de vida de nivel de procesador de eventos se crean a medida que se crea y libera el procesador de eventos con la versión del procesador de eventos.Este nivel de ciclo de vida es similar al ciclo de vida de las solicitudes web en respuesta a la Web.Normalmente, la unidad de trabajo de una transacción de base de datos unificada cae a este nivel.
 
-## 设计时生命周期
+## Ciclo de vida de tiempo de diseño.
 
-设计时生命周期，是指 Claptrap 对应的业务对象的生命周期。这与程序是否运行无关，甚至与是否使用程序都无关。举个具体的例子，常规电商系统中的订单。一个订单的活动业务时间限界一般不会超过三到六个月。当超过这个时间限界后，订单的数据就已经不能修改。此处就这个“三到六个月”的时间限界称为订单的设计时生命周期。在 Claptrap 系统中，如果一个对象已经超过了其设计时生命周期，就表现为“业务上再也不需要激活这个 Claptrap”。由此可以得到以下推论：
+Los ciclos de vida en tiempo de diseño son los ciclos de vida de los objetos de negocio de Claptrap.Esto no tiene nada que ver con si el programa se está ejecutando o no, o incluso si se utiliza o no el programa.Por poner un ejemplo específico, los pedidos en un sistema de comercio electrónico regular.El límite de tiempo de negocio activo para un pedido generalmente no es más de tres a seis meses.Cuando se supera este límite de tiempo, los datos del pedido no se pueden modificar.Aquí, este límite de tiempo de "tres a seis meses" se denomina el ciclo de vida del tiempo de diseño de una orden.En un sistema Claptrap, si un objeto ha excedido su ciclo de vida en tiempo de diseño, se manifiesta como "ya no hay necesidad de activar este negocio de Claptrap".De esto se pueden obtener las siguientes inferencias.：
 
-1. 该 Claptrap 已经存储的事件失去了意义，删除这些事件可以腾出可用空间。
-2. 该 Claptrap 对应的业务代码不再需要维护，可以选择被移除引用或者移除代码。
+1. Los eventos que Claptrap ha almacenado no tienen sentido, y eliminarlos libera espacio libre.
+2. El código de negocio de Claptrap ya no necesita mantenimiento y puede optar por quitar la referencia o quitar el código.
 
-所以，如果 Claptrap 的设计时生命周期越短，就更有利于减少资源的占用和代码维护成本，反之，则增加了存储成本和维护难度。故而，在设计 Claptrap 系统时，倾向于使用更短的设计时生命周期。而这个名词，也直接反应了其实完全由“设计”来决定。 接下来，我们列举一些常用的设计时生命周期划分法。
+Por lo tanto, cuanto más corto es el ciclo de vida de diseño de Claptrap, es más propicio para reducir la huella de recursos y los costos de mantenimiento del código, y viceversa, aumentando los costos de almacenamiento y las dificultades de mantenimiento.Por lo tanto, al diseñar sistemas Claptrap, hay una tendencia a utilizar un ciclo de vida en tiempo de diseño más corto.Y este sustantivo, también refleja directamente el real enteramente por "diseño" para determinar. A continuación, vamos a enumerar algunas clasificaciones comunes del ciclo de vida del tiempo de diseño.
 
-### 业务边界划分法
+### Demarcación de límites de negocio.
 
-这是最为常见的划分法。基于领域建模的要求对业务对象进行划分。并且这些业务对象通常有固定的生命周期。就如前文的“订单”就是常见的按照业务边界划分生命周期的例子。在使用该方法进行划分时，只需要注意 Claptrap 满足“大于等于最小竞争资源范围”的基础要求就可以了。开发者可以通过“火车售票系统”的样例来体验这种划分法。
+Esta es la división más común.Los objetos de negocio se dividen en función de los requisitos del modelado de dominios.Y estos objetos de negocio a menudo tienen un ciclo de vida fijo.Como en el "orden" anterior es un ejemplo común de dividir el ciclo de vida por límites de negocio.Al dividir con este método, solo tiene que tener en cuenta que Claptrap cumple con el requisito básico de que "el rango mínimo de recursos competitivos es mayor o igual que".Los desarrolladores pueden experimentar esta división con un ejemplo de un "sistema de venta de billetes de tren".
 
-### 条件边界划分法
+### Demarcación de límites condicionales.
 
-一般来说，基于业务边界划分法已经能够划分出合理的生命周期。但是，如果只是按照业务边界划分，可能会出现设计时生命周期为永久的对象。假如这些对象又拥有非常密集的事件操作。那么随着生成的事件量将异常多。为此，我们引入人为控制的方式来缩短设计时生命周期。这种划分是基于特定的条件划分的。因此称为条件边界划分法。而在此之中最为经典的就是采用“时间限界”来划分。
+En general, el método de división basado en límites de negocio ha sido capaz de dividir un ciclo de vida razonable.Sin embargo, si simplemente se divide a lo largo de los límites del negocio, es posible que tenga objetos de ciclo de vida a permanente en tiempo de diseño.Supongamos que estos objetos tienen operaciones de eventos muy densas.A continuación, el número de eventos generados será inusualmente grande.Para ello, introducimos formas controladas por el ser humano para acortar el ciclo de vida en tiempo de diseño.Esta división se basa en condiciones específicas.Por lo tanto, se denomina demarcación de límite condicional.Y el más clásico de ellos es el uso de "límite de tiempo" para dividir.
 
-此处我们借由“快速入门”例子中的购物车对象来说明一下这种划分法。首先，购物车是和用户相关的对象，只要用户一直存在于这个系统中，那么就有可能被激活，也就是说，它的设计时生命周期是“永久”的。因此就无法删除相关的事件，必须永久保存这些事件来确保购物车数据的正确性。但，假如我们对于购物车在一年前所产生的的事件已经不再关心。我们就可以手动的按照年份对单个用户的购物车进行划分。同时，我们可以在相邻两个年份的购物车进行“状态拷贝”。这样就延续前一年的状态数据，从而使用户的购物车在设计时生命周期上产生更短，而且这样也不影响业务。我们可以借助中国的一个经典传说故事《愚公移山》来理解这种基于时间的设计时生命周期划分法。故事中，愚公是凡人，虽然不能长生不老（较短的设计时生命周期），但愚公的精神（较长的设计时生命周期）却可以随着子孙后代而延续，因而可以完成移山的伟业。当每代“愚公”进行换代时，就发生了上文中提到的“状态拷贝”（精神延续）。从而用较短的设计时生命周期，实现了较长的甚至永久的设计时生命周期的要求。
+Aquí ilustramos esta división utilizando el objeto de carrito de compras en el ejemplo de inicio rápido.En primer lugar, un carro de la compra es un objeto relacionado con el usuario, y mientras el usuario haya estado en el sistema, es posible activarlo, es decir, su ciclo de vida de diseño es "permanente".Por lo tanto, no puede eliminar eventos relacionados y deben guardarse permanentemente para asegurarse de que los datos del carro de la compra son correctos.Pero si no nos importan los eventos que un carro de la compra causó hace un año.Podemos dividir manualmente los carros de la compra de los usuarios individuales por año.Al mismo tiempo, podemos hacer una "copia de estado" en un carro de la compra durante dos años adyacentes.Esto amplía los datos de estado del año anterior, lo que resulta en un ciclo de vida de diseño más corto para el carro de la compra del usuario, y no afecta al negocio.Podemos usar una historia clásica de leyenda china, "The Fool's Move Mountain", para entender esta clasificación del ciclo de vida del diseño basado en el tiempo.En la historia, los tontos son mortales, y aunque no pueden vivir para siempre (ciclos de vida más cortos en tiempo de diseño), el espíritu de los tontos (ciclos de vida más largos en tiempo de diseño) puede continuar con las generaciones futuras, y así puede completar la gran causa de la migración de montaña.Cuando se reemplaza a cada generación de "tontos", se produce la "copia de estado" (continuación espiritual) mencionada anteriormente.Esto se traduce en un ciclo de vida de tiempo de diseño más corto, lo que permite un ciclo de vida de tiempo de diseño más largo o incluso permanente.
