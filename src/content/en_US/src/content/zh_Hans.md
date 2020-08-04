@@ -24,7 +24,7 @@ Claptrap and it`s Minions are coming.
 
 ## Samples
 
-You can pass.[Newbe.Claptrap.Examples.](https://github.com/newbe36524/Newbe.Claptrap.Examples)to get a sample code for the project so that you can learn how to use it.
+You can get the samples about the project through [Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples) so that you can understand how to use the project.
 
 ## Discussion
 
@@ -36,7 +36,7 @@ You can pass.[Newbe.Claptrap.Examples.](https://github.com/newbe36524/Newbe.Clap
 
 ## Reference
 
-The project was inspired by numerous open source projects and blog posts.：
+The project was inspired by many open source projects and blog posts:
 
 - [A distributed, event event-sourcing, event-driven, and high-performance framework built on the Actor framework Orleans -- Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
@@ -46,21 +46,21 @@ The project was inspired by numerous open source projects and blog posts.：
 
 ## Stargazers over time
 
-[![Stargazers over time.](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
+[![Stargazers over time](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key.](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524.</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇.</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️.</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻.</a></td>
-    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868.</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡.</a></td>
-    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>Kotone.</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍.</a></td>
-    <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer.</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛.</a></td>
+    <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
@@ -68,15 +68,15 @@ Thanks goes to these wonderful people ([emoji key.](https://allcontributors.org/
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This follow project project project. [all-contributors.](https://github.com/all-contributors/all-contributors) specification. Contributions of any any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ## Icon
 
-The icons currently used in this project are from.[The Noun Project.](https://thenounproject.com/)。You can do it in .[/docs/noun_source.](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)view the copyright information for each section.
+The icons currently used in this project are all from [The Noun Project](https://thenounproject.com/).You can view the copyright information of each section in [/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source).
 
 ## Gitee
 
-If you can't use Github properly, you can also get the source code and samples through Gitee.
+If you cannot use Github normally, you can also use Gitee to clone the source code and samples (Mainly for China mainland).
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
