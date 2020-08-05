@@ -1,18 +1,18 @@
 ---
-title: 'Claptrap Box.'
-metaTitle: 'Claptrap Box.'
-metaDescription: 'Claptrap Box.'
+title: 'Claptrap Box'
+metaTitle: 'Claptrap Box'
+metaDescription: 'Claptrap Box'
 ---
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
 ## Claptrap Box enables Claptrap to run on more frameworks.
 
-Claptrap is an object implemented based on the Actor pattern.It has only the ability to handle event and state control-related.Therefore, in the actual scenario, it is often necessary to rely on the specific operating environment to host it, or need to design the external business interface according to the business.
+Claptrap is an object implemented based on the Actor pattern.It has only the ability to deal with event and state control.Therefore, in the actual scenario, it is often necessary to rely on the specific operating environment to host it, or need to design the external business interface according to the business.
 
-The most typical use case is to combine with the Grain of Orleans.Grain is the virtual Actor implementation of Orleans, and Claptrap is an actor.When Claptrap and Grain are combined, we choose to encase Claptrap inside Grain.In this way, we have The Actor, which combines event tracing, running in Grain, which takes full advantage of Orleans' distributed features.When we put Claptrap into grain, we can think of Grain as a box, and the combination of objects is very similar to the facade pattern in design mode, where Grain provides Claptrap with a facade to communicate with the outside, masking internal details while making the outside more aware of how it interacts.Here we call this "how Claptrap works in a specific facade object" as The Claptrap Box pattern, where the facade object is called Claptrap Box.This approach allows Claptrap to be applied to more complex platforms and businesses.In Orleans, this Claptrap Box is called Claptrap BoxGrain.
+The most typical use case is to combine with the Grain of Orleans.Grain is the virtual Actor implementation of Orleans, and Claptrap is an actor.When Claptrap and Grain are combined, we choose to encase Claptrap inside Grain.In this way, we have The Actor, which combines event souring, running in Grain, which takes full advantage of Orleans' distributed features.When we put Claptrap into grain, we can think of Grain as a box, and the combination of objects is very similar to the facade pattern in design pattern, where Grain provides Claptrap with a facade to communicate with the outside, masking internal details while making the outside more aware of how it interacts.Here we call this "how Claptrap works in a specific facade object" as The Claptrap Box pattern, where the facade object is called Claptrap Box.This approach allows Claptrap to be applied to more complex platforms and businesses.In Orleans, this Claptrap Box is called ClaptrapBoxGrain.
 
-Thanks to The Claptrap Box, Claptrap can maintain the basic conditions of event tracing and Actor mode even if it is separated from Orleans.For example, in a simple console program, developers can still use NormalClaptrapBox as a facade object.This, however, loses the advantage of Orleans distributed.
+Due to the existence of Claptrap Box, Claptrap can maintain the basic conditions of the event sourcing and the Actor pattern even if detached from the Orleans.For example, in a simple console program, developers can still use NormalClaptrapBox as a facade object.This, however, loses the advantage of Orleans distributed.
 
 The existence of the Claptrap Box concept enables Claptrap to operate on more basic platforms and frameworks.Although currently only Orleans / Akka.net / no bearer, etc. are available for selection of face objects.
 
