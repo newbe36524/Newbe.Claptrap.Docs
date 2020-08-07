@@ -1,14 +1,14 @@
 ---
-title: 'Events'
-metaTitle: 'Events'
-metaDescription: 'Events'
+title: 'Event'
+metaTitle: 'Event'
+metaDescription: 'Event'
 ---
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-Claptrap is an event-based Actor pattern.Events naturally play a crucial role.
+Claptrap is an event-sourcing based Actor pattern.Events naturally play a crucial role.
 
-You need to pass events on if you want to manipulate Claptrap.Events are also the only parameters that change Claptrap State.Therefore, when you build a system with Claptrap, all system operations are converted to events and passed into Claptrap.Events have these characteristics.：
+Wanting to operate Claptrap will need to pass an event on it.Events are also the only parameters that change Claptrap State.Therefore, when you build a system with Claptrap, all system operations are converted to events and passed into Claptrap.Events have these characteristics.：
 
 ## The events are orderly.
 
