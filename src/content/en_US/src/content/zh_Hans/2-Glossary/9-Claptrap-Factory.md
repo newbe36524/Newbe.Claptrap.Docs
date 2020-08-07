@@ -8,20 +8,20 @@ metaDescription: 'Claptrap Factory'
 
 ## Claptrap Factory assembles Claptrap.
 
-Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/EventNotification Method, and so on.In order to adapt to this customization, a good solution is needed to achieve the assembly of Claptrap objects.
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.In order to adapt to this customizable nature, good options are needed for the assembly of Claptrap objects.
 
-The current framework is done using Autofac as an assembler.The main reason is that Autofac supports some of the more rich features of System.Depenedency Injection, such as Delegate Factory/Decorator/Generic Type/Module.
+The current framework is selected by Autofac as an assembler.The main reason is that Autofac supports the Delegate Factory/Decorator/Generic Type/Module and more features that are richer compared to the System.Dependencynjection.
 
-## Claptrap Factory controls the Claptrap lifecycle.
+## Claptrap Factory controls the Claptrap lifetime scope.
 
-Because Claptrap Factory is a producer of Claptrap, it is also generally responsible for the life cycle control function at the Claptrap level.At The Autofac-based Claptrap Factory, this lifecycle control is reflected in the process of using Autofac's LifetimeScope object to control the entire load, creation, and unloading process.
+Since the Clatraptrap Factory is a producer of Claptrap, it is generally also responsible for the lifetime scope control functions of Clatrap level.With the Autofac-based Claptrap Factory, this lifetime scope control is reflected in the process of controlling the entire loading, creation and offloading using Autovac's LifetimeScope objects.
 
 ---
 
 The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Factory is the primary site for Claptrap production.It will be customized for each factory-made Claptrap according to the given Claptrap Design, and it has a very high product pass rate and job efficiency.
+The Claprap Factory is the main place for the production of Claptrap.It will perform a customized assembly of each of the factory's Claptraps in accordance with the given Claptrap Design, and it has an extremely high product pass rate and work effectiveness.
 
-## ICON.
+## ICON
 
-![Claptrap.](/images/claptrap_icons/claptrap_factory.svg)
+![claptrap](/images/claptrap_icons/claptrap_factory.svg)
