@@ -6,11 +6,11 @@ metaDescription: 'Estado'
 
 > [La versión que se ve actualmente es el resultado de la corrección manual y simplificada en chino traducida por máquina.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar su propuesta de traducción.](https://crwd.in/newbeclaptrap)
 
-State representa la representación de datos actual del objeto Actor en el patrón Actor.Claptrap sólo añade un límite a esto.："El estado sólo se puede actualizar de una manera rastreada por el evento."由于事件溯源的可靠性，Claptrap 中的 State 也就拥有了更好的可靠性。
+State representa la representación de datos actual del objeto Actor en el patrón Actor.Claptrap sólo añade un límite a esto.："El estado sólo se puede actualizar de una manera rastreada por el evento."El estado de Claptrap tiene una mayor fiabilidad debido a la fiabilidad de la trazabilidad de los eventos.
 
-## State 的版本号
+## El número de versión de State.
 
-在 Claptrap 中的 State 有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
+Estado en Claptrap tiene una propiedad denominada Version, que representa la versión actual de State.Un número de versión es un número que aumenta automáticamente que comienza en 0 y se incrementa cada vez que se procesa un evento.
 
 State Claptrap con el número de versión 0 es el estado inicial de Claptrap y también se puede llamar el estado Génesis.El estado inicial se puede personalizar según las necesidades empresariales.
 
@@ -33,6 +33,6 @@ El número de versión del estado y el número de versión del evento son interd
 1. Faltan eventos en la capa de persistencia.
 2. Encuadre de BUG maligno.
 
-## ICON
+## Icono.
 
 ![Una trampa.](/images/claptrap_icons/state.svg)
