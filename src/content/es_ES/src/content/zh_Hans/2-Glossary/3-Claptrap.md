@@ -38,6 +38,6 @@ Nota de mano.Claptrap utiliza una nota de mano para registrar todos los detalles
 
 Impresora de memoria.Los datos en la memoria se pueden imprimir en un formato físico que se puede conservar, y más en la producción real es la memoria de ADN.Debido a la pérdida de energía volátil de los datos de memoria, los datos en la memoria después del reinicio solo se pueden recuperar uno por uno a través de registros de notas.Pero debido a que es probable que los datos de la nota sean grandes, la recuperación será lenta.Con la ayuda de una impresora de memoria, puede imprimir completamente el estado de memoria en algún momento, lo que acelera la recuperación de datos de memoria al reiniciar la recuperación.
 
-## ICON
+## Icono.
 
-![claptrap](/images/claptrap_icons/claptrap.svg)
+![Una trampa.](/images/claptrap_icons/claptrap.svg)
