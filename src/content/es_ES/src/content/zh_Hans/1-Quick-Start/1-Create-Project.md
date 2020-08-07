@@ -46,7 +46,7 @@ dotnet newbe.claptrap - nombre HelloClaptrap
 
 ## Compilación y puesta en marcha
 
-项目创建完成之后，您可以用您偏爱的 IDE 打开解决方案进行编译。
+Una vez creado el proyecto, puede compilar la solución con su IDE favorito abierto.
 
 Una vez compilados, inicie proyectos web y BackendServer con la característica de inicio en el IDE.(VS necesita iniciar la consola de servicio y, si usa IIS Express, necesita que el desarrollador examine el número de puerto correspondiente para tener acceso a la página web)
 
@@ -238,7 +238,7 @@ Por supuesto, la analogía anterior es una descripción simple.En el proceso esp
 
 Luego volvemos y solucionamos el anterior problema "First Join Products Don't Take Effect".
 
-### 这是一个考虑单元测试的框架
+### Este es un marco para considerar las pruebas unitarias.
 
 Hay un proyecto en la plantilla de proyecto.`HelloClaptrap.Actors.Tests.`El proyecto contiene pruebas unitarias del código de negocio principal.
 
