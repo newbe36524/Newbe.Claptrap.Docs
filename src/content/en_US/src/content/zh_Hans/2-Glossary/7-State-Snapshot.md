@@ -8,9 +8,9 @@ metaDescription: 'State Snapshot'
 
 ## State Snapshot accelerates state restore speed.
 
-An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by tracing the origin of events.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following.：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by event sourcing.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following:
 
-1. Several events were executed.
+1. After a number of events have been handled.
 2. At Claptrap Deactive.
 3. In a certain time period.
 
