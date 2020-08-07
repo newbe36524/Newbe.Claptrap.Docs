@@ -20,8 +20,8 @@ The existence of the Claptrap Box concept enables Claptrap to operate on more ba
 
 The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap is a highly customizable robot.In order for Claptrap to operate in a more complex environment, you need to design loaded loads for different real-world environments so that they work perfectly.For example.：Claptrap working on the seabed requires a carrier that is sufficient to withstand water pressure; Claptrap working in a swamp requires a trap-proof vehicle; and Claptrap working near the crater requires a carrier made of high-temperature materials.This series of vehicles, collectively known as Claptrap Box.This is because these carriers all have a common feature, they are all fully packaged boxes, of course, in different shapes, but we collectively refer to box.With these vehicles, Claptrap works well in a variety of different environments.
+Claptrap is a highly customizable robot.In order for Claptrap to operate in a more complex environment, you need to design loaded loads for different real-world environments so that they work perfectly.For example, Claptrap which works on the seafloor, needs to be equipped with a load bearing water pressure; Claptrap, which works in a swamp, needs to be equipped with a trap-proof moisture-proof carrier; the Claptrap, which works near the crater, needs to be equipped with a carrier made of high temperature resistant materials.This series of vehicles, collectively known as Claptrap Box.This is because these carriers all have a common feature that they are all fully packaged boxes, of course, in different shapes, but we collectively refer to box.With these vehicles, Claptrap works well in a variety of different environments.
 
-## ICON.
+## ICON
 
 ![claptrap](/images/claptrap_icons/claptrap_box.svg)
