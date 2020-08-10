@@ -38,6 +38,6 @@ Mémo de poche.Claptrap utilise un mémo portatif pour enregistrer tous les dét
 
 Imprimante mémoire.Les données dans la mémoire peuvent être imprimées dans un format physique qui peut être persisté, et plus dans la production réelle est la mémoire d’ADN.En raison de la perte de puissance volatile des données de mémoire, les données en mémoire après le redémarrage ne peuvent être récupérées qu’une par une par le biais d’enregistrements de mémo.Mais comme les données mémo sont susceptibles d’être importantes, la récupération sera lente.Avec l’aide d’une imprimante mémoire, vous pouvez imprimer complètement l’état de mémoire à un moment donné, ce qui accélère la récupération de données de mémoire lorsque vous redémarrez la récupération.
 
-## ICON
+## Icône.
 
-![claptrap](/images/claptrap_icons/claptrap.svg)
+![Claptrap.](/images/claptrap_icons/claptrap.svg)

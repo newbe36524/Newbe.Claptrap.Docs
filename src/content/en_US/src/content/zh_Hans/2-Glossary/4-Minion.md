@@ -22,7 +22,7 @@ For more complex tasks, a single Claptrap can be difficult to complete.Therefore
 
 Minions can only complete tasks by collaborating with Claptrap, and they cannot decide whether to do a task.So a handheld memo that records the details of the task as long as claptrap holds it.When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
 
-Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includs as the following：
+Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includes as the following：
 
 1. Responsible for inspecting and releasing vehicles in the concierge
 2. Responsible for dealing with all kinds of inquiries from passers-by

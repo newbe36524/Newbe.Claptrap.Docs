@@ -38,6 +38,6 @@ Handheld-Memo.Claptrap verwendet ein Handheld-Memo, um alle Details der Aufgabe 
 
 Speicherdrucker.Die Daten im Speicher können in ein physisches Format gedruckt werden, das beibehalten werden kann, und mehr in der realen Produktion ist der DNA-Speicher.Aufgrund des flüchtigen Stromausfalls von Speicherdaten können die Daten im Arbeitsspeicher nach dem Neustart nur nacheinander über Memo-Datensätze abgerufen werden.Da die Memo-Daten jedoch wahrscheinlich groß sind, wird die Wiederherstellung nur langsam erfolgen.Mit Hilfe eines Speicherdruckers können Sie den Speicherstatus zu einem bestimmten Zeitpunkt vollständig ausdrucken, wodurch die Speicherdatenwiederherstellung beschleunigt wird, wenn Sie die Wiederherstellung neu starten.
 
-## ICON
+## Symbol.
 
-![claptrap](/images/claptrap_icons/claptrap.svg)
+![Claptrap.](/images/claptrap_icons/claptrap.svg)

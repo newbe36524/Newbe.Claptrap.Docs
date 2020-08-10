@@ -46,7 +46,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ## Compilation et démarrage
 
-项目创建完成之后，您可以用您偏爱的 IDE 打开解决方案进行编译。
+Une fois le projet créé, vous pouvez compiler la solution avec votre IDE préféré ouvert.
 
 Une fois compilé, démarrez les projets Web et BackendServer avec la fonctionnalité Démarrage sur IDE.(VS doit démarrer la console de service, et si vous utilisez IIS Express, vous devez que le développeur examine le numéro de port correspondant pour accéder à la page Web)
 
@@ -238,7 +238,7 @@ Bien sûr, l’analogie ci-dessus est une description simple.Dans le processus s
 
 Ensuite, nous revenons en arrière et fixer le précédent « Premiers produits de jointure ne prennent pas effet » question.
 
-### 这是一个考虑单元测试的框架
+### Il s’agit d’un cadre pour l’examen des essais unitaires.
 
 Il y a un projet dans le modèle de projet.`HelloClaptrap.Actors.Tests.`Le projet contient des tests unitaires du code d’activité principal.
 
