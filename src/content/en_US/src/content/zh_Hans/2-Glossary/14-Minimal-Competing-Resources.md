@@ -1,7 +1,7 @@
 ---
-title: 'Minimal Competitive Resources'
-metaTitle: 'Minimal Competitive Resources'
-metaDescription: 'Minimal Competitive Resources'
+title: 'Minimal Competing Resources'
+metaTitle: 'Minimal Competing Resources'
+metaDescription: 'Minimal Competing Resources'
 ---
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
