@@ -6,13 +6,13 @@ metaDescription: 'Minimal Competing Resources'
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-A concept that is important when using the Claptrap framework for minimal competitive resources.Understanding this concept helps developers better design Claptrap's State and avoid the wrong design.
+Minimal Competiing Resources is a concept that is important when using the Claptrap framework.Understanding this concept helps developers to better design Claptrap's State and avoid the wrong design.
 
-## What is the smallest competitive resource.
+## What is the Minimal Competing Resources.
 
-The concept of "resource competition" in analogy-multithreaded programming, where the concept of "minimum competitive resources" is proposed in a business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
+In analogy with the concept of "resource competition" in multi-thread programming, here is proposed the "Minimum Competing Resources" concept in a business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
 
-In the case of e-commerce, for example, each commodity is a "minimal competitive resource".Note that this is not to say that all goods are a "minimal competitive resource".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and 2 goods, there is no competition in itself.Therefore, each commodity is a minimum competitive resource.
+In the case of e-commerce, for example, each commodity is a "Minimal Competing Resources".Note that this is not to say that all goods are a "Minimal Competing Resources".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and 2 goods, there is no competition in itself.Therefore, each commodity is a minimum competitive resource.
 
 Here are some examples available：
 
