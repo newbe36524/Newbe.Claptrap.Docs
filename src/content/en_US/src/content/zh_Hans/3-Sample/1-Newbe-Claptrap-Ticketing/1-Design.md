@@ -1,122 +1,122 @@
 ---
-title: '设计'
-metaTitle: '火车售票系统-设计'
-metaDescription: '火车售票系统-设计'
+title: 'Design.'
+metaTitle: 'Train ticketing system - design.'
+metaDescription: 'Train ticketing system - design.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-## 业务分析
+## Business analysis.
 
-### 业务边界
+### Business boundaries.
 
-该系统仅包含车票的余票管理部分。即查询剩余座位，下单买票减座。
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-而生成订单信息，付款，流量控制，请求风控等等都不包含在本次讨论的范围中。
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### 业务用例
+### Business use cases.
 
-- 查询余票，能够查询两个车站间可用的车次以及剩余座位数量。
-- 查询车次对应的车票余票，能够查询给定的车次，在各个车站之间还有多少剩余座位。
-- 支持选座下单，客户能够选择给定的车次及座位，并下单买票。
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of cars and seats and place an order to buy a ticket.
 
-## 实现难点分析
+## Implement difficult yiter analysis.
 
-### 余票管理
+### Residual ticket management.
 
-火车票余票管理的难点，其实就在于其余票库存的特殊性。
+The difficulty of train ticket surplus ticket management lies in the particularity of the rest of the ticket inventory.
 
-普通的电商商品，以 SKU 为最小单位，每个 SKU 之间相互独立，互不影响。
+Ordinary e-commerce goods, with SKUs as the smallest unit, each SKU is independent of each other and does not affect each other.
 
-火车票余票，却有所不同，因为余票会受到已卖票起终点而受到影响。下面结合一个简单的逻辑模型，来详细的了解一下这种特殊性。
+Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-现在，我们假设存在一个车次，分别经过 a,b,c,d 四个站点，同时，我们简化场景，假设车次中只有一个座位。
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the row.
 
-那么在没有任何人购票之前，这个车次的余票情况就如下所示：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows：
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 1   |
-| a,c | 1   |
-| a,d | 1   |
-| b,c | 1   |
-| b,d | 1   |
-| c,d | 1   |
+| From the end. | The amount of remaining tickets. |
+| ------------- | -------------------------------- |
+| a,b.          | 1。                               |
+| a, c.         | 1。                               |
+| a, d.         | 1。                               |
+| b,c.          | 1。                               |
+| b,d.          | 1。                               |
+| c, d.         | 1。                               |
 
-如果现在有一位客户购买了一张 a,c 的车票。那么由于只有一个座位，所以，a,b 和 b,c 的余票也就都没有。余票情况就变成了如下所示：
+If a customer now has purchased a,c ticket.So since there is only one seat, a, b and b, c have no remaining tickets.The remaining votes become the following：
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 0   |
-| a,c | 0   |
-| a,d | 1   |
-| b,c | 0   |
-| b,d | 1   |
-| c,d | 1   |
+| From the end. | The amount of remaining tickets. |
+| ------------- | -------------------------------- |
+| a,b.          | 0。                               |
+| a, c.         | 0。                               |
+| a, d.         | 1。                               |
+| b,c.          | 0。                               |
+| b,d.          | 1。                               |
+| c, d.         | 1。                               |
 
-更直白一点，如果有一位客户购买了全程车票 a,d，那么所有的余票都将全部变为 0。因为这个座位上始终都坐着这位乘客。
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-这也就是火车票的特殊性：同一个车次的同一个座位，其各个起终点的余票数量，会受到已售出的车票的起终点的影响。
+This is the special nature of the train ticket：the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-延伸一点，很容易得出，同一车次的不同座位之间是没有这种影响的。
+Extending a little, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### 余票查询
+### Remaining ticket inquiries.
 
-正如上一节所述，由于余票库存的特殊性。对于同一个车次 a,b,c,d，其可能的购票选择就有 6 种。
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-并且我们很容易就得出，选择的种类数的计算方法实际上就是在 n 个站点中选取 2 个的组合数，即 c(n,2) 。
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-那么如果有一辆经过 34 个站点的车次，其可能的组合就是 c(34,2) = 561 。
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-如何高效应对可能存在的多种查询也是该系统需要解决的问题。
+How to deal with the many kinds of queries that may exist effectively is also a problem that the system needs to solve.
 
-## Claptrap 主体设计
+## Claptrap body design.
 
-![Train Ticketing System Design](/images/20200720-001.png)
+![Train Ticketing System Design.](/images/20200720-001.png)
 
-### 将同一车次上的每个座位都设计为一个 Claptrap - SeatGrain
+### Each seat on the same train is designed as a Claptrap- SeatGrain.
 
-该 Claptrap 的 State 包含有一个基本信息
+The State of the Claptrap contains a basic information.
 
-| 类型                                     | 名称         | 说明                                                                    |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | 途径车站的 id 列表，开头为始发站，结尾为终点站。主要购票时进行验证。                                  |
-| Dictionary&lt;int, int&gt; | StationDic | 途径车站 id 的索引反向字典。Stations 是 index-id 的列表，而该字典是对应的 id-index 的字典，为了加快查询。 |
-| List&lt;string&gt;         | RequestIds | 关键属性。每个区间上，已购票的购票 id。例如，index 为 0 ，即表示车站 0 到车站 1 的购票 id。如果为空则表示暂无认购票。 |
+| Type.                                  | Name.       | Description                                                                                                                                                                                                           |
+| -------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations.   | The list of ids for the path station begins with the origin station and ends with the terminal.Verification at the time of major purchase.                                                                            |
+| Dictionary&lt;int, int&gt; | StationDic. | The index reverse dictionary of the road station id.Stations are a list of index-ids, and the dictionary is the corresponding id-index dictionary in order to speed up the query.                                     |
+| List&lt;string&gt;         | RequestIds. | Key properties.On each interval, the ticket id for the purchase purchase.For example, index is 0, which means the ticket id from station 0 to station 1.If it is empty, there is no subscription ticket at this time. |
 
-有了这数据结构的设计，那么就可以来实现两个业务了。
+With this data structure design, you can implement two businesses.
 
-#### 验证是否可以购买
+#### Verify that it is available for purchase.
 
-通过传入两个车站 id，可以查询到这个作为是否属于这个 SeatGrain 。并且查询到起终点对应的所有区间段。只要判断这个从 RequestIds 中判断是否所有的区间段都没有购票 Id 即可。若都没有，则说明可以购买。如果有任何一段上已有购票 Id，则说明已经无法购买了。
+By passing in two station ids, you can find out if this as belongs to this SeatGrain.And query all interval segments for the starting and ending points.Just tell if this doesn't have a ticket Id for all segments that you tell from RequestIds.If not, it means it can be purchased.If you have an ID on any of the paragraphs, you canno.
 
-举例来说，当前 Stations 的情况是 10,11,12,13. 而 RequestIds 是 0,1,0。
+For example, the current Stations situation is 10, 11, 12, 13. RequestIds, on the other hand, is 0,1,0.
 
-那么，如果要购买 10->12 的车票，则不行，因为 RequestIds 第二个区间已经被购买。
+So, if you want to buy a ticket for 10->12, not because the second range of RequestIds has already been purchased.
 
-但是，如果要购买 10->11 的车票，则可以，因为 RequestIds 第一个区间还无人购买。
+However, if you want to buy a ticket for 10->11, you can, because the first range of RequestIds is not yet available.
 
-#### 购买
+#### Buy.
 
-将起终点对应在 RequestIds 中所有的区间段设置上购票 Id 即可。
+You can assign the start ingon to the ticket Id on all interval settings in RequestIds.
 
-### 将同一车次上的所有座位的余票情况设计为一个 Claptrap - TrainGran
+### The remaining tickets for all seats on the same train are designed as a Claptrap-TrainGran.
 
-该 Claptrap 的 State 包含有一些基本信息
+The State of The Claptrap contains some basic information.
 
-| 类型                                               | 名称        | 说明                                                                                   |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stations  | 途径车站的 id 列表，开头为始发站，结尾为终点站。主查询时进行验证。                                                  |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | 关键属性。StationTuple 表示一个起终点。集合包含了所有可能的起终点的余票情况。例如，根据上文，如果该车次经过 34 个地点，则该字典包含有 561 个键值对 |
+| Type.                                            | Name.      | Description                                                                                                                                                                                                               |
+| ------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations.  | The list of ids for the path station begins with the origin station and ends with the terminal.Validate sit on the primary query.                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount. | Key properties.Station Tuple represents a starting point.The collection contains all possible ticketing for the start and end.For example, if the car passes through 34 locations, the dictionary contains 561 key pairs. |
 
-基于以上的数据结构，只需要在每次 SeatGrain 完成下单后，将对应的信息同步到该 Grain 即可。
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-例如，假如 a,c 发生了一次购票，则将 a,c / a,b / b,c 的余票都减一即可。
+For example, if a, c has a ticket purchase, the remaining tickets for a, c/a, b/b, c will be reduced by one.
 
-这里可以借助本框架内置的 Minion 机制来实现。
+This can be done here with the help of the Minion mechanism built into this framework.
 
-值得一提的是，这是一个比“最小竞争资源”大的设计。因为查询场景在该业务场景中不需要绝对的快速。这样设计可以减少系统的复杂度。
+It is worth mentioning that this is a larger design than the "least competitive resources".Because the query scenario does not need absolute speed in that business scenario.This design reduces the complexity of the system.
 
-## Id
+## Id.
 
-![Train Ticketing System Id](/images/20200813-001.png)
+![Train Ticketing System Id.](/images/20200813-001.png)
