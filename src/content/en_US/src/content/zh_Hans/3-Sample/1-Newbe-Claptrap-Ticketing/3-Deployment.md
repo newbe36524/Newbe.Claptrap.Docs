@@ -1,39 +1,39 @@
 ---
-title: '部署'
-metaTitle: '火车售票系统-部署'
-metaDescription: '火车售票系统-部署'
+title: 'Deployment.'
+metaTitle: 'Train ticketing system - deployment.'
+metaDescription: 'Train ticketing system - deployment.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-## 在线体验
+## Online experience.
 
-该样例已经被部署在 <http://ticketing.newbe.pro> 网站上。
+This sample has been deployed on the <http://ticketing.newbe.pro> website.
 
-### 限时开放
+### Open for a limited time.
 
-由于运营成本的原因，该系统仅在以下特定的时段开放：
+Due to operating costs, the system is only available for the following specific periods：
 
-| 日期  | 时段          |
-| --- | ----------- |
-| 工作日 | 12:00-14:00 |
-| 工作日 | 20:00-22:00 |
-| 周末  | 19:00-23:00 |
+| Date.    | Time.        |
+| -------- | ------------ |
+| Days.    | 12:00-14:00。 |
+| Days.    | 20:00-22:00。 |
+| Weekend. | 19:00-23:00。 |
 
-每次重新开放时，系统将会被重置，上一次开放的所有数据将被清空。
+Each time it reopens, the system will be reset and all data from the last opening will be emptied.
 
-#### swagger 文档
+#### Swagger documentation.
 
-为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger>
+To be more effective at ticketing, developers can develop automatic ticketing tools based on the APIs given in the swagger documentation.Document address<http://ticketing.newbe.pro/swagger>
 
-## 独立部署
+## Deploy independently.
 
-开发者也可以使用源码在本地的 docker 环境进行独立部署。只需要按照以下的步骤进行操作即可。
+Developers can also use the source code for independent deployment in the local docker environment.Just follow the steps below.
 
-1. 确保本地已经正确安装了 docker 环境，并且能够使用 docker-compose
-2. 签出项目源码 <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. 在 `src/Newbe.Claptrap.Ticketing` 文件夹运行 `docker-compose build` 命令来完成项目编译
-4. 在`src/Newbe.Claptrap.Ticketing/LocalCluster` 文件夹运行 `docker-compose up -d` 来启动所有服务
-5. 访问 `http://localhost:10080` 即可打开界面。
+1. Make sure that the docker environment is properly installed locally and that the docker-compose is available.
+2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. Run the `docker-compose build` command in the `src/Newbe.Claptrap.Ticketing` folder to complete project compilation.
+4. Run `docker-compose up -d` in the`src/Newbe.Claptrap.Ticketing/LocalCluster` folder to start all services.
+5. Access the `http://localhost:10080` to open the interface.
 
-> 如果您当前正在中国大陆，并且遇到下载 netcore 镜像缓慢的问题，可以尝试使用[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
