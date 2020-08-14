@@ -1,122 +1,122 @@
 ---
-title: '设计'
-metaTitle: '火车售票系统-设计'
-metaDescription: '火车售票系统-设计'
+title: 'Conception.'
+metaTitle: 'Système de billetterie de train - conception.'
+metaDescription: 'Système de billetterie de train - conception.'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La version actuellement vue est le résultat d’une correction simplifiée et manuelle traduite par la machine.S’il y a une mauvaise traduction dans le document, veuillez cliquer ici pour soumettre votre proposition de traduction.](https://crwd.in/newbeclaptrap)
 
-## 业务分析
+## Analyse d’entreprise.
 
-### 业务边界
+### Frontières d’affaires.
 
-该系统仅包含车票的余票管理部分。即查询剩余座位，下单买票减座。
+Le système ne contient que la partie restante de la gestion des billets du billet.Autrement dit, interrogez les sièges restants, commandez des billets pour réduire les sièges.
 
-而生成订单信息，付款，流量控制，请求风控等等都不包含在本次讨论的范围中。
+La génération d’informations sur les commandes, le paiement, le contrôle de la circulation, le contrôle des vents de demande, etc. ne sont pas inclus dans la portée de la présente discussion.
 
-### 业务用例
+### Cas d’utilisation des affaires.
 
-- 查询余票，能够查询两个车站间可用的车次以及剩余座位数量。
-- 查询车次对应的车票余票，能够查询给定的车次，在各个车站之间还有多少剩余座位。
-- 支持选座下单，客户能够选择给定的车次及座位，并下单买票。
+- Vérifiez les billets restants pour connaître le nombre de voyages disponibles entre les deux stations et le nombre de sièges restants.
+- Interrogez la mise en jeu du billet correspondant au nombre de trains, peut interroger le nombre donné de trains, entre les gares il ya combien de sièges restants.
+- La sélection des sièges est prise en charge, et les clients peuvent choisir un nombre donné de voitures et de sièges et passer une commande pour acheter un billet.
 
-## 实现难点分析
+## Implémentez une analyse de yiter difficile.
 
-### 余票管理
+### Gestion résiduelle des billets.
 
-火车票余票管理的难点，其实就在于其余票库存的特殊性。
+La difficulté de la gestion des billets de train excédentaire réside dans la particularité du reste de l’inventaire des billets.
 
-普通的电商商品，以 SKU 为最小单位，每个 SKU 之间相互独立，互不影响。
+Marchandises ordinaires de commerce électronique, avec les SKU comme la plus petite unité, chaque SKU est indépendant les uns des autres et ne s’affecte pas les uns les autres.
 
-火车票余票，却有所不同，因为余票会受到已卖票起终点而受到影响。下面结合一个简单的逻辑模型，来详细的了解一下这种特殊性。
+Les billets de train sont différents parce que les billets restants seront affectés par le début et la fin des billets vendus.Voici un modèle logique simple pour jeter un regard détaillé sur cette particularité.
 
-现在，我们假设存在一个车次，分别经过 a,b,c,d 四个站点，同时，我们简化场景，假设车次中只有一个座位。
+Maintenant, supposons qu’il y a un certain nombre de voitures qui passent par quatre stations, a, b, c, d, et en même temps, nous simplifions le scénario, en supposant qu’il n’y a qu’un seul siège dans la rangée.
 
-那么在没有任何人购票之前，这个车次的余票情况就如下所示：
+Donc, avant que quelqu’un achète un billet, les billets restants pour ce trajet sont aussi follows：
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 1   |
-| a,c | 1   |
-| a,d | 1   |
-| b,c | 1   |
-| b,d | 1   |
-| c,d | 1   |
+| De la fin. | Le montant des billets restants. |
+| ---------- | -------------------------------- |
+| a,b.       | 1。                               |
+| a, c.      | 1。                               |
+| a, d.      | 1。                               |
+| b,c.       | 1。                               |
+| b,d.       | 1。                               |
+| c, d.      | 1。                               |
 
-如果现在有一位客户购买了一张 a,c 的车票。那么由于只有一个座位，所以，a,b 和 b,c 的余票也就都没有。余票情况就变成了如下所示：
+Si un client a maintenant acheté un billet, c.Donc, puisqu’il n’y a qu’un seul siège, a, b et b, c n’ont pas de billets restants.Les votes restants deviennent les：suivants
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 0   |
-| a,c | 0   |
-| a,d | 1   |
-| b,c | 0   |
-| b,d | 1   |
-| c,d | 1   |
+| De la fin. | Le montant des billets restants. |
+| ---------- | -------------------------------- |
+| a,b.       | 0。                               |
+| a, c.      | 0。                               |
+| a, d.      | 1。                               |
+| b,c.       | 0。                               |
+| b,d.       | 1。                               |
+| c, d.      | 1。                               |
 
-更直白一点，如果有一位客户购买了全程车票 a,d，那么所有的余票都将全部变为 0。因为这个座位上始终都坐着这位乘客。
+Pour le dire plus franchement, si un client achète un, d, tous les billets restants deviendront 0.Parce que le passager était toujours assis sur le siège.
 
-这也就是火车票的特殊性：同一个车次的同一个座位，其各个起终点的余票数量，会受到已售出的车票的起终点的影响。
+C’est la nature particulière du billet de train：le même siège du même train, le nombre de billets restants à chaque point d’extrémité sera affecté par le point de départ du billet vendu.
 
-延伸一点，很容易得出，同一车次的不同座位之间是没有这种影响的。
+S’étendant un peu, il est facile de conclure qu’il n’y a pas un tel effet entre les différents sièges dans la même voiture.
 
-### 余票查询
+### Demandes de billets restantes.
 
-正如上一节所述，由于余票库存的特殊性。对于同一个车次 a,b,c,d，其可能的购票选择就有 6 种。
+Comme mentionné dans la section précédente, en raison de la particularité de l’inventaire des billets restants.Pour le même train a, b, c, d, il ya 6 options de billets possibles.
 
-并且我们很容易就得出，选择的种类数的计算方法实际上就是在 n 个站点中选取 2 个的组合数，即 c(n,2) 。
+Et il est facile de conclure que le nombre de types sélectionnés est effectivement calculé en sélectionnant une combinaison de 2 dans les sites n, qui est c (n, 2).
 
-那么如果有一辆经过 34 个站点的车次，其可能的组合就是 c(34,2) = 561 。
+Donc, s’il ya une voiture qui passe à travers 34 stations, la combinaison possible est c (34,2) s 561.
 
-如何高效应对可能存在的多种查询也是该系统需要解决的问题。
+Comment traiter les nombreux types de requêtes qui peuvent exister efficacement est également un problème que le système doit résoudre.
 
-## Claptrap 主体设计
+## Conception de corps de Claptrap.
 
-![Train Ticketing System Design](/images/20200720-001.png)
+![Conception du système de billetterie de train.](/images/20200720-001.png)
 
-### 将同一车次上的每个座位都设计为一个 Claptrap - SeatGrain
+### Chaque siège du même train est conçu comme un Claptrap- SeatGrain.
 
-该 Claptrap 的 State 包含有一个基本信息
+L’état du Claptrap contient une information de base.
 
-| 类型                                     | 名称         | 说明                                                                    |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | 途径车站的 id 列表，开头为始发站，结尾为终点站。主要购票时进行验证。                                  |
-| Dictionary&lt;int, int&gt; | StationDic | 途径车站 id 的索引反向字典。Stations 是 index-id 的列表，而该字典是对应的 id-index 的字典，为了加快查询。 |
-| List&lt;string&gt;         | RequestIds | 关键属性。每个区间上，已购票的购票 id。例如，index 为 0 ，即表示车站 0 到车站 1 的购票 id。如果为空则表示暂无认购票。 |
+| Type.                                    | Nom.        | Description                                                                                                                                                                                                                           |
+| ---------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;             | Stations.   | La liste des ids pour la station de chemin commence avec la station d’origine et se termine avec le terminal.Vérification au moment de l’achat majeur.                                                                                |
+| Dictionnaire&lt;int, int&gt; | StationDic. | Dictionnaire inverse de l’index de l’id de la station routière.Les stations sont une liste d’ids d’index, et le dictionnaire est le dictionnaire id-index correspondant afin d’accélérer la requête.                                  |
+| Liste&lt;string&gt;          | RequestIds. | Propriétés clés.À chaque intervalle, le billet id pour l’achat d’achat.Par exemple, l’index est 0, ce qui signifie que le billet id de la station 0 à la station 1.S’il est vide, il n’y a pas de billet d’abonnement pour le moment. |
 
-有了这数据结构的设计，那么就可以来实现两个业务了。
+Avec cette conception de structure de données, vous pouvez implémenter deux entreprises.
 
-#### 验证是否可以购买
+#### Vérifiez qu’il est disponible à l’achat.
 
-通过传入两个车站 id，可以查询到这个作为是否属于这个 SeatGrain 。并且查询到起终点对应的所有区间段。只要判断这个从 RequestIds 中判断是否所有的区间段都没有购票 Id 即可。若都没有，则说明可以购买。如果有任何一段上已有购票 Id，则说明已经无法购买了。
+En passant en deux ids de station, vous pouvez savoir si cela appartient à ce SeatGrain.Et interrogez tous les segments d’intervalle pour les points de départ et de fin.Il suffit de dire si cela n’a pas d’id de billet pour tous les segments que vous dites de RequestIds.Si ce n’est pas le cas, cela signifie qu’il peut être acheté.Si vous avez une pièce d’identité sur l’un des paragraphes, vous ne pouvez pas.
 
-举例来说，当前 Stations 的情况是 10,11,12,13. 而 RequestIds 是 0,1,0。
+Par exemple, la situation actuelle des stations est de 10, 11, 12, 13. RequestIds, d’autre part, est de 0,1,0.
 
-那么，如果要购买 10->12 的车票，则不行，因为 RequestIds 第二个区间已经被购买。
+Donc, si vous voulez acheter un billet pour 10->12, non pas parce que la deuxième gamme de RequestIds a déjà été acheté.
 
-但是，如果要购买 10->11 的车票，则可以，因为 RequestIds 第一个区间还无人购买。
+Toutefois, si vous souhaitez acheter un billet pour 10->11, vous pouvez, parce que la première gamme de RequestIds n’est pas encore disponible.
 
-#### 购买
+#### Acheter.
 
-将起终点对应在 RequestIds 中所有的区间段设置上购票 Id 即可。
+Vous pouvez affecter l’ingon de démarrage à l’ID de billet sur tous les paramètres d’intervalle dans RequestIds.
 
-### 将同一车次上的所有座位的余票情况设计为一个 Claptrap - TrainGran
+### Les billets restants pour tous les sièges du même train sont conçus comme un Claptrap-TrainGran.
 
-该 Claptrap 的 State 包含有一些基本信息
+L’état du Claptrap contient quelques informations de base.
 
-| 类型                                               | 名称        | 说明                                                                                   |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stations  | 途径车站的 id 列表，开头为始发站，结尾为终点站。主查询时进行验证。                                                  |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | 关键属性。StationTuple 表示一个起终点。集合包含了所有可能的起终点的余票情况。例如，根据上文，如果该车次经过 34 个地点，则该字典包含有 561 个键值对 |
+| Type.                                            | Nom.             | Description                                                                                                                                                                                                                                     |
+| ------------------------------------------------ | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations.        | La liste des ids pour la station de chemin commence avec la station d’origine et se termine avec le terminal.Valider s’asseoir sur la requête principale.                                                                                       |
+| IDictionary&lt;StationTuple, int&gt; | Compte de siège. | Propriétés clés.Station Tuple représente un point de départ.La collection contient toutes les billetteries possibles pour le début et la fin.Par exemple, si la voiture passe par 34 emplacements, le dictionnaire contient 561 paires de clés. |
 
-基于以上的数据结构，只需要在每次 SeatGrain 完成下单后，将对应的信息同步到该 Grain 即可。
+En fonction de la structure de données ci-dessus, vous n’avez qu’à synchroniser les informations correspondantes au Grain chaque fois que Le SeatGrain termine le passage de la commande.
 
-例如，假如 a,c 发生了一次购票，则将 a,c / a,b / b,c 的余票都减一即可。
+Par exemple, si a, c a un achat de billet, les billets restants pour a, c/a, b/b, c seront réduits d’un.
 
-这里可以借助本框架内置的 Minion 机制来实现。
+Cela peut être fait ici avec l’aide du mécanisme Minion intégré dans ce cadre.
 
-值得一提的是，这是一个比“最小竞争资源”大的设计。因为查询场景在该业务场景中不需要绝对的快速。这样设计可以减少系统的复杂度。
+Il convient de mentionner qu’il s’agit d’une conception plus vaste que les « ressources les moins compétitives ».Parce que le scénario de requête n’a pas besoin de vitesse absolue dans ce scénario d’entreprise.Cette conception réduit la complexité du système.
 
-## Id
+## Id.
 
-![Train Ticketing System Id](/images/20200813-001.png)
+![Id du système de billetterie de train.](/images/20200813-001.png)
