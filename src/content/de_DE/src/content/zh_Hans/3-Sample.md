@@ -1,9 +1,9 @@
 ---
-title: '项目样例'
-metaTitle: '项目样例'
-metaDescription: '项目样例'
+title: 'Projektbeispiel'
+metaTitle: 'Projektbeispiel'
+metaDescription: 'Projektbeispiel'
 ---
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [Die aktuell angezeigte Version ist das Ergebnis von maschinell übersetztem chinesisch erarbeitetem vereinfachtem und manuellem Korrekturlesen.Wenn das Dokument falsch übersetzt wurde, klicken Sie bitte hier, um Ihren Übersetzungsvorschlag einzureichen.](https://crwd.in/newbeclaptrap)
 
-本节包含有该项目有关的样例说明，建议读者在阅读本节之前，可以先尝试阅读“快速入门”和“术语表”，这将有助于对样例的充分掌握。
+Dieser Abschnitt enthält eine Beispielbeschreibung des Projekts, und es wird empfohlen, dass die Leser versuchen, den Schnellstart und das Glossar zu lesen, bevor Sie diesen Abschnitt lesen, was ihnen hilft, eine gute Vorstellung von der Probe zu erhalten.
