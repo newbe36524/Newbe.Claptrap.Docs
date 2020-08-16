@@ -40,7 +40,7 @@ Los desarrolladores también pueden usar el código fuente para la implementaci�
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
-cd Newbe.Claptrap.Examples/Newbe.Claptrap.Ticketing
+cd Newbe.Claptrap.Examples/src/Newbe.Claptrap.Ticketing
 docker-compose build
 cd Docker/LocalClusterSQLite
 docker-compose up -d
