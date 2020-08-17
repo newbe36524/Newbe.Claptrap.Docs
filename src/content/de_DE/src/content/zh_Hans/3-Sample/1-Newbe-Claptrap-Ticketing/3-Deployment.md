@@ -30,31 +30,31 @@ Um beim Ticketing effektiver zu sein, können Entwickler automatische Ticketing-
 
 Entwickler können den Quellcode auch für die unabhängige Bereitstellung in der lokalen Docker-Umgebung verwenden.Folgen Sie einfach den Schritten unten.
 
-1. 确保本地已经正确安装了 docker 环境，并且能够使用 docker-compose / git
+1. Stellen Sie sicher, dass die Docker-Umgebung lokal ordnungsgemäß installiert ist und dass der docker-compose/git verfügbar ist.
 2. Sehen Sie sich die Projektquelle <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. 在 src/Newbe.Claptrap.Ticketing 文件夹运行 docker-compose build 命令来完成项目编译
-4. 在 src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite 文件夹运行 docker-compose up -d 来启动所有服务
+3. Führen Sie den Befehl docker-compose build im Ordner src/Newbe.Claptrap.Ticketing aus, um die Projektkompilierung abzuschließen.
+4. Führen Sie den Ordner docker-compose up-d im Ordner src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite aus, um alle Dienste zu starten.
 5. Greifen Sie auf die `http://localhost:10080` zu, um die Schnittstelle zu öffnen.
 
-总结起来，脚本如下：
+Zusammenfassend ist das Skript wie follows：
 
 ```bash
-git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
-cd Newbe.Claptrap.Examples/src/Newbe.Claptrap.Ticketing
+Git-Klon https://github.com/newbe36524/Newbe.Claptrap.Examples.git
+cd Newbe.Claptrap.examples/src/newbe.Claptrap.ticketing
 docker-compose build
 cd Docker/LocalClusterSQLite
-docker-compose up -d
+docker-compose up -d.
 ```
 
-以上步骤是运行以 SQLite 为数据库的方法，代码库中还包含了其他若干种部署模式，只需要分别运行不同文件夹中的 up.cmd 即可：
+Die obigen Schritte sind eine Möglichkeit, die SQLite-Datenbank auszuführen, und die Codebasis enthält mehrere andere Bereitstellungsmodi, die eine Ausführung in verschiedenen Ordnern erfordern, um：
 
-| 文件夹                 | 说明                |
-| ------------------- | ----------------- |
-| LocalClusterMongodb | MongoDb 多节点负载均衡版本 |
-| LocalClusterSQLite  | SQLite 单节点版本      |
-| Tencent             | “在线体验”中部署的版本      |
+| Ordner.                  | Beschreibung.                                        |
+| ------------------------ | ---------------------------------------------------- |
+| Lokaler Cluster Mongodb. | MongoDb Multi-Node Load Balancing Version.           |
+| LocalCluster SQLite.     | SQLite Single-Node-Version.                          |
+| Tencent.                 | Die in der Online-Erfahrung bereitgestellte Version. |
 
-> - 如果您当前正在中国大陆，并且遇到下载 netcore 镜像缓慢的问题，可以尝试使用[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - 开发者也可以选择[PWD](https://labs.play-with-docker.com/)上部署该进行测试
-> - 在不同部署模式间切换是，注意先运行 docker-compose down 来关闭上一次部署
-> - 不同部署模式的 Web 端口可能不同，具体需要查看 docker-compose.yml 中的设置
+> - Wenn Sie derzeit chinesisches Festland sind und einen langsamen Download des Netcore-Images erleben, versuchen Sie es mit[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> - Entwickler können den Test auch[der PWD-](https://labs.play-with-docker.com/)bereitstellen.
+> - Wechseln Sie zwischen verschiedenen Bereitstellungsmodi, und achten Sie darauf, docker-compose zuerst auszuführen, um die letzte Bereitstellung zu schließen.
+> - Webports können je nach den Einstellungen in docker-compose.yml vom Bereitstellungsmuster bis zum Bereitstellungsmodus variieren.
