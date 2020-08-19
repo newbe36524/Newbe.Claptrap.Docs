@@ -1,9 +1,9 @@
 ---
-title: 'Example of the project.'
-metaTitle: 'Example of the project.'
-metaDescription: 'Example of the project.'
+title: 'Sample'
+metaTitle: 'Sample'
+metaDescription: 'Sample'
 ---
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-This section contains a sample description of the project, and it is recommended that readers try reading The Quick Start and the Glossary before reading this section, which will help them get a good idea of the sample.
+This section contains the sample notes related to the project, and it is recommended that the reader, before reading this section, can first try to read the "Quick Start" and "Glossary", which will help in the full mastery of the sample.
