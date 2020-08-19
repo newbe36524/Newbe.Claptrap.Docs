@@ -1,14 +1,14 @@
 ---
-title: 'Deployment.'
-metaTitle: 'Train ticketing system - deployment.'
-metaDescription: 'Train ticketing system - deployment.'
+title: 'Deployment'
+metaTitle: 'Train ticketing system - deployment'
+metaDescription: 'Train ticketing system - deployment'
 ---
 
 > [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
-## Online experience.
+## It is Online
 
-This sample has been deployed on the <http://ticketing.newbe.pro> website.
+The sample has already been deployed on the <http://ticketing.newbe.pro> website.
 
 ### Open for a limited time.
 
