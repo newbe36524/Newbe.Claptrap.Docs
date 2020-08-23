@@ -49,9 +49,9 @@ Si un client a maintenant acheté un billet, c.Donc, puisqu’il n’y a qu’un
 | ---------- | -------------------------------- |
 | a,b.       | 0。                               |
 | a, c.      | 0。                               |
-| a, d.      | 1。                               |
+| a, d.      | 0                                |
 | b,c.       | 0。                               |
-| b,d.       | 1。                               |
+| b,d.       | 0                                |
 | c, d.      | 1。                               |
 
 Pour le dire plus franchement, si un client achète un, d, tous les billets restants deviendront 0.Parce que le passager était toujours assis sur le siège.
