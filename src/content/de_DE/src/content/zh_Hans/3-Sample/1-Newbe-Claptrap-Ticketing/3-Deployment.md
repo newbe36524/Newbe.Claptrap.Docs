@@ -10,7 +10,7 @@ metaDescription: 'Zugticketsystem - Bereitstellung.'
 
 Dieses Beispiel wurde auf der <http://ticketing.newbe.pro> -Website bereitgestellt.
 
-### Offen für eine begrenzte Zeit.
+### 限时开放（还在备案）
 
 Aufgrund der Betriebskosten ist das System nur für folgende spezifische periods：
 
