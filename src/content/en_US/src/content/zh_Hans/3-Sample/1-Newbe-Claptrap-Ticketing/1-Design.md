@@ -49,9 +49,9 @@ If a customer now has purchased a,c ticket.So since there is only one seat, a, b
 | ------------- | -------------------------------- |
 | a,b.          | 0。                               |
 | a, c.         | 0。                               |
-| a, d.         | 1。                               |
+| a, d.         | 0                                |
 | b,c.          | 0。                               |
-| b,d.          | 1。                               |
+| b,d.          | 0                                |
 | c, d.         | 1。                               |
 
 To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
