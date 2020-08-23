@@ -113,7 +113,7 @@ export default class MDXRuntimeTest extends Component {
           <NextPrevious mdx={mdx} nav={nav} />
         </div>
         <div class="beian">
-          <a href="http://www.beian.miit.gov.cn/" rel="external nofollow noopener noreferrer" target="_blank">闽 ICP 备 18002256 号 </a>
+          <a href="https://beian.miit.gov.cn/" rel="external nofollow noopener noreferrer" target="_blank">闽 ICP 备 18002256 号 </a>
           <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35010202000749" rel="external nofollow noopener noreferrer" target="_blank">闽公网安备 35010202000749 号</a>
         </div>
       </Layout>
