@@ -34,14 +34,14 @@ Now, let's assume that there is a number of cars passing through four stations, 
 
 So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| From the end. | The amount of remaining tickets. |
-| ------------- | -------------------------------- |
-| a,b.          | 1。                               |
-| a, c.         | 1。                               |
-| a, d.         | 1。                               |
-| b,c.          | 1。                               |
-| b,d.          | 1。                               |
-| c, d.         | 1。                               |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
 If a customer now has purchased a,c ticket.So since there is only one seat, a, b and b, c have no remaining tickets.The remaining votes become the following：
 
