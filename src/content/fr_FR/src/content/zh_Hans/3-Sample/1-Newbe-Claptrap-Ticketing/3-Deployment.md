@@ -10,7 +10,7 @@ metaDescription: 'Système de billetterie de train - déploiement.'
 
 Cet échantillon a été déployé sur le site Web de <http://ticketing.newbe.pro> .
 
-### 限时开放（还在备案）
+### Ouverture à durée limitée (toujours dans le dossier)
 
 En raison des coûts d’exploitation, le système n’est disponible que pour les periods：spécifiques suivants
 
