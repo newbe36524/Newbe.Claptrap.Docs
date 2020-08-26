@@ -49,9 +49,9 @@ Si un cliente ahora ha comprado un ticket,c.Así que ya que sólo hay un asiento
 | --------------- | --------------------------------- |
 | a,b.            | 0。                                |
 | a, c.           | 0。                                |
-| a, d.           | 0                                 |
+| a, d.           | 0。                                |
 | b,c.            | 0。                                |
-| b,d.            | 0                                 |
+| b,d.            | 0。                                |
 | c, d.           | 1。                                |
 
 Para decirlo con más fluide, si un cliente compra a, d, todos los boletos restantes se convertirán en 0.Porque el pasajero siempre estaba sentado en el asiento.
