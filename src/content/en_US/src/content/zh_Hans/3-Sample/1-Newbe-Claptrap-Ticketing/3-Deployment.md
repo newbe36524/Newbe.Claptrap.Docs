@@ -10,7 +10,7 @@ metaDescription: 'Train ticketing system - deployment'
 
 The sample has already been deployed on the <http://ticketing.newbe.pro> website.
 
-### 限时开放（还在备案）
+### Limited-time opening (still on file)
 
 Due to operating costs, the system is only available for the following specific periods：
 
