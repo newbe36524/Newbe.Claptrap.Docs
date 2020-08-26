@@ -10,7 +10,7 @@ metaDescription: 'Sistema de emisión de billetes de tren - despliegue.'
 
 Este ejemplo se ha implementado en el sitio web de <http://ticketing.newbe.pro> .
 
-### 限时开放（还在备案）
+### Apertura por tiempo limitado (todavía archivada)
 
 Debido a los costes operativos, el sistema solo está disponible para los siguientes periods：
 
