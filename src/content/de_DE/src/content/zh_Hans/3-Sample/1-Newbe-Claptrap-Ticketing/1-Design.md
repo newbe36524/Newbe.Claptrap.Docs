@@ -49,9 +49,9 @@ Wenn ein Kunde jetzt ein Ticket erworben hat.Da es also nur einen Sitzplatz gibt
 | --------- | ----------------------------------- |
 | a,b.      | 0。                                  |
 | a, c.     | 0。                                  |
-| a, d.     | 0                                   |
+| a, d.     | 0。                                  |
 | b,c.      | 0。                                  |
-| b,d.      | 0                                   |
+| b,d.      | 0。                                  |
 | c, d.     | 1。                                  |
 
 Um es noch deutlicher zu sagen: Wenn ein Kunde ein, d kauft, werden alle verbleibenden Tickets 0.Denn der Passagier saß immer auf dem Sitz.
