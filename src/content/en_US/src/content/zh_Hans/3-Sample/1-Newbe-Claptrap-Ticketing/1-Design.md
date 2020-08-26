@@ -18,21 +18,21 @@ Generating order information, payment, traffic control, request wind control, et
 
 - Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
 - Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
-- Seat selection is supported, and customers can select a given number of cars and seats and place an order to buy a ticket.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-## Implement difficult yiter analysis.
+## Difficulty analysis
 
-### Residual ticket management.
+### Ticketing management.
 
-The difficulty of train ticket surplus ticket management lies in the particularity of the rest of the ticket inventory.
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-Ordinary e-commerce goods, with SKUs as the smallest unit, each SKU is independent of each other and does not affect each other.
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
 Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the row.
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-So before anyone buys a ticket, the remaining tickets for this ride are as follows：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
 | From the end. | The amount of remaining tickets. |
 | ------------- | -------------------------------- |
@@ -49,9 +49,9 @@ If a customer now has purchased a,c ticket.So since there is only one seat, a, b
 | ------------- | -------------------------------- |
 | a,b.          | 0。                               |
 | a, c.         | 0。                               |
-| a, d.         | 0                                |
+| a, d.         | 0。                               |
 | b,c.          | 0。                               |
-| b,d.          | 0                                |
+| b,d.          | 0。                               |
 | c, d.         | 1。                               |
 
 To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
