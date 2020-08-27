@@ -6,6 +6,7 @@ metaDescription: '火车售票系统-部署'
 
 > [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
 
+<!--
 ## 在线体验
 
 该样例已经被部署在 <http://ticketing.newbe.pro> 网站上。
@@ -24,7 +25,7 @@ metaDescription: '火车售票系统-部署'
 
 #### swagger 文档
 
-为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger>
+为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
 ## 独立部署
 
