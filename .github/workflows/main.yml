@@ -47,8 +47,14 @@ jobs:
           cd $GITHUB_WORKSPACE/src
           mkdir -p public/images/icon 
           npm run build
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "8" # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
       - name: publish to qiniu
+        env:
+          JAVA_TOOL_OPTIONS: "-agentlib:hprof"
         run: |
           cd $GITHUB_WORKSPACE/src
-          chmod +x ../tools/qsuits_linux_amd64
-          ../tools/qsuits_linux_amd64 -process=qupload -path=public -rm-prefix=public/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
+          java -jar ../tools/qsuits-8.4.4.jar -process=qupload -path=public -rm-prefix=public/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
