@@ -1,353 +1,353 @@
 ---
-title: '第四步——利用Minion，商品下单'
-metaTitle: '第四步——利用Minion，商品下单'
-metaDescription: '第四步——利用Minion，商品下单'
+title: 'Paso 4 - Utilice Minion para hacer un pedido de un producto.'
+metaTitle: 'Paso 4 - Utilice Minion para hacer un pedido de un producto.'
+metaDescription: 'Paso 4 - Utilice Minion para hacer un pedido de un producto.'
 ---
 
-通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
+Con este artículo, puedes empezar a hacer negocios con Claptrap.
 
-> [当前查看的版本是由机器翻译自简体中文，并进行人工校对的结果。若文档中存在任何翻译不当的地方，欢迎点击此处提交您的翻译建议。](https://crwd.in/newbeclaptrap)
+> [La versión que se ve actualmente es el resultado de que la máquina simplificada en chino traduce la autocomprobación y las lecturas manuales.Si hay alguna traducción incorrecta en el documento, haga clic aquí para enviar sus sugerencias de traducción.](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
-## 开篇摘要
+## Resumen de apertura.
 
-本篇，我通过实现“商品下单”的需求来了解一下如何在已有的项目样例中使用 Minion 来完成异步的业务处理。
+En este artículo, aprendí cómo Se puede usar Minion para completar el procesamiento empresarial asincrónico en muestras de proyectos existentes mediante la implementación de los requisitos de "pedido de productos básicos".
 
-首先，先了解一下本篇需要涉及的业务用例：
+En primer lugar, eche un vistazo a los casos de uso empresarial que deben cubrirse en este article：
 
-1. 用户可以进行下单操作，下单时将使用当前购物车中的所有 SKU 形成一个订单。
-2. 下单后将会扣除相关 SKU 的库存。如果某一 SKU 库存不足，则下单失败。
-3. 下单操作仅到扣减库存成功为止，后续步骤不需要本样例讨论范围。因此，本样例在成功下单之后会在数据库中生成一条订单记录，表示订单创建结束。
+1. El usuario puede realizar un pedido, que forma un pedido utilizando todas las SKU en el carro de la compra actual.
+2. El inventario de las SKU correspondientes se deducirá después de realizar el pedido.Si una SKU está agotada, se produce un error en el pedido.
+3. La operación de pedido solo se realiza correctamente hasta que el inventario se deduce correctamente y los pasos siguientes no requieren el ámbito de esta discusión de ejemplo.Por lo tanto, este ejemplo genera un registro de pedido en la base de datos después de realizar un pedido correcto, que indica el final de la creación del pedido.
 
-本篇虽然重点在于 Minion 的使用，不过由于需要使用到一个新的 OrderGrain 对象，因此还是需要使用到前一篇“定义 Claptrap”的相关知识。
+Aunque el enfoque de este artículo se centra en el uso de Minion, debido a la necesidad de usar un nuevo objeto OrderGrain, todavía necesita usar el artículo anterior "Definición de Claptrap" conocimiento relacionado.
 
-Minion 是一种特殊的 Claptrap，它与其 MasterClaptrap 之间的关系如下图所示：
+Minion es un tipo especial de Claptrap, y su relación con MasterClaptrap se muestra en las siguientes：
 
-![Minion](/images/20190228-002.gif)
+![Súbdito.](/images/20190228-002.gif)
 
-其主体开发流程和 Claptrap 类似，只是有所删减。对比如下：
+Su principal proceso de desarrollo es similar al de Claptrap, con sólo unas pocas limitaciones.La comparación es como follows：
 
-| 步骤                          | Claptrap | Minion |
-| --------------------------- | -------- | ------ |
-| 定义 ClaptrapTypeCode         | √        | √      |
-| 定义 State                    | √        | √      |
-| 定义 Grain 接口                 | √        | √      |
-| 实现 Grain                    | √        | √      |
-| 注册 Grain                    | √        | √      |
-| 定义 EventCode                | √        |        |
-| 定义 Event                    | √        |        |
-| 实现 EventHandler             | √        | √      |
-| 注册 EventHandler             | √        | √      |
-| 实现 IInitialStateDataFactory | √        | √      |
+| Pasos.                                  | Una trampa. | Súbdito. |
+| --------------------------------------- | ----------- | -------- |
+| Definir ClaptrapTypeCode.               | √.          | √.       |
+| Definir estado.                         | √.          | √.       |
+| Defina la interfaz Granulado.           | √.          | √.       |
+| Implementar grano.                      | √.          | √.       |
+| Regístrese en Grano.                    | √.          | √.       |
+| Definir EventCode.                      | √.          |          |
+| Definir evento.                         | √.          |          |
+| Implementar controlador de eventos.     | √.          | √.       |
+| Regístrese en EventHandler.             | √.          | √.       |
+| Implemente IInitial State Data Factory. | √.          | √.       |
 
-这个删减的原因是由于 Minion 是 Claptrap 的事件消费者，所以事件相关的定义不需要处理。但是其他的部分仍然是必须的。
+La razón de esta eliminación es que debido a que Minion es el consumidor de eventos de claptrap, no es necesario procesar definiciones relacionadas con eventos.Pero el resto sigue siendo necesario.
 
-> 本篇开始，我们将不再罗列相关代码所在的具体文件位置，希望读者能够自行在项目中进行查找，以便熟练的掌握。
+> Al principio de este artículo, ya no enumeraremos las ubicaciones de archivo específicas donde se encuentra el código relevante, y esperamos que el lector pueda averiguarlo por sí mismo en el proyecto para que puedan dominarlo.
 
-## 实现 OrderGrain
+## Implemente OrderGrain.
 
-基于前一篇“定义 Claptrap”相关的知识，我们此处实现一个 OrderGrain 用来表示订单下单操作。为节约篇幅，我们只罗列其中关键的部分。
+Basándonos en el conocimiento anterior de "Definir Claptrap", implementamos un OrderGrain aquí para representar la operación de pedido de pedidos.Para ahorrar espacio, enumeramos solo las partes clave del producto.
 
-### OrderState
+### OrderState.
 
-订单状态的定义如下：
-
-```cs
-using System.Collections.Generic;
-using Newbe.Claptrap;
-
-namespace HelloClaptrap.Models.Order
-{
-    public class OrderState : IStateData
-    {
-        public bool OrderCreated { get; set; }
-        public string UserId { get; set; }
-        public Dictionary<string, int> Skus { get; set; }
-    }
-}
-```
-
-1. OrderCreated 表示订单是否已经创建，避免重复创建订单
-2. UserId 下单用户 Id
-3. Skus 订单包含的 SkuId 和订单量
-
-### OrderCreatedEvent
-
-订单创建事件的定义如下：
+El estado de la orden se define como follows：
 
 ```cs
-using System.Collections.Generic;
-using Newbe.Claptrap;
+Systems.Collections.Generic;
+. Newbe.Claptrap;
 
-namespace HelloClaptrap.Models.Order.Events
-{
-    public class OrderCreatedEvent : IEventData
-    {
-        public string UserId { get; set; }
-        public Dictionary<string, int> Skus { get; set; }
-    }
-}
+espacio de nombres HelloClaptrap.Models.Order
+s
+    clase pública Order State : IStateData
+    s
+        public bool OrderCreated s get; set; s
+        public user stringId s get; set; s
+        public Dictionary<string, int> Skus sned; set; s
+
+s.
 ```
 
-### OrderGrain
+1. OrderCreated indica si se ha creado un pedido, evitando la creación de la orden repetidamente.
+2. UserId realiza un pedido para un identificador de usuario.
+3. Los pedidos de Skus contienen SkuIds y volúmenes de pedidos.
+
+### OrderCreatedEvent.
+
+Los eventos de creación de pedidos se definen como follows：
 
 ```cs
-using System.Threading.Tasks;
-using HelloClaptrap.Actors.Order.Events;
-using HelloClaptrap.IActor;
-using HelloClaptrap.Models;
-using HelloClaptrap.Models.Order;
-using HelloClaptrap.Models.Order.Events;
-using Newbe.Claptrap;
-using Newbe.Claptrap.Orleans;
-using Orleans;
+Systems.Collections.Generic;
+. Newbe.Claptrap;
 
-namespace HelloClaptrap.Actors.Order
-{
-    [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
-    public class OrderGrain : ClaptrapBoxGrain<OrderState>, IOrderGrain
-    {
-        private readonly IGrainFactory _grainFactory;
+espacio de nombres HelloClaptrap.Models.Order.Events
 
-        public OrderGrain(IClaptrapGrainCommonService claptrapGrainCommonService,
-            IGrainFactory grainFactory)
-            : base(claptrapGrainCommonService)
-        {
-            _grainFactory = grainFactory;
-        }
+    clase pública OrderCreatedEvent : IEventData
+    . . .
+        cadena pública UserId . . set; . . . . . . . . .
 
-        public async Task CreateOrderAsync(CreateOrderInput input)
-        {
-            var orderId = Claptrap.State.Identity.Id;
-            // throw exception if order already created
-            if (StateData.OrderCreated)
-            {
-                throw new BizException($"order with order id already created : {orderId}");
-            }
-
-            // get items from cart
-            var cartGrain = _grainFactory.GetGrain<ICartGrain>(input.CartId);
-            var items = await cartGrain.GetItemsAsync();
-
-            // update inventory for each sku
-            foreach (var (skuId, count) in items)
-            {
-                var skuGrain = _grainFactory.GetGrain<ISkuGrain>(skuId);
-                await skuGrain.UpdateInventoryAsync(-count);
-            }
-
-            // remove all items from cart
-            await cartGrain.RemoveAllItemsAsync();
-
-            // create a order
-            var evt = this.CreateEvent(new OrderCreatedEvent
-            {
-                UserId = input.UserId,
-                Skus = items
-            });
-            await Claptrap.HandleEventAsync(evt);
-        }
-    }
-}
+    <string, int> 
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 ```
 
-1. OrderGrain 实现订单的创建核心逻辑，其中的 CreateOrderAsync 方法完成购物车数据获取，库存扣减相关的动作。
-2. OrderCreatedEvent 执行成功后将会更新 State 中相关的字段，此处就不再列出了。
+### OrdenGrain.
 
-## 通过 Minion 向数据库保存订单数据
+```cs
+Uso de System.Threading.Tasks;
+Los Estados Unidos, Hello Claptrap.Actors.Order.Events;
+The 1990s, HelloClaptrap.IActor;
+Los Estados Unidos Ofsing HelloClaptrap.Models;
+.Models.Order;
+.HelloClaptrap.Models.Order.Events;
+.Claptrap;
+Newbe.Claptrap.Orleans;
+Orleans;
 
-从系列开头到此，我们从未提及数据库相关的操作。因为当您在使用 Claptrap 框架时，绝大多数的操作都已经被“事件的写入”和“状态的更新”代替了，故而完全不需要亲自编写数据库操作。
+espacio de nombres HelloClaptrap.Actors.Order
 
-不过，由于 Claptrap 通常是对应单体对象（一个订单，一个 SKU，一个购物车）而设计的，因而无法获取全体（所有订单，所有 SKU，所有购物车）的数据情况。此时，就需要将状态数据持久化到另外的持久化结构中（数据库，文件，缓存等）以便完成全体情况的查询或其他操作。
+    (OrderCreatedEventHandler, ClaptrapCodes.OrderCreated)
+    Public Class Order Grain : ClaptrapBox Grain<OrderState>, IOrder Grain
+    _grainFactory
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-在 Claptrap 框架中引入了 Minion 的概念来解决上述的需求。
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IClaptrapGrainCommonService Claptrap Grain Common Services,
+            IGrain Factory GrainFactory)
+            : base (claptrapGrainCommonService)
+        s
+            _grainFactory s grainfactory;
+        s
 
-接下来，我们就在样例中引入一个 OrderDbGrain （一个 Minion）来异步完成 OrderGrain 的订单入库操作。
+        public async Task CreateOrder Agent Async (CreateOrderInput)
+        s
+            var orderid s clatrapp.state.Identity. y.Id;
+            // throw exception si order ya ha creado
+            si (StateData.OrderCreated)
 
-## 定义 ClaptrapTypeCode
+                new bizException ($"order with order id already created: {orderId}");
+
+
+            // obtener artículos del carrito
+            var cartGrain _grainFactory.GetGrain<ICartGrain>(entrada. CartId);
+            var items - await cartGrain.GetItemsAsync();
+
+            // actualizar inventario para
+            foreach (skuId, count) en los artículos)
+
+                sku skuGrain , _grainFactory.GetGrain<ISkuGrain>(skuId);
+                await skuGrain.UpdateInventoryAsync (-count);
+            . .
+
+            // Quitar todos los artículos del carrito
+            await cartGrain.Re. moveAllItemsAsync();
+
+            // crear un
+            var evt . . . este. CreateEvent (nueva entrada de
+                de ID de usuario OrderCreatedEvent
+            . UserId,
+                Skus - elementos
+            ) );
+            .HandleEventAsync (evt);
+        s
+    s
+
+```
+
+1. OrderGrain implementa la lógica principal de la creación de pedidos, donde el método CreateOrderAsync completa la adquisición de datos del carro de la compra, las acciones relacionadas con la deducción de inventario.
+2. Los campos relevantes en State se actualizarán después de la ejecución correcta de OrderCreatedEvent, que ya no aparece aquí.
+
+## Guarde los datos del pedido en la base de datos a través de Minion.
+
+Desde el principio de la serie hasta esto, nunca hemos mencionado las operaciones relacionadas con la base de datos.Porque cuando se usa el marco de trabajo de Claptrap, la gran mayoría de las operaciones se han reemplazado por Escrituras en eventos y actualizaciones de estado, por lo que no es necesario escribir sus propias operaciones de base de datos.
+
+Sin embargo, debido a que Claptrap está diseñado generalmente para objetos unitarios (un pedido, una SKU, un carro de la compra), no es posible obtener datos para todos (todos los pedidos, todas las SKU, todos los carros).En este punto, los datos de estado deben conservarse en otra estructura persistente (base de datos, archivo, caché, etc.) para completar consultas u otras operaciones para toda la situación.
+
+El concepto de Minion se introdujo en el marco de Claptrap para abordar estos requisitos.
+
+A continuación, presentamos un OrderDbGrain (un minion) en el ejemplo para completar la operación de entrada de pedidos de OrderGrain de forma asincrónica.
+
+## Definir ClaptrapTypeCode.
 
 ```cs
   namespace HelloClaptrap.Models
-  {
-      public static class ClaptrapCodes
-      {
+
+      clase estática pública ClaptrapCodes
+
           #region Cart
 
-          public const string CartGrain = "cart_claptrap_newbe";
-          private const string CartEventSuffix = "_e_" + CartGrain;
-          public const string AddItemToCart = "addItem" + CartEventSuffix;
-          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
-          public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
+          la cadena pública y const CartGrain s "cart_claptrap_newbe";
+          cadena const privada CartEventSuffix, """""""""""""""""""""""""""""""""""
+          """""""""""""""""""""""""""""""""""""""""""""""""
+          """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Tring RemoveItemFromCart - "RemoveItem" - CartEventSuffix;
+          Publicidad pública const String Remove AllItems FrommCart , "Remoe AllItems" , CartEventSuffix;
 
           #endregion
 
           #region Sku
 
-          public const string SkuGrain = "sku_claptrap_newbe";
-          private const string SkuEventSuffix = "_e_" + SkuGrain;
-          public const string SkuInventoryUpdate = "inventoryUpdate" + SkuEventSuffix;
+          publicidad pública y skuGrain - "sku_claptrap_newbe";
+          la cadena const privada SkuEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+          publicidad pública y skuInventoryUpdate , "inventoryUpdate" , SkuEventSuffix;
 
           #endregion
 
-          #region Order
+          #region Orden
 
-          public const string OrderGrain = "order_claptrap_newbe";
-          private const string OrderEventSuffix = "_e_" + OrderGrain;
-          public const string OrderCreated = "orderCreated" + OrderEventSuffix;
+          orden de orden públicoGrain , "order_claptrap_newbe";
+          la cadena privada privada privada OrderEventSuffix . . . . .""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+          público y al público y el orden creado, "ordercreated" y orderEventSuffix;
 
-+         public const string OrderDbGrain = "db_order_claptrap_newbe";
+el público y el público y el público a la cadena OrderDbGrain , "db_order_claptrap_newbe";
 
           #endregion
-      }
-  }
+      . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . .
 ```
 
-Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 ClaptrapTypeCode 对于 Claptrap 来说是必需的，因而需要增加此定义。
+Minion es un tipo especial de Claptrap, en otras palabras, también es una especie de Claptrap.ClaptrapTypeCode es necesario para Claptrap y, por lo tanto, debe agregarse.
 
-## 定义 State
+## Definir estado.
 
-由于本样例只需要向数据库写入一条订单记录就可以了，并不需要在 State 中任何数据，因此该步骤在本样例中其实并不需要。
+Dado que este ejemplo solo necesita escribir un registro de pedido en la base de datos y no requiere ningún dato en State, este paso no es realmente necesario en este ejemplo.
 
-## 定义 Grain 接口
+## Defina la interfaz Granulado.
 
 ```cs
-+ using HelloClaptrap.Models;
-+ using Newbe.Claptrap;
-+ using Newbe.Claptrap.Orleans;
+Uso de HelloClaptrap.Models;
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 +
-+ namespace HelloClaptrap.IActor
-+ {
-+     [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
-+     [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
-+     public interface IOrderDbGrain : IClaptrapMinionGrain
-+     {
-+     }
-+ }
++ espacio de nombres HelloClaptrap.IActor
++ á
++ [ClaptrapCodes.OrderGrain)]
++ [ClaptrapState(ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
++ interfaz pública IOrderDbGrain : IClaptrapMinionGrain
++ á
++ á
++ ?
 ```
 
-1. ClaptrapMinion 用来标记该 Grain 是一个 Minion，其中的 Code 指向其对应的 MasterClaptrap。
-2. ClaptrapState 用来标记 Claptrap 的 State 数据类型。前一步，我们阐明该 Minion 并不需要 StateData，因此使用 NoneStateData 这一框架内置类型来代替。
-3. IClaptrapMinionGrain 是区别于 IClaptrapGrain 的 Minion 接口。如果一个 Grain 是 Minion ，则需要继承该接口。
-4. ClaptrapCodes.OrderGrain 和 ClaptrapCodes.OrderDbGrain 是两个不同的字符串，希望读者不是星际宗师。
+1. ClaptrapMinion se utiliza para marcar el Grano como un Esbirro, donde El Código apunta a su correspondiente MasterClaptrap.
+2. ClaptrapState se utiliza para marcar el tipo de datos State de Claptrap.En el paso anterior, aclaramos que el Minion no requiere StateData, por lo que usamos NoneStateData como un tipo integrado de marco de trabajo en su lugar.
+3. IClaptrapMinionGrain es una interfaz Minion que difiere de IClaptrapGrain.Si un Grano es Un esbirro, debe heredar la interfaz.
+4. ClaptrapCodes.OrderGrain y ClaptrapCodes.OrderDbGrain son dos cadenas diferentes, y esperemos que el lector no sea un maestro interestelar.
 
-> 星际宗师：因为星际争霸比赛节奏快，信息量大，选手很容易忽视或误判部分信息，因此经常发生“选手看不到发生在眼皮底下的关键事件”的搞笑失误。玩家们由此调侃星际玩家都是瞎子（曾经真的有一场盲人和职业选手的对决），段位越高，瞎得越严重，职业星际选手清一色的盲人。
+> Star Master：Debido a que StarCraft es trepidante y tiene una gran cantidad de información, es fácil para los jugadores ignorar o juzgar mal parte de la información, por lo que a menudo "los jugadores no ven los eventos clave que ocurren bajo la nariz" errores divertidos.Los jugadores bromean así que los jugadores interestelares son ciegos (hubo una vez un enfrentamiento real entre jugadores ciegos y profesionales), cuanto mayor sea el segmento, más grave será la ceguera, los jugadores interestelares profesionales son ciegos.
 
-## 实现 Grain
+## Implementar grano.
 
 ```cs
-+ using System.Collections.Generic;
-+ using System.Threading.Tasks;
-+ using HelloClaptrap.Actors.DbGrains.Order.Events;
-+ using HelloClaptrap.IActor;
-+ using HelloClaptrap.Models;
-+ using Newbe.Claptrap;
-+ using Newbe.Claptrap.Orleans;
+Uso de Systems.Collections.Generic;
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+cantar HelloClaptrap.IActor;
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+,
+, namespace HelloClaptrap.Actors.DbGrains.Order
+,
+, y ClaptrapEventHandler , ClaptrapCodes . OrderCreated)
+y la clase pública OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
+,
+, Public OrderDbGrain (IpClatrapBoxGrain CommonService). claptrapGrainCommonService)
++ : base(claptrapGrainCommonService)
++ á
++ á
 +
-+ namespace HelloClaptrap.Actors.DbGrains.Order
-+ {
-+     [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
-+     public class OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
-+     {
-+         public OrderDbGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
-+             : base(claptrapGrainCommonService)
-+         {
-+         }
-+
-+         public async Task MasterEventReceivedAsync(IEnumerable<IEvent> events)
-+         {
-+             foreach (var @event in events)
-+             {
-+                 await Claptrap.HandleEventAsync(@event);
-+             }
-+         }
-+
-+         public Task WakeAsync()
-+         {
-+             return Task.CompletedTask;
-+         }
-+     }
-+ }
++ tarea asincrónica pública MasterEventReceivedAsync((public async Task MasterEventReceivedAsync((IEnumerable<IEvent> los eventos)
++ á
++ foreach (var @event en eventos)
++ á
++ await Claptrap.HandleEventAsync(@event);
+
+,
+,
+,  ,
+de  de wakeAsync () público ,
+, devolver Task.CompletedTask,
+,
+,
+.
 ```
 
-1. MasterEventReceivedAsync 是定义自 IClaptrapMinionGrain 的方法，表示实时接收来自 MasterClaptrap 的事件通知。此处暂不展开说明，按照上文模板实现即可。
-2. WakeAsync 是定义自 IClaptrapMinionGrain 的方法，表示 MasterClaptrap 主动唤醒 Minion 的操作。此处暂不展开说明，按照上文模板实现即可。
-3. 当读者查看源码时，会发现该类被单独定义在一个程序集当中。这只是一种分类办法，可以理解为将 Minion 和 MasterClaptrap 分别放置在两个不同的项目中进行分类。实际上放在一起也没有问题。
+1. MasterEventReceivedAsync es un método definido a partir de IClaptrapMinionGrain que significa recibir notificaciones de eventos de MasterClaptrap en tiempo real.Sin expandir la descripción aquí, siga la plantilla anterior.
+2. WakeAsync es un método definido a partir de IClaptrapMinionGrain, que representa la activación activa de MasterClaptrap de Minion.Sin expandir la descripción aquí, siga la plantilla anterior.
+3. Cuando el lector ve el código fuente, encuentra que la clase se define por separado en un ensamblado.Esta es sólo una clasificación que se puede entender como la colocación de Minion y MasterClaptrap en dos proyectos diferentes.En realidad no es problema para armarlo.
 
-## 注册 Grain
+## Regístrese en Grano.
 
-此处，由于我们将 OrderDbGrain 定义在单独的程序集，因此，需要额外的注册这个程序集。如下所示：
+Aquí, porque definimos OrderDbGrain en un ensamblado independiente, necesitamos registrar el ensamblado adicionalmente.Como sigue,：
 
 ```cs
-  using System;
-  using Autofac;
-  using HelloClaptrap.Actors.Cart;
-  using HelloClaptrap.Actors.DbGrains.Order;
-  using HelloClaptrap.IActor;
-  using HelloClaptrap.Repository;
-  using Microsoft.AspNetCore.Hosting;
-  using Microsoft.Extensions.Hosting;
-  using Microsoft.Extensions.Logging;
-  using Newbe.Claptrap;
-  using Newbe.Claptrap.Bootstrapper;
-  using NLog.Web;
-  using Orleans;
+  Uso del sistema;
+  usando Autofac;
+  . Hening HelloClaptrap.Actors.Cart;
+  .HelloClaptrap.Actors.DbGrains.Order;
+  .IActor;
+  s servicio general, HelloClaptrap.Repository;
+  .AspNetCore.Hosting;
+  .Extensions.Hosting;
+  .Extensions.Logging;
+  .Claptrap;
+  newbe.Claptrap.Bootstrapper;
+  NLog.Web;
+  Orleans;
 
-  namespace HelloClaptrap.BackendServer
-  {
-      public class Program
-      {
-          public static void Main(string[] args)
-          {
-              var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-              try
-              {
-                  logger.Debug("init main");
-                  CreateHostBuilder(args).Build().Run();
-              }
-              catch (Exception exception)
-              {
-                  //NLog: catch setup errors
-                  logger.Error(exception, "Stopped program because of exception");
-                  throw;
-              }
-              finally
-              {
-                  // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+  espacio de nombres HelloClaptrap.BackendServer
+
+      programa de programa público
+
+          public static void main (string)
+
+              var logger , NLogBuilder.ConfigureNLog ("nlog.config"). GetCurrentClassLogger ();
+              prueba
+              registrador
+                  . Depurar ("init main");
+                  CreateHostBuilder (args). Build(). Ejecutar ();
+
+
+
+                  catch (excepción de excepción) //NLog: errores de configuración de captura
+                  registrador. Error (excepción, "Programa detenido debido a la excepción");
+                  lanzamiento;
+
+              finalmente
+
+                  // Asegúrese de vaciar y detener los temporizadores/hilos internos antes de la salida de la aplicación
                   NLog.LogManager.Shutdown();
-              }
-          }
+              .
+          . . . . . . . .
 
-          public static IHostBuilder CreateHostBuilder(string[] args) =>
-              Host.CreateDefaultBuilder(args)
-                  .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-                  .UseClaptrap(
-                      builder =>
-                      {
-                          builder
-                              .ScanClaptrapDesigns(new[]
-                              {
-                                  typeof(ICartGrain).Assembly,
-                                  typeof(CartGrain).Assembly,
-+                                 typeof(OrderDbGrain).Assembly
-                              })
-                              .ConfigureClaptrapDesign(x =>
-                                  x.ClaptrapOptions.EventCenterOptions.EventCenterType = EventCenterType.OrleansClient);
-                      },
-                      builder => { builder.RegisterModule<RepositoryModule>(); })
-                  .UseOrleansClaptrap()
-                  .UseOrleans(builder => builder.UseDashboard(options => options.Port = 9000))
-                  .ConfigureLogging(logging =>
-                  {
-                      logging.ClearProviders();
-                      logging.SetMinimumLevel(LogLevel.Trace);
-                  })
-                  .UseNLog();
-      }
-  }
+          . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .>
+              .
+                  CreateDefaultBuilder (args). ConfigureWebHostDefaults (webBuilder> . . . . . . . .
+                  . . . . . . .<Startup>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . UseClaptrap (
+                      Builders>
+
+                          Builder
+                              . ScanClaptrapDesigns (nuevo)
+
+                                  typeof (ICartGrain). Montaje,
+                                  tipo (CartGrain). Assembly,
+y Typeof (OrderDbGrain).
+                              )
+                              . ConfigureClaptrapDesign (x .>
+                                  x. Opciones de Claptrap. Opciones de EventCenter. EventCenterType . . . .
+                      , constructor
+> constructor. RegisterModule<RepositoryModule>(); )
+                  . UseOrleans Claptrap()
+                  . UseOrleans (constructores - constructores> . UseDashboards (opciones> opciones. Puerto s 9000))
+                  . ConfigureLogging (registro )>
+                  .
+                      registro. ClearProviders (); registro
+                      . SetMinimumLevel (LogLevel.Trace);
+                  )
+                  . UseNLog();
+      . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 ```
 
-## 实现 EventHandler
+## Implementar controlador de eventos.
 
 ```cs
 + using System.Threading.Tasks;
@@ -380,34 +380,34 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 + }
 ```
 
-1. IOrderRepository 是直接操作存储层的接口，用于订单的增删改查。此处调用该接口实现订单数据库的入库操作。
+1. IOrderRepository es una interfaz que funciona directamente en el nivel de almacenamiento para el complemento y la eliminación de pedidos.La interfaz se llama aquí para implementar la operación de almacenamiento de la base de datos de pedidos.
 
-## 注册 EventHandler
+## Regístrese en EventHandler.
 
-实际上为了节约篇幅，我们已经在“实现 Grain”章节的代码中进行注册。
+De hecho, para ahorrar espacio, nos hemos registrado en el código para la sección "Implementar grano".
 
-## 实现 IInitialStateDataFactory
+## Implemente IInitial State Data Factory.
 
-由于 StateData 没有特殊定义，因此也不需要实现 IInitialStateDataFactory。
+Dado que StateData no tiene una definición especial, no es necesario implementar IInitial StateData Factory.
 
-## 修改 Controller
+## Modificar controlador.
 
-样例中，我们增加了 OrderController 用来下单和查询订单。读者可以在源码进行查看。
+En el ejemplo, agregamos OrderController para realizar pedidos y pedidos de consulta.Los lectores pueden verlo en el código fuente.
 
-读者可以使用以下步骤进行实际的效果测试：
+Los lectores pueden seguir los pasos siguientes para probar el：
 
-1. POST `/api/cart/123` {"skuId":"yueluo-666","count":30} 向 123 号购物车加入 30 单位的 yueluo-666 号浓缩精华。
-2. POST `/api/order` {"userId":"999","cartId":"123"} 以 999 userId 的身份，从 123 号购物车进行下单。
-3. GET `/api/order` 下单成功后可以，通过该 API 查看到下单完成的订单。
-4. GET `/api/sku/yueluo-666` 可以通过 SKU API 查看下单后的库存余量。
+1. POST `/api/cart/123` "skuId": "yueluo-666", "count": 30" al carro de la compra 123 para añadir 30 unidades de concentrado yueluo-666.
+2. POST `/api/order` ( "userId": "999", "cartId": "123") como 999 userId, desde el carro de la compra 123 para realizar un pedido.
+3. GET `/api/order` el pedido se puede ver a través de la API después de que el pedido se haya realizado correctamente.
+4. OBTENGA `` /api/sku/yueluo-666 puede ver el saldo del inventario después de realizar el pedido a través de la API de SKU.
 
-## 小结
+## Resumen.
 
-至此，我们就完成了“商品下单”这个需求的基础内容。通过该样例可以初步了解多个 Claptrap 可以如何合作，以及如何使用 Minion 完成异步任务。
+En este punto, hemos completado el "pedido de mercancías" esta demanda para el contenido básico.Este ejemplo proporciona una comprensión inicial de cómo varios Claptraps pueden trabajar juntos y cómo se puede usar Minion para realizar tareas asincrónicas.
 
-不过，还有一些问题，我们将在后续展开讨论。
+Sin embargo, todavía hay algunos temas que discutiremos más adelante.
 
-您可以从以下地址来获取本文章对应的源代码：
+Puede obtener el código fuente de este artículo en las siguientes：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
