@@ -43,7 +43,7 @@ Bevor also jemand ein Ticket kauft, sind die restlichen Tickets für diese Fahrt
 | b,d.      | 1。                                  |
 | c, d.     | 1。                                  |
 
-Wenn ein Kunde jetzt ein Ticket erworben hat.那么由于只有一个座位，所以除了 c,d 之外的余票也就都没有。Die übrigen Stimmen werden zu den folgenden：
+Wenn ein Kunde jetzt ein Ticket erworben hat.Da es also nur einen Sitzplatz gibt, gibt es keine anderen Tickets als c,d.Die übrigen Stimmen werden zu den folgenden：
 
 | Vom Ende. | Die Höhe der verbleibenden Tickets. |
 | --------- | ----------------------------------- |
