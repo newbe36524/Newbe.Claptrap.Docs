@@ -43,7 +43,7 @@ So before anyone buys a ticket, the remaining tickets for this ride are as follo
 | b,d      | 1                                |
 | c, d     | 1                                |
 
-If a customer now has purchased a,c ticket.那么由于只有一个座位，所以除了 c,d 之外的余票也就都没有。The remaining votes become the following：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The remaining votes become the following：
 
 | From the end. | The amount of remaining tickets. |
 | ------------- | -------------------------------- |
