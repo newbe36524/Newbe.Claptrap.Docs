@@ -28,9 +28,9 @@ metaDescription: '列車のチケットシステム - 展開。'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## 独立部署
+## スタンドアロン展開。
 
-开发者也可以使用源码在本地的 docker 环境进行独立部署。只需要按照以下的步骤进行操作即可。
+開発者は、ソースコードを使用して、ローカルの docker 環境でスタンドアロン展開することもできます。次の手順に従う必要があります。
 
 1. docker 環境がローカルに正しくインストールされ、docker-compose / git を使用できることを確認します。
 2. プロジェクト ソース <https://github.com/newbe36524/Newbe.Claptrap.Examples>をチェックアウトする
@@ -38,7 +38,7 @@ metaDescription: '列車のチケットシステム - 展開。'
 4. src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLiteフォルダーでdocker-compose up-dを実行して、すべてのサービスを開始する。
 5. `http://localhost:10080` にアクセスしてインターフェイスを開きます。
 
-总结起来，脚本如下：
+要約すると、スクリプトは次のようになります：
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -48,13 +48,13 @@ cd docker/LocalClusterSQLite
 docker-compose up -d。
 ```
 
-以上步骤是运行以 SQLite 为数据库的方法，代码库中还包含了其他若干种部署模式，只需要分别运行不同文件夹中的 up.cmd 即可：
+上記の手順は、SQLite をデータベースとして実行する方法であり、コード ベースには、異なるフォルダーで up.cmd を個別に実行するだけで十分な配置パターンが含まれています：
 
-| 文件夹                 | 说明                |
-| ------------------- | ----------------- |
-| LocalClusterMongodb | MongoDb 多节点负载均衡版本 |
-| LocalClusterSQLite  | SQLite 单节点版本      |
-| Tencent             | “在线体验”中部署的版本      |
+| フォルダ。                | 説明。                              |
+| -------------------- | -------------------------------- |
+| LocalClusterMongodb. | MongoDb マルチノード ロード バランシング バージョン。 |
+| LocalClusterSQLite。  | SQLite 単一ノード バージョン。              |
+| テンセン                 | オンライン エクスペリエンスで展開されたバージョン。       |
 
 > - 現在中国本土で、netcore ミラーのダウンロードが遅い問題が発生した場合は、[docker-mcr を使用して](https://github.com/newbe36524/Newbe.McrMirror)
 > - 開発者は、[PWD](https://labs.play-with-docker.com/)にテストを展開することもできます。
