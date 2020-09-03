@@ -45,22 +45,22 @@ Agregue ClaptrapTypeCode para la SKU.
 
 ```cs
   namespace HelloClaptrap.Models
-
-      clase estática pública ClaptrapCodes
-
-          la publicidad y la cadena de publicidad Cartin s " cart_claptrap_newbe";
-          cadena const privada CartEventSuffix , ""e"" , "CartGrain";
-          cadena de publicidad pública AddItemToCart , "addItem" , "CartEventSuffix";
-          cadena de publicidad const Remove ItmFromCart , "remove." eItem" y CartEventSuffix;
+  {
+      public static class ClaptrapCodes
+      {
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
 
           #region Sku
 
-sku SkuGrain , "sku_claptrap_newbe";
-y cadena const privada SkuEventSuffix , """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++         public const string SkuGrain = "sku_claptrap_newbe";
++         private const string SkuEventSuffix = "_e_" + SkuGrain;
 
           #endregion
-      . . .
-  . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      }
+  }
 ```
 
 ## Definir estado.
@@ -75,15 +75,15 @@ Agregue`la carpeta<code>Sku`al proyecto de</code>HelloClaptrap.Models y cree una
 
 <p spaces-before="0">Agregue el siguiente código：</p>
 
-<pre><code class="cs">singningnbe.Claptrap;
-s
-y namespace HelloClaptrap.Models.Sku
-, s
-, public class SkuState : IStateData
-,
-, public int . . . . .
-
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+<pre><code class="cs">+ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Models.Sku
++ {
++     public class SkuState : IStateData
++     {
++         public int Inventory { get; set; }
++     }
++ }
 `</pre>
 
 El inventario representa el inventario de la SKU actual.
@@ -99,31 +99,31 @@ Agregue`proyecto de interfaz<code>HelloClaptrap.`</code>ISkuGrain.
 Agregue interfaces así como atributos.
 
 ```cs
-Uso de Systems.Threading.Tasks;
-cantar HelloClaptrap.Models;
-cantar HelloClaptrap.Models.Sku;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-,
-, espacio de nombres HelloClaptrap.IActor
-,
-, claptrapState , ClaptrapCodes.SkuGrain ,
-, interfaz pública , . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . en: IClaptrapGrain
-. . </summary>
-
-<summary>
-
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <returns></returns>
-. . . . . . . .         Task<int> GetInventoryAsync();
-
-/ / / / <summary>
-/ / Actualizar inventario por añadir diff, diff puede ser número negativo
-. . . . . . . . . </summary>
-<int> </returns>
-<returns><param name="diff"></param>
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models;
++ using HelloClaptrap.Models.Sku;
++ using Newbe.Claptrap;
++ using Newbe.Claptrap.Orleans;
++
++ namespace HelloClaptrap.IActor
++ {
++     [ClaptrapState(typeof(SkuState), ClaptrapCodes.SkuGrain)]
++     public interface ISkuGrain : IClaptrapGrain
++     {
++         /// <summary>
++         /// Get latest inventory of this sku
++         /// </summary>
++         /// <returns></returns>
++         Task<int> GetInventoryAsync();
++
++         /// <summary>
++         /// Update inventory by add diff, diff could be negative number
++         /// </summary>
++         /// <param name="diff"></param>
++         /// <returns>Inventory after updating</returns>
++         Task<int> UpdateInventoryAsync(int diff);
++     }
++ }
 ```
 
 Se ha added：lo siguiente
