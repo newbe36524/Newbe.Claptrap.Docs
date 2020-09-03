@@ -293,16 +293,16 @@ Cree`clase de<code>InventoryUpdateEvent en la carpeta  Sku/Events`de`el proyecto
 Agregue el siguiente código：
 
 ```cs
-singningnbe.Claptrap;
-y
-, espacio de nombres HelloClap.Models.Sku.Events
-,
-, clase pública InventoryUpdateEvent : IEventData
-
-
-
-.
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Models.Sku.Events
++ {
++     public class InventoryUpdateEvent : IEventData
++     {
++         public int Diff { get; set; }
++         public int NewInventory { get; set; }
++     }
++ }
 ```
 
 1. Diff representa la cantidad de inventario para esta actualización,`diferencia > 0` indica un aumento en el inventario y`diferencia < 0`indica una disminución en el inventario.
@@ -316,25 +316,25 @@ y
 
 <p spaces-before="0">Agregue el siguiente código：</p>
 
-<pre><code class="cs">Uso de Systems.Threading.Tasks;
-cantar HelloClaptrap.Models.Sku;
-cantar HelloClaptrap.Models.Sku.Events;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-y espacio de nombres HelloClaptrap.Actors.Sku.Events
-,
-, public class InventoryUpdateEventHandler
-, y : NormalEventHandler<SkuState, InventoryUpdateEvent>
-,
-, publicity override ValueTask StateData,
-, inventoryUpdateEvent eventData,
-, IEventContext eventContext)
-, . .
-stateData.Inventory , eventData.NewInventory;
-y devolver new ValueTask();
-. . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+<pre><code class="cs">+ using System.Threading.Tasks;
++ using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Models.Sku.Events;
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Actors.Sku.Events
++ {
++     public class InventoryUpdateEventHandler
++         : NormalEventHandler<SkuState, InventoryUpdateEvent>
++     {
++         public override ValueTask HandleEvent(SkuState stateData,
++             InventoryUpdateEvent eventData,
++             IEventContext eventContext)
++         {
++             stateData.Inventory = eventData.NewInventory;
++             return new ValueTask();
++         }
++     }
++ }
 `</pre>
 
 1. Dado que el inventario actualizado ya está incluido en el evento, puede asignar StateData directamente.
