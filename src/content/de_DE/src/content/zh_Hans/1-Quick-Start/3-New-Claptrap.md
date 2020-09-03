@@ -45,22 +45,22 @@ Fügen Sie ClaptrapTypeCode für die SKU hinzu.
 
 ```cs
   namespace HelloClaptrap.Models
-
-      öffentliche statische Klasse ClaptrapCodes
-
-          Werbung und Werbezeichenfolge Cartin s " cart_claptrap_newbe";
-          private const string CartEventSuffix , ""e"" , "CartGrain";
-          public publicity const string AddItemToCart , "addItem" , "CartEventSuffix";
-          publicity const string Remove ItmFromCart , "remove". eItem" und CartEventSuffix;
+  {
+      public static class ClaptrapCodes
+      {
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
 
           #region Sku
 
-sku SkuGrain , "sku_claptrap_newbe";
-und private const string SkuEventSuffix , """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++         public const string SkuGrain = "sku_claptrap_newbe";
++         private const string SkuEventSuffix = "_e_" + SkuGrain;
 
           #endregion
-      . . .
-  . . . . . . . . . . . . . . . . . .
+      }
+  }
 ```
 
 ## Definieren Sie den Status.
@@ -76,15 +76,15 @@ Fügen Sie`<code>Sku-`-Ordner zum HelloClaptrap.Models-</code>-Projekt hinzu und
 Fügen Sie den folgenden Code：
 
 ```cs
-singningnbe.Claptrap;
-s
-und Namespace HelloClaptrap.Models.Sku
-, s
-, öffentliche Klasse SkuState : IStateData
-,
-, public int . . .
-
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Models.Sku
++ {
++     public class SkuState : IStateData
++     {
++         public int Inventory { get; set; }
++     }
++ }
 ```
 
 Der Lagerbestand stellt den Lagerbestand der aktuellen SKU dar.
@@ -100,31 +100,31 @@ Fügen Sie`ISkuGrain`Schnittstelle`HelloClaptrap.`Projekt hinzu.
 Fügen Sie Schnittstellen sowie Attribute hinzu.
 
 ```cs
-Verwenden von Systems.Threading.Tasks;
-singen HelloClaptrap.Models;
-singen HelloClaptrap.Models.Sku;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-,
-, Namespace HelloClaptrap.IActor
-,
-, claptrapState , ClaptrapCodes.SkuGrain ,
-, public interface , . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . laptrapGrain
-. . . </summary>
-
-<summary>
-
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <returns></returns>
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         Task<int> GetInventoryAsync();
-
-/ / / / / <summary>
-/ / Bestand durch Add diff aktualisieren, diff kann negative Zahl sein
-. . . . . . </summary>
-<int> </returns>
-<returns><param name="diff"></param>
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models;
++ using HelloClaptrap.Models.Sku;
++ using Newbe.Claptrap;
++ using Newbe.Claptrap.Orleans;
++
++ namespace HelloClaptrap.IActor
++ {
++     [ClaptrapState(typeof(SkuState), ClaptrapCodes.SkuGrain)]
++     public interface ISkuGrain : IClaptrapGrain
++     {
++         /// <summary>
++         /// Get latest inventory of this sku
++         /// </summary>
++         /// <returns></returns>
++         Task<int> GetInventoryAsync();
++
++         /// <summary>
++         /// Update inventory by add diff, diff could be negative number
++         /// </summary>
++         /// <param name="diff"></param>
++         /// <returns>Inventory after updating</returns>
++         Task<int> UpdateInventoryAsync(int diff);
++     }
++ }
 ```
 
 Es wurde added：
@@ -204,48 +204,48 @@ Hier wurde die Registrierung place：
 Öffnen Sie`Programmklasse für das HelloClap.BackendServer-`-Projekt`-Programm`Projekt.
 
 ```cs
-  Verwenden von System;
-  mit Autofac;
-  . Hening HelloClaptrap.Actors.Cart;
-  Die Vereinigten Staaten von China HelloClaptrap.IActor;
-  United Services HelloClaptrap.Repository;
-  .AspNetCore.Hosting;
-  .Extensions.Hosting;
-  .Extensions.Logging;
-  . Newbe.Claptrap;
-  .Claptrap.Bootstrapper;
-  NLog.Web;
-  Orleans;
+  using System;
+  using Autofac;
+  using HelloClaptrap.Actors.Cart;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Repository;
+  using Microsoft.AspNetCore.Hosting;
+  using Microsoft.Extensions.Hosting;
+  using Microsoft.Extensions.Logging;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Bootstrapper;
+  using NLog.Web;
+  using Orleans;
 
-  Namespace HelloClaptrap.BackendServer
+  namespace HelloClaptrap.BackendServer
+  {
+      public class Program
+      {
 
-      öffentliches Klassenprogramm
-
-
-          öffentlichen statischen IHostBuilder CreateHostBuilder (Zeichenfolge)>
-              Host.CreateDefaultBuilder (args)
-                  . ConfigureWebHostDefaults (webBuilder> . .
-                  <Startup>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . UseClaptrap (
-                      Builder>
-
-s Builder
-. ScanClaptrapDesigns (neu)
-,
-und Typeof (ICartGrain). Montage,
-und Typeof (CartGrain). Montage,
-, s)
-                      ,
-                      Erbauer> Baumeister. RegisterModule<RepositoryModule>(); )
-                  . Verwenden SieOrleansClaptrap()
-                  . UseOrleans (Builders -> Builder. UseDashboards (Optionen> Optionen. Port s 9000))
-                  . ConfigureLogging (Protokollierung>
-
-                      Protokollierung. ClearProviders ();
-                      Protokollierung. SetMinimumLevel (logLevel.Trace);
-                  )
-                  . UseNLog();
-      . . .
-  . . . . . . . . . . . . . . . . . .
+          public static IHostBuilder CreateHostBuilder(string[] args) =>
+              Host.CreateDefaultBuilder(args)
+                  .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                  .UseClaptrap(
+                      builder =>
+                      {
++                         builder
++                             .ScanClaptrapDesigns(new[]
++                             {
++                                 typeof(ICartGrain).Assembly,
++                                 typeof(CartGrain).Assembly,
++                             });
+                      },
+                      builder => { builder.RegisterModule<RepositoryModule>(); })
+                  .UseOrleansClaptrap()
+                  .UseOrleans(builder => builder.UseDashboard(options => options.Port = 9000))
+                  .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                      logging.SetMinimumLevel(LogLevel.Trace);
+                  })
+                  .UseNLog();
+      }
+  }
 ```
 
 Da ISkuGrain und SkuGrain zur gleichen Baugruppe gehören wie ICartGrain bzw. CartGrain, sind hier keine Modifikationen erforderlich.
@@ -262,28 +262,28 @@ Fügen Sie EventCode für Update Inventory hinzu.
 
 ```cs
   namespace HelloClaptrap.Models
-
-      öffentliche statische Klasse ClaptrapCodes
-
+  {
+      public static class ClaptrapCodes
+      {
           #region Cart
 
-          public und const string CartGrain s "cart_claptrap_newbe";
-          private const string CartEventSuffix, """"""""
-          """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-          """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Tring RemoveItemFromCart - "RemoveItem" - CartEventSuffix;
-          Public Publicity const String Entfernen Sie AllItems FrommCart , "Remoe AllItems" , CartEventSuffix;
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
+          public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
 
           #endregion
 
           #region Sku
 
-          Öffentlichkeit und skuGrain - "sku_claptrap_newbe";
-          die private const-Zeichenfolge SkuEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-skuEvent Suffix, Publicity, Public und SkuEvent Suffix, "inventoryUpdate";
+          public const string SkuGrain = "sku_claptrap_newbe";
+          private const string SkuEventSuffix = "_e_" + SkuGrain;
++         public const string SkuInventoryUpdate = "inventoryUpdate" + SkuEventSuffix;
 
           #endregion
-      . . .
-  . . . . . . . . . . . . . . . . . .
+      }
+  }
 ```
 
 ## Definieren Sie das Ereignis.
@@ -295,16 +295,16 @@ Erstellen Sie`InventoryUpdateEvent<code>-Klasse unter dem Ordner  Sku/Events``he
 Fügen Sie den folgenden Code：
 
 ```cs
-singningnbe.Claptrap;
-und
-, Namespace HelloClap.Models.Sku.Events
-,
-, public class InventoryUpdateEvent : IEventData
-
-
-
-. . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Models.Sku.Events
++ {
++     public class InventoryUpdateEvent : IEventData
++     {
++         public int Diff { get; set; }
++         public int NewInventory { get; set; }
++     }
++ }
 ```
 
 1. Diff stellt den Lagerbestand für dieses Update dar,`diff > 0` einen Anstieg des Lagerbestands angibt, und`diff < 0`einen Rückgang des Lagerbestands angibt.
@@ -319,25 +319,25 @@ Erstellen Sie`InventoryUpdateEventHandler`Klasse unter dem Ordner`Sku/Events`fü
 Fügen Sie den folgenden Code：
 
 ```cs
-Verwenden von Systems.Threading.Tasks;
-singen HelloClaptrap.Models.Sku;
-singen HelloClaptrap.Models.Sku.Events;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-und Namespace HelloClaptrap.Actors.Sku.Events
-,
-, die öffentliche Klasse InventoryUpdateEventHandler
-und : NormalEventHandler<SkuState, InventoryUpdateEvent>
-,
-, publicity override ValueTask StateData,
-, inventoryUpdateEvent eventData,
-, IEventContext eventContext)
-. . .
-stateData.Inventory , eventData.NewInventory;
-und geben Sie neue ValueTask();
-. . . .
-. . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Models.Sku.Events;
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Actors.Sku.Events
++ {
++     public class InventoryUpdateEventHandler
++         : NormalEventHandler<SkuState, InventoryUpdateEvent>
++     {
++         public override ValueTask HandleEvent(SkuState stateData,
++             InventoryUpdateEvent eventData,
++             IEventContext eventContext)
++         {
++             stateData.Inventory = eventData.NewInventory;
++             return new ValueTask();
++         }
++     }
++ }
 ```
 
 1. Da das aktualisierte Inventar bereits im Ereignis enthalten ist, können Sie StateData direkt zuweisen.
@@ -351,56 +351,56 @@ Nach dem Implementieren und Testen von EventHandler können Sie EventHandler reg
 Markieren Sie mit Attribut, und ändern Sie updateInventoryAsync-Ausführungsereignisse.
 
 ```cs
-  Verwenden von System.Threading.Tasks;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  Die 1990er Jahre, HelloClaptrap.IActor;
-  Die Vereinigten Staaten Ofsing HelloClaptrap.Models;
-  .HelloClaptrap.Models.Sku;
-singen HelloClaptrap.Models.Sku.Events;
-  .Claptrap;
-  Newbe.Claptrap.Orleans;
+  using System.Threading.Tasks;
++ using HelloClaptrap.Actors.Sku.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Models.Sku.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
   namespace HelloClaptrap.Actors.Sku
-
-
-      snr. public class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
-      ,
-          Public SkuGrain ( IClaptrap Grain Common Services Claptrap Grain CommonService )
-              : Base ( claptrapGrainCommonService)
+  {
++     [ClaptrapEventHandler(typeof(InventoryUpdateEventHandler), ClaptrapCodes.SkuInventoryUpdate)]
+      public class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
+      {
+          public SkuGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-          öffentliche Aufgabe<int> GetInventoryAsync()
+          public Task<int> GetInventoryAsync()
+          {
+              return Task.FromResult(StateData.Inventory);
+          }
 
-              Return Task.FromResult (StateData.Inventory);
-          )
+          public async Task<int> UpdateInventoryAsync(int diff)
+          {
+              if (diff == 0)
+              {
+                  throw new BizException("diff can`t be 0");
+              }
 
-          Public Async Task<int> Update InventyAsync (int diff)
+              var old = StateData.Inventory;
+              var newInventory = old + diff;
+              if (newInventory < 0)
+              {
+                  throw new BizException(
+                      $"failed to update inventory. It will be less than 0 if add diff amount. current : {old} , diff : {diff}");
+              }
 
-              wenn
-
-                  werfen Sie neue bizException ("diff kann nicht 0 sein");
-              .
-
-              var old , StateData.Inventory;
-              var newInventory , old , diff;
-              (newInventory < 0)
-              die
-                  neue bizException auslösen (
-                      nicht in der Liste zu aktualisieren. Es wird kleiner als 0 sein, wenn diff Betrag hinzufügen. aktuell : {old} , diff : {diff}" );
-              -
-
-- neue NotImplementedException ();
-und var evt , dies. CreateEvent (neues InventoryUpdateEvent
-s
-s Diff s diff,
-s newinventory s newinventory
-s) );
-und warten Claptrap.HandleEventAsync (evt);
-und Rückgabe stateData.Inventory;
-          ,
-      ,
-  .
+-             throw new NotImplementedException();
++             var evt = this.CreateEvent(new InventoryUpdateEvent
++             {
++                 Diff = diff,
++                 NewInventory = newInventory
++             });
++             await Claptrap.HandleEventAsync(evt);
++             return StateData.Inventory;
+          }
+      }
+  }
 ```
 
 ## Implementieren Sie IInitial State Data Factory.
@@ -410,35 +410,35 @@ Wir haben die Inventarabfrage und -aktualisierung bereits abgeschlossen.Im Allge
 Erstellen Sie`SkuStateInitHandler<code>unter dem  Sku``Ordner`HelloClaptrap.actors</code>Projekt.
 
 ```cs
-Verwenden von Systems.Threading.Tasks;
-singen HelloClaptrap.Models.Sku;
-singen HelloClaptrap.Repository;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-und
-, namespace HelloClap.Actors.Sku
-,
-, public class SkuStateInitHandler : IinitialState DataFactory
-,
-, private readonly ISkuRepository _skuRepository;
-s
-skuStateInitHandler (
-skuRepository skuRepository)
-_skuRepository
-sk. uRepository;
-,
-,
-, public async Task<IStateData> Create (IClaptrapIdentity Identity)
-,
-, var skuId und identity. ID;
-und var Inventar _skuRepository.GetInitInventoryAsync (skuId);
-und var re , neue SkuState
-,
-, Inventar , Inventar
-, .
-und Rückkehr re;
-. . . .
-. . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using System.Threading.Tasks;
++ using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Repository;
++ using Newbe.Claptrap;
++
++ namespace HelloClaptrap.Actors.Sku
++ {
++     public class SkuStateInitHandler : IInitialStateDataFactory
++     {
++         private readonly ISkuRepository _skuRepository;
++
++         public SkuStateInitHandler(
++             ISkuRepository skuRepository)
++         {
++             _skuRepository = skuRepository;
++         }
++
++         public async Task<IStateData> Create(IClaptrapIdentity identity)
++         {
++             var skuId = identity.Id;
++             var inventory = await _skuRepository.GetInitInventoryAsync(skuId);
++             var re = new SkuState
++             {
++                 Inventory = inventory
++             };
++             return re;
++         }
++     }
++ }
 ```
 
 1. `IInitial StateDataFactory`aufgerufen, wenn Claptrap zum ersten Mal aktiviert wird, um den Anfangswert von State zu erstellen.
@@ -449,56 +449,56 @@ Zusätzlich zum Implementierungscode ist eine Registrierung erforderlich, bevor 
 Öffnen Sie`SkuGrain`für`HelloClap.`Projekt.
 
 ```cs
-  Verwenden von System.Threading.Tasks;
-  Die Vereinigten Staaten Ofthing Hello Claptrap.Actors.Sku.Events;
-  Die 1990er Jahre, HelloClaptrap.IActor;
-  Die Vereinigten Staaten Ofsing HelloClaptrap.Models;
-  .HelloClaptrap.Models.Sku;
-  .HelloClaptrap.Models.Sku.Events;
-  .Claptrap;
-  Newbe.Claptrap.Orleans;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Actors.Sku.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Sku;
+  using HelloClaptrap.Models.Sku.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  Namespace HelloClaptrap.Actors.Sku
-  snr.
-snr. skptrapState Information Factory Handler)
-      snr. (InventoryUpdateEventHandler), ClaptrapCodes.SkuVentory Update)
-      Public Class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
-
-          Public SkuGrain ( IClaptrapGrainCommonService Claptrap Grain Common Services
-              : base (claptrapGrainCommonService)
+  namespace HelloClaptrap.Actors.Sku
+  {
++     [ClaptrapStateInitialFactoryHandler(typeof(SkuStateInitHandler))]
+      [ClaptrapEventHandler(typeof(InventoryUpdateEventHandler), ClaptrapCodes.SkuInventoryUpdate)]
+      public class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
+      {
+          public SkuGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
+              : base(claptrapGrainCommonService)
           {
           }
 
-          Public Task<int> GetInventoryAsync (
+          public Task<int> GetInventoryAsync()
+          {
+              return Task.FromResult(StateData.Inventory);
+          }
 
-              Return Task.From Reserve (StateData.Inventory);
-          ;
+          public async Task<int> UpdateInventoryAsync(int diff)
+          {
+              if (diff == 0)
+              {
+                  throw new BizException("diff can`t be 0");
+              }
 
-          Public Information Task<int> UpdateInventoryAsync (int diff
+              var old = StateData.Inventory;
+              var newInventory = old + diff;
+              if (newInventory < 0)
+              {
+                  throw new BizException(
+                      $"failed to update inventory. It will be less than 0 if add diff amount. current : {old} , diff : {diff}");
+              }
 
-              , wenn (diff s 0)
-              s
-                  neue bizException ("diff can't 0");
-              s
-
-              var old s StateData.Inventory;
-              var newinvent snr . . . old s diff;
-              if (newinvent < 0)
-
-                  neuen bisp. auf (
-                      nicht in der Lage, den Bestand zu aktualisieren. Es wird kleiner als 0 sein, wenn diff Betrag hinzufügen. strom : {old} , diff : {diff}" );
-              .
-
-              var evt . . . dies. CreateEvent (new InventoryUpdateEvent
-
-                  Diff s diff,
-                  NewInventory s newinventory
-              ) );
-              .HandleEventAsync (evt);
-              StateData.Inventory;
-          ,
-      ,
-  .
+              var evt = this.CreateEvent(new InventoryUpdateEvent
+              {
+                  Diff = diff,
+                  NewInventory = newInventory
+              });
+              await Claptrap.HandleEventAsync(evt);
+              return StateData.Inventory;
+          }
+      }
+  }
 ```
 
 ## Controller ändern.
@@ -508,37 +508,37 @@ Nachdem alle vorherigen Schritte abgeschlossen sind, sind alle Teile von Claptra
 Erstellen Sie`neue SkuController-`unter`ordner`des Ordners "Controller"`HelloClaptrap.`Projekt.
 
 ```cs
-Verwenden von Systems.Threading.Tasks;
-singen HelloClaptrap.IActor;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-und mit Orleans;
-
-, namespace HelloClaptrap.Web.Controllers
-,
-, route ( " api /[controller]" ) ,
-, public class SkuController : Controller
-,
-, private readonly IGrain Factory _grainFactory;
-s
-skuController (
-s.iGrainFactory grainfactory)
-s.
-s. _grainFactory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . _grainFac
-
-<IActionResult> 
-{id}
-
-
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Tory. GetGrain<ISkuGrain>(id);
-s.var Inventar skuGrain.GetInventoryAsync();
-, rückgabe Json (neue
-,
-, skuId , id,
-, inventar ,
-, s) ;
-,
-, ,
-, . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using System.Threading.Tasks;
++ using HelloClaptrap.IActor;
++ using Microsoft.AspNetCore.Mvc;
++ using Orleans;
++
++ namespace HelloClaptrap.Web.Controllers
++ {
++     [Route("api/[controller]")]
++     public class SkuController : Controller
++     {
++         private readonly IGrainFactory _grainFactory;
++
++         public SkuController(
++             IGrainFactory grainFactory)
++         {
++             _grainFactory = grainFactory;
++         }
++
++         [HttpGet("{id}")]
++         public async Task<IActionResult> GetItemsAsync(string id)
++         {
++             var skuGrain = _grainFactory.GetGrain<ISkuGrain>(id);
++             var inventory = await skuGrain.GetInventoryAsync();
++             return Json(new
++             {
++                 skuId = id,
++                 inventory = inventory,
++             });
++         }
++     }
++ }
 ```
 
 1. Neue API liest Inventar für eine bestimmte SkuId.Je nach Implementierung des Beispielcodes können Sie`Yueluo-123 übergeben,`Sie einen Lagerbestand von 666 erhalten.Eine SkuId, die nicht vorhanden ist, löst eine Ausnahme aus.
