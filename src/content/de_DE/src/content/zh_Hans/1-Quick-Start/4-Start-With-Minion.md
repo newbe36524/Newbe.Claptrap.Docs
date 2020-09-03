@@ -54,18 +54,18 @@ Basierend auf dem bisherigen "Defining Claptrap"-Wissen haben wir hier ein Order
 Der Status des Auftrags ist definiert als follows：
 
 ```cs
-Systems.Collections.Generic;
-. Newbe.Claptrap;
+using System.Collections.Generic;
+using Newbe.Claptrap;
 
 namespace HelloClaptrap.Models.Order
-s
-    öffentlichen Klasse Order State : IStateData
-    s
-        public bool OrderCreated s get; set; s
-        public user stringId s get; set; s
-        public Dictionary<string, int> Skus sned; set; s
-
-s.
+{
+    public class OrderState : IStateData
+    {
+        public bool OrderCreated { get; set; }
+        public string UserId { get; set; }
+        public Dictionary<string, int> Skus { get; set; }
+    }
+}
 ```
 
 1. OrderCreated gibt an, ob ein Auftrag erstellt wurde, wodurch die Erstellung des Auftrags wiederholt vermieden wird.
@@ -77,79 +77,79 @@ s.
 Auftragserstellungsereignisse werden als follows：
 
 ```cs
-Systems.Collections.Generic;
-. Newbe.Claptrap;
+using System.Collections.Generic;
+using Newbe.Claptrap;
 
-Namespace HelloClaptrap.Models.Order.Events
-
-    der öffentlichen Klasse OrderCreatedEvent : IEventData
-    . . .
-        öffentlichen Zeichenfolge UserId . . . gesetzt; . . . .
-        Öffentliches Wörterbuch<string, int> Skus
-
-    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+namespace HelloClaptrap.Models.Order.Events
+{
+    public class OrderCreatedEvent : IEventData
+    {
+        public string UserId { get; set; }
+        public Dictionary<string, int> Skus { get; set; }
+    }
+}
 ```
 
 ### OrderGrain.
 
 ```cs
-Verwenden von System.Threading.Tasks;
-Vereinigte Staaten, Hello Claptrap.Actors.Order.Events;
-Die 1990er Jahre, HelloClaptrap.IActor;
-Die Vereinigten Staaten Ofsing HelloClaptrap.Models;
-.Models.Order;
-.HelloClaptrap.Models.Order.Events;
-.Claptrap;
-Newbe.Claptrap.Orleans;
-Orleans;
+using System.Threading.Tasks;
+using HelloClaptrap.Actors.Order.Events;
+using HelloClaptrap.IActor;
+using HelloClaptrap.Models;
+using HelloClaptrap.Models.Order;
+using HelloClaptrap.Models.Order.Events;
+using Newbe.Claptrap;
+using Newbe.Claptrap.Orleans;
+using Orleans;
 
-Namespace HelloClaptrap.Actors.Order
+namespace HelloClaptrap.Actors.Order
+{
+    [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
+    public class OrderGrain : ClaptrapBoxGrain<OrderState>, IOrderGrain
+    {
+        private readonly IGrainFactory _grainFactory;
 
-    (OrderCreatedEventHandler, ClaptrapCodes.OrderCreated)
-    Public Class Order Grain : ClaptrapBox Grain<OrderState>, IOrder Grain
-    _grainFactory
-        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        public OrderGrain(IClaptrapGrainCommonService claptrapGrainCommonService,
+            IGrainFactory grainFactory)
+            : base(claptrapGrainCommonService)
+        {
+            _grainFactory = grainFactory;
+        }
 
-        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IClaptrapGrainCommonService Claptrap Grain Common Services,
-            IGrain Factory GrainFactory)
-            : base (claptrapGrainCommonService)
-        s
-            _grainFactory s grainfactory;
-        s
-
-        public async Task CreateOrder Agent Async (CreateOrderInput)
-        s
-            var orderid s claptrap.state.Identity. y.Id;
-            / auslösen Ausnahme, wenn die Reihenfolge bereits
+        public async Task CreateOrderAsync(CreateOrderInput input)
+        {
+            var orderId = Claptrap.State.Identity.Id;
+            // throw exception if order already created
             if (StateData.OrderCreated)
+            {
+                throw new BizException($"order with order id already created : {orderId}");
+            }
 
-                neue bizException ("Order with order id already created: {orderId}");
+            // get items from cart
+            var cartGrain = _grainFactory.GetGrain<ICartGrain>(input.CartId);
+            var items = await cartGrain.GetItemsAsync();
 
+            // update inventory for each sku
+            foreach (var (skuId, count) in items)
+            {
+                var skuGrain = _grainFactory.GetGrain<ISkuGrain>(skuId);
+                await skuGrain.UpdateInventoryAsync(-count);
+            }
 
-            / erhalten Sie Artikel aus dem Warenkorb
-            var cartGrain _grainFactory.GetGrain<ICartGrain>(Eingabe. CartId);
-            var-Elemente - warten auf cartGrain.GetItemsAsync();
+            // remove all items from cart
+            await cartGrain.RemoveAllItemsAsync();
 
-            / Update-Inventar für
-            foreach (skuId, count) in items)
-
-                var skuGrain , _grainFactory.GetGrain<ISkuGrain>(skuId);
-                warten skuGrain.UpdateInventoryAsync (-count);
-            . .
-
-            / Entfernen Sie alle Artikel aus dem Warenkorb
-            warten cartGrain.Re. moveAllItemsAsync();
-
-            / erstellen Sie eine
-            var evt . . . dies. CreateEvent (neue OrderCreatedEvent
-            Userid
-                Eingabe. UserId,
-                Skus - Elemente
-            ) );
-            .HandleEventAsync (evt);
-        s
-
-
+            // create a order
+            var evt = this.CreateEvent(new OrderCreatedEvent
+            {
+                UserId = input.UserId,
+                Skus = items
+            });
+            await Claptrap.HandleEventAsync(evt);
+        }
+    }
+}
 ```
 
 1. OrderGrain implementiert die Kernlogik der Auftragserstellung, bei der die CreateOrderAsync-Methode die Erfassung von Warenkorbdaten und im Zusammenhang mit Lagerabzugsaktionen abschließt.
@@ -169,38 +169,38 @@ Als Nächstes führen wir ein OrderDbGrain (ein Minion) in das Beispiel ein, um 
 
 ```cs
   namespace HelloClaptrap.Models
-
-      öffentliche statische Klasse ClaptrapCodes
-
+  {
+      public static class ClaptrapCodes
+      {
           #region Cart
 
-          public und const string CartGrain s "cart_claptrap_newbe";
-          private const string CartEventSuffix, """"""""
-          """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-          """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Tring RemoveItemFromCart - "RemoveItem" - CartEventSuffix;
-          Public Publicity const String Entfernen Sie AllItems FrommCart , "Remoe AllItems" , CartEventSuffix;
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
+          public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
 
           #endregion
 
           #region Sku
 
-          Öffentlichkeit und skuGrain - "sku_claptrap_newbe";
-          die private const-Zeichenfolge SkuEventSuffix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-          Öffentlichkeit und skuInventoryUpdate , "inventoryUpdate" , SkuEventSuffix;
+          public const string SkuGrain = "sku_claptrap_newbe";
+          private const string SkuEventSuffix = "_e_" + SkuGrain;
+          public const string SkuInventoryUpdate = "inventoryUpdate" + SkuEventSuffix;
 
           #endregion
 
-          #region Ordnung
+          #region Order
 
-          OrdnungsordnungGrain , "order_claptrap_newbe";
-          die private private const string OrderEventSuffix . . . ."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-          der Öffentlichkeit und der Öffentlichkeit und der Ordnungerstellte , "ordercreated" und orderEventSuffix;
+          public const string OrderGrain = "order_claptrap_newbe";
+          private const string OrderEventSuffix = "_e_" + OrderGrain;
+          public const string OrderCreated = "orderCreated" + OrderEventSuffix;
 
-die Öffentlichkeit und die Öffentlichkeit, OrderDbGrain , "db_order_claptrap_newbe" zu saiten;
++         public const string OrderDbGrain = "db_order_claptrap_newbe";
 
           #endregion
-      . . .
-  . . . . . . . . . . . . . . . . . .
+      }
+  }
 ```
 
 Minion ist eine besondere Art von Claptrap, mit anderen Worten, es ist auch eine Art Claptrap.ClaptrapTypeCode ist für Claptrap erforderlich und muss daher hinzugefügt werden.
@@ -212,18 +212,18 @@ Da dieses Beispiel nur einen Auftragsdatensatz in die Datenbank schreiben muss u
 ## Definieren Sie die Kornschnittstelle.
 
 ```cs
-Verwenden von HelloClaptrap.Models;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
++ using HelloClaptrap.Models;
++ using Newbe.Claptrap;
++ using Newbe.Claptrap.Orleans;
 +
-+ Namespace HelloClaptrap.IActor
-+ s
-+ [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
-+ [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
-+ öffentliche Schnittstelle IOrderDbGrain : IClaptrapMinionGrain
-
-
-+
++ namespace HelloClaptrap.IActor
++ {
++     [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
++     [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
++     public interface IOrderDbGrain : IClaptrapMinionGrain
++     {
++     }
++ }
 ```
 
 1. ClaptrapMinion wird verwendet, um das Korn als Minion zu markieren, wobei Code auf seine entsprechende MasterClaptrap zeigt.
@@ -236,38 +236,38 @@ Verwenden von HelloClaptrap.Models;
 ## Implementieren Sie Getreide.
 
 ```cs
-Verwenden von Systems.Collections.Generic;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-singen HelloClaptrap.IActor;
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-,
-, namespace HelloClaptrap.Actors.DbGrains.Order
-,
-, und ClaptrapEventHandler , ClaptrapCodes . OrderCreated)
-und public class OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
-,
-, public OrderDbGrain (IClaptrapGrain CommonService). claptrapGrainCommonService)
-+ : base(claptrapGrainCommonService)
-+ -
-+ -
++ using System.Collections.Generic;
++ using System.Threading.Tasks;
++ using HelloClaptrap.Actors.DbGrains.Order.Events;
++ using HelloClaptrap.IActor;
++ using HelloClaptrap.Models;
++ using Newbe.Claptrap;
++ using Newbe.Claptrap.Orleans;
 +
-+ public async Task MasterEventReceivedAsync(IEnumerable<IEvent> events)
-+ '
-+ foreach (var @event in events)
-+ '
-+ await Claptrap.HandleEventAsync(@event);
-
-,
-,
-,  , öffentliche WakeAsync ()
-,
-, geben Task.CompletedTask,
-,
-,
-zurück.
++ namespace HelloClaptrap.Actors.DbGrains.Order
++ {
++     [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
++     public class OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
++     {
++         public OrderDbGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
++             : base(claptrapGrainCommonService)
++         {
++         }
++
++         public async Task MasterEventReceivedAsync(IEnumerable<IEvent> events)
++         {
++             foreach (var @event in events)
++             {
++                 await Claptrap.HandleEventAsync(@event);
++             }
++         }
++
++         public Task WakeAsync()
++         {
++             return Task.CompletedTask;
++         }
++     }
++ }
 ```
 
 1. MasterEventReceivedAsync ist eine von IClaptrapMinionGrain definierte Methode, die bedeutet, Ereignisbenachrichtigungen von MasterClaptrap in Echtzeit zu empfangen.Ohne die Beschreibung hier zu erweitern, folgen Sie der obigen Vorlage.
@@ -279,72 +279,72 @@ zurück.
 Da wir OrderDbGrain in einer separaten Baugruppe definieren, müssen wir die Assembly zusätzlich registrieren.Wie folgt：
 
 ```cs
-  Verwenden von System;
-  mit Autofac;
-  . Hening HelloClaptrap.Actors.Cart;
-  .HelloClaptrap.Actors.DbGrains.Order;
-  .IActor;
-  s allgemeinen Dienst, HelloClaptrap.Repository;
-  .AspNetCore.Hosting;
-  .Extensions.Hosting;
-  .Extensions.Logging;
-  .Claptrap;
-  newbe.Claptrap.Bootstrapper;
-  NLog.Web;
-  Orleans;
+  using System;
+  using Autofac;
+  using HelloClaptrap.Actors.Cart;
+  using HelloClaptrap.Actors.DbGrains.Order;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Repository;
+  using Microsoft.AspNetCore.Hosting;
+  using Microsoft.Extensions.Hosting;
+  using Microsoft.Extensions.Logging;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Bootstrapper;
+  using NLog.Web;
+  using Orleans;
 
-  Namespace HelloClaptrap.BackendServer
-
-      öffentliches Programmprogramm
-
-          öffentliche statische Void Main (String)
-
-              var logger , NLogBuilder.ConfigureNLog ("nlog.config"). GetCurrentClassLogger ();
-              versuchen sie
-              .
-                  Logger. Debuggen ("init main");
-                  CreateHostBuilder (args). Build(). Ausführen ();
-
-              catch (Ausnahmeausnahme)
-
-                  /NLog: Setupfehler
-                  Protokollierung abfangen. Fehler (Ausnahme, "Programm wegen Ausnahme beendet");
-                  werfen;
-
-              endlich
-
-                  / / Stellen Sie sicher, dass interne Timer/Threads vor dem Beenden der Anwendung
+  namespace HelloClaptrap.BackendServer
+  {
+      public class Program
+      {
+          public static void Main(string[] args)
+          {
+              var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+              try
+              {
+                  logger.Debug("init main");
+                  CreateHostBuilder(args).Build().Run();
+              }
+              catch (Exception exception)
+              {
+                  //NLog: catch setup errors
+                  logger.Error(exception, "Stopped program because of exception");
+                  throw;
+              }
+              finally
+              {
+                  // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                   NLog.LogManager.Shutdown();
-              . . .
-          . . .
+              }
+          }
 
-          . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .>
-              . CreateDefaultBuilder (args)
-                  . ConfigureWebHostDefaults (webBuilder> . .<Startup>. . . . . . . . .
-                  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . UseClaptrap (
-                      Builders>
-
-                          Builder
-                              . ScanClaptrapDesigns (neu)
-
-                                  Typ (ICartGrain). Baugruppe,
-                                  Typ (CartGrain). Montage,
-und Typeof (OrderDbGrain). Montage
-                              )
-                              . ConfigureClaptrapDesign (x .>
-                                  x. Claptrap-Optionen. EventCenter-Optionen. EventCenterType . . . EventCenterType.Orleans Client);
-                      ,
-                      Erbauer> Baumeister. RegisterModule<RepositoryModule>(); )
-                  . UseOrleans Claptrap()
-                  . UseOrleans (Bauherren -> Bauherren. UseDashboards (Optionen> Optionen. Port s 9000))
-                  . ConfigureLogging (Logging )>
-                  .
-                      Protokollierung. ClearProviders ();
-                      Protokollierung. SetMinimumLevel (logLevel.Trace);
-                  )
-                  . UseNLog();
-      . . .
-  . . . . . . . . . . . . . . . . . .
+          public static IHostBuilder CreateHostBuilder(string[] args) =>
+              Host.CreateDefaultBuilder(args)
+                  .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                  .UseClaptrap(
+                      builder =>
+                      {
+                          builder
+                              .ScanClaptrapDesigns(new[]
+                              {
+                                  typeof(ICartGrain).Assembly,
+                                  typeof(CartGrain).Assembly,
++                                 typeof(OrderDbGrain).Assembly
+                              })
+                              .ConfigureClaptrapDesign(x =>
+                                  x.ClaptrapOptions.EventCenterOptions.EventCenterType = EventCenterType.OrleansClient);
+                      },
+                      builder => { builder.RegisterModule<RepositoryModule>(); })
+                  .UseOrleansClaptrap()
+                  .UseOrleans(builder => builder.UseDashboard(options => options.Port = 9000))
+                  .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                      logging.SetMinimumLevel(LogLevel.Trace);
+                  })
+                  .UseNLog();
+      }
+  }
 ```
 
 ## Implementieren Sie den Ereignishandler.
