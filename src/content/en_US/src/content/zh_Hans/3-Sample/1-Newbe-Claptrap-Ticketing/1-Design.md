@@ -43,22 +43,22 @@ So before anyone buys a ticket, the remaining tickets for this ride are as follo
 | b,d      | 1                                |
 | c, d     | 1                                |
 
-If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The remaining votes become the following：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The rest of the ticket situation becomes the following:
 
-| From the end. | The amount of remaining tickets. |
-| ------------- | -------------------------------- |
-| a,b.          | 0。                               |
-| a, c.         | 0。                               |
-| a, d.         | 0。                               |
-| b,c.          | 0。                               |
-| b,d.          | 0。                               |
-| c, d.         | 1。                               |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
 To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-This is the special nature of the train ticket：the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-Extending a little, it's easy to conclude that there is no such effect between different seats in the same car.
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
 ### Remaining ticket inquiries.
 
@@ -68,13 +68,13 @@ And it's easy to conclude that the number of types selected is actually calculat
 
 So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-How to deal with the many kinds of queries that may exist effectively is also a problem that the system needs to solve.
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Claptrap body design.
+## Claptrap Main Design
 
-![Train Ticketing System Design.](/images/20200720-001.png)
+![Train Ticketing System Design](/images/20200720-001.png)
 
-### Each seat on the same train is designed as a Claptrap- SeatGrain.
+### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
 The State of the Claptrap contains a basic information.
 
@@ -102,12 +102,12 @@ You can assign the start ingon to the ticket Id on all interval settings in Requ
 
 ### The remaining tickets for all seats on the same train are designed as a Claptrap-TrainGran.
 
-The State of The Claptrap contains some basic information.
+The Claptrap State contains some basic information
 
-| Type.                                            | Name.      | Description                                                                                                                                                                                                               |
-| ------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IReadOnlyList&lt;int&gt;             | Stations.  | The list of ids for the path station begins with the origin station and ends with the terminal.Validate sit on the primary query.                                                                                         |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount. | Key properties.Station Tuple represents a starting point.The collection contains all possible ticketing for the start and end.For example, if the car passes through 34 locations, the dictionary contains 561 key pairs. |
+| Type                                             | Name      | Description                                                                                                                                                                                                                    |
+| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                       |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains all possible ticketing for the start and end.For example, if the car passes through 34 locations, the dictionary contains 561 key pairs. |
 
 Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
