@@ -4,13 +4,13 @@ metaTitle: 'Step 3 - Define Claptrap and manage inventory of goods.'
 metaDescription: 'Step 3 - Define Claptrap and manage inventory of goods.'
 ---
 
-With this article, you can start trying to do business with Claptrap.
+With this reading, you're ready to try using Claptrap to implement your business.
 
-> [The version currently viewed is the result Chinese Simplified machine translates self-checking and manually proofreads.If there is any improper translation in the document, please click here to submit your translation suggestions.](https://crwd.in/newbeclaptrap)
+> [The version currently viewed is the result of machine-translated Chinese Simplified and manual proofreading.If there is any mistranslation in the document, please click here to submit your translation proposal.](https://crwd.in/newbeclaptrap)
 
 <!-- more -->
 
-## Opening summary.
+## Summary
 
 In this article, I learned how to define a Claptrap in an existing project sample by implementing the need to "manage inventory".
 
