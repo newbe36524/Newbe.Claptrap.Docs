@@ -36,27 +36,27 @@ Developers can also use the source code for independent deployment in the local 
 2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
 3. Run the docker-compose build command in the src/Newbe.Claptrap.Ticketing folder to complete project compilation.
 4. Run the docker-compose up-d in the src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite folder to start all services.
-5. Access the `http://localhost:10080` to open the interface.
+5. Access the `http://localhost:10080` to open the Ui.
 
-To sum up, the script is as follows：
+To sum up, the script is as follows:
 
 ```bash
-Git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
-cd Newbe.Claptrap.examples/src/newbe.Claptrap.ticketing
+git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
+cd Newbe.Claptrap.Examples/src/Newbe.Claptrap.Ticketing
 docker-compose build
 cd Docker/LocalClusterSQLite
-docker-compose up -d.
+docker-compose up -d
 ```
 
-The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to：
+The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to:
 
-| Folder.                | Description.                                   |
-| ---------------------- | ---------------------------------------------- |
-| Local Cluster Mongodb. | MongoDb multi-node load balancing version.     |
-| LocalCluster SQLite.   | SQLite single-node version.                    |
-| Tencent.               | The version deployed in the Online Experience. |
+| Folder              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| LocalClusterMongodb | MongoDb multi-node load balancing version.     |
+| LocalClusterSQLite  | SQLite single-node version.                    |
+| Tencent             | The version deployed in the Online Experience. |
 
 > - If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - Developers can also choose to deploy the test[the PWD](https://labs.play-with-docker.com/).
-> - Switch between different deployment modes, be careful to run docker-compose down first to close the last deployment.
+> - Developer can also choose[PWD](https://labs.play-with-docker.com/)to deploy for testing
+> - Switch between different deployment modes to take note of running docker-compose down first to close previous deployment
 > - Web ports may vary from deployment pattern to deployment mode, depending on the settings in docker-compose.yml.
