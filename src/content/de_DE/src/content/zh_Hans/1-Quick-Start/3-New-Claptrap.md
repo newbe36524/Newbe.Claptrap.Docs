@@ -139,7 +139,7 @@ Es wurde added：
 
 Nachdem ISkuGrain definiert wurde, können Sie Code für die Implementierung hinzufügen.
 
-Erstellen Sie`neuen<code>Sku-`-Ordner für das Projekt HelloClaptrap.actors</code>Projekt, und fügen Sie den Ordner`SkuGrain`hinzu.
+Erstellen `Sku-` Sie`neuen-Ordner für das Projekt HelloClaptrap.actors`Projekt, und fügen Sie den Ordner`SkuGrain`hinzu.
 
 ```cs
 + using System;
