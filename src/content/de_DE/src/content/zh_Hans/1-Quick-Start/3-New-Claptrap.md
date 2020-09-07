@@ -71,9 +71,9 @@ Da Claptrap ein Akteur ist, der auf Ereignisverfolgungsmustern basiert.Daher ist
 
 In diesem Beispiel müssen wir nur den Bestand der aktuellen SKU erfassen, sodass der Entwurf des Bundeslandes sehr einfach ist.
 
-Fügen Sie`<code>Sku-`-Ordner zum HelloClaptrap.Models-</code>-Projekt hinzu und erstellen Sie einen`SkuState-`-Ordner.
+Fügen `Sku-` Sie`-Ordner zum HelloClaptrap.Models-`-Projekt hinzu und erstellen Sie einen`SkuState-`-Ordner.
 
-Fügen Sie den folgenden Code：
+Fügen Sie den folgenden Code:
 
 ```cs
 + using Newbe.Claptrap;
