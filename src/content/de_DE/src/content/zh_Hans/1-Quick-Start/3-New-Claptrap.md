@@ -290,7 +290,7 @@ Fügen Sie EventCode für Update Inventory hinzu.
 
 Ereignis ist der Schlüssel zur Ereignisablaufverfolgung.Wird verwendet, um den Status in Claptrap zu ändern.Und Das Ereignis wird auf der Persistenzebene beibehalten.
 
-Erstellen Sie`InventoryUpdateEvent<code>-Klasse unter dem Ordner  Sku/Events``helloClaptrap.models`</code>Projekt.
+Erstellen Sie`InventoryUpdateEvent`Klasse unter dem Ordner `-Sku/Events``helloClaptrap.models`Projekt.
 
 Fügen Sie den folgenden Code：
 
@@ -407,7 +407,7 @@ Markieren Sie mit Attribut, und ändern Sie updateInventoryAsync-Ausführungsere
 
 Wir haben die Inventarabfrage und -aktualisierung bereits abgeschlossen.Im Allgemeinen gibt es jedoch einen anfänglichen Betrag im Inventar, und wir ergänzen diesen Teil der Logik in diesem Abschnitt.
 
-Erstellen Sie`SkuStateInitHandler<code>unter dem  Sku``Ordner`HelloClaptrap.actors</code>Projekt.
+Erstellen Sie`SkuStateInitHandler`unter dem `Sku`Ordner`HelloClaptrap.actors`Projekt.
 
 ```cs
 + using System.Threading.Tasks;
