@@ -43,7 +43,7 @@ Donc, avant que quelqu’un achète un billet, les billets restants pour ce traj
 | b,d.       | 1。                               |
 | c, d.      | 1。                               |
 
-Si un client a maintenant acheté un billet, c.那么由于只有一个座位，所以除了 c,d 之外的余票也就都没有。Les votes restants deviennent les：suivants
+Si un client a maintenant acheté un billet, c.Donc, puisqu’il n’y a qu’un seul siège, il n’y a pas de billets autres que c,d.Les votes restants deviennent les：suivants
 
 | De la fin. | Le montant des billets restants. |
 | ---------- | -------------------------------- |

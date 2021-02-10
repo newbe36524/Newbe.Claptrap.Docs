@@ -43,7 +43,7 @@ Así que antes de que alguien compre un boleto, los boletos restantes para este 
 | b,d.            | 1。                                |
 | c, d.           | 1。                                |
 
-Si un cliente ahora ha comprado un ticket,c.那么由于只有一个座位，所以除了 c,d 之外的余票也就都没有。Los votos restantes se convierten en los siguientes：
+Si un cliente ahora ha comprado un ticket,c.Así que ya que sólo hay un asiento, no hay entradas que no sean c,d.Los votos restantes se convierten en los siguientes：
 
 | Desde el final. | La cantidad de boletos restantes. |
 | --------------- | --------------------------------- |

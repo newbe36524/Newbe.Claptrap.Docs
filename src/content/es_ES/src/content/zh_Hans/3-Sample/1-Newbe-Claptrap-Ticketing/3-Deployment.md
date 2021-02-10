@@ -28,9 +28,9 @@ metaDescription: 'Sistema de emisión de billetes de tren - despliegue.'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## 独立部署
+## Implemente de forma independiente.
 
-开发者也可以使用源码在本地的 docker 环境进行独立部署。只需要按照以下的步骤进行操作即可。
+Los desarrolladores también pueden usar el código fuente para la implementación independiente en el entorno de acoplación local.Sólo tienes que seguir los pasos a continuación.
 
 1. Asegúrese de que el entorno de docker está instalado correctamente localmente y de que el docker-compose/git está disponible.
 2. Consulte el origen del proyecto <https://github.com/newbe36524/Newbe.Claptrap.Examples>
@@ -38,7 +38,7 @@ metaDescription: 'Sistema de emisión de billetes de tren - despliegue.'
 4. Ejecute docker-compose up-d en la carpeta src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite para iniciar todos los servicios.
 5. Acceda al `http://localhost:10080` para abrir la interfaz.
 
-总结起来，脚本如下：
+En resumen, el script es tan follows：
 
 ```bash
 Git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -48,13 +48,13 @@ cd Docker/LocalClusterSQLite
 docker-compose up -d.
 ```
 
-以上步骤是运行以 SQLite 为数据库的方法，代码库中还包含了其他若干种部署模式，只需要分别运行不同文件夹中的 up.cmd 即可：
+Los pasos anteriores son una forma de ejecutar SQLite como base de datos y la base de código contiene varios otros modos de implementación que solo requieren up.cmd en diferentes carpetas para：
 
-| 文件夹                 | 说明                |
-| ------------------- | ----------------- |
-| LocalClusterMongodb | MongoDb 多节点负载均衡版本 |
-| LocalClusterSQLite  | SQLite 单节点版本      |
-| Tencent             | “在线体验”中部署的版本      |
+| Carpeta.               | Descripción.                                               |
+| ---------------------- | ---------------------------------------------------------- |
+| Clúster local Mongodb. | Versión de equilibrio de carga de varios nodos de MongoDb. |
+| LocalCluster SQLite.   | Versión de nodo único sqlite.                              |
+| Tencent.               | La versión implementada en la experiencia en línea.        |
 
 > - Si actualmente estás en China continental y estás experimentando una descarga lenta de la imagen netcore, prueba a usar[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
 > - Los desarrolladores también pueden optar por implementar la prueba[el](https://labs.play-with-docker.com/)PWD.
