@@ -1,5 +1,5 @@
 ---
-title: 'Zugticketsystem'
-description: 'Zugticketsystem'
+title: 'Train ticketing system.'
+description: 'Train ticketing system.'
 ---
 
