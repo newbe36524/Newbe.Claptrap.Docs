@@ -1,6 +1,6 @@
 ---
-title: 'Démarrer rapidement'
-description: 'Newbe.Claptrap Démarrage rapide'
+title: 'Quick start'
+description: 'Newbe.Claptrap Quick Start'
 ---
 
-Dans cette série, nous allons en apprendre davantage sur le développement d’un système côté service en utilisant Newbe.Claptrap avec une application simplifiée de commerce électronique.
+This series, we will learn about the development of a service-end system through a simplified e-commerce small application such as the use of Newbe.Claptrap.
