@@ -1,5 +1,5 @@
 ---
-title: 'Sistema de venta de billetes de tren'
-description: 'Sistema de venta de billetes de tren'
+title: 'Train ticketing system.'
+description: 'Train ticketing system.'
 ---
 
