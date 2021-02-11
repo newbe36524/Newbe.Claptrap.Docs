@@ -1,6 +1,6 @@
 {
   "link.title.Docs": {
-    "message": "Docs",
+    "message": "ドック",
     "description": "The title of the footer links column with title=Docs in the footer"
   },
   "link.title.Community": {
@@ -24,7 +24,7 @@
     "description": "The label of footer link with label=Twitter linking to https://twitter.com/docusaurus"
   },
   "link.item.label.Blog": {
-    "message": "Blog",
+    "message": "ブログ",
     "description": "The label of footer link with label=Blog linking to blog"
   },
   "link.item.label.GitHub": {
@@ -32,7 +32,7 @@
     "description": "The label of footer link with label=GitHub linking to https://github.com/facebook/docusaurus"
   },
   "copyright": {
-    "message": "Copyright © 2021 My Project, Inc. Built with Docusaurus.",
+    "message": "Copyright © 2021 My Project, Inc. Built with Dousaurus。",
     "description": "The footer copyright"
   }
 }
