@@ -1,49 +1,49 @@
 ---
-title: 'ステップ 3 - 商品在庫管理'
-description: 'ステップ 3 - 商品在庫管理'
+title: 'Step 3 - Define Claptrap and manage inventory of goods.'
+description: 'Step 3 - Define Claptrap and manage inventory of goods.'
 ---
 
-この Class Chartp でビジネスを始めるために、これを読んでみてください。
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## 投稿のまとめ
+## Summary
 
-本は、既存のプロジェクト用サンプルの中でClaptrapをどのように定義するか学習したいと思います。というセクションを使って、在庫の管理を行う必要があるかもしれません。
+I know how to define a Claptrap in an existing project sample by fulfilling the need to manage inventory.
 
-前の章における基本的なステップは、Claptrapの外観を追加する方法を定義する。ステップの完全なステップは以下のように記されているものは「新コンテンツ」の部分が、前編の新内容と区別されたものになります：
+In conjunction with the basic step of the previous chapter, a definition of Claptrap could be made by adding additional steps.The full step is shown below, and the part marked as "new" is new to this page as distinguished from the previous one.：
 
-1. クラップ クラスの定義（新しい ClaptrapType）
-1. state の定義
-1. Grain インターフェースの定義 (新規)
-1. Grain の実装(新着情報)
-1. Grain (新規コンテンツ) 登録
-1. Eventのコード
-1. Event の定義
-1. EventHandlerの実装
-1. EventHandlerに登録
-1. 実装された IInitialStateDataFactory (新規コンテンツ)
-1. Controller の変更
+1. Define ClaptrapTypeCode (new)
+1. Define State (new)
+1. Define Grain interface (new)
+1. Implement Grain (new)
+1. Sign up for Grain (new)
+1. Define EventCode.
+1. Define Event.
+1. Implement EventHandler.
+1. Sign up for EventHandler.
+1. Implement the IInitialStateDataFactory (new)
+1. Modify the Controller.
 
-これは 下向のプロセスであり、実際の符号化により開発が修正されたこともある。
+This is a bottom-up process, and development can be adjusted during the actual coding process.
 
-この記事での実装は、例です：
+The business use cases implemented in this article：
 
-1. SKUの表示 (Stock keeping Unit) オブジェクト。
-2. SKUの更新し、読み込みが可能である。
+1. Implement SKU (Stocking Unit) objects that represent stock data.
+2. Can update and read SKUs.
 
-## ClaptrapTypes の定義
+## Define ClaptrapTypeCode
 
-ClaptrapTypes は Claptrap の唯一のコーディングです。state の識別、シリアライズ化学等において重要な役割を果たしている。
+ClaptrapTypeCode is a claptrap unique code.It plays an important role in State identification, serialization, etc.
 
-`HelloClaptrap.Models`プロジェクトで`ClaptrapCodes`クラスを開きます。
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-SKU の ClaptrapTypeCodeを追加
+Add ClaptrapTypeCode of SKU.
 
 ```cs
-  namespace HelloClaptrap。 Odels
+  namespace HelloClaptrap.Models
   {
-      public class ClaptrapCodes
+      public static class ClaptrapCodes
       {
           public const string CartGrain = "cart_claptrap_newbe";
           private const string CartEventSuffix = "_e_" + CartGrain;
@@ -57,25 +57,25 @@ SKU の ClaptrapTypeCodeを追加
 
           #endregion
       }
-
+  }
 ```
 
-## state を定義します。
+## Definition of State
 
-State はActor のオブジェクトの現在のデータ表現を表します。
+State represents the current data of the Actor object in the Actor pattern.
 
-クラプトはストーリーベースのイベントのソースモードで使用されていたActorである。この定義はそれで State は重要です
+Actor, because Claptrap is based on event traceability mode.So it is important to define the right State.
 
-この例では、現在の SKUの在庫を記録する必要があるので、State は簡単である。
+In this example, we need to record only the stock of the current SKU and therefore the State is very simple in design.
 
-`HelloClaptrap.Models`プロジェクトに`Sku`フォルダを追加して、フォルダに`SkuState`クラスが作成します。
+Add`<code>Sku`folder to the HelloClaptrap.</code>project and create the`SkuState`under that folder.
 
-以下のコードを追加：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models ku
++ namespace HelloClaptrap.Models.Sku
 + {
 + public class SkuState : IStateData
 + {
@@ -84,17 +84,17 @@ State はActor のオブジェクトの現在のデータ表現を表します�
 + }
 ```
 
-現在のSKU の在庫を示すInventory
+Inventory represents the stock of the current SKU.
 
-`IStateData`インターフェイスは、ジェネリック推論で使用されるフレームワーク内の State を表す空のインターフェイスです。
+`IStateData`Interface is an empty interface for State representation in a frame that is used for general extrapolation.
 
-## Grain インターフェースの定義
+## Define Grain interface
 
-Grain インターフェイスの定義として、Claptrap との相互運用性を提供していることを定義します。
+Define the definition of the Grain interface to provide interoperability between external and Claptrap.
 
-`HelloClaptrap.Ictors`プロジェクトに`ISkuGrain`インターフェースを追加します。
+Adds an interface`ISkuGrain`in the`Hello Claptrap.IActors`project.
 
-インタフェースと属性を追加します。
+Add interfaces and Attributes.
 
 ```cs
 + using System.Threading.Tasks;
@@ -124,19 +124,19 @@ Grain インターフェイスの定義として、Claptrap との相互運用�
 + }
 ```
 
-：は次の内容を足します
+Add like this：
 
-1. `ClaptrapState`をタグ付けすると、State と Grain で関連づけられます。
-2. このインターフェースは`IClaptrapGrain`を継承しました。これはOrileans 命令書に則って名前を継承さなければなりません。
-3. GetInventoryAsyncメソッドを追加しました。 "が最も必要なときに示す"。
-4. 更新: UpdateInventoryAsync の追加では、「インクリメント更新」のようにしてください。`diff > 0` は、在庫の増加を表します。`diff < 0`は、在庫を減らします。
-5. Grain メソッドの定義は、特定の制限があることに注意してください。詳細は、[Developing a Grain を参照してください](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+1. `ClapState`has been marked to associate State with Grain.
+2. The interface inherited`IClaptrapGrain`, a framework defined by Grain interface, which is the one that Orleans must inherit.
+3. The GetInventoryAsync method has been added to mean "Get current inventory".
+4. An UpdateInventoryAsync method has been added for "Update current inventory".`diff &gt; <code>` indicates stock increase,`diff < 0`indicates stock reduction.
+5. It is important to note that grain's method definition has certain limitations.Details can be found.[Developing a Grain](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## Grain 実装
+## Implement grain.
 
-関数を定義すると、ISkuGrainが渡すことによって実装できます。
+Once you define a good ISkuGrain, you can add code to implement it.
 
-`HelloClaptrap.Actors`のプロジェクトが新しい`Sku`フォルダに追加され、フォルダに`SkuGrain`クラスが追加します。
+In`Hello Claptrap.Actors`Project new`Sku`folder and add`SkuGrain class`.
 
 ```cs
 + using System;
@@ -182,23 +182,23 @@ Grain インターフェイスの定義として、Claptrap との相互運用�
 + }
 ```
 
-：は次の内容を足します
+Add like this：
 
-1. `ClaptrapBox<SkuState>。`それは、命の恩義、`ClasskuGrain`、`ClaptrapBox`をフレームワークによって定義する、ジェネレーションされたクラインのパラメータです。
-2. GetInventoryAsync メソッドを実装し StateData から現在の在庫を読み込みます。
-3. UpdateInventoryAsync メソッドを実装し、ビジネスを行うと思われる場合には例外がスローされます。
-4. UpdateInventoryAsyncの最後に、NotmplementedException は定義されていないので、現在のイベントはすでに定義されていないのが原因です。
-5. BizのException は例外です。自分で追加することができます。実際には、ビジネスに異常をスローするものではなく、ステータスコードなどの返しにいくらかの値を使うこともある。
+1. Inherit`ClaptrapBoxGrain<SkuState>`and implements`ISkuGrain`,`ClaptrapBoxGrain`is the frame defined Grain base class in which generic parameters represent the corresponding State type.
+2. Implement the GetInventoryAsync method, read current stock from StateData.
+3. Implement the UpdateInventoryAsync method, add business judgement code and throw an exception if the conditions of the operation are not met.
+4. UpdateInventoryAsync ends with NotImplementated Exception, because the current event is not defined and needs to wait for the next code to be implemented.
+5. BizException is a custom exception that can be added yourself.It is also possible to use a method for actual development without a drop exception to indicate business interruption, or to change the status code or other return value.
 
-## Grain に登録
+## Sign up for Grain
 
-クラップトの機能に対応した Grain は起動時に登録する必要があります。これにより、スキャンするためのフレームワークがスキャンできます。
+Claptrap corresponding Grain needs to be registered on application startup in order to scan discovery.
 
-サンプルコードは、そのプログラムセットの中でスキャンされているため、変更する必要はありません。
+Since the sample code is scanned within the scope of the program, changes are not required in practice.
 
-ここは、登録の場所を指定して下さい：
+The location where the registration occurred is indicated here：
 
-`HelloClaptrap.BackendServer`プロジェクト`Program`クラスを開きます。
+Open`Hello Claptrap.BackendServer`Project`Program`.
 
 ```cs
   using System;
@@ -245,20 +245,20 @@ Grain インターフェイスの定義として、Claptrap との相互運用�
   }
 ```
 
-これはISkuGrainとSkugrain がICartGrain と CartGrain の同じプロジェクトセットであるため、変更する必要はありません。
+Because ISkuGrain and SkuGrain belong to the same set in ICartGrain and CartGrain respectively, changes are not required here.
 
-## Eventのコード
+## Define EventCode.
 
-Claptrap の主要部分は、既に実装されましたが、在庫更新をしていないアクションです。在庫更新はstate の更新時に行われているためです。Claptrap はイベントのソースと分かっている Actor の呼び出しに基づいて説明書かれており、stateの更新はイベントの実行を必要とします。この時 私たちが商品の在庫を更新するようになりました。
+We have already implemented the main part of Claptrap before, but nothing has been done to update your inventory.This is because stock update is required for State updates.And we all know that Claptrap is an Actor mode based on event traceability and that updating state requires an event to complete.So it is here that we renew our stock through events.
 
-EventCode はクラスの秘密コードです。これは事件の識別、順序化といった面で重要である。
+EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-`HelloClaptrap.Models`プロジェクトで`ClaptrapCodes`クラスを開きます。
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-在庫更新を行うためのEventCodeを追加します。
+Add EventCode to Update Inventory.
 
 ```cs
-  namespace HelloClaptrap。 dels
+  namespace HelloClaptrap.Models
   {
       public static class ClaptrapCodes
       {
@@ -280,72 +280,72 @@ EventCode はクラスの秘密コードです。これは事件の識別、順�
 
           #endregion
       }
-
+  }
 ```
 
-## Event の定義
+## Define Event.
 
-イベントバックスタルの鍵です。Claptrap 内の state を変えるためのStateです。この処理では永続化されて永続的に維持されます。
+Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-`HelloClaptrap.Models`プロジェクトプロジェクトの`Sku/Events`フォルダで`InventoryUpdate`クラスが作成されます。
+Creates`InventoryUpdateEvent class`in`Hello Class.Models`Project`Sku/Events`
 
-以下のコードを追加：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models.Sku. vents
-+ {
-+ public class InventoryUpdateEvent : IEventData
-+ {
-+ public int Diff { get; set; }
-+ public int NewInventory { get; set; }
++ namespace Hello Claptrap.Models.Sku. vents
++ File
++ public class InventoryUpdateEvent : IIEventData
++ online
++ public int Diff LOget; set; }
++ public int NewInventories but it is also available on the web site; set; }
 + }
 + }
 ```
 
-1. Diffは在庫を更新した金額を表します。`diff > 0` 在庫の増加を表します。`diff < 0`は在庫を減らします。
-2. NewInventory の更新後に在庫を表示します。ここで事前に提案したいと思っていますが、State をインスパイアするイベントに関してコメントを書くための推奨はありません：
+1. Diff indicates the amount of this stock updated,`diff >` indicates stock increase,`diff < 0`means stock reduction.
+2. The New Inventory indicates an updated inventory.Here a suggestion is given in advance, but due to space problems, there is no discussion：suggesting that State updated data be included in the event.
 
-## EventHandlerの実装
+## Implement EventHandler.
 
-`EventHandler`は、Claptrap の`state`でイベントを更新します。
+`EventHandler.`Used to update events to Claptrap.`State.`.
 
-`HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
+Created`InventoryUpp.Actors`Project`Sku/Events`Class created under`InventoryUpdateHandler`.
 
-以下のコードを追加：
+Add the following code.：
 
 ```cs
 + using System.Threading.Tasks;
-+ using Hellop.Models.Sku;
++ using HelloClaptrap.Models.Sku;
 + using HelloClaptrap.Models.Sku.Events;
 + using Newbe.Claptrap;
 +
-+ namespace Helptrap.Actors.Sku. vent s
++ namespace HelloClaptrap.Actors.Sku.Events
 + {
 + public class InventoryUpdateEventHandler
 + : NormalEventHandler<SkuState, InventoryUpdateEvent>
 + {
-+ public override ValueTask HandleEvent(SkuState state, state,
-+ InventoryUpdateEeventData,
-+ IEvent Context）
++ public override ValueTask HandleEvent(SkuState stateData,
++ InventoryUpdateEvent eventData,
++ IEventContext eventContext)
 + {
-+ stateData. nventory = eventData. ewInventory;
++ stateData.Inventory = eventData.NewInventory;
 + return new ValueTask();
 + }
 + }
 + }
 ```
 
-1. イベント中に更新後の在庫ありとしていたため直接Stateデータへの割り当てという形で示している。
+1. Since the event already contains updated inventories, it is sufficient to assign the StateData directly.
 
-## EventHandlerに登録
+## Register EventHandler
 
-EventHandlerをテストするにはEventHandlerを設定してください。そして、EventのHandlerはEventのクラスとClassifptrapを実行することができます。
+Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
 
-`HelloClaptrap.Actors`プロジェクトの中の`SkuGrain`クラスを開きます。
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
-Attributes でラベル付けし、UpdateInventoryAsync イベントとしておきましょう。
+Flag with Ature and modify UpdateInventoryAsync executions.
 
 ```cs
   using System.Threading.Tasks;
@@ -400,34 +400,35 @@ Attributes でラベル付けし、UpdateInventoryAsync イベントとしてお
   }
 ```
 
-## 実装IInitialStateDataFactory
+## Implementing the IInitialStateDataFactory
 
-以前、在庫確認とアップデートが完了しました。しかし 通常、在庫は最初の金額で、このセクションはロジックを補充します。
+We have completed inventory queries and updates earlier.Usually, however, the inventory has an initial amount, and we are supplementing that part of the logic in this section.
 
-`HelloClaptrap.Actors`プロジェクトの`Sku`フォルダの下に`SkuStateInitHandler`します。
+Create`SkuStateInitHandler`class under`Hello Class.Actors`Project`Sku`
 
 ```cs
-+ using System.Threading.Tasks;
++ using Systems. Threading.Tasks;
 + using HelloClaptrap.Models.Sku;
 + using HelloClaptrap.Repository;
-+ using Newbe.Claptrap;
++ using Newbe.Clapptrap;
 +
-+ namespace HelloClaptrap.Actors.Sku
-+ {
-+ public class SkuStateInitHandler : IInitialStateDataFactory
-+ {
-+ private readonly ISkuRepository _skuRepository;
++ namespace Claptrap.Actors. ku
++ online
++ public class SkuStateInitHandler: IInitialStateDataFactory
++ online
++ private readonly ISkuRepository _skuRepository; 
+ +
 +
 + public SkuStateInitHandler(
-+ ISkuRepository skuRepository)
-+ {
++ ISkuRepository sku Repository)
++ 56
 + _skuRepository = skuRepository;
 + }
 +
 + public async Task<IStateData> Create(IClaptrapIdentity identity)
-+ {
-+ var skuId = identity. Id;
-+ var inventory = await _skuRepository.GetInitInventoryAsync(skuId);
++ 56
++ var skuId = identity. d;
++ var inventory = await _sku Repository. etInitInventoryAsync (SkuId);
 + var re = new SkuState
 + {
 + Inventory = inventory
@@ -438,12 +439,12 @@ Attributes でラベル付けし、UpdateInventoryAsync イベントとしてお
 + }
 ```
 
-1. `IInitialStateDataFactory`は、アプリケーションの最初のアクティブ時に呼び出され、State を作成する時に呼び出されるはずです。
-2. `ISkuReposiitory`はデータベースから Sku の初期量を読めます。ここに記載されていないリポジトリで実装内容を一覧参照する、特別なコードです。
+1. `IInitialStateDataFactory`will be called when Claptrap is first activated to create State initials.
+2. Injecting`ISkuRepository`to read the initial amount of Sku inventory from the database, specific code is not listed here, and reader can view the implementation in sample repository.
 
-コードが後で呼び出すことができるように、登録をする必要があります。
+In addition to the actual modern code, registration is required before being called.
 
-`HelloClaptrap.Actors`プロジェクトの中の`SkuGrain`クラスを開きます。
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
 ```cs
   using System.Threading.Tasks;
@@ -498,39 +499,39 @@ Attributes でラベル付けし、UpdateInventoryAsync イベントとしてお
   }
 ```
 
-## Controller の変更
+## Modify the Controller.
 
-前の手順すべてが完成した後、その前の手順でクラス全員の Claptrap を表示します。Claptrapにより外部プログラムとの相互運用性を提供できないため。そこでコントロールは Controller レイヤーに API を追加する必要があるので、在庫を読み取ります（在庫を参照）。
+Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.There is therefore a need to add an API at the Controller level to allow external "read stocks".
 
-`HelloClassroomrap.Web`プロジェクトの`Controllers`フォルダで`SkuController`クラスは新規作成します。
+New`SkuController`class in the`Hello Claptrap.Web`Project`Controlers`folder
 
 ```cs
 + using System.Threading.Tasks;
-+ using Hellop.IActor;
++ using HelloClaptrap.IActor;
 + using Microsoft.AspNetCore.Mvc;
 + using Orleans;
 +
-+ namespace Helptrap.Web. ontrollers
++ namespace HelloClaptrap.Web.Controllers
 + {
 + [Route("api/[controller]")]
 + public class SkuController : Controller
 + {
-+ private readonly IGrainFactory
++ private readonly IGrainFactory _grainFactory;
 +
 + public SkuController(
-+ IGrainFactory )
++ IGrainFactory grainFactory)
 + {
-+ _grainy Factory = grainFactory;
++ _grainFactory = grainFactory;
 + }
 +
 + [HttpGet("{id}")]
-+ public Task Task<IActionResult> GetItemsAsyc(string id)
++ public async Task<IActionResult> GetItemsAsync(string id)
 + {
-+ var skuGrain = _grainFactoryy etGrain<ISkuGrain>(id);
-+ var inventory = ait skuGrain. etInventoryAsync();
++ var skuGrain = _grainFactory.GetGrain<ISkuGrain>(id);
++ var inventory = await skuGrain.GetInventoryAsync();
 + return Json(new
 + {
-+ skuId = id, )
++ skuId = id,
 + inventory = inventory,
 + });
 + }
@@ -538,14 +539,14 @@ Attributes でラベル付けし、UpdateInventoryAsync イベントとしてお
 + }
 ```
 
-1. APIの追加 SkuId の在庫数を読み取ります。サンプルコードを書いて、`yueluo-123`で在庫が666になるようにしてください。SkuId は存在しません。例外をスローします。
-1. 在庫の追加は生成されませんでした API は下に注文されたがだ、これが在庫処理になるため、ここからはまだAPIを必要としません。
+1. Add an API to read stock specific to SkuId.By implementing the sample code, you can pass`yueluo-123`to receive stock amount of 666.The unexpected SkuId will throw an exception.
+1. There are no outgoing API created here because this example will perform stock operations on next order shopping, which is not required here.
 
-## ミニ投稿
+## Summary
 
-ですから 私達はシンプル商品在庫を管理できる というものを すべて終了しました
+By then, we have completed all the elements of the simple need to “manage commodity inventories”.
 
-この記事に対応するソースコードを取得することができます：
+You can get the source code for this article from the following address.：
 
-- [GitHub](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
