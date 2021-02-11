@@ -16,7 +16,7 @@ Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定�
 
 ---
 
-以下是关于故事化描述，用于辅助理解。唔好介意。
+以下是关于故事化描述，用于辅助理解。不必太过在意。
 
 Claptrap Factory 是进行 Claptrap 进行生产的主要场所。它将依照给定的 Claptrap Design 对每一个出厂的 Claptrap 执行定制化装配，而它拥有着极高的产品合格率和工作效能。
 

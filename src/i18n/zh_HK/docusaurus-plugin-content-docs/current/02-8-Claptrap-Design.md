@@ -22,7 +22,7 @@ Claptrap Design 就像一个设计图，决定了 Claptrap 的每个细节，常
 
 ---
 
-以下是关于故事化描述，用于辅助理解。唔好介意。
+以下是关于故事化描述，用于辅助理解。不必太过在意。
 
 Claptrap Design 是 Claptrap Factory 进行 Claptrap 生产的重要依据。在 Design 中记录了对特定种类 Claptrap 所需要配备的定制化装置。例如：决定多功能任务处理器中的任务执行模组；决定手持型备忘录的设备型号；决定内存恢复控制器的恢复策略。
 

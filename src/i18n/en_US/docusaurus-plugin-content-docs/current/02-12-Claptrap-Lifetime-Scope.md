@@ -1,42 +1,42 @@
 ---
-title: 'Claptrap Lifetime Scope'
-description: 'Claptrap Lifetime Scope'
+title: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
+description: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
 ---
 
 
-The claptrap lifetime scope is divided into two major categories according to the writer's view of the, runtime lifetime scope and the design lifetime scope.
+Claptrap 生命周期按照笔者的看法分为两大类进行阐述：运行时生命周期和设计时生命周期。
 
-## The runtime lifetime scope
+## 运行时生命周期
 
-The runtime lifetime scope is the lifetime scope behavior of each object in memory during the operation of the Claptrap system.For example, In a Web system, each Web request is typically assigned as a lifetime scope, and the Claptrap system has a similar lifetime scope design.These lifetime scopes have an impact on developers' component extensions or business development.The runtime lifetime scope of the Claptrap framework is divided into, Process Level, Claptrap Level, and Event Handler Level.
+运行时生命周期是指 Claptrap 系统在运行过程中各个对象在内存中的生命周期行为。例如：在 Web 系统中，每个 Web 请求通常都会被分配为一个生命周期，而 Claptrap 系统也存在类似的生命周期设计。这些生命周期对于开发者进行组件扩展或者业务开发都具有一定的影响。Claptrap 框架的运行时生命周期分为：进程级（Process）、Claptrap 级和事件处理器级（Event Handler）。
 
-Process-levelAn object designed as a lifetime scope at the process level is a singleton object in the general sense.Each running Claptrap process has its own singleton object.Typically, for example in the Claptrap framework, in order to improve the speed at which an event is written to a persistent layer, each persistent layer destination corresponds to a batch processor (Batch Event Saver).They have only one instance in the lifetime scope of the entire process, corresponding to the persistent layer, respectively, so that the event can be merged into the persistent layer, thereby boosting the write performance.In general, objects that are designed to be process-level lifecycles have one or more of the following characteristics:
+进程级。被设计为进程级上生命周期的对象，属于常规意义上的单例对象。每个正在运行的 Claptrap 进程都具有自己的单例对象。典型地，例如在 Claptrap 框架中，为了提高向持久层写入事件的速度，每个持久层目标都会对应一个批量处理器（Batch Event Saver）。它们在整个进程的生命周期中只有一个实例，分别与对应的持久层一一对应，这样才能将事件进行合并写入持久层，从而提升写入性能。一般来说，被设计为进程级生命周期的对象具备以下一个或多个特点：
 
-1. Just have the logic or code that you want to run once in the entire process lifetime scope.It can usually be achieved with the help of Lazy as well as a single case.
-2. Only a single object is required in the entire process lifecycle.For example Claptrap Design Store, Claprap Options and so on.
-3. There can only be a single object in the entire process lifetime scope.For example, Orleans Client.
+1. 只需要在整个进程生命周期中运行一次的逻辑或代码。通常可以借助 Lazy 以及单例的方式实现。
+2. 整个进程生命周期中只需要单个对象。例如 Claptrap Design Store、Claptrap Options 等等。
+3. 整个进程生命周期中只能有单个对象。例如 Orleans Client。
 
-Claptrap levelObjects in the Claptrap-level lifetime scope are created with the activation of Claptrap and are released with the inactivation of Claptrap.These objects are usually strongly associated with a Claptrap Identity.For example, Claptrap Design, Event Saver, Event Loader, State Saver, State Loader, and so on associated with this Claptrap Identity.
+Claptrap 级。Claptrap 级生命周期的对象会随着 Claptrap 的激活而创建，随 Claptrap 的失活而释放。这些对象通常来说与一个 Claptrap Identity 有很强的关联关系。例如，与该 Claptrap Identity 关联的 Claptrap Design、Event Saver、Event Loader、State Saver 和 State Loader 等等。
 
-Event Handler LevelEvent Handler level lifetime scope objects are created as the event handler is created and released with the event handler release.This level of lifetime scope is similar to the Web request lifetime scope in Web.Typically, unit of work for a unified database transaction falls to this level.
+事件处理器级（Event Handler）。事件处理器级生命周期对象随着事件处理器创建而创建，随事件处理器释放而释放。与 Web 对应来说，这一级别的生命周期和 Web 请求生命周期类似。典型的，统一数据库事务的工作单元（Unit of Work）就属于这一级别。
 
-## Design lifetime scope
+## 设计时生命周期
 
-Design lifetime scope are the lifetime scope of business objects for Claptrap.This has nothing to do with whether the program is running or not, or even whether or not the program is used.To give a specific example, orders in a regular e-commerce system.The activity business time limit for an order will generally not exceed three to six months.When more than this time limit is exceeded, the data of the order cannot already be modified.Here, this "three to six months" time limit is called the design lifetime scope of an order.In a Claptrap system, if an object has exceeded its design lifetime scope, it manifests itself as "there is no longer a need to activate this Claptrap in business."The following inferences can be obtained from this:
+设计时生命周期，是指 Claptrap 对应的业务对象的生命周期。这与程序是否运行无关，甚至与是否使用程序都无关。举个具体的例子，常规电商系统中的订单。一个订单的活动业务时间限界一般不会超过三到六个月。当超过这个时间限界后，订单的数据就已经不能修改。此处就这个“三到六个月”的时间限界称为订单的设计时生命周期。在 Claptrap 系统中，如果一个对象已经超过了其设计时生命周期，就表现为“业务上再也不需要激活这个 Claptrap”。由此可以得到以下推论：
 
-1. The events that the Claptrap has already stored have lost their meaning and deleting them can free up the available space.
-2. The business code corresponding to this Claptrap no longer needs to be maintained, and it is possible to choose to be removed from the reference or to remove the code.
+1. 该 Claptrap 已经存储的事件失去了意义，删除这些事件可以腾出可用空间。
+2. 该 Claptrap 对应的业务代码不再需要维护，可以选择被移除引用或者移除代码。
 
-Therefore, the shorter the design lifetime scope of Claptrap, it is more conducive to reducing resource footprint and code maintenance costs, and vice versa, increasing storage costs and maintenance difficulties.Therefore, when designing Claptrap systems, there is a tendency to use a shorter design lifetime scope.And this noun, also directly reflects the actual entirely by "design" to determine. Next, let's list some common design lifetime scope classification.
+所以，如果 Claptrap 的设计时生命周期越短，就更有利于减少资源的占用和代码维护成本，反之，则增加了存储成本和维护难度。故而，在设计 Claptrap 系统时，倾向于使用更短的设计时生命周期。而这个名词，也直接反应了其实完全由“设计”来决定。 接下来，我们列举一些常用的设计时生命周期划分法。
 
-### Business boundary demarcation
+### 业务边界划分法
 
-This is the most common division.The business objects are divided based on the requirements of domain modeling.And these business objects often have a fixed lifetime scope.As in the previous "order" is a common example of dividing the life cycle by business boundaries.When dividing using this method, you only need to note that Claptrap meets the basic requirement that "the minimum competitive resource range is greater than or equal to".Developers can experience this division with an example of a "train ticketing system".
+这是最为常见的划分法。基于领域建模的要求对业务对象进行划分。并且这些业务对象通常有固定的生命周期。就如前文的“订单”就是常见的按照业务边界划分生命周期的例子。在使用该方法进行划分时，只需要注意 Claptrap 满足“大于等于最小竞争资源范围”的基础要求就可以了。开发者可以通过“火车售票系统”的样例来体验这种划分法。
 
-### Conditional boundary demarcation.
+### 条件边界划分法
 
-In general, the business boundary-based division method has been able to divide a reasonable lifetime scope.However, if you are simply divided along business boundaries, you may have objects with 'permanent' design lifetime scope.If these objects have a very intensive event operation.Then the number of events generated will be unusually large.To do this, we introduce human-controlled ways to shorten the design lifetime scope.This division is based on specific conditions.It is therefore called conditional boundary demarcation.And the most classic of these is the use of "time limit" to divide.
+一般来说，基于业务边界划分法已经能够划分出合理的生命周期。但是，如果只是按照业务边界划分，可能会出现设计时生命周期为永久的对象。假如这些对象又拥有非常密集的事件操作。那么随着生成的事件量将异常多。为此，我们引入人为控制的方式来缩短设计时生命周期。这种划分是基于特定的条件划分的。因此称为条件边界划分法。而在此之中最为经典的就是采用“时间限界”来划分。
 
-Here we illustrate this division by using the shopping cart object in the Quick Start example.First, a shopping cart is a user-related object, and as long as the user has been in the system, it is possible to be activated, that is, its design lifetime scope is "permanent".Therefore, you cannot delete related events, and they must be permanently saved to ensure that the shopping cart data is correct.But, if we are no longer concerned about the events that the shopping cart has produced over a year ago.We can divide the shopping cart of a single user manually according to the year.At the same time, we can make a "state copy" of the shopping cart in two adjacent years.In this way the state data of the previous year is continued, so that the shopping cart of the user is produced shorter on the design lifetime scope, and this does not affect the business as well.We can use a classic Chinese legend story, "YuGong Move Mountain", to understand this time-based design lifetime scope classification.In the story, YuGong is mortal, although they cannot grow old (shorter design lifetime scope), but the spirit of YuGong (the longer design time lifetime scope) can be renewed with future generations, and thus can complete the great career of moving mountains.When each generation of "YuGong" is replaced, the "state copy" (spiritual continuation) mentioned above occurs.Thus, the requirements of the lifetime scope when a longer or even permanent design is achieved with a shorter design lifetime scope.
+此处我们借由“快速入门”例子中的购物车对象来说明一下这种划分法。首先，购物车是和用户相关的对象，只要用户一直存在于这个系统中，那么就有可能被激活，也就是说，它的设计时生命周期是“永久”的。因此就无法删除相关的事件，必须永久保存这些事件来确保购物车数据的正确性。但，假如我们对于购物车在一年前所产生的的事件已经不再关心。我们就可以手动的按照年份对单个用户的购物车进行划分。同时，我们可以在相邻两个年份的购物车进行“状态拷贝”。这样就延续前一年的状态数据，从而使用户的购物车在设计时生命周期上产生更短，而且这样也不影响业务。我们可以借助中国的一个经典传说故事《愚公移山》来理解这种基于时间的设计时生命周期划分法。故事中，愚公是凡人，虽然不能长生不老（较短的设计时生命周期），但愚公的精神（较长的设计时生命周期）却可以随着子孙后代而延续，因而可以完成移山的伟业。当每代“愚公”进行换代时，就发生了上文中提到的“状态拷贝”（精神延续）。从而用较短的设计时生命周期，实现了较长的甚至永久的设计时生命周期的要求。
 
-> "YuGong Move Mountain" Taihang, Wangya two mountains, a square of seven hundred miles, very very high, originally in the southern part of Luzhou, the north of the Yellow River. Under The North Mountain, there is a man named YuGong, who is nearly 90 years old and lives directly opposite the mountain.He suffered from the blockage in the northern part of the mountains and came out to go in and all had to take a detour, so as to convene the whole family to discuss saying："I will try my best to dig up the steep mountains so that the road has always been to the southern part of Yuzhou (a city), and reach the south coast of the Han water, okay?" everyone expressed their approval.His wife asked, "with your strength, even a littile mountain like KuiFu can not be flattened, what about Taihang, WangWu?"Besides, where do you lay the earth and the stones? "People say: "throw it on the edge of the Bohai Sea, to the north of the YinTu (a place)." So YuGong led the three men who could carry the burden in the children and grandchildren to go up the mountain, chisel stones, dig earth, and transport them to the edge of the Bohai Sea with dustpan.The widow of the neighbor, Jingcheng, had an orphan who was just 7-8 years old and go to help him.They can take a turn only once every half year. ZhiSou (name of a man, wise man) in HeQu (a place) laughed at the fool and stopped him from doing it, saying, "You're so stupid!"Just by virtue of your remaining years, the rest of your strength doesn't even move one of the grass on the mountain, so what about the soil stones? "YuGong sighed and saied: "Your mind is really stubborn and stubborn enough to be unenlightened, even the orphan widow can't compare.Even if I die, there is still a son there; the son has another grandson; the grandson has a son again; and the son has a grandson again; and the children and grandchildren are endless, but the mountains will not increase even more, and are still afraid to dig up? " ZhiSou has no words to answer. The mountain god heard about it, afraid that he had dug down endlessly, and reported it to the Jade Emperor.Jade Emperor was moved by the sincerity of YuGong, and ordered the two sons of ShenKuaE (name of a god) to carry away the two mountains, placed one in the east of ShuFang (a city) and one in the southern part of YongZhou (a city).From then on, there were no more mountains from the south of JiZhou to the southern coast of HanShui River.
+> 《愚公移山》 太行、王屋两座山，方圆七百里，高七八千丈，本来在冀州南边，黄河北岸的北边。 北山下面有个名叫愚公的人，年纪快到 90 岁了，在山的正对面居住。他苦于山区北部的阻塞，出来进去都要绕道，就召集全家人商量说：“我跟你们尽力挖平险峻的大山，使道路一直通到豫州南部，到达汉水南岸，好吗？”大家纷纷表示赞同。他的妻子提出疑问说：“凭你的力气，连魁父这座小山都不能削平，能把太行、王屋怎么样呢？再说，往哪儿搁挖下来的土和石头？”众人说：“把它扔到渤海的边上，隐土的北边。”于是愚公率领儿孙中能挑担子的三个人上了山，凿石头，挖土，用箕畚运到渤海边上。邻居京城氏的寡妇有个孤儿，刚七八岁，蹦蹦跳跳地去帮助他。冬夏换季，才能往返一次。 河曲的智叟讥笑愚公，阻止他干这件事，说：“你简直太愚蠢了！就凭你残余的岁月、剩下的力气连山上的一棵草都动不了，又能把泥土石头怎么样呢？”北山愚公长叹说：“你的思想真顽固，顽固得没法开窍，连孤儿寡妇都比不上。即使我死了，还有儿子在呀；儿子又生孙子，孙子又生儿子；儿子又有儿子，儿子又有孙子；子子孙孙无穷无尽，可是山却不会增高加大，还怕挖不平吗？”河曲智叟无话可答。 握着蛇的山神听说了这件事，怕他没完没了地挖下去，向天帝报告了。天帝被愚公的诚心感动，命令大力神夸娥氏的两个儿子背走了那两座山，一座放在朔方的东部，一座放在雍州的南部。从这时开始，冀州的南部直到汉水南岸，再也没有高山阻隔了。

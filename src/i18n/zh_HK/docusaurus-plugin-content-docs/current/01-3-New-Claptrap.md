@@ -3,11 +3,11 @@ title: '第三步——定义Claptrap，管理商品库存'
 description: '第三步——定义Claptrap，管理商品库存'
 ---
 
-通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
+通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
 
 <!-- more -->
 
-## 開篇摘要
+## 开篇摘要
 
 本篇，我通过实现“管理库存”的需求来了解一下如何在已有的项目样例中定义一个 Claptrap。
 
@@ -18,10 +18,10 @@ description: '第三步——定义Claptrap，管理商品库存'
 1. 定义 Grain 接口 (新内容)
 1. 实现 Grain (新内容)
 1. 注册 Grain (新内容)
-1. 定義 EventCode
-1. 定義 Event
-1. 實現 EventHandler
-1. 註冊 EventHandler
+1. 定义 EventCode
+1. 定义 Event
+1. 实现 EventHandler
+1. 注册 EventHandler
 1. 实现 IInitialStateDataFactory (新内容)
 1. 修改 Controller
 
@@ -36,7 +36,7 @@ description: '第三步——定义Claptrap，管理商品库存'
 
 ClaptrapTypeCode 是一个 Claptrap 的唯一编码。其在 State 的识别，序列化等方面起到了重要的作用。
 
-打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
+打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
 
 添加 SKU 的 ClaptrapTypeCode。
 
@@ -70,7 +70,7 @@ State 在 Actor 模式中代表了 Actor 对象当前的数据表现。
 
 在`HelloClaptrap.Models`项目添加`Sku`文件夹，并在该文件夹下创建`SkuState`类。
 
-添加如下代碼：
+添加如下代码：
 
 ```cs
 + using Newbe.Claptrap;
@@ -94,7 +94,7 @@ Inventory 表示当前 SKU 的库存。
 
 在`HelloClaptrap.IActors`项目中添加`ISkuGrain`接口。
 
-添加介面以及 Attribute。
+添加接口以及 Attribute。
 
 ```cs
 + using System.Threading.Tasks;
@@ -130,9 +130,9 @@ Inventory 表示当前 SKU 的库存。
 2. 接口继承了`IClaptrapGrain`，这是框架定义的 Grain 接口，这是依托于 Orleans 运行必须继承的接口。
 3. 增加了 GetInventoryAsync 方法，表示“获取当前库存”。
 4. 增加了 UpdateInventoryAsync 方法，表示“增量更新当前库存”。`diff > 0` 表示增加库存，`diff < 0`表示减少库存。
-5. 需要注意的是 Grain 的方法定義有一定限制。詳細可以參見[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+5. 需要注意的是 Grain 的方法定义有一定限制。详细可以参见[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## 實現 Grain
+## 实现 Grain
 
 定义好 ISkuGrain 之后，便可以添加代码进行实现。
 
@@ -247,13 +247,13 @@ Claptrap 对应的 Grain 需要在应用程序启动时进行注册，这样框�
 
 因为 ISkuGrain 和 SkuGrain 分别于 ICartGrain 和 CartGrain 属于同一程序集，因而此处不需要修改。
 
-## 定義 EventCode
+## 定义 EventCode
 
 前面我们已经实现了 Claptrap 的主要部分，但唯独没有完成更新库存的操作。这是因为更新库存是需要对 State 进行更新的。而我们都知道 Claptrap 是基于事件溯源的 Actor 模式，对 State 的更新需要通过事件才能完成。故而由这里开始，我们来通过事件更新库存。
 
-EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別，序列化等方面起到了重要的作用。
+EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别，序列化等方面起到了重要的作用。
 
-打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
+打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
 
 添加“更新库存”的 EventCode。
 
@@ -283,13 +283,13 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
   }
 ```
 
-## 定義 Event
+## 定义 Event
 
-Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
+Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
 
 在`HelloClaptrap.Models`项目的`Sku/Events`文件夹下创建`InventoryUpdateEvent`类。
 
-添加如下代碼：
+添加如下代码：
 
 ```cs
 + using Newbe.Claptrap;
@@ -307,13 +307,13 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 1. Diff 表示此次更新库存的数额，`diff > 0` 表示增加库存，`diff < 0`表示减少库存。
 2. NewInventory 表示更新之后的库存。此处，提前给出一个建议，但由于篇幅问题，不展开讨论：建议在事件中包含 State 的更新后数据。
 
-## 實現 EventHandler
+## 实现 EventHandler
 
-`EventHandler`用於將事件更新到 Claptrap 的`State`上。
+`EventHandler`用于将事件更新到 Claptrap 的`State`上。
 
 在`HelloClaptrap.Actors`项目的`Sku/Events`文件夹下创建`InventoryUpdateEventHandler`类。
 
-添加如下代碼：
+添加如下代码：
 
 ```cs
 + using System.Threading.Tasks;
@@ -339,9 +339,9 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 1. 因为事件中已经包含了更新后的库存，故而直接对 StateData 进行赋值即可。
 
-## 註冊 EventHandler
+## 注册 EventHandler
 
-實現並測試完 EventHandler 之後，便可以將 EventHandler 進行註冊，以便與 EventCode 以及 Claptrap 進行關聯。
+实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
 
 打开`HelloClaptrap.Actors`项目的`SkuGrain`类。
 
@@ -500,7 +500,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 ## 修改 Controller
 
-前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“读取库存”的操作。
+前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“读取库存”的操作。
 
 在`HelloClaptrap.Web`项目的`Controllers`文件夹下新建`SkuController`类。
 
@@ -541,11 +541,11 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 1. 新增 API 读取特定 SkuId 的库存。按照样例代码的实现，可以传入`yueluo-123`得到库存数额为 666。不存在的 SkuId 将会抛出异常。
 1. 此处没有创建更新库存的对外 API，因为本示例将在下篇进行下单购物时进行库存操作，此处暂不需要 API。
 
-## 小結
+## 小结
 
 至此，我们就完成了“管理商品库存”这个简单需求的所有内容。
 
-你可以從以下位址來獲取本文章對應的原始程式碼：
+您可以从以下地址来获取本文章对应的源代码：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)

@@ -1,6 +1,6 @@
 ---
-title: 'Le glossaire'
-description: 'Le glossaire'
+title: '术语表'
+description: '术语表'
 ---
 
-La lecture du glossaire de ce projet vous permettra de mieux comprendre les concepts associés à ce projet.
+阅读本项目的术语表，可以使您更好的了解本项目相关的概念。
