@@ -4,22 +4,22 @@ description: 'Claptrap Box'
 ---
 
 
-## Claptrap Box ermöglicht Claptrap, auf mehr Frameworks zu laufen
+## Claptrap Box enables Claptrap to run on more frameworks.
 
-Claptrap ist ein Objekt, das basierend auf dem Actor-Muster implementiert wird.Es hat nur die Möglichkeit, Ereignisse und Probleme im Zusammenhang mit der Staatlichen Kontrolle zu behandeln.Daher müssen Sie sich im aktuellen Szenario häufig auf die spezifische Betriebsumgebung verlassen, um sie zu übertragen, oder die externe Geschäftsschnittstelle entsprechend dem Unternehmen entwerfen.
+Claptrap is an object implemented based on the Actor pattern.It has only the ability to deal with event and state control.Therefore, in the actual scenario, it is often necessary to rely on the specific operating environment to host it, or need to design the external business interface according to the business.
 
-Der typischste Anwendungsfall ist die Kombination mit Grain of Orleans.Grain ist eine virtuelle Actor-Implementierung für Orleans, und Claptrap ist Schauspieler.Als Claptrap und Grain kombiniert wurden, entschieden wir uns, Claptrap in Grain einzukapseln.Auf diese Weise machen wir Claptrap, einen event-traced Actor, in Grain laufen, die die Unterstützung von Orleans für verteilte Funktionen nutzt.Wenn wir Claptrap in Korn setzen, um zu laufen, können wir uns Grain als eine Box vorstellen, die Objekte kombiniert, die dem Gesichtsmuster im Designmodus sehr ähnlich sind, und Grain bietet Claptrap ein Gesicht, um mit der Außenseite zu kommunizieren, die internen Details abzuschirmen und gleichzeitig das Äußere besser zu verstehen, wie es interagiert.Hier beziehen wir uns auf dieses "wie Claptrap für die Ausführung in einem bestimmten Gesichtsobjekt" als Claptrap Box-Modus, in dem das Gesichtsobjekt Claptrap Box genannt wird.Dieser Ansatz ermöglicht die Anwendung von Claptrap auf komplexere Plattformen und Unternehmen.In Orleans heißt diese Claptrap Box ClaptrapBoxGrain.
+The most typical use case is to combine with the Grain of Orleans.Grain is the virtual Actor implementation of Orleans, and Claptrap is an actor.When Claptrap and Grain are combined, we choose to encase Claptrap inside Grain.In this way, we have The Actor, which combines event souring, running in Grain, which takes full advantage of Orleans' distributed features.When we put Claptrap into grain, we can think of Grain as a box, and the combination of objects is very similar to the facade pattern in design pattern, where Grain provides Claptrap with a facade to communicate with the outside, masking internal details while making the outside more aware of how it interacts.Here we call this "how Claptrap works in a specific facade object" as The Claptrap Box pattern, where the facade object is called Claptrap Box.This approach allows Claptrap to be applied to more complex platforms and businesses.In Orleans, this Claptrap Box is called ClaptrapBoxGrain.
 
-Aufgrund der Claptrap Box kann Claptrap die Grundbedingungen der Event-Sourcing und actor-Modus beibehalten, auch wenn es von Orleans getrennt ist.In einem einfachen Konsolenprogramm können Entwickler beispielsweise weiterhin NormalClaptrapBox als Gesichtsobjekt verwenden.Dies verliert jedoch den Vorteil von Orleans verteilt.
+Due to the existence of Claptrap Box, Claptrap can maintain the basic conditions of the event sourcing and the Actor pattern even if detached from the Orleans.For example, in a simple console program, developers can still use NormalClaptrapBox as a facade object.This, however, loses the advantage of Orleans distributed.
 
-Das Claptrap Box-Konzept ermöglicht es Claptrap, auf weiteren zugrunde liegenden Plattformen und Frameworks zu laufen.Obwohl derzeit nur Orleans / Akka.net / unversiegelt, etc. können Gesichtsobjekte ausgewählt werden.
+The existence of the Claptrap Box concept enables Claptrap to operate on more basic platforms and frameworks.Although currently only Orleans / Akka.net / no bearer, etc. are available for selection of face objects.
 
 ---
 
-Im Folgenden finden Sie eine erzählerbezogene Beschreibung, um das Verständnis zu unterstützen.Machen Sie sich keine allzu großen Sorgen.
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap ist ein hochgradig anpassbarer Roboter.Damit Claptrap in farbenfroheren und komplexeren Umgebungen arbeiten kann, müssen einige Träger, die mit Claptrap geladen werden können, für verschiedene reale Umgebungen entwickelt werden, damit sie einwandfrei funktionieren können.Zum Beispiel muss：Claptrap, die auf dem Meeresboden arbeitet, mit einem Fahrzeug ausgestattet werden, das ausreicht, um dem Wasserdruck standzuhalten, Claptrap, das in einem Sumpf arbeitet, mit einem feuchtigkeitsdichten Träger ausgestattet sein muss und Claptrap, der in der Nähe des Kraters arbeitet, muss mit einem Träger aus hochtemperaturbeständigen Materialien ausgestattet sein.Diese Serie von Trägern nennen wir gemeinsam Claptrap Box.Das liegt daran, dass diese Träger alle ein gemeinsames Merkmal haben, sie sind alle voll verpackt, natürlich, verschiedene Formen, aber wir nennen gemeinsam Box.Mit diesen Trägern kann Claptrap in einer Vielzahl von Umgebungen gut funktionieren.
+Claptrap is a highly customizable robot.In order for Claptrap to operate in a more complex environment, you need to design loaded loads for different real-world environments so that they work perfectly.For example, Claptrap which works on the seafloor, needs to be equipped with a load bearing water pressure; Claptrap, which works in a swamp, needs to be equipped with a trap-proof moisture-proof carrier; the Claptrap, which works near the crater, needs to be equipped with a carrier made of high temperature resistant materials.This series of vehicles, collectively known as Claptrap Box.This is because these carriers all have a common feature that they are all fully packaged boxes, of course, in different shapes, but we collectively refer to box.With these vehicles, Claptrap works well in a variety of different environments.
 
-## Symbol
+## ICON
 
-![Claptrap](/images/claptrap_icons/claptrap_box.svg)
+![claptrap](/images/claptrap_icons/claptrap_box.svg)
