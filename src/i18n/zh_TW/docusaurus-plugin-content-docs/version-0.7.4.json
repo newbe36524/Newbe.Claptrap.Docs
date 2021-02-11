@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "0.7.4",
+    "description": "The label for version 0.7.4"
+  },
+  "sidebar.someSidebar.category.项目简介": {
+    "message": "項目簡介",
+    "description": "The label for category 项目简介 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.快速入门": {
+    "message": "快速入門",
+    "description": "The label for category 快速入门 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.术语表": {
+    "message": "詞彙表",
+    "description": "The label for category 术语表 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.项目样例-火车售票": {
+    "message": "項目樣例-火車售票",
+    "description": "The label for category 项目样例-火车售票 in sidebar someSidebar"
+  }
+}
