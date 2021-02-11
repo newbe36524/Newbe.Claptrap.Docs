@@ -1,6 +1,6 @@
 ---
-title: "Instructions chinoises"
-description: "Il s’agit d’un cadre de développement côté service avec « réactivité », « traçabilité des événements » et « mode acteur » comme théories de base.De plus, les développeurs peuvent simplement développer des applications « distribuées », « horizontalement évolutives » et « hautement testables »."
+title: "Introduction"
+description: "This is a set of server-side development frameworks with reactive, event sourcing and Actor pattern as basic theories.On top of this, developers can develop \"distributed\", \"scale out\", and \"easy to test\" application more simply."
 slug: /
 ---
 
@@ -8,49 +8,49 @@ slug: /
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![Tous les contributeurs](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Construire](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Couverture](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Statut de porte de qualité](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Insigne de codacy](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
+[![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-Il s’agit`cadre de développement latéral`avec`réactif,`et`actor`comme théories de base.De plus, les développeurs peuvent simplement développer des applications « distribuées », « horizontalement évolutives » et « hautement testables ».
+This is a set of server-side development frameworks with `reactive`, `event sourcing` and `Actor pattern` as basic theories.On top of this, developers can develop "distributed", "scale out", and "easy to test" application more simply.
 
-## L’état actuel du projet
+## Project Status
 
-Le projet actuel est déjà en phase d’aperçu et la version pertinente sera publiée sur la branche principale.Vous pouvez obtenir les derniers paquets de développement via nuget.Nous ne recommandons pas d’utiliser la version Preview en production.
+The project has entered the Preview stage, and related versions will be released on the master branch.You can get the latest development package through nuget.org.We do not recommend using the Preview version for production environments.
 
-Claptrap et ses Minions arrivent.
+Claptrap and it`s Minions are coming.
 
-## Un échantillon du projet
+## Samples
 
-Vous[un exemple de code pour le projet](https://github.com/newbe36524/Newbe.Claptrap.Examples)nouveau site web be.Claptrap.Examples afin que vous puissiez apprendre à utiliser le projet.
+You can get the samples about the project through [Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples) so that you can understand how to use the project.
 
-## Participer à la discussion
+## Discussion
 
-- [Github Question](https://github.com/newbe36524/Newbe.Claptrap/issues)
-- [Question de Gitee](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Boîte aux lettres newbe-claptrap@googlegroups.com (le contenu envoyé à la boîte aux lettres sera rendu public)
-- [Gitter ( Gitter )](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-- [Groupe QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
+- [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
+- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
-## Ressources
+## Reference
 
-Le projet a été inspiré par un certain nombre de projets open source et blog posts：
+The project was inspired by many open source projects and blog posts:
 
-- [Ray, un cadre distribué, traçable sur l’événement, axé sur l’événement et, en fin de compte, cohérent et performant, construit sur Actor Framework Orleans](https://github.com/RayTale/Ray)
-- [Modèle d’approvisionnement d’événements](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Événement Sourcing Pattern traduction chinoise](https://www.infoq.cn/article/event-sourcing)
-- [Orléans - Modèle d’acteur virtuel distribué](https://github.com/dotnet/orleans)
-- [ENode 1.0 - Idées et implémentations de Saga](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [A distributed, event event-sourcing, event-driven, and high-performance framework built on the Actor framework Orleans -- Ray](https://github.com/RayTale/Ray)
+- [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+- [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
+- [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
+- [ENode 1.0 - Saga's idea and realization](http://www.cnblogs.com/netfocus/p/3149156.html)
 
-## Stargazers au fil du temps
+## Stargazers over time
 
-[![Stargazers au fil du temps](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
+[![Stargazers over time](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
 
-## Contributeurs ✨
+## Contributors ✨
 
-Merci va à ces gens merveilleux ([emoji clé](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -69,15 +69,15 @@ Merci va à ces gens merveilleux ([emoji clé](https://allcontributors.org/docs/
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-Ce projet fait suite [toutes les spécifications](https://github.com/all-contributors/all-contributors) contributeurs. Contributions de toute nature bienvenue!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## Icône
+## Icon
 
-Les icônes actuellement utilisées dans ce projet[du Projet Nom](https://thenounproject.com/).Vous[informations sur le droit d’auteur noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)/docs/docs/data.
+The icons currently used in this project are all from [The Noun Project](https://thenounproject.com/).You can view the copyright information of each section in [/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source).
 
-## Gitee ( Gitee )
+## Gitee
 
-Si vous ne pouvez pas utiliser Github correctement, vous pouvez également obtenir le code source et des échantillons de Gitee.
+If you cannot use Github normally, you can also use Gitee to clone the source code and samples (Mainly for China mainland).
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
