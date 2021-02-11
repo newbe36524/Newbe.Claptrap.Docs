@@ -1,7 +1,7 @@
 ---
-title: 'Erkennen'
-description: 'Zugticketsystem - Implementierung'
+title: 'Implementation'
+description: 'Train ticketing system - implementation.'
 ---
 
 
-Tbd
+TBD.
