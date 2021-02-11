@@ -1,49 +1,49 @@
 ---
-title: 'ミニオン'
-description: 'ミニオン'
+title: 'Minion'
+description: 'Minion'
 ---
 
-![ミニオン](/images/20190228-002.gif)
+![Minion](/images/20190228-002.gif)
 
-ミニ市はフレームワークが定義する特殊なクラフとなっている。Claptrap の基本的な原則。以下の属性を持つ：
+Minion is a special Claptrap defined by this framework.it's an adjustment based on Claptrap.It has the following features：
 
-**そのクラスのいずれかの Claptrap からイベントを読み込む**Claptrap と同じように、Minion のステータスがイベントによってコントロールされています。Minion は対照群とは異なり、Claptrap からイベントを取得して状態を変更します。そのため、の Claptrap イベントを非同期で処理した後、それらの処理の後処理を行うことができます
+**Read event from the corresponding Claptrap**。Like Claptrap, minion's state is controlled by events.The difference is that Minion, like its literal meaning, always gets events from the corresponding Claptrap, changing its state.Therefore, it can asynchronously handle subsequent actions after The Claptrap-generated event.
 
-> Minion はnewbe36524 で遊べる運がよびたゲーム[ハースストーン](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4)- 英語で"minion"という表現。
+> Minion is from a game of luck played by newbe36524[The Legend of furnace stone](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), where "随从" is described in the English version as "minion".
 
 ---
 
-以下に発表するMinion の記述と、解釈に役立つコアの記述がある。あまり気にしなくても構いません。
+The following is a story-based description of Minion to aid understanding.Don't care too much.
 
-複雑な作業において単に クラップが完成する方が非常に難しいのですそのため、このクラプトの機能は Claptrap の際、必要に応じて、クラスの Claptrap にこのを介してタスクを実行する機能によって追加されます。この青年達がミニオンと呼んでいる。ミニオンの本質は、Claptrap botsは、全部抜群の Claptrap からはずれです。このデバイスは、保持状態のメモを削減します。それは その仕組みや Claptrap とは異なり 違う理由からです
+For more complex tasks, a single Claptrap can be difficult to complete.Therefore, when designing this type of Claptrap, a few younger brothers are added to the Claptrap as needed to assist it with the task at hand.These little brothers are called Minions.Minion's essence is also a Claptrap robot, but they reduce the handheld memo device compared to the full version of Claptrap.This is why it works slightly differently from Claptrap.
 
-Minion はコラボレーションを通してタスクを実行できるため、タスクを遂行するか判断できません。つまりミッションの詳細情報を記録する従来のメモには Claptrap が書かれているだけで構いません。クラップの完了時にタスクの完了を済ませます。このタスクの詳細について、Minion に通知します。こうやってMinion が同期されることができるタスク（タスクの内容）を獲得しこれらの更新が可能になりました。この仕組みは、例を通して説明します。
+Minions can only complete tasks by collaborating with Claptrap, and they cannot decide whether to do a task.So a handheld memo that records the details of the task as long as claptrap holds it.When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
 
-ある地域で Claptrap ロボットを 警備ロボットに加わる予定があるとしますその仕事には以下のようなものが書かれています：
+Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includes as the following：
 
-1. ドアから車両への検査と置いて行き
-2. 彼らを理解する責任はない
+1. Responsible for inspecting and releasing vehicles in the concierge
+2. Responsible for dealing with all kinds of inquiries from passers-by
 
-Claptrap botが作業している時の 唯一のものは一つしか処理できないのです。すなわち、もし別の車両に対して調査・運転を行っているのであれば、路人からの問い合わせが処理されていなくなります。同様に、もしトランクを受け取ったら、車の検査と放出が処理されないようにしてください。予想以上に効力を発揮しませんですから 私たちはこの Class Chptrap の Minion に評価されるミッションを飛ばしています。
+We now know that Claptrap robots can only handle one thing at once while working.That is, if it is inspecting and releasing a vehicle, it will not be able to handle inquiries from passers-by.Similarly, if it is being questioned by passers-by, it will not be able to handle the inspection and release of the vehicle.It's not efficient.Therefore, we added a Minion to this Claptrap to assist it with the task of being asked by passers-by.
 
-具体的には、：一日中、Claptrap は周辺のエリアに関する問い合わせを担当し、両方のメモに記録されたものを、全ての情報を常に記録します。そして それをMinionに知らせるようにします味方のミニオンも、エリア内の事に関するすべての詳細を知っていた事から、それは簡単な対策を講じることができた。
+The specific way of working is this：Every day, Claptrap checks the situation around the neighborhood and records all the specific information in a handheld memo.And it informs its Minion of the details of these tasks.So Minion knew all the details about the neighborhood, so it was able to easily deal with questions from passers-by.
 
-この提携により、クラプトゥーンは車両の検査と解放に効果的に行うことができ、移動手段に尋ねるよう Minion が提供されています。
+This collaboration allows Claptrap to focus more efficiently on vehicle inspection and release, while passers-by' inquiries are left to Minion.
 
-しかし、一部の詳細について少し説明してください。： その読者の理解を深めていくための説明も必要です
+However, additional explanations are needed for some details to be understood by the reader：
 
-新しい Claptrap を直接取り込ませたらどうでしょうか？新しいClaptrapは新しい主体です。新しい作業完了を伴って管理することができ、管理コストを増加させるという意味です。しかし、新しいブートループが追加されると、その所属の Claptrap を介して管理することができ、管理が容易である。もちろん これを使うとわかる：Minion のものより一般的な Claptrap でノートを保管できないような事も できます。この設備のコストの99%に相当しますこのコストを削減できますよ、どこまでも観ましたか？
+Why not add a new Claptrap to handle passers-by' inquiries directly?A new Claptrap means a new entity that can complete tasks independently, which increases the cost of management.But if you add only one Minion, it can be managed by the Claptrap it belongs to, which is easier to manage than it is.Of course, in order to add a little sense of generation, you can also understand so：Minion lacks the handheld memo device compared to the regular Claptrap.The cost of this device is 99% of the total hardware cost.Reduce costs to accomplish the same task, why not?
 
-Class Chartpはミニオンの集中管理にタスクの詳細を知らせてくれますか？いいえClaptrap とMinion は通常 Live Science として取り組んでいます。 このコストは、もはやテクノロジーに対応しているからです。5G 割り当て能力、将来性。
+Will the cost of Notifying Minion of task details by Claptrap is high?No, it won't.Claptrap and Minion are generally gang jobs, and as wireless network technology continues to improve, the cost will become smaller and smaller.5G empowerment, future.
 
-さて 今日の想像上のシナリオを追加します：- 研究マネージャーが Claptrap の毎日のスケジュールをレポートした場合それも代数的に感じることでも 車を出入り込もうとして 24時間レースを遥かに超えて 車を出入り可能な場所を 想像してみてくださいそのため、クラプップのシングルスレッド効果により、このケースは内部的に成長することになりますが、おそらく、より内部的な玄関口に塞いでいます。
+Now, let's consider an extra scenario.：If the property manager wants Claptrap to report regularly on vehicle movements in the area.Similarly, in order to increase the sense of admission, we may as well assume that the community is very busy, with vehicles coming in and out 24 hours a day.So if you let it come up with time to report on vehicle access, it's likely that the neighborhood gate will be blocked because of Claptrap's single-threaded nature.
 
-ここまでの経験からも Class Chptrap には 新しいMinion が管理者を対象に処理するミッションも備えますクラップが車両の外にチェックを実行している間は、含まれている詳細がミニーマネスに通知されます。ミニオンは今日の車両出入の状況について詳しくを知っており、レポート作成には分間のことが分かる。
+With the experience we've had earlier, we can also equip this Claptrap with a new Minion to handle the task of reporting to the property manager.Because Claptrap will notify Minion of the details when the vehicle is being inspected.So Minion knows all the details about today's vehicle access and makes a statement, which is a small case.
 
-このシナリオを増やします：国勢調査が必要だよ。では、警備員に現場に到着した時点で部隊員の 記録を調べるために必要なのです。同じように こうして 核データを集めて 上司のシステムを扱うことに 取り組んでいます親会社は Claptrap ロボットを任意の場所にして 報告されたデータを取得します それは親が利用した Minion が報告するデータであり それを上司に報告する方法ですこうして Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Classptrap3 …… の一角くちがいます。そして全国からデータが送られるので
+Let's add another scene.：We need to take a census of the population.Then only need to check the access personnel at the community doorman Claptrap, the person's information is recorded.Similarly, we'll add a Minion to compile those core data and put the parent department in.Coincidentally, the parent department also receives the subordinate's data report through a Claptrap robot, and it also has a Minion that summarizes the data from the subordinate report and reports it to its superior.That's it Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… upward.So we finished the data aggregation nationally and even globally.
 
-ここで まとめましょうMinion の加護を受けて Claptrap で三つ目の問題を確認できます：
+So we can summarize.With Minion's addition, you can do at least three things better for Claptrap：
 
-1. 元のクエリアイテムを担当
-2. 一部の統計情報、通知等で非同期処理のタスクを完了することができます。
-3. 他の Claptrap との共同作業を完了してより大きなタスクを完了させてください。
+1. Assist in sharing the original query class tasks
+2. Assist ingup statistics, notifications, and more that can be handled asynchronously
+3. Assist inge with other Claptraps to accomplish larger tasks
