@@ -1,33 +1,33 @@
 ---
-title: 'Conception Claptrap'
-description: 'Conception Claptrap'
+title: 'Claptrap Design'
+description: 'Claptrap Design'
 ---
 
-## Claptrap Design permet la personnalisation élevée de Claptrap
+## Clatrap Design realizes the high customizable nature of Claptrap
 
-Claptrap a un haut degré de personnalisation.Les développeurs peuvent configurer la méthode personnalisée loader/event saver/state loader/state saver/eventnotification et une gamme d’autres composants pour les objets Claptrap.Toute cette personnalisation peut être spécifiquement reflétée sur l’objet Claptrap Design.
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.All of this customization can be reflected on the Claptrap Design object.
 
-Claptrap Design est comme un diagramme de conception qui détermine chaque détail de Claptrap, y compris：
+Claptrap Design is like a design that determines every detail of Claptrap, commonly included:
 
-1. Quel type de chargeur d’événements /économiseur d’événements est utilisé pour gérer les événements.
-2. À quelle fréquence enregistrez-vous un instantané de l’État ?
-3. Minion, si oui, alors Maître qui.
-4. Combien d’événements y a-t-il et quel est le gestionnaire d’événements correspondant ?
+1. What event Loader / Event Saver is used to handle the event.
+2. How often do you save a State snapshot.
+3. Minion? if so, then master who is it.
+4. How many events are there, and what is the corresponding Event Handler.
 
-Ces détails sont configurés de différentes façons, y compris les analyses de type, les balises de propriété, les interfaces cohérentes, les profils, et ainsi de suite, lorsque l’application démarre.Il en résulte une conception claptrap complète.En outre, claptrap Design est validé au démarrage pour s’assurer que Claptrap Design est essentiellement disponible.Ainsi, vous n’obtenez pas une erreur de bas niveau comme « Oubliez d’écrire gestionnaire pour l’événement. »
+These details will be configured in a number of ways by type scanning, attribute tags, coherent interfaces, configuration files, etc. when the application is launched.Thus the complete Clatraptrap Design is formed.Also, Claptrap Design is validated for reasonableness at startup to ensure that Claptrap Design is basically available.Thus there will not be a low-level error like "forgetting to write the Handler corresponding to the Event".
 
-Tous les Claptrap Design sont stockés centralement dans un objet mémoire tel que l’IClapDesign Store afin que Claptrap Factory puisse construire claptrap récupération.
+All Claprap Design will be centrally saved in a memory object such as IClatrapDesignStore so that the Clatraptrap Factory is being retrieved by building Claptrap.
 
-Les développeurs peuvent également former du texte ou des graphiques lisibles par l’homme en fonction de toutes les données de l’IClaptrapDesign Store pour faciliter la lecture des interrelations et des détails de configuration de Claptrap dans le système actuel à un niveau élevé, car le code est plus élevé que le code.
+Developers can also, based on all the data in the IClatrapDesignStore, make up the text or graphics available for human reading in order to more easily understand the correlation and configuration details between Claptrap in the current system from the high level, resulting from the code being higher than the code.
 
 ---
 
-Ce qui suit est une description révélatrice pour faciliter la compréhension.Ne t’inquiète pas trop.
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Design est une base importante pour Claptrap Factory pour produire Claptrap.Les unités personnalisées requises pour un type particulier de Claptrap sont documentées dans Design.Par：détermine le module d’exécution des tâches dans un processeur de tâches multifonctions, détermine le modèle d’appareil de la note de poche et détermine la stratégie de récupération du contrôleur de récupération de mémoire.
+Claptrap Design Design is an important basis for Claptrap Factory's Claptrap production.The customized devices required for a particular type of Claptrap are documented in Design.For example, Decide on the task execution module in the multifunction task processor, decide the device model for the handheld memo, and decide the recovery strategy of the memory recovery controller.
 
-Avant de décider de mettre Claptrap en production, la conception de Claptrap Design a été une partie importante de s’assurer que le produit final répondait à vos besoins.
+Before deciding on the commissioning of Claptrap, the design of the Claptrap Design is an important part of ensuring that the end product meets the requirements.
 
-## Icône
+## ICON
 
-![claptrap claptrap](/images/claptrap_icons/claptrap_design.svg)
+![claptrap](/images/claptrap_icons/claptrap_design.svg)
