@@ -1,6 +1,6 @@
 ---
-title: '快速入門'
-description: 'Newbe.Claptrap 快速入門'
+title: 'Quick start'
+description: 'Newbe.Claptrap Quick Start'
 ---
 
-哩個系列，我哋將會通過一個簡化嘅電商小應用嚟了解点點樣去用 Newbe.Claptrap 嚟開發一個伺服端系統。
+This series, we will learn about the development of a service-end system through a simplified e-commerce small application such as the use of Newbe.Claptrap.
