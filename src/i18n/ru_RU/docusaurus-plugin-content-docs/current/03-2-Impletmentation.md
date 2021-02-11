@@ -1,7 +1,7 @@
 ---
-title: 'реализации'
-description: 'Система продажи билетов на поезда - реализация'
+title: 'Implementation'
+description: 'Train ticketing system - implementation.'
 ---
 
 
-TBD
+TBD.
