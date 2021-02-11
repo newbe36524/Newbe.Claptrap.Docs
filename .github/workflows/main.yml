@@ -35,4 +35,4 @@ jobs:
           JAVA_TOOL_OPTIONS: "-agentlib:hprof"
         run: |
           cd $GITHUB_WORKSPACE/src
-          java -jar ../tools/qsuits-8.4.4.jar -process=qupload -path=public -rm-prefix=public/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
+          java -jar ../tools/qsuits-8.4.4.jar -process=qupload -path=public -rm-prefix=build/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
