@@ -3,31 +3,31 @@ title: 'Event Sourcing'
 description: 'Event Sourcing'
 ---
 
-Event-Rückverfolgbarkeitsmuster ist eine Art Software-Design-Idee.Diese Art von Design-Idee unterscheidet sich in der Regel von der traditionellen System-Design-Idee, die hauptsächlich auf Add-Delete-Prüfung und Korrektur (CRUD) basiert.CRUD-Anwendungen haben oft einige limitations：
+The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
-1. Im Allgemeinen übernehmen CRUD-Anwendungen die Praxis, Datenspeicher direkt zu betreiben.Diese Implementierung kann aufgrund unzureichender Datenbankoptimierung zu Leistungsengpässen führen und es kann schwieriger sein, Ihre Anwendung zu skalieren.
-2. In bestimmten Bereichen gibt es häufig Datenprobleme, die aufmerksamkeit erfordern, um Fehler bei Datenaktualisierungen zu vermeiden.Dies erfordert oft die Einführung von "Sperren", "Transaktionen" und anderen verwandten Technologien, um solche Probleme zu vermeiden.Dies kann aber auch zu Leistungseinbußen führen.
-3. Sofern keine zusätzliche Überwachung hinzugefügt wird, ist der Verlauf der Änderungen an den Daten in der Regel nicht rückverfolgbar.Denn der endgültige Zustand der Daten wird in der Regel im Datenspeicher gespeichert.
+1. In general, CRUD applications take the practice of operating data storage directly.Such an implementation can result in performance bottlenecks due to inadequate database optimization, and this can be difficult to scale applications.
+2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But this can also lead to performance losses.
+3. Unless additional auditing is added, the history of data changes is generally untraceable.Because the data store is usually saved in the final state of the data.
 
-Im Gegensatz zu CRUD-Praktiken vermeidet event sourcing die oben beschriebenen Einschränkungen.Erläutern Sie als Nächstes die zugrunde liegenden Möglichkeiten, wie die Ereignisbeschaffung um das oben erwähnte "Transfer"-Geschäftsszenario herumfunktioniert.
+In contrast to the CRUD approach, event sourcing avoids the limitations of the above description by design.The next step is to outline the basic working method of event sourcing around the "transfer" business scenario mentioned above.
 
-Verwenden Sie crudding, um "Transfers" zu erreichen.
+Use the CRUD approach to "transfer".
 
-!["Transfer" mit CRUD-Methode](/images/20190226-006.gif)
+!["Transfer" using CRUD](/images/20190226-006.gif)
 
-"Transfer" wird mithilfe der Ereignisablaufverfolgung erreicht.
+"Transfer" in the form of event sourcing.
 
-!["Transfer" mit Event Sourcing](/images/20190227-001.gif)
+!["Transfer" using an event-souring approach](/images/20190227-001.gif)
 
-Wie in der abbildung oben dargestellt, werden die im Transfergeschäft vorgenommenen Bilanzänderungen als Ereignisse über das Ereignisrückverfolgbarkeitsmodell gespeichert.Auch das Geschäft selbst wird realisiert, und das bringt einige benefits：
+As shown in the figure above, the balance changes involved in the transfer business are stored in an event-based manner through the event-sourcing pattern.Also realizes the business itself, which brings some benefits：
 
-- Durch das Ereignis können Sie den Saldo des Kontos in jeder Phase wiederherstellen, die bis zu einem gewissen Grad, um die Kontobilanzverfolgung zu erreichen.
-- Da die Ereignisse für beide Konten unabhängig behandelt werden.Daher wirkt sich die Verarbeitungsgeschwindigkeit der beiden Konten nicht gegenseitig aus.Beispielsweise kann sich die Übertragung von Konto B aufgrund der Notwendigkeit einer zusätzlichen Verarbeitung geringfügig verzögern, aber Konto A kann immer noch übertragen werden.
-- Sie können eine asynchrone Geschäftsverarbeitung tätigen, indem Sie Ereignisse abonnieren.Zum：andere asynchrone Aktionen, z. B. das Aktualisieren von Statistiken in der Datenbank, das Senden von SMS-Benachrichtigungen usw.
+- Through the event, you can restore the balance of any stage of the account, which to a certain extent to achieve the tracking of the account balance.
+- Because the events of both accounts are handled independently.Therefore, the processing speed of the two accounts does not affect each other.For example, the transfer of Account B may be slightly delayed due to additional processing, but Account A can still be transferred out.
+- You can subscribe to events to do some asynchronous processing of your business.For example：Update statistics in the database, send SMS notifications, and other asynchronous operations.
 
-Natürlich hat die Einführung des Event-Sourcing-Modus einige technische Probleme im Zusammenhang mit Event-Sourcing eingeführt.Für：der von einem Ereignis verbrauchte Speicher groß sein kann, muss eventuell Konsistenz angewendet werden, Ereignisse sind unveränderlich, die Umgestaltung kann schwierig sein usw.Diese Probleme werden in einigen Artikeln ausführlicher beschrieben.Leser können nachfolgende erweiterte Lesungen zum Verstehen und Bewerten lesen.
+Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> Ressourcen
+> Reference
 > 
-> - [Event Sourcing-Muster](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern Chinesische Übersetzung](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+> - [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
