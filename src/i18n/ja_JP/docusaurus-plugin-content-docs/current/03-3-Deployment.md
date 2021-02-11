@@ -1,6 +1,6 @@
 ---
-title: 'デプロイする'
-description: '電車の切符号 - 配備'
+title: 'Deployment'
+description: 'Train ticketing system - deployment'
 ---
 
 
@@ -25,17 +25,17 @@ description: '電車の切符号 - 配備'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## 個別デプロイ
+## Deploy independently.
 
-tarball はソースコードがローカルマシンガン環境で使用することも可能です。以下の手順に従ってすぐに実行します。
+Developers can also use the source code for independent deployment in the local docker environment.Just follow the steps below.
 
-1. お使いのローカルがインストールされている docker の環境が適切に設定されていることを確認し、git も docker-compose / git を使用できます。
-2. 以下はプロジェクトソースコード [https://github.com/newbe365/Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)
-3. src/Newbe.Claptrap.Ticketing フォルダーに docker-compose build コマンドが実行され、プロジェクトのビルド・コンパイル
-4. src/Newbe.Claptrap.Ticketing/docker/Docker/LocalClusterSQLiteフォルダを実行してすべてのサービスを起動する
-5. ブラウザでインターフェイスを開けるには `http://localhost:10080` にアクセスしてください。
+1. Make sure that the docker environment is properly installed locally and that the docker-compose/git is available.
+2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. Run the docker-compose build command in the src/Newbe.Claptrap.Ticketing folder to complete project compilation.
+4. Run the docker-compose up-d in the src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite folder to start all services.
+5. Access the `http://localhost:10080` to open the Ui.
 
-まとめると スクリプトは、以下のように：
+To sum up, the script is as follows:
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -45,15 +45,15 @@ cd Docker/LocalClusterSQLite
 docker-compose up -d
 ```
 
-上記の手順は、データベースのSQLite で動く方法です。ソースライブラリは様々な種類のデプロイパターンを含んでいますが、それぞれ異なるフォルダで up.cmd を実行するには：
+The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to:
 
-| フォルダ                | 説明                       |
-| ------------------- | ------------------------ |
-| LocalClusterMongodb | MongoDb マルチタッチバランサーバージョン |
-| LocalClusterSQLite  | SQLiteノードのバージョン          |
-| Tencent             | “オンライン 体験”によって展開されたバージョン |
+| Folder              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| LocalClusterMongodb | MongoDb multi-node load balancing version.     |
+| LocalClusterSQLite  | SQLite single-node version.                    |
+| Tencent             | The version deployed in the Online Experience. |
 
-> - 現在中国本土で、netcore イメージの読み込みに問題がある場合、[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror) を使用することが出来ます
-> - 開発者はテストを行うために[PWD](https://labs.play-with-docker.com/)を選択します。
-> - 配付用モードの間に変数が変更されてから、docker-compose downで最新のデプロイをオフにすることに注意してください
-> - これはデプロファイラモードごとに異なる方法に依存し、docker-compose.ymlの設定を参照してください
+> - If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> - Developer can also choose[PWD](https://labs.play-with-docker.com/)to deploy for testing
+> - Switch between different deployment modes to take note of running docker-compose down first to close previous deployment
+> - Web ports may vary from deployment pattern to deployment mode, depending on the settings in docker-compose.yml.
