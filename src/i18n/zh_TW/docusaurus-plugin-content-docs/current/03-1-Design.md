@@ -1,119 +1,119 @@
 ---
-title: '設計'
-description: '火車售票系統-設計'
+title: 'Design.'
+description: 'Train ticketing system - design.'
 ---
 
 
-## 業務分析
+## Business analysis.
 
-### 業務邊界
+### Business boundaries.
 
-該系統僅包含車票的餘票管理部分。即查詢剩餘座位，下單買票減座。
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-而生成訂單資訊，付款，流量控制，請求風控等等都不包含在本次討論的範圍中。
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### 業務用例
+### Business use cases.
 
-- 查詢余票，能夠查詢兩個車站間可用的車次以及剩餘座位數量。
-- 查詢車次對應的車票餘票，能夠查詢給定的車次，在各個車站之間還有多少剩餘座位。
-- 支援選座下單，客戶能夠選擇給定的車次及座位，並下單買票。
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-## 實現難點分析
+## Difficulty analysis
 
-### 餘票管理
+### Ticketing management.
 
-火車票餘票管理的難點，其實就在於其餘票庫存的特殊性。
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-普通的電商商品，以 SKU 為最小單位，每個 SKU 之間相互獨立，互不影響。
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
-火車票餘票，卻有所不同，因為余票會受到已賣票起終點而受到影響。下面結合一個簡單的邏輯模型，來詳細的瞭解一下這種特殊性。
+Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-現在，我們假設存在一個車次，分別經過 a，b，c，d 四個網站，同時，我們簡化場景，假設車次中只有一個座位。
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-那麼在沒有任何人購票之前，這個車次的餘票情況就如下所示：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| 起終點 | 餘票量 |
-| --- | --- |
-| a,b | 1   |
-| a,c | 1   |
-| a,d | 1   |
-| b,c | 1   |
-| b,d | 1   |
-| c,d | 1   |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
-如果現在有一位客戶購買了一張 a，c 的車票。那麼由於只有一個座位，所以除了 c，d 之外的餘票也就都沒有。餘票情況就變成了如下所示：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The rest of the ticket situation becomes the following:
 
-| 起終點 | 餘票量 |
-| --- | --- |
-| a,b | 0   |
-| a,c | 0   |
-| a,d | 0   |
-| b,c | 0   |
-| b,d | 0   |
-| c,d | 1   |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
-更直白一點，如果有一位客戶購買了全程車票 a，d，那麼所有的餘票都將全部變為 0。因為這個座位上始終都坐著這位乘客。
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-這也就是火車票的特殊性：同一個車次的同一個座位，其各個起終點的餘票數量，會受到已售出的車票的起終點的影響。
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-延伸一點，很容易得出，同一車次的不同座位之間是沒有這種影響的。
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### 餘票查詢
+### Remaining ticket inquiries.
 
-正如上一節所述，由於余票庫存的特殊性。對於同一個車次 a，b，c，d，其可能的購票選擇就有 6 種。
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-並且我們很容易就得出，選擇的種類數的計算方法實際上就是在 n 個網站中選取 2 個的組合數，即 c（n，2） 。
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-那麼如果有一輛經過 34 個網站的車次，其可能的組合就是 c（34，2） = 561 。
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-如何高效應對可能存在的多種查詢也是該系統需要解決的問題。
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Claptrap 主體設計
+## Claptrap Main Design
 
 ![Train Ticketing System Design](/images/20200720-001.png)
 
-### 將同一車次上的每個座位都設計為一個 Claptrap - SeatGrain
+### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
-該 Claptrap 的 State 包含有一個基本資訊
+The State of the Claptrap contains a basic information.
 
-| 類型                                     | 名稱         | 说明                                                                    |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | 途徑車站的 id 清單，開頭為始發站，結尾為終點站。主要購票時進行驗證。                                  |
-| Dictionary&lt;int, int&gt; | StationDic | 途徑車站 id 的索引反向字典。Stations 是 index-id 的清單，而該字典是對應的 id-index 的字典，為了加快查詢。 |
-| List&lt;string&gt;         | RequestIds | 關鍵屬性。每個區間上，已購票的購票 id。例如，index 為 0 ，即表示車站 0 到車站 1 的購票 id。如果為空則表示暫無認購票。 |
+| Type                                   | Name       | Description                                                                                                                                                                            |
+| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.The principal ticket is verified.                                                 |
+| Dictionary&lt;int, int&gt; | StationDic | The index of the pad id is reverse dictionary.Stations are a list of index-id dictionaries, which are the dictionary of the corresponding id-index in order to expedite queries.       |
+| List&lt;string&gt;         | RequestIds | Key properties.For each district, the ticket id has been purchased.For example, index is 0, which means ticket id for the station 0 to 1.If empty, indicate that there are no tickets. |
 
-有了這數據結構的設計，那麼就可以來實現兩個業務了。
+With the design of this data structure, two operations could be achieved.
 
-#### 驗證是否可以購買
+#### Verify if purchase is possible
 
-透過傳入兩個車站 id，可以查詢到這個作為是否屬於這個 SeatGrain 。並且查詢到起終點對應的所有區間段。只要判斷這個從 RequestIds 中判斷是否所有的區間段都沒有購票 Id 即可。若都沒有，則說明可以購買。如果有任何一段上已有購票 Id，則說明已經無法購買了。
+By passing into two stops ids, it can be asked if this is this SeatGrain.and search for all the interval between the end of the end.It is sufficient to determine whether all the interval segments are not billed Id from RequestIs.If none is available, indicate that it can be purchased.If there is any paragraph with Purchase Id, then it is no longer available.
 
-舉例來說，當前 Stations 的情況是 10，11，12，13. 而 RequestIds 是 0，1，0。
+The current Stations case, for example, is 10,11,12,13. The RequestIds are 0,1,0.
 
-那麼，如果要購買 10->12 的車票，則不行，因為 RequestIds 第二個區間已經被購買。
+So, if the ticket 10->12 is to be purchased, it will not do so because the second period of requestIds has already been purchased.
 
-但是，如果要購買 10->11 的車票，則可以，因為 RequestIds 第一個區間還無人購買。
+However, if the tickets for 10->11 are to be purchased, they can be bought because the first period of the Request Ids is not yet purchased.
 
-#### 購買
+#### Buy
 
-將起終點對應在 RequestIds 中所有的區間段設置上購票 Id 即可。
+Use the ticket Id to set up for all interval segments in RequestIs.
 
-### 將同一車次上的所有座位的餘票情況設計為一個 Claptrap - TrainGran
+### Designed for a Claptrap - TrainGran for all seats on the same car
 
-該 Claptrap 的 State 包含有一些基本資訊
+The Claptrap State contains some basic information
 
-| 類型                                               | 名稱        | 说明                                                                                   |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stations  | 途徑車站的 id 清單，開頭為始發站，結尾為終點站。主查詢時進行驗證。                                                  |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | 關鍵屬性。StationTuple 表示一個起終點。集合包含了所有可能的起終點的餘票情況。例如，根據上文，如果該車次經過 34 個地點，則該字典包含有 561 個鍵值對 |
+| Type                                             | Name      | Description                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains the rest of the ticket situation for all possible starting points.For example, according to the above, if the car passes through 34 locations, the dictionary contains 561 key-value pairs |
 
-基於以上的數據結構，只需要在每次 SeatGrain 完成下單後，將對應的資訊同步到該 Grain 即可。
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-例如，假如 a，c 發生了一次購票，則將 a，c / a，b / b，c 的餘票都減一即可。
+For example, given a,c there was a single ticket, the surplus of a,c c /a,b b,c was reduced by one.
 
-這裡可以藉助本框架內置的 Minion 機制來實現。
+This can be done by using the Minion mechanism within this framework.
 
-值得一提的是，這是一個比"最小競爭資源"大的設計。因為查詢場景在該業務場景中不需要絕對的快速。這樣設計可以減少系統的複雜度。
+It is worth mentioning that this is a larger design than the “least competitive resources”.The search scene does not require absolute speed in the business scenario.This design reduces the complexity of the system.
 
 ## Id
 
