@@ -1,32 +1,32 @@
 ---
-title: 'Режим Actor'
-description: 'Режим Actor'
+title: 'Actor Pattern'
+description: 'Actor Pattern'
 ---
 
-Режим Actor — это модель однофайлового программирования.Применение этой модели программирования может решить некоторые проблемы симулирования системы очень хорошо.Проблема совместного доступа, упомянутая здесь, относится к проблеме, когда компьютер логически обрабатывает один и тот же данный, что может привести к неверным данным из-за нескольких однофайлных запросов.Эта проблема, безусловно, столкнется с многопоточным программированием.В качестве простого примера можно выполнить операцию`++ с помощью 100 потоков одновременно с переменной<code>int`в памяти без блокировки</code>синхронизации.Тогда конечный результат этой переменной, как правило, меньше 100.Вот как режим Actor избегает этой проблемы.
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call `++` operator on the same `int` variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-Во-первых, для удобства читателя можно считать Actor объектом здесь.В объектно-ориентированных языках (Java, C# и т. д.) Actor считается объектом, созданным``new и ключевыми словами.Тем не менее, этот объект имеет некоторые особенности：
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
-**имеет собственное состояние**.Объекты могут иметь свои собственные свойства, которые являются основными функциями объектно-ориентированного языка.В режиме Actor эти свойства в совокупности называются`состояния Actor (State)`.Состояние Actor поддерживается самим Actor.
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be descibed as ``actor`s state``.The state of actor should be matained by itself.
 
-Это подчеркивает два момента：
+There are two points:
 
-Во-первых, состояние Actor может быть изменено только самими себеи, а для изменения состояния Actor извне его можно изменить только путем вызова Actor.
+Firstly, state of actor must be change by itself. If you want to change the state, you have to call the method of actor.
 
-![Обновите состояние Acactor](/images/20190226-001.gif)
+![Update Actor state](/images/20190226-001.gif)
 
-Во-вторых, состояние Actor поддерживается только внутри Actor и не является общим для любого объекта, кроме текущего Actor.Несвяжее значение здесь также подчеркивает, что он не может привести к изменению внутреннего состояния Actor путем изменения внешнего свойства.Это в первую очередь для того, чтобы отличаться от некоторых языков программирования, которые имеют характеристики языка "ссылки на объекты".Например,：свойство`public`на языке C#`class`, если это ссылочный тип, может`изменить свойство в<code>class`после получения этого класса</code>извне.Но это не допускается в режиме Actor.
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example: There is a `public` property in a `class` in C#, and it is a reference type, you can change the property if you get this object.It is not allowed to do so in actor pattern.
 
-![Общий доступ к состоянию Acactor](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
-Однако чтение данных изнутри Actor во внешний файл по-прежнему допустимо.
+But it is still allow to retrive data out of the state by method.
 
-![Чтение состояния Acactor](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-**однопоточный**.Actor обычно может принимать только один вызов в то же время.Потоки, описанные здесь, не совсем относятся к потокам на компьютере и используются для выделения терминов, используемых "Actor может обрабатывать только один запрошенный атрибут в то же время".Если actor в настоящее время принимает вызов, оставшиеся вызовы блокируются до тех пор, пока вызов не будет завершен, прежде чем следующий запрос будет разрешен.На самом деле это похоже на механизм блокировки синхронизации.Этот механизм позволяет избежать возможности проблемы слаженности при изменении внутреннего состояния Actor.В частности,：Если вы используете 100 потоков для однофайлового вызова Actor, попросите Actor выполнить операцию`++`на переменной`int`в состоянии.В конечном счете значение этого состояния должно быть 100.
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int` variable to perform`++` operation.The final value for this state must be 100.
 
-![Вызов Actor в то же время](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
-Однако однопоточность также не является абсолютной, и однофайловая обработка разрешена без запроса на проблему однофайлового выполнения.Например, чтение состояния в Actor, который обычно не имеет проблемы с вхождами, позволяет операции симулы на этом этапе.
+However, single threads are not absolute, allowing concurrent processing in the absence of concurrent requests.For example, reading the state in the Actor, which usually does not have concurrency issues, allows concurrent operations at this time.
 
-![Чтение Actor в то же время](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
