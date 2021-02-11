@@ -1,6 +1,6 @@
 ---
-title: 'Das Glossar'
-description: 'Das Glossar'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-Wenn Sie das Glossar dieses Projekts lesen, erhalten Sie ein besseres Verständnis der mit diesem Projekt verbundenen Konzepte.
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
