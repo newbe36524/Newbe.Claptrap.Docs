@@ -1,54 +1,54 @@
 ---
-title: 'Шаг 4 - Используйте Минион, чтобы сделать заказ на товар'
-description: 'Шаг 4 - Используйте Минион, чтобы сделать заказ на товар'
+title: 'Step 4 - Order using Minion, products'
+description: 'Step 4 - Order using Minion, products'
 ---
 
-Прочитав эту статью, вы можете начать экспериментировать с Claptrap для достижения бизнеса.
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## Краткое изыску
+## Summary
 
-В этой статье я понимаю, как Minion используется в существующих примерах проектов для асинхронной бизнес-обработки, реализуя потребность в заказе на товар.
+At this point, I will learn how to use Minion in existing project examples to complete asynchronous business handling.
 
-Во-первых, давайте сначала поймем бизнес-варианты использования, которые должны быть задействованы в этой статье：
+First, take a look at the business use cases involved in this article：
 
-1. Пользователь может выполнить операцию заказа, которая будет сформирована с помощью всех номеров SKU в текущей корзине.
-2. Запасы соответствующего номера SKU будут вычтены после того, как заказ будет размет.Если запасов номера SKU недостаточно, не удается выйти из ордера.
-3. Операция по разметию ордеров не требует обсуждения в этом примере до успешного вычета запасов.Таким образом, после успешного заказа в этом примере создается запись заказа в базе данных, что указывает на завершение создания заказа.
+1. The user can make the order when placing the order will form an order using all SKU in the current cart.
+2. The order will deduct the relevant SKU inventory.Order failed if a SKU stock was not available.
+3. The order operation is only conducted until the stock deduction is successful, and the next step does not require a sample discussion.The sample will therefore generate an order record in the database after successfully placing the order, indicating the end of the order creation.
 
-Хотя основное внимание в этой статье уделяется использованию Minion, необходимо использовать знания, связанные с определением Claptrap в предыдущих статьях, поскольку требуется новый объект OrderGrain.
+While the focus is on Minion use, the need to use a new OrderGrain object requires the use of knowledge related to the previous “Definition Claptrap”.
 
-Minion — это особый Claptrap, связь которого с его MasterClaptrap показана на рисунке ниже：
+Minion is a special Claptrap with relations between MasterClaptrap as shown below：
 
 ![Minion](/images/20190228-002.gif)
 
-Его основной процесс разработки аналогичен Claptrap, за исключением того, что он был сокращен.Сравнение выглядит следующим образом：
+Its main development process is similar to Claptrap but has been reduced.Compare the following：
 
-| шаги                                | Claptrap | Minion |
-| ----------------------------------- | -------- | ------ |
-| Определите ClaptrapTypeCode         | √        | √      |
-| Определите State                    | √        | √      |
-| Определите интерфейс Grain          | √        | √      |
-| Реализация Grain                    | √        | √      |
-| Зарегистрируйтесь в Grain           | √        | √      |
-| Определите EventCode                | √        |        |
-| Определите Event                    | √        |        |
-| Реализация EventHandler             | √        | √      |
-| Подпишитесь на EventHandler         | √        | √      |
-| Реализация IInitialStateDataFactory | √        | √      |
+| Step                                      | Claptrap | Minion |
+| ----------------------------------------- | -------- | ------ |
+| Define ClaptrapTypeCode                   | √        | √      |
+| Definition of State                       | √        | √      |
+| Define Grain interface                    | √        | √      |
+| Implement grain.                          | √        | √      |
+| Sign up for Grain                         | √        | √      |
+| Define EventCode.                         | √        |        |
+| Define Event.                             | √        |        |
+| Implement EventHandler.                   | √        | √      |
+| Sign up for EventHandler.                 | √        | √      |
+| Implementing the IInitialStateDataFactory | √        | √      |
 
-Причина этого сокращения заключается в том, что определение, связанное с событием, не требует обработки, поскольку Минон является потребителем событий Claptrap.Но другие части по-прежнему являются необходимостью.
+This deletion is due to the fact that Minion is a Claptrap event consumer, the definition of event does not need to be processed.But the rest is still necessary.
 
-> Начиная с этой статьи, мы больше не будем перечислены конкретные местоположения файлов, в которых находится соответствующий код, и надеемся, что читатели смогут найти их в проекте самостоятельно, чтобы быть квалифицированными.
+> At the beginning of this chapter, we will no longer list the specific document locations where the relevant code is located, in the hope that the reader will be able to find himself in the project for proficiency.
 
-## Реализация OrderGrain
+## Implementing OrderGrain
 
-Основываясь на предыдущих знаниях, связанных с определением Claptrap, мы реализуем OrderGrain здесь для представления операции заказа.Чтобы сэкономить время, мы перечислили только ключевые из них.
+Based on the knowledge associated with the previous "Definition Clap" we implement an OrderGrain here to represent order action.In order to save space, we have only listed key elements.
 
 ### OrderState
 
-Статус заказа определяется следующим образом：
+Order status defined below：
 
 ```cs
 using System.Collections.Generic;
@@ -65,24 +65,24 @@ namespace HelloClaptrap.Models.Order
 }
 ```
 
-1. OrderCreated указывает, был ли создан ордер, избегая его повторного создания
-2. UserId разместит идентификатор пользователя
-3. Заказ Skus содержит SkuId и объем заказа
+1. OrderCreated indicates whether an order has been created and avoid creating orders again.
+2. User Id under UserId
+3. SkuId and orders included in Skus orders
 
 ### OrderCreatedEvent
 
-События создания ордеров определяются следующим образом：
+Order creation events defined below：
 
 ```cs
-using System.Collections.Generic;
+Using Systems. Generic;
 using Newbe.Claptrap;
 
-namespace HelloClaptrap.Models.Order.Events
-{
-    public class OrderCreatedEvent : IEventData
-    {
-        public string UserId { get; set; }
-        public Dictionary<string, int> Skus { get; set; }
+namespace HelloClaptrap.Models.Order. Events
+FU
+    Public class OrderCreatedEvent : IEventData
+    F.
+        Public string UserId. set; }
+        public Dictionary<string, int> Skus Filet; set; }
     }
 }
 ```
@@ -149,20 +149,20 @@ namespace HelloClaptrap.Actors.Order
 }
 ```
 
-1. OrderGrain реализует основную логику создания ордера, в которой метод CreateOrderAsync завершает получение данных корзины покупок и действие, связанное с вычетом запасов.
-2. Соответствующие поля в State обновляются после успешного выполнения OrderCreatedEvent, и они больше не перечислены здесь.
+1. OrderGrain implements the core logic of order creation, in which CreateOrderAsync methods complete cart data acquisition, stock deduct related actions.
+2. The relevant fields in the State will be updated when OrderCreedEvent is executed successfully, and are no longer listed here.
 
-## Сохраните данные заказа в базе данных через Minion
+## Save order data via Minion to database
 
-С начала серии до сих пор мы никогда не упоминали о операциях, связанных с базой данных.Поскольку при использовании платформы Claptrap подавляющее большинство операций уже заменяется записью событий и обновлением состояния, нет необходимости писать операции базы данных лично.
+From the beginning of the series, we have never mentioned the operation of the database.Since when you are using the Claptrap framework, most operations have been replaced by "Event Write" and "Status Update", so there is no need to write the database operation in person.
 
-Однако, поскольку Claptrap обычно предназначен для монолитных объектов (один заказ, один номер SKU, одна корзина покупок), данные не могут быть получены для всех (все заказы, все номера SKU, все корзины покупок).На этом этапе данные о состоянии должны быть увекчены в другую структуру сохраняемого хранения (базы данных, файлы, кэши и т. д.) для выполнения всех запросов или других операций.
+However, because Claptrap is usually designed as a counterpart object (a order, a SKU, a shopping cart) it is not possible to obtain data for all (all orders, all SKU, all carts).At this point, the status data will need to be perpetuated into another durable structure (databases, documents, caching, etc.) in order to complete general queries or other operations.
 
-Концепция Minion была введена в структуру Claptrap для решения вышеуказанных потребностей.
+A Minion concept has been introduced in the Claptrap framework to address these needs.
 
-Далее мы введем OrderDbGrain (Minion) в примере для асинхронного завершения операции складации заказов OrderGrain.
+Next, we'll introduce an OrderDbGrain (a Minion) in the sample to asynchronize the OrderGrain purchase order.
 
-## Определите ClaptrapTypeCode
+## Define ClaptrapTypeCode
 
 ```cs
   namespace HelloClaptrap.Models
@@ -200,37 +200,37 @@ namespace HelloClaptrap.Actors.Order
   }
 ```
 
-Minion является особым типом Claptrap, другими словами, это также своего рода Claptrap.ClaptrapTypeCode является обязательным для Claptrap, поэтому это определение должно быть добавлено.
+Minion is a special Claptrap, in other words, also a Claptrap.ClaptrapTypeCode is necessary for Claptrap and needs to be added.
 
-## Определите State
+## Definition of State
 
-Поскольку этот пример требует только одной записи заказа в базу данных и не требует данных в State, этот шаг на самом деле не требуется в этом примере.
+Since the sample simply needs to write an order record to the database and does not require any data in the State, this step is not required in the sample.
 
-## Определите интерфейс Grain
+## Define Grain interface
 
 ```cs
-+ using HelloClaptrap.Models;
++ Using HelloClaptrap.Models;
 + using Newbe.Claptrap;
-+ using Newbe.Claptrap.Orleans;
++ using Newbe.Claptrap. rleans;
 +
 + namespace HelloClaptrap.IActor
-+ {
-+ [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
-+ [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
-+ public interface IOrderDbGrain : IClaptrapMinionGrain
++ LO
++ [ClaptrapCodes. rderGrain]
++ [ClaptrapState(typeof(NoneStateData), ClaptrapCodes. rderDbGrain]
++ public interface IorderDbGrain: IClaptrapMinionGrain
 + {
 + }
 + }
 ```
 
-1. ClaptrapMinion используется для пометки того, что Grain является Minion, где Код указывает на соответствующий MasterClaptrap.
-2. Тип данных State, используемый ClaptrapState для пометки Claptrap.На этом предыдущих шагах мы разъяснили, что Minion не требует StateData, поэтому вместо этого используется встроенный тип платформы NoneStateData.
-3. IClaptrapMinionGrain является интерфейсом Minion, который отличается от IClaptrapGrain.Если Grain является Minion, необходимо наследовать интерфейс.
-4. ClaptrapCodes.OrderGrain и ClaptrapCodes.OrderDbGrain - это две разные строки, которые, надеюсь, читатели не являются межзвездными патриархами.
+1. ClaptrapMinion is used to mark Grain as a Minion, where Code points to its corresponding MasterClaptrap.
+2. ClaptrapState is used to mark the State data type of Claptrap.As a previous step, we clarify that Minion does not require StateData, and therefore use the NoneStateData inline type instead.
+3. IClapMinionGrain is a Minion Interface distinguished from IClapGrain.If a Grain is Minion, you need to inherit this interface.
+4. ClaptrapCodes.OrderGrain and ClaptrapCods. OrderDbGrain are two different strings, hoping that the reader is not an intersteller.
 
-> Звездный патриарх：Из-за быстрого темпа и большого объема информации, игроки могут легко игнорировать или неправильно судить часть информации, так что часто случаются веселые ошибки, что "игроки не видят ключевых событий, которые происходят под глазами".Таким образом, игроки флиртовали с межзвездными игроками, которые были слепыми (когда-то действительно было противостояние слепых и профессиональных игроков), и чем выше сегмент, тем серьезнее они были, и профессиональные звездные игроки были слепыми.
+> The interstealer：is frequently mocked because of the fast rhythm of the interstellation competition and the volume of information, and the ease with which the player ignores or misjudges part of the information.The players are all blind (there was a real battle between blind and professional players). The higher the range, the more blind, the more blind the professional star-players were.
 
-## Реализация Grain
+## Implement grain.
 
 ```cs
 + using System.Collections.Generic;
@@ -267,13 +267,13 @@ Minion является особым типом Claptrap, другими сло�
 + }
 ```
 
-1. MasterEventReceivedAsync — это метод, определенный из IClaptrapMinionGrain, который означает получение уведомлений о событиях от MasterClaptrap в режиме реального времени.Не разворачивайте инструкции здесь, следуйте шаблону выше, чтобы реализовать их.
-2. WakeAsync — это метод, определенный из IClaptrapMinionGrain, который представляет действия MasterClaptrap для активного пробуждения Минона.Не разворачивайте инструкции здесь, следуйте шаблону выше, чтобы реализовать их.
-3. Когда читатель просматривает исходный код, он обнаруживает, что класс определяется отдельно в сборке.Это всего лишь таксономия, которая может быть ис понята как размещение Minion и MasterClaptrap в двух разных проектах для классификации.На самом деле, это не проблема, чтобы положить его вместе.
+1. MasterEventReceivedAsync is a method defined from IClaptrapMinionGrain that it receives notification of events from MasterClaptrap in real time.This will be done on the basis of the above template.
+2. WakeAsync is a method defined from IClaptrapMinionGrain, representing MasterClaptrap active wake-up of Minion.This will be done on the basis of the above template.
+3. When readers view the source code, they find that the class is defined separately in a set of programs.This is only a classification, which can be understood as placing Minion and MasterClaptrap in two separate projects.In fact, there is no problem.
 
-## Зарегистрируйтесь в Grain
+## Sign up for Grain
 
-Здесь, поскольку мы определяем OrderDbGrain в отдельной сборке, требуется дополнительная регистрация этой сборки.Как показано ниже：
+Here, additional registration is required as we define OrderDbGrain in in a separate set of programs.As shown below：
 
 ```cs
   using System;
@@ -344,7 +344,7 @@ Minion является особым типом Claptrap, другими сло�
   }
 ```
 
-## Реализация EventHandler
+## Implement EventHandler.
 
 ```cs
 + using System.Threading.Tasks;
@@ -377,34 +377,34 @@ Minion является особым типом Claptrap, другими сло�
 + }
 ```
 
-1. IOrderRepository — это интерфейс, который непосредственно работает на уровне хранилища для проверки заказов на добавление и удаление.Интерфейс вызывается здесь для реализации операции склада базы данных заказов.
+1. IOrderRepository is the interface to operate the storage layer directly, which is used for order additions and deletions.Use this interface to implement the order database access operation.
 
-## Подпишитесь на EventHandler
+## Register EventHandler
 
-На самом деле, чтобы сэкономить время, мы зарегистрировались в коде главы Реализация Grain.
+In fact, in order to save space, we are already registered in the code of the “Implementing Grain” section.
 
-## Реализация IInitialStateDataFactory
+## Implementing the IInitialStateDataFactory
 
-Поскольку StateData не имеет специального определения, реализация IInitialStateDataFactory также не требуется.
+There is no need to implement the IInitialStateDataFactor because State Data does not have a special definition.
 
-## Измените Controller
+## Modify the Controller.
 
-В примере мы добавили OrderController для разметия заказов и запроса заказов.Читатели могут просматривать исходный код.
+In the sample, we added the OrderController to place orders and queries.Readers can view them on their source code.
 
-Читатели могут использовать следующие шаги для фактического тестирования эффективности：
+Readers can use the following steps to actually test effects：
 
-1. POST `/api/cart/123` {"skuId": "yueluo-666", "count:30} добавить в корзину 123 концентрированную сущность 30 единиц yueluo-666.
-2. POST `/api/order` {"userId": "999", "cartId": "123"} в качестве 999 userId для заказов из корзины 123.
-3. GET `/api/order` после успешного заказа, через который можно просмотреть заказы, выполненные при заказе.
-4. GET `/api/sku/yueluo-666` можно просмотреть запасы после разметия ордера через API SKU.
+1. POST `/api/cart/123` {"skuId":"yueluo-66", "count":30} added 30 units of yueluo-666 to 123 shopping cart.
+2. POST `/api/order` {"userId":"999", "cartId":"123"} use as 999 userId to place orders from the shopping cart.
+3. GET `/api/order` will be able to view orders completed with the API when orders are successfully placed.
+4. GET `/api/sku/yueluo-666` can view the balance of the order over the SKU API.
 
-## Сделать небольшой узел
+## Summary
 
-На этом мы завершили "заказ на товар" в соответствии с базовым содержанием спроса.В этом примере можно получить предварительное представление о том, как несколько Claptrap могут сотрудничать и как использовать Minion для выполнения асинхронных задач.
+By then, we have completed the basic element of the need for a “commodity order”.This example provides an initial idea of how multiple Claptrap can work together and how to use Minion to perform asynchronous tasks.
 
-Тем не менее, есть еще несколько вопросов, которые мы обсудим по последующей деятельности.
+There are, however, a number of issues, and we will be following up.
 
-Исходный код для этой статьи можно получить по следующему адресу：
+You can get the source code for this article from the following address.：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
