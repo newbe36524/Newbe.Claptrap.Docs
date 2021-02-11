@@ -1,7 +1,7 @@
 ---
-title: '実装'
-description: '列車発売システム - 実装'
+title: 'Implementation'
+description: 'Train ticketing system - implementation.'
 ---
 
 
-TBD
+TBD.
