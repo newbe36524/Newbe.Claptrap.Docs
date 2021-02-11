@@ -1,35 +1,35 @@
 ---
-title: 'Étape 2 - Affaires simples, videz votre panier'
-description: 'Étape 2 - Affaires simples, videz votre panier'
+title: 'Step two - Simple business, empty shopping cart.'
+description: 'Step two - Simple business, empty shopping cart.'
 ---
 
-Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec Claptrap.
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## Un résumé d’ouverture
+## Summary
 
-Dans cet article, j’ai appris à ajouter une mise en œuvre d’entreprise à un échantillon de projet existant en mettant en œuvre la nécessité de « vider le panier ».
+In this article, I learned how to add a business implementation to an existing project sample by implementing the need to "empty the shopping cart".
 
-Les étapes suivantes sont principalement included：
+Mainly consists of the following these steps：
 
-1. Décrivez EventCode
-2. Décrivez Event
-3. Implémenter EventHandler
-4. Inscrivez-vous à EventHandler
-5. Modifier l’interface Grain
-6. Mettre en œuvre le grain
-7. Modifier le contrôleur
+1. Define EventCode.
+2. Define Event.
+3. Implement EventHandler.
+4. Register EventHandler
+5. Modify the Grain interface.
+6. Implement grain.
+7. Modify the Controller.
 
-Il s’agit d’un processus ascendant, et le développement dans le processus de codage réel peut également être implémenté de haut en bas.
+This is a process from down-up, and the development of the actual coding process can also be achieved top-down.
 
-## Décrivez Event Code
+## Define Event Code.
 
-EventCode est le code unique pour chaque événement du système Claptrap.Il joue un rôle important dans l’identification et la sérialisation des événements.
+EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-Ouvrez`la classe de`ClaptrapCodes`le HelloClaptrap.`projet.
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-Ajoutez EventCode pour les événements empty shopping cart.
+Add EventCode for "Empty Shopping Cart Events."
 
 ```cs
   namespace HelloClaptrap.Models
@@ -45,13 +45,13 @@ Ajoutez EventCode pour les événements empty shopping cart.
   }
 ```
 
-## Décrivez Event
+## Define Event.
 
-L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
+Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-Créez`RemoveAllItems FromCartEvent``sous le dossier<code>Cart/Events`du projet HelloClaptrap.Models</code>.
+Create the`RemoveAllItemsFromCartEvent`class under the`Cart/Events`folder of the`HelloCladaptrap.Models`project.
 
-Ajouter les éléments code：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
@@ -64,17 +64,17 @@ Ajouter les éléments code：
 + }
 ```
 
-Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite pas de paramètres spécifiques.Par conséquent, il suffit de créer un type vide.
+Because in this simple business scenario, emptying a shopping cart does not require specific parameters.Therefore, just create an empty type.
 
-`interface`IEventData est une interface vide dans le cadre qui représente les événements et est utilisée dans les inférences génériques.
+The `IEventData`interface is an empty interface that represents an event in the frame, for use when generaltype inference.
 
-## Implémenter EventHandler
+## Implement EventHandler.
 
-`EventHandler`mettre à jour les événements à claptrap’s`State`.Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
+`EventHandler.`Used to update events to Claptrap.`State.`.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
 
-Créez`<code>supprimer tous les membres de la classeCartEventHandler sous le dossier<code>Cart/Events`du projet HelloClaptrap.Actor</code>s</code>.
+Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
 
-Ajouter les éléments code：
+Add the following code.：
 
 ```cs
 + using System.Threading.Tasks;
@@ -98,29 +98,29 @@ Ajouter les éléments code：
 + }
 ```
 
-Voici quelques points communs questions：
+Here are some common problems.：
 
-1. Qu’est-ce que NormalEventHandler?
+1. What is NormalEventHandler?
 
-   NormalEventHandler est une classe de base simple définie par le cadre pour une mise en œuvre facile de Handler. Le premier paramètre générique est le type d’État pour Claptrap.Combiné avec le document précédent, notre type d’état de chariot est CartState. Le deuxième paramètre générique est le type d’événement que le gestionnaire doit gérer.
+   NormalEventHandler is a simple base class defined by the framework for easy implementation of Handler. The first generic parameter is the State type for Claptrap.In conjunction with the previous document, our cart State type is CartState. The second generic parameter is the Event type that Handler needs to handle.
 
-2. Pourquoi utiliser`StateData.Items . . . null;`au`stateData.Items.Clear ();`
+2. Why with`stateData.Items = null;`without`stateData.Items.Clear ();`
 
-   StateData est un objet qui est gardé en mémoire, et Clear ne réduit pas la mémoire que le dictionnaire consomme déjà.Bien sûr, il n’y a pas des centaines de milliers d’articles dans un panier.Mais le fait est que lorsque vous mettez à jour l’état, il est important de noter que Claptrap est un objet résident de la mémoire qui augmente la consommation de mémoire à mesure que le nombre augmente.Par conséquent, gardez le moins de données possible dans l’État.
+   stateData is the object saved in the memory, and Clear does not narrow the own memory that the dictionary already occupies.Of course, there will not be a several hundred thousand item for a shopping cart in general.But in fact the key is that when updating the State, it is important to note that Clatrap is a kind of object resident in memory, which increases the consumption of memory when the number increases.As a result, keep less data in the State as far as possible.
 
-3. Qu’est-ce que ValueTask?
+3. What is ValueTask?
 
-   Vous pouvez[dans cet article sur la compréhension des pourquoi, whats, et quand de ValueTask](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)le monde.
+   Can pass this.[Understanding The Whys, Whats, and Whens of ValueTask](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)Learn.
 
-Une fois l’implémentation EventHandler terminée, n’oubliez pas de la tester unitairement.Il n’est pas répertorié ici.
+Once the EventHandler implementation is complete, don't forget to unit test it.It's not listed here.
 
-## Inscrivez-vous à EventHandler
+## Sign up for EventHandler.
 
-Une fois que vous avez implémenté et testé EventHandler, vous pouvez enregistrer eventHandler pour vous associer à EventCode et Claptrap.
+Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
 
-Ouvrez`classe CartGrain du projet HelloClaptrap.Actors``The`Project.
+Open it.`HelloClap.Actors.`The project.`CartGrain.`Class.
 
-Marquez avec attribut.
+Mark with Attribute.
 
 ```cs
   using Newbe.Claptrap;
@@ -142,17 +142,17 @@ Marquez avec attribut.
           ....
 ```
 
-`ClaptrapEventHandler Attribute`est un attribut défini par framework qui peut être marqué sur la classe de mise en œuvre de Grain pour implémenter l’association entre EventHandler, EventCode et ClaptrapGrain.
+`Claptrap Event Handler Handler.`Is an attribute defined by the framework that can be marked on grain's implementation class to achieve the association between EventHandler, EventCode, and ClaptrapGrain.
 
-Après l’association, si l’événement correspondant à EventCode se produit dans ce grain, il sera géré par le EventHandler spécifié.
+After the association, if the event for EventCode is generated in this grain, the event is handled by the specified EventHandler.
 
-## Modifier l’interface Grain
+## Modify the Grain interface.
 
-Modifier la définition de l’interface Grain pour assurer l’interopérabilité externe avec Claptrap.
+Modify the definition of the Grain interface to provide external interoperability with Claptrap.
 
-Ouvrez`interface ICartGrain pour`HelloClaptrap.IActors`projet`projet.
+Open it.`HelloClaptrap.IActors.`The project.`ICartGrain.`Interface.
 
-Ajoutez des interfaces ainsi qu’Attribut.
+Add interfaces and Attributes.
 
 ```cs
   using System.Collections.Generic;
@@ -179,18 +179,18 @@ Ajoutez des interfaces ainsi qu’Attribut.
   }
 ```
 
-Deux parties ont été added：
+Two parts have been added.：
 
-1. Marquer le`ClaptrapEvent`associer l’événement à Grain.Notez que c’est différent de la`de la`ClaptrapEventHandler.L’événement est marqué ici, et EventHandler est marqué la dernière étape.
-2. Ajout de la méthode RemoveAllItemsAsync pour représenter le comportement commercial de « vider le panier ».Il est important de noter que la définition de la méthode de Grain a certaines limites.Pour plus d’informations,[pouvez être trouvé dans le « Développement d’un grain](https://dotnet.github.io/orleans/Documentation/grains/index.html).
+1. marked.`ClaptrapEvent.`to associate the event with Grain.Note that here is the previous step.`Claptrap Event Handler.`is different.Event is marked here, and eventHandler is marked in the previous step.
+2. Added the RemoveAllItemsAsync method to indicate business behavior of "emptying shopping carts".It is important to note that grain's method definition has certain limitations.Details can be found.[Developing a Grain](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## Mettre en œuvre le grain
+## Implement grain.
 
-Ensuite, suivez les modifications d’interface de l’étape suivante pour modifier la classe de mise en œuvre correspondante.
+Next, follow the previous interface modification, to modify the corresponding implementation class.
 
-Ouvrez`classe CartGrain`le`Cart``dans le projet HelloClaptrap.actors`.
+Open it.`HelloClap.Actors.`Project.`Cart.`under the folder.`CartGrain.`Class.
 
-Ajouter la mise en œuvre correspondante.
+Add the corresponding implementation.
 
 ```cs
   using System;
@@ -233,23 +233,23 @@ Ajouter la mise en œuvre correspondante.
   }
 ```
 
-La mise en œuvre correspondante de la méthode d’interface a été ajoutée.Il y a les points suivants à note：
+The corresponding implementation of the interface method has been added.There are a few points to be aware of.：
 
-1. Assurez-vous`si (StateData.Items?. Tout () ! . . vrai)`cette ligne de jugement.Cela peut réduire considérablement les frais généraux de stockage.
+1. Be sure to increase.`if (StateData.Items?? Any() ! . . . . . . . . . . . . . . .`This line of judgment.This can significantly reduce the overhead of storage.
 
-   Les événements persistent`le claptrap.HandleEventAsync (evt`'événement.En ce qui concerne le scénario en l’espèce, s’il n’y a pas de contenu dans le panier, vider ou persister l’événement augmente simplement les frais généraux et n’a aucune signification pratique. Par conséquent, l’ajout de jugement jusque-là peut réduire la consommation inutile de stockage.
+   The event is persistent when executing`Clatrap.HandleEventAsync (evt)`.And as far as the scene here is concerned, if there is otherwise nothing in the shopping cart, emptying or lasting this event is just an increase in overhead, without the actual meaning. Thus, an increase in judgment prior to this can reduce the useless consumption of the storage.
 
-2. Assurez-vous de déterminer l’état et si les paramètres entrants répondent aux conditions d’exécution de l’événement.
+2. Be sure to judge the State as well as whether the incoming parameter meets the conditions for the execution of the event.
 
-   Ceci est différent de ce qui est décrit dans le point ci-dessus.L’accent mis sur le point ci-dessus indique que « ne produisent pas d’événements dénués de sens », ce qui indique que « ne jamais produire des événements que EventHandler ne peut pas consommer ». En mode d’approvisionnement en cas d’approvisionnement, l’achèvement de l’entreprise est basé sur la persistance de l’événement comme base pour l’achèvement de l’entreprise.Cela signifie que dès que l’événement est dans la bibliothèque, vous pouvez penser que l’événement est terminé. Dans EventHandler, seuls les événements lus à partir de la couche de persistance peuvent être acceptés.À ce stade, l’événement ne peut plus être modifié en fonction de son immuabilité, alors assurez-vous que l’événement peut être consommé par EventHandler.Par conséquent,`est important de rendre un jugement devant`de Claptrap.HandleEventAsync (evt). Par conséquent, il est important de mettre en œuvre des tests unitaires pour s’assurer que la génération d’événements et la logique de traitement d’EventHandler sont écrasées.
+   This is different from the one described in the previous point.The previous emphasis on "don't produce meaningless events", and this emphasis on "don't produce events that can not be consume by event handler". In the event-sourcing pattern, the completion of the business is based on the persistence of the event as the basis for the completion of the business determination.That is to say that the event can be thought of as long as it is in storage, it can be considered that this event has been completed. And in EventHandler, you can only accept events that are read out from the persistence layer.At this time, the event can no longer be modified in accordance with the immutability of the event, so be sure to ensure that the event can be consumed by EventHandler.So, it is particularly important to judge before`Clatrap.HandleEventAsync (evt)`. Therefore, a unit test must be realized to ensure that the production of the Event and the processing logic of EventHandler are already covered.
 
-3. Voici quelques méthodes à utiliser dans certaines bibliothèques TAP, telles que la[asynchrone basée sur les tâches](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+3. Some of the ways to use to some TAP libraries are needed here, see[Task-based asynchronous mode](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 
-## Modifier le contrôleur
+## Modify the Controller.
 
-Au moment où toutes les étapes précédentes sont terminées, toutes les parties de Claptrap ont été terminées.Toutefois, Claptrap ne peut pas fournir directement l’interopérabilité avec des programmes externes.Par conséquent, vous devez également ajouter une API à la couche Contrôleur pour « vider le panier » à l’extérieur.
+Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.Therefore, it is also necessary to add an API on the Controller layer for the operation of "emptying the cart" externally.
 
-Ouvrez le`CartController`sous le`contrôleurs`dossier`pour le projet helloClaptrap.web`.
+Open the`CartController`class under the`Controllers`folder of the`HelloCladaptrap.Web`project.
 
 ```cs
   using System.Threading.Tasks;
@@ -281,11 +281,11 @@ Ouvrez le`CartController`sous le`contrôleurs`dossier`pour le projet helloClaptr
   }
 ```
 
-## Résumé
+## Summary
 
-À ce stade, nous avons fait tout ce dont nous avons besoin pour « vider le panier ».
+At this point, we complete all the contents of this simple requirement of "emptying the cart".
 
-Vous pouvez obtenir le code source de cet article à partir de la address：
+You can get the source code for this article from the following address.：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
-- [Gitee ( Gitee )](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
