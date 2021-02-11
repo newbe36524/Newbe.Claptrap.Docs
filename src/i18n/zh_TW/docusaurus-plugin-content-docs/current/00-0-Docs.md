@@ -1,6 +1,6 @@
 ---
-title: "正體中文說明"
-description: "這是以`反應式`、`事件溯源`和`Actor模式`作為基本理論的一套服務端開發框架。於此之上，開發者可以更為簡單的開發出“分布式”、“可水平擴展”、“可測試性高”的應用系統。"
+title: "Introduction"
+description: "This is a set of server-side development frameworks with reactive, event sourcing and Actor pattern as basic theories.On top of this, developers can develop \"distributed\", \"scale out\", and \"easy to test\" application more simply."
 slug: /
 ---
 
@@ -14,35 +14,35 @@ slug: /
 
 [![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-這是以`反應式`、`事件溯源`和`Actor模式`作為基本理論的一套服務端開發框架。於此之上，開發者可以更為簡單的開發出“分布式”、“可水平擴展”、“可測試性高”的應用系統。
+This is a set of server-side development frameworks with `reactive`, `event sourcing` and `Actor pattern` as basic theories.On top of this, developers can develop "distributed", "scale out", and "easy to test" application more simply.
 
-## 當前項目狀態
+## Project Status
 
-現時項目已經進入 Preview 階段，對應的版本將會發布到 master 分支上。你可以通過 nuget 來取得最新的開發套件。我們不建議將 Preview 版本用於發行環境。
+The project has entered the Preview stage, and related versions will be released on the master branch.You can get the latest development package through nuget.org.We do not recommend using the Preview version for production environments.
 
 Claptrap and it`s Minions are coming.
 
-## 项目範例
+## Samples
 
-您可以通過[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)以取得關於該項目的範例代碼，以便您瞭解如何使用該專案。
+You can get the samples about the project through [Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples) so that you can understand how to use the project.
 
-## 参加討論
+## Discussion
 
-- [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
-- [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- 公開信箱 newbe-claptrap@googlegroups.com （發送到該郵箱的內容將被公開）
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-- [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
+- [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
+- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
-## 參考資料
+## Reference
 
-該項目受啟發於眾多開源項目與博客文章：
+The project was inspired by many open source projects and blog posts:
 
-- [基於 Actor 框架 Orleans 構建的分布式、事件溯源、事件驅動、最終一致性的高性能框架——Ray](https://github.com/RayTale/Ray)
+- [A distributed, event event-sourcing, event-driven, and high-performance framework built on the Actor framework Orleans -- Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Event Sourcing Pattern 中文譯文](https://www.infoq.cn/article/event-sourcing)
+- [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
 - [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [ENode 1.0 - Saga 的思想與實現](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [ENode 1.0 - Saga's idea and realization](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 ## Stargazers over time
 
@@ -71,13 +71,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## 圖標
+## Icon
 
-本項目目前使用的圖標均來自於[The Noun Project](https://thenounproject.com/)。你可以在[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)中查看各個部分的版權信息。
+The icons currently used in this project are all from [The Noun Project](https://thenounproject.com/).You can view the copyright information of each section in [/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source).
 
 ## Gitee
 
-如果您無法正常的使用 Github，也可以透過 Gitee 來獲取源代碼以及範例。
+If you cannot use Github normally, you can also use Gitee to clone the source code and samples (Mainly for China mainland).
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
