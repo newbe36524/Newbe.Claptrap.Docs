@@ -1,6 +1,6 @@
 ---
-title: '部署'
-description: '火车售票系统-部署'
+title: '展開します'
+description: '列車発券システム - 展開'
 ---
 
 
@@ -25,17 +25,17 @@ description: '火车售票系统-部署'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## 独立部署
+## スタンドアロン展開
 
-开发者也可以使用源码在本地的 docker 环境进行独立部署。只需要按照以下的步骤进行操作即可。
+開発者は、ソース コードを使用して、オンプレミスの docker 環境で個別にデプロイできます。次の手順に従うだけで済みます。
 
-1. 确保本地已经正确安装了 docker 环境，并且能够使用 docker-compose / git
-2. 签出项目源码 <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. 在 src/Newbe.Claptrap.Ticketing 文件夹运行 docker-compose build 命令来完成项目编译
-4. 在 src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite 文件夹运行 docker-compose up -d 来启动所有服务
-5. 访问 `http://localhost:10080` 即可打开界面。
+1. docker 環境がローカルに正しくインストールされ、docker-compose / git を使用していることを確認します
+2. プロジェクト ソースをチェックアウトします <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. src/Newbe.Claptrap.Ticketing フォルダで docker-compose build コマンドを実行して、プロジェクトのコンパイルを完了します
+4. src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite フォルダで docker-compose up -d を実行して、すべてのサービスを開始します
+5. `http://localhost:10080` にアクセスしてインターフェイスを開きます。
 
-总结起来，脚本如下：
+要約すると、スクリプトは次のようになります：
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -45,15 +45,15 @@ cd Docker/LocalClusterSQLite
 docker-compose up -d
 ```
 
-以上步骤是运行以 SQLite 为数据库的方法，代码库中还包含了其他若干种部署模式，只需要分别运行不同文件夹中的 up.cmd 即可：
+上記の手順は、SQLite をデータベースとして実行する方法であり、コード ベースには、異なるフォルダ内の up.cmd を実行するだけで実行できる他のいくつかの展開モードが含まれています：
 
-| 文件夹                 | 说明                |
-| ------------------- | ----------------- |
-| LocalClusterMongodb | MongoDb 多节点负载均衡版本 |
-| LocalClusterSQLite  | SQLite 单节点版本      |
-| Tencent             | “在线体验”中部署的版本      |
+| フォルダ                | 説明                              |
+| ------------------- | ------------------------------- |
+| LocalClusterMongodb | MongoDb マルチノード ロード バランシング バージョン |
+| LocalClusterSQLite  | SQLite 単一ノード バージョン              |
+| Tencent             | オンライン エクスペリエンスにデプロイされたバージョン     |
 
-> - 如果您当前正在中国大陆，并且遇到下载 netcore 镜像缓慢的问题，可以尝试使用[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - 开发者也可以选择[PWD](https://labs.play-with-docker.com/)上部署该进行测试
-> - 在不同部署模式间切换是，注意先运行 docker-compose down 来关闭上一次部署
-> - 不同部署模式的 Web 端口可能不同，具体需要查看 docker-compose.yml 中的设置
+> - 現在中国本土にいて、netcore イメージのダウンロードが遅い場合は、[docker-mcr を使用して](https://github.com/newbe36524/Newbe.McrMirror)
+> - 開発者は、[PWD](https://labs.play-with-docker.com/)にテストを展開するオプションがあります
+> - 異なる展開モードを切り替えるには、docker-compose down を実行して最後の展開を閉じてください
+> - Web ポートは、docker-compose.yml の設定を確認する必要がある展開モードによって異なる場合があります

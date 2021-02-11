@@ -1,33 +1,33 @@
 ---
-title: '事件溯源（Event Sourcing）'
-description: '事件溯源（Event Sourcing）'
+title: 'Sourcing événement'
+description: 'Sourcing événement'
 ---
 
-事件溯源模式是一种软件设计思路。这种设计思路通常与传统的采用增删查改（CRUD）为主的系统设计思路相区别。CRUD 应用通常存在一些局限性：
+Le modèle de traçabilité des événements est une sorte d’idée de conception logicielle.Ce type d’idée de conception est généralement différent de l’idée traditionnelle de conception du système qui est principalement basée sur le contrôle add-delete et la correction (CRUD).Les applications CRUD ont souvent des limitations：
 
-1. 通常来说 CRUD 应用会采用直接操作数据存储的做法。这样的实现方式可能会由于对数据库优化不足而导致性能瓶颈，并且这种做法会较难实现应用伸缩。
-2. 在特定的领域通常存在一些数据需要注意对并发问题进行处理，以防止数据更新的错误。这通常需要引入“锁”、“事务”等相关的技术来避免此类问题。但这样又有可能引发性能上的损失。
-3. 除非增加额外的审计手段，否则通常来说数据的变更历史是不可追踪的。因为数据存储中通常保存的是数据最终的状态。
+1. En général, les applications CRUD prennent la pratique d’exploiter directement le stockage de données.Cette implémentation peut entraîner des goulots d’étranglement des performances en raison d’une optimisation insuffisante de la base de données, et il peut être plus difficile d’mettre à l’échelle votre application.
+2. Dans des domaines spécifiques, il y a souvent des problèmes de données qui nécessitent une attention particulière pour prévenir les erreurs dans les mises à jour des données.Cela nécessite souvent l’introduction de « verrous », « transactions » et d’autres technologies connexes pour éviter de tels problèmes.Toutefois, cela peut également entraîner des pertes de performance.
+3. À moins que des vérifications supplémentaires ne soient ajoutées, l’historique des modifications apportées aux données n’est généralement pas traçable.Parce que l’état final des données est généralement stocké dans le magasin de données.
 
-与 CRUD 做法对比，事件溯源则从设计上避免了上述描述的局限性。接下来围绕上文中提到的“转账”业务场景简述事件溯源的基础工作方式。
+Contrairement aux pratiques crud, l’approvisionnement en événements évite les limitations décrites ci-dessus par la conception.Ensuite, décrivez les façons sous-jacentes dont l’approvisionnement en cas d’événement fonctionne autour du scénario d’affaires de « transfert » mentionné ci-dessus.
 
-采用 CRUD 的方法实现“转账”。
+Utilisez la crudding pour réaliser des « transferts ».
 
-![采用CRUD的方法实现“转账”](/images/20190226-006.gif)
+![« Transfert » selon la méthode CRUD](/images/20190226-006.gif)
 
-采用事件溯源的方式实现“转账”。
+Le « transfert » est réalisé à l’aide du traçage des événements.
 
-![采用事件溯源的方法实现“转账”](/images/20190227-001.gif)
+![« Transfert » avec l’approvisionnement d’événements](/images/20190227-001.gif)
 
-如上图所示，通过事件溯源模式将转账业务涉及的余额变动采用事件的方式进行存储。同样也实现了业务本身，而这样却带来了一些好处：
+Comme le montre la figure ci-dessus, les changements de solde impliqués dans l’activité de transfert sont stockés sous forme d’événements via le modèle de traçabilité des événements.L’entreprise elle-même est également réalisée, ce qui apporte benefits：
 
-- 通过事件，可以还原出账号任何阶段的余额，这就一定程度实现了对账号余额的跟踪。
-- 由于两个账号的事件是独立处理的。因此，两个账号的处理速度不会相互影响。例如，账号 B 的转入可能由于需要额外的处理，稍有延迟，但账号 A 仍然可以的转出。
-- 可以通过订阅事件来做一些业务的异步处理。例如：更新数据库中的统计数据，发送短信通知等其他的一些异步操作。
+- Grâce à l’événement, vous pouvez restaurer le solde du compte à n’importe quelle étape, ce qui, dans une certaine mesure, pour atteindre le suivi du solde du compte.
+- Parce que les événements pour les deux comptes sont traités indépendamment.Par conséquent, la vitesse de traitement des deux comptes ne s’affecte pas mutuellement.Par exemple, le transfert du compte B peut être légèrement retardé en raison de la nécessité d’un traitement supplémentaire, mais le compte A peut toujours être transféré.
+- Vous pouvez faire quelques affaires de traitement asynchrone en vous abonnant à des événements.Par：autres actions asynchrones telles que la mise à jour des statistiques dans la base de données, l’envoi de notifications SMS, et ainsi de suite.
 
-当然引入事件溯源模式之后也就引入了事件溯源相关的一些技术问题。例如：事件所消耗的存储可能较为巨大；不得不应用最终一致性；事件具备不可变性，重构时可能较为困难等。相关的这些问题在一些文章中会有较为细致的说明。读者可以阅读后续的延伸阅读内容，进而进行了解与评估。
+Bien sûr, l’introduction du mode d’approvisionnement des événements a introduit quelques problèmes techniques liés à l’approvisionnement en événements.Par：le stockage consommé par un événement peut être important, la cohérence éventuelle doit être appliquée, les événements sont immuables, la refactorisation peut être difficile, et ainsi de suite.Ces questions sont décrites plus en détail dans certains articles.Les lecteurs peuvent lire les lectures étendues ultérieures pour la compréhension et l’évaluation.
 
-> 参考资料
+> Ressources
 > 
-> - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
+> - [Modèle d’approvisionnement d’événements](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+> - [Événement Sourcing Pattern traduction chinoise](https://www.infoq.cn/article/event-sourcing)

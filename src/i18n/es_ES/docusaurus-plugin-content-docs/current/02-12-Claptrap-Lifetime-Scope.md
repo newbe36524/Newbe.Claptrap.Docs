@@ -1,42 +1,42 @@
 ---
-title: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
-description: 'Claptrap 生命周期（Claptrap Lifetime Scope）'
+title: 'Alcance de por vida de Claptrap'
+description: 'Alcance de por vida de Claptrap'
 ---
 
 
-Claptrap 生命周期按照笔者的看法分为两大类进行阐述：运行时生命周期和设计时生命周期。
+El ciclo de vida de Claptrap se describe en dos categorías amplias según el ciclo de vida de tiempo de ejecución：del autor y el ciclo de vida del tiempo de diseño.
 
-## 运行时生命周期
+## Ciclo de vida en tiempo de ejecución
 
-运行时生命周期是指 Claptrap 系统在运行过程中各个对象在内存中的生命周期行为。例如：在 Web 系统中，每个 Web 请求通常都会被分配为一个生命周期，而 Claptrap 系统也存在类似的生命周期设计。这些生命周期对于开发者进行组件扩展或者业务开发都具有一定的影响。Claptrap 框架的运行时生命周期分为：进程级（Process）、Claptrap 级和事件处理器级（Event Handler）。
+El ciclo de vida en tiempo de ejecución hace referencia al comportamiento del ciclo de vida de los objetos individuales en la memoria durante el funcionamiento del sistema Claptrap.Para：en un sistema Web, a cada solicitud Web se le asigna normalmente un ciclo de vida y el sistema Claptrap tiene un diseño de ciclo de vida similar.Estos ciclos de vida tienen un impacto en las extensiones de componentes o el desarrollo empresarial para los desarrolladores.El ciclo de vida en tiempo de ejecución del marco de Trabajo de Claptrap se divide en：Proceso, Claptrap y Controlador de eventos.
 
-进程级。被设计为进程级上生命周期的对象，属于常规意义上的单例对象。每个正在运行的 Claptrap 进程都具有自己的单例对象。典型地，例如在 Claptrap 框架中，为了提高向持久层写入事件的速度，每个持久层目标都会对应一个批量处理器（Batch Event Saver）。它们在整个进程的生命周期中只有一个实例，分别与对应的持久层一一对应，这样才能将事件进行合并写入持久层，从而提升写入性能。一般来说，被设计为进程级生命周期的对象具备以下一个或多个特点：
+Nivel de proceso.Objeto que está diseñado como un ciclo de vida en el nivel de proceso y pertenece a un único objeto en el sentido general.Cada proceso de Claptrap en ejecución tiene su propio objeto singleton.Normalmente, por ejemplo, en el marco de Claptrap, para aumentar la velocidad a la que se escriben los eventos en la capa de persistencia, cada destino de capa de persistencia corresponde a un procesador por lotes (Batch Event Saver).Solo tienen una instancia a lo largo del ciclo de vida del proceso, correspondiente a la capa de persistencia correspondiente uno a uno, de modo que los eventos se pueden combinar y escribir en la capa de persistencia, mejorando así el rendimiento de escritura.En general, los objetos diseñados para un ciclo de vida de nivel de proceso tienen uno o varios de los siguientes characteristics：
 
-1. 只需要在整个进程生命周期中运行一次的逻辑或代码。通常可以借助 Lazy 以及单例的方式实现。
-2. 整个进程生命周期中只需要单个对象。例如 Claptrap Design Store、Claptrap Options 等等。
-3. 整个进程生命周期中只能有单个对象。例如 Orleans Client。
+1. Lógica o código que solo debe ejecutarse una vez a lo largo del ciclo de vida del proceso.Esto generalmente se puede lograr con lazy y singletons.
+2. Solo se requiere un único objeto durante todo el ciclo de vida del proceso.Por ejemplo, Claptrap Design Store, Opciones de Claptrap, etc.
+3. Sólo puede haber un único objeto durante todo el ciclo de vida del proceso.Por ejemplo, cliente de Orleans.
 
-Claptrap 级。Claptrap 级生命周期的对象会随着 Claptrap 的激活而创建，随 Claptrap 的失活而释放。这些对象通常来说与一个 Claptrap Identity 有很强的关联关系。例如，与该 Claptrap Identity 关联的 Claptrap Design、Event Saver、Event Loader、State Saver 和 State Loader 等等。
+Nivel de claptrap.Los objetos del ciclo de vida de Claptrap se crean con la activación de Claptrap y se liberan con la inactivación de Claptrap.Estos objetos generalmente están altamente correlacionados con una identidad de Claptrap.Por ejemplo, Claptrap Design, Event Saver, Event Loader, State Saver, State Loader, etc. asociados con Claptrap Identity.
 
-事件处理器级（Event Handler）。事件处理器级生命周期对象随着事件处理器创建而创建，随事件处理器释放而释放。与 Web 对应来说，这一级别的生命周期和 Web 请求生命周期类似。典型的，统一数据库事务的工作单元（Unit of Work）就属于这一级别。
+Controlador de eventos.Los objetos de ciclo de vida de nivel de procesador de eventos se crean con la creación del procesador de eventos y se liberan con el lanzamiento del procesador de eventos.Este nivel de ciclo de vida es similar al de la solicitud Web.Normalmente, la unidad de trabajo de una transacción de base de datos unificada cae a este nivel.
 
-## 设计时生命周期
+## Ciclo de vida en tiempo de diseño
 
-设计时生命周期，是指 Claptrap 对应的业务对象的生命周期。这与程序是否运行无关，甚至与是否使用程序都无关。举个具体的例子，常规电商系统中的订单。一个订单的活动业务时间限界一般不会超过三到六个月。当超过这个时间限界后，订单的数据就已经不能修改。此处就这个“三到六个月”的时间限界称为订单的设计时生命周期。在 Claptrap 系统中，如果一个对象已经超过了其设计时生命周期，就表现为“业务上再也不需要激活这个 Claptrap”。由此可以得到以下推论：
+El ciclo de vida en tiempo de diseño se refiere al ciclo de vida del objeto de negocio para Claptrap.Esto no tiene nada que ver con si el programa se está ejecutando o no, o incluso si se utiliza el programa.Por poner un ejemplo específico, los pedidos en sistemas convencionales de comercio electrónico.El límite de tiempo de negocio activo para un pedido normalmente no supera de tres a seis meses.Cuando se supera este límite de tiempo, los datos del pedido no se pueden modificar.Aquí el límite de tiempo de "tres a seis meses" se denomina el ciclo de vida en tiempo de diseño de una orden.En un sistema Claptrap, si un objeto ha excedido su ciclo de vida en tiempo de diseño, se representa como "el negocio ya no necesita activar este Claptrap".Esto conduce a la siguiente inferences：
 
-1. 该 Claptrap 已经存储的事件失去了意义，删除这些事件可以腾出可用空间。
-2. 该 Claptrap 对应的业务代码不再需要维护，可以选择被移除引用或者移除代码。
+1. Los eventos que Claptrap ha almacenado no tienen sentido, y eliminarlos libera espacio libre.
+2. El código de negocio de Claptrap ya no requiere mantenimiento y puede optar por quitar la referencia o quitar el código.
 
-所以，如果 Claptrap 的设计时生命周期越短，就更有利于减少资源的占用和代码维护成本，反之，则增加了存储成本和维护难度。故而，在设计 Claptrap 系统时，倾向于使用更短的设计时生命周期。而这个名词，也直接反应了其实完全由“设计”来决定。 接下来，我们列举一些常用的设计时生命周期划分法。
+Por lo tanto, si Claptrap está diseñado con un ciclo de vida de diseño más corto, es más propicio para reducir el consumo de recursos y los costos de mantenimiento de código, y por el contrario, aumentar los costos de almacenamiento y las dificultades de mantenimiento.Como resultado, al diseñar sistemas Claptrap, existe una preferencia por ciclos de vida más cortos en tiempo de diseño.Y este término, pero también una respuesta directa al hecho de que está totalmente determinado por "diseño". A continuación, vamos a enumerar algunas divisiones comunes del ciclo de vida en tiempo de diseño.
 
-### 业务边界划分法
+### Demarcación de límites de negocio
 
-这是最为常见的划分法。基于领域建模的要求对业务对象进行划分。并且这些业务对象通常有固定的生命周期。就如前文的“订单”就是常见的按照业务边界划分生命周期的例子。在使用该方法进行划分时，只需要注意 Claptrap 满足“大于等于最小竞争资源范围”的基础要求就可以了。开发者可以通过“火车售票系统”的样例来体验这种划分法。
+Esta es la división más común.Los objetos de negocio se dividen según los requisitos del modelado de dominios.Y estos objetos de negocio suelen tener un ciclo de vida fijo.Como en el "orden" anterior es un ejemplo común de dividir los ciclos de vida por límites de negocio.Al dividir utilizando este método, sólo es importante tener en cuenta que Claptrap cumple con los requisitos básicos de "mayor o igual que el rango mínimo de recursos competitivos".Los desarrolladores pueden experimentar esta división a través de un ejemplo de un "sistema de venta de billetes de tren".
 
-### 条件边界划分法
+### Demarcación de límites condicionales
 
-一般来说，基于业务边界划分法已经能够划分出合理的生命周期。但是，如果只是按照业务边界划分，可能会出现设计时生命周期为永久的对象。假如这些对象又拥有非常密集的事件操作。那么随着生成的事件量将异常多。为此，我们引入人为控制的方式来缩短设计时生命周期。这种划分是基于特定的条件划分的。因此称为条件边界划分法。而在此之中最为经典的就是采用“时间限界”来划分。
+En general, un ciclo de vida razonable ya se puede dividir en función de la demarcación de límites empresariales.Sin embargo, los objetos con un ciclo de vida en tiempo de diseño pueden producirse si se dividen solo por límites empresariales.Supongamos que estos objetos tienen operaciones de eventos muy densas.Entonces la cantidad de eventos generados será inusualmente grande.Para ello, introducimos formas controladas por el ser humano para acortar el ciclo de vida en tiempo de diseño.Esta división se basa en condiciones específicas.Esto se denomina demarcación de límite condicional.Y el más clásico de ellos es el uso de "límites de límite de tiempo" para dividir.
 
-此处我们借由“快速入门”例子中的购物车对象来说明一下这种划分法。首先，购物车是和用户相关的对象，只要用户一直存在于这个系统中，那么就有可能被激活，也就是说，它的设计时生命周期是“永久”的。因此就无法删除相关的事件，必须永久保存这些事件来确保购物车数据的正确性。但，假如我们对于购物车在一年前所产生的的事件已经不再关心。我们就可以手动的按照年份对单个用户的购物车进行划分。同时，我们可以在相邻两个年份的购物车进行“状态拷贝”。这样就延续前一年的状态数据，从而使用户的购物车在设计时生命周期上产生更短，而且这样也不影响业务。我们可以借助中国的一个经典传说故事《愚公移山》来理解这种基于时间的设计时生命周期划分法。故事中，愚公是凡人，虽然不能长生不老（较短的设计时生命周期），但愚公的精神（较长的设计时生命周期）却可以随着子孙后代而延续，因而可以完成移山的伟业。当每代“愚公”进行换代时，就发生了上文中提到的“状态拷贝”（精神延续）。从而用较短的设计时生命周期，实现了较长的甚至永久的设计时生命周期的要求。
+Aquí ilustramos esta división utilizando los objetos del carro de la compra en el ejemplo de inicio rápido.En primer lugar, un carro de la compra es un objeto relacionado con el usuario que se puede activar siempre y cuando el usuario esté presente en el sistema, lo que significa que su ciclo de vida de diseño es "permanente".Por lo tanto, los eventos relacionados no se pueden eliminar y deben guardarse permanentemente para asegurarse de que los datos del carro de la compra son correctos.Pero si ya no nos preocupa lo que le pasó al carro de la compra hace un año.Podemos dividir manualmente el carrito de compras de un solo usuario por año.Al mismo tiempo, podemos "indicar" el carro de la compra en los próximos dos años.Esto continúa los datos de estado del año anterior, lo que resulta en un ciclo de vida de diseño más corto para el carro de la compra del usuario y sin impacto en el negocio.Podemos usar una leyenda clásica china, "Fool's Mountain", para entender esta división del ciclo de vida del tiempo de diseño basado en el tiempo.En la historia, el tonto es mortal, aunque no puede vivir mucho (ciclo de vida de tiempo de diseño corto), pero el espíritu de tonto (ciclo de vida de tiempo de diseño más largo) puede ser con las generaciones futuras y continuar, y por lo tanto puede completar el gran trabajo de mover montañas.Cuando se reemplaza a cada generación de "tontos", se produce la "copia de estado" mencionada anteriormente (continuación espiritual).Por lo tanto, con un ciclo de vida de tiempo de diseño más corto, se cumplen los requisitos de un ciclo de vida de tiempo de diseño más largo o incluso permanente.
 
-> 《愚公移山》 太行、王屋两座山，方圆七百里，高七八千丈，本来在冀州南边，黄河北岸的北边。 北山下面有个名叫愚公的人，年纪快到 90 岁了，在山的正对面居住。他苦于山区北部的阻塞，出来进去都要绕道，就召集全家人商量说：“我跟你们尽力挖平险峻的大山，使道路一直通到豫州南部，到达汉水南岸，好吗？”大家纷纷表示赞同。他的妻子提出疑问说：“凭你的力气，连魁父这座小山都不能削平，能把太行、王屋怎么样呢？再说，往哪儿搁挖下来的土和石头？”众人说：“把它扔到渤海的边上，隐土的北边。”于是愚公率领儿孙中能挑担子的三个人上了山，凿石头，挖土，用箕畚运到渤海边上。邻居京城氏的寡妇有个孤儿，刚七八岁，蹦蹦跳跳地去帮助他。冬夏换季，才能往返一次。 河曲的智叟讥笑愚公，阻止他干这件事，说：“你简直太愚蠢了！就凭你残余的岁月、剩下的力气连山上的一棵草都动不了，又能把泥土石头怎么样呢？”北山愚公长叹说：“你的思想真顽固，顽固得没法开窍，连孤儿寡妇都比不上。即使我死了，还有儿子在呀；儿子又生孙子，孙子又生儿子；儿子又有儿子，儿子又有孙子；子子孙孙无穷无尽，可是山却不会增高加大，还怕挖不平吗？”河曲智叟无话可答。 握着蛇的山神听说了这件事，怕他没完没了地挖下去，向天帝报告了。天帝被愚公的诚心感动，命令大力神夸娥氏的两个儿子背走了那两座山，一座放在朔方的东部，一座放在雍州的南部。从这时开始，冀州的南部直到汉水南岸，再也没有高山阻隔了。
+> "Los tontos se mueven mountains Taih, Wang House dos montañas, sietecientas millas cuadradas, siete u ocho mil pies de altura, originalmente en la parte sur de Zhangzhou, al norte de la orilla norte amarilla del río Norte. Debajo de la montaña del norte hay un hombre llamado Fool Gong, que tiene casi 90 años y vive justo enfrente de la montaña.Sufriendo de la obstrucción en la parte norte de la montaña, salió a tomar un desvío, y llamó a toda la familia para discutir it："Haré todo lo posible para desenterrar las montañas empinadas para que el camino vaya hasta la parte sur de Yuzhou y a la orilla sur de Hanshui, ¿de acuerdo?" Todos están de acuerdo.Su esposa asked："Con tu fuerza, incluso el padre de la colina no puede ser aplanado, ¿puede tai line, la casa del rey cómo?"Además, ¿dónde pusiste la tierra y las piedras? "La gente dice,：Tíralo en el borde del Mar de Bohai, el lado norte de la tierra oculta." Así que el tonto guió a las tres personas que podían cargar con la carga en la montaña, cincelar la piedra, cavar la tierra, y transportar 畚 la orilla del mar con un pepinillo.La viuda de un vecino, Jingcheng, tenía un huérfano, que tenía sólo siete u ocho años, y saltó para ayudarlo.Temporada de invierno y verano, con el fin de ir y volver una vez. El hombre sabio de Hequ se rió del tonto y le impidió hacerlo, diciendo:："¡Eres tan estúpido!"Con sus años residuales, el resto de la fuerza incluso una hierba en la montaña no se puede mover, pero también la piedra del suelo ¿cómo? Beishan long sighed："Tu mente es realmente terco, terco no puede abrir el truco, incluso las viudas huérfanas no pueden ser comparadas".Incluso si muero, hay hijos en ah; hijos y nietos, nietos e hijos; hijos, hijos y nietos; hijos y nietos interminables, pero las montañas no aumentarán, sino que también temerán de cavar desigualmente? "River Quzhi no tiene nada que responder. El dios de la montaña sosteniendo la serpiente oyó hablar de ella, por temor a que cavara sin cesar y se lo reportara al emperador.El Emperador fue conmovido por la sinceridad del tonto y ordenó a los dos hijos de Hércules Kwa que se llevaran las dos montañas, una en la parte oriental de Shufang y otra en la parte sur de Luzhou.A partir de este punto, la parte sur de Luzhou hasta la orilla sur de Hanshui, no hay más montañas bloqueadas.

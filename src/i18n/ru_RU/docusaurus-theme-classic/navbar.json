@@ -8,11 +8,11 @@
     "description": "Navbar item with label GitHub"
   },
   "item.label.开发文档": {
-    "message": "开发文档",
+    "message": "Документация по разработке",
     "description": "Navbar item with label 开发文档"
   },
   "item.label.博客": {
-    "message": "博客",
+    "message": "Блог",
     "description": "Navbar item with label 博客"
   }
 }

@@ -1,153 +1,153 @@
 ---
 date: 2019-02-28
-title: Newbe.Claptrap-一套以“事件溯源”和“Actor模式”作为基本理论的服务端开发框架
+title: Newbe.Claptrap - Un marco de desarrollo del lado del servicio con "abastecimiento de eventos" y "modo actor" como teorías básicas
 tags:
   - Newbe.Claptrap
 ---
 
-本文是关于 Newbe.Claptrap 项目主体内容的介绍，读者可以通过这篇文章，大体了解项目内容。
+Este artículo es una introducción al contenido principal del proyecto Newbe.Claptrap, a través del cual los lectores pueden obtener una comprensión general del contenido del proyecto.
 
 <!-- more -->
 
-## 轮子源于需求
+## Las ruedas se derivan de la demanda
 
-随着互联网应用的蓬勃发展，相关的技术理论和实现手段也在被不断创造出来。诸如“云原生架构”、“微服务架构”、“DevOps”等一系列关键词越来越多的出现在工程师的视野之中。总结来看，这些新理论和新技术的出现，都是为了解决互联网应用中出现的一些技术痛点：
+Con el rápido desarrollo de las aplicaciones de Internet, constantemente se crean teorías técnicas relevantes y medios de implementación.Una serie de palabras clave como Cloud Native Architecture, MicroServer Architecture y DevOps están cada vez más a los ojos de los ingenieros.En resumen, el surgimiento de estas nuevas teorías y tecnologías es resolver algunos de los puntos de dolor técnico en Internet applications：
 
-**更高的容量扩展性要求**。在商业成功的基础前提下，互联网应用的用户数量、系统压力和硬件设备数量等方面都会随着时间的推移出现明显的增长。这就对应用本省的容量可扩展性提出了要求。这种容量可扩展性通常被描述为“应用需要支持水平扩展”。
+**se**los requisitos de escalabilidad de mayor capacidad.Sobre la base del éxito comercial, el número de usuarios de aplicaciones de Internet, la presión del sistema y el número de dispositivos de hardware aumentarán significativamente con el tiempo.Esto requiere la aplicación de la escalabilidad de la capacidad en la provincia.Esta escalabilidad de capacidad se describe a menudo como "las aplicaciones necesitan admitir el escalado horizontal."
 
-**更高的系统稳定性要求**。应用程序能够不间断运行，确保商业活动的持续进展，这是任何与这个应用系统相关的人员都希望见到的。但是要做到这点，通常来说是十分困难的。而现今的互联网应用在面对诸多同类竞争者的情况下，如果在这方面做得不够健全，那么很可能会失去一部分用户的青睐。
+**mayores requisitos de estabilidad del sistema**.La aplicación se ejecuta continuamente para garantizar el progreso continuo de las actividades comerciales, que cualquier persona asociada con esta aplicación le gustaría ver.Pero por lo general es muy difícil hacer eso.Las aplicaciones de Internet de hoy en día frente a muchos competidores del mismo tipo, si no suenan lo suficiente en este sentido, entonces es probable que pierda parte del favor del usuario.
 
-**更高的功能扩展性要求**。“拥抱变化”，当人们提到“敏捷项目管理”相关的内容时，都会涉及到的一个词语。这个词语充分体现了当今的互联网应用若要成功，在功能性上做到出彩做到成功是多么的重要。也从一个侧面体现了当前互联网环境下产品需求的多变。而作为系统工程师，在应用建立之初就应该考虑这点。
+**se**requisitos de escalabilidad funcional más altos."Embrace change", una palabra que llega a las personas cuando mencionan contenido relacionado con la "gestión ágil de proyectos".Esta palabra refleja plenamente lo importante que es que las aplicaciones de Internet de hoy en día tengan éxito y tengan éxito funcional.También refleja la demanda cambiante de productos en el entorno actual de Internet desde un lado.Como ingeniero de sistemas, esto debe considerarse al principio de la aplicación.
 
-**更高的开发易用度要求**。这里所属的开发易用度是指，在应用系统自身在进行开发时的难易程度。要做到越易于开发，在应用自身的代码结构，可测试性，可部署性上都需要作出相应的努力。
+**mayor facilidad de uso requiere**de desarrollo.La facilidad de desarrollo que aquí pertenece se refiere al grado de dificultad en el desarrollo del propio sistema de aplicación.Cuanto más fácil sea desarrollar, más comprobable e implementable es aplicar su propia estructura de código.
 
-**更高的性能要求**。这里提到的性能要求，是特指在系统容量增加时的性能要求。避免系统的单点性能问题，让应用系统具备可水平扩展的特性。通常来说，在性能出现问题时，若可以通过增加物理设备来解决问题，通常来说是最为简单的办法。而在不同的系统容量之下，系统性能的优化方案通常是不同的。因此结合应用场景进行技术方案的选型一直都是系统工程师所需要考虑的问题。
+**requisitos de rendimiento más altos**.Los requisitos de rendimiento mencionados aquí son específicamente requisitos de rendimiento a medida que aumenta la capacidad del sistema.Evite problemas de rendimiento de un solo punto en el sistema y proporcione a la aplicación una característica escalable horizontalmente.En general, cuando se producen problemas de rendimiento, a menudo es la forma más fácil de resolverlos mediante la adición de dispositivos físicos.Bajo una capacidad de sistema diferente, el esquema de optimización para el rendimiento del sistema suele ser diferente.Por lo tanto, la selección de soluciones técnicas combinadas con el escenario de aplicación siempre ha sido un problema que los ingenieros de sistemas deben tener en cuenta.
 
-本项目，就是基于以上这些系统功能特性要求所总结出来的一套开发框架。这其中包含了相关的理论基石、开发类库和技术规约。
+Este proyecto se basa en las características funcionales del sistema anteriores de los requisitos resumidos un conjunto de marco de desarrollo.Contiene piedras angulares teóricas relevantes, bibliotecas de desarrollo y protocolos técnicos.
 
-> 世界上本也不存在“银弹”。一套框架解决不了所有问题。 ——不愿意透露姓名的月落
+> No hay bala de plata en el mundo.Un marco no resolverá todos los problemas. La luna cayó sobre el no querer ser nombrado
 
-## 从需求出发
+## De la demanda
 
-在讲解分布式系统时，常常会用到“账号转账”这个简单的业务场景来配合描述。这里阐述一下这个业务场景。
+Al explicar los sistemas distribuidos, el escenario empresarial simple de "transferencia de cuenta" se utiliza a menudo para que coincida con la descripción.He aquí un vistazo a este escenario de negocio.
 
-假设我们需要建设一个具备账号体系的业务系统。每个账号都有余额。现在需要执行一次转账操作，将账号 A 的余额中的 300 划转给账号 B。另外，基于上节的基本要求，我们在实现这个场景时，需要考虑以下这些内容：
+Supongamos que necesitamos construir un sistema empresarial con un sistema de cuentas.Cada cuenta tiene un saldo.Ahora debe realizar una operación de transferencia para transferir 300 del saldo de la cuenta A a la cuenta B.Además, sobre la base de los requisitos básicos de la sección anterior, debemos tener en cuenta lo siguiente al implementar este scenario：
 
-- 需要应对系统容量的激增。应用初期可能只有 1000 个初始用户。由于应用推广效果良好以及机器人账号的涌入，用户数量实现了在一个月内实现了三个数量级的攀升，也就是增长到了百万级别。
-- 需要考虑系统的稳定性和可恢复性。尽可能减少系统整体的平均故障时间，即使出现系统故障也应该是尽可能易于恢复的。也就是，要避免出现单点故障。
-- 需要考虑业务的可扩展性。后续可能需要增加一些业务逻辑：按照账户等级限制日转账额、转账成功后进行短信通知、转账支持一定额度的免密转账、特定的账号实现“T+1”到账。
-- 需要考虑代码的可测试性。系统的业务代码和系统代码能够良好的分离，能够通过单元测试的手段初步验证业务代码和系统代码的正确性和性能。
+- Usted necesita lidiar con un aumento en la capacidad del sistema.Puede haber sólo 1000 usuarios iniciales al principio de la aplicación.Gracias a una buena promoción de aplicaciones y la afluencia de cuentas de bots, el número de usuarios ha aumentado en tres órdenes de magnitud en un mes, es decir, a un millón de niveles.
+- Es necesario tener en cuenta la estabilidad y la capacidad de recuperación del sistema.Minimice el tiempo medio de falla del sistema en su conjunto, e incluso las fallas del sistema deben ser tan fáciles de recuperar como sea posible.Es decir, evitar un único punto de fracaso.
+- La escalabilidad del negocio debe tenerse en cuenta.Es posible que sea necesario agregar cierta lógica de negocios later：limitar el importe de la transferencia diaria de acuerdo con el nivel de cuenta, la notificación por SMS después de que la transferencia se realice correctamente, el soporte de transferencia es una cierta cantidad de transferencia libre de secretos, una cuenta específica para lograr el "T1" a la cuenta.
+- Debe tener en cuenta la capacidad de prueba del código.El código de negocio y el código del sistema del sistema pueden estar bien separados, y la corrección y el rendimiento del código de negocio y el código del sistema se pueden verificar inicialmente mediante pruebas unitarias.
 
-## 轮子的理论
+## La teoría de las ruedas
 
-本节将介绍一些和本框架紧密结合的理论内容，便于读者在后续的过程中理解本框架的工作过程。
+Esta sección presentará algunos de los contenidos teóricos que están estrechamente integrados con este marco para facilitar la comprensión del lector de la labor del marco en el proceso de seguimiento.
 
-### Actor 模式
+### Modo actor
 
-Actor 模式是一种并发编程模型。通过这种编程模型的应用可以很好的解决一些系统的并发问题。这里所提到的并发问题是指计算机对同一数据进行逻辑处理时，可能由于存在多个同时发起的请求可能导致数据出现不正确的问题。这个问题在进行多线程编程时一定会遇到的问题。举个简单的例子，假如在不加同步锁的情况下，使用 100 个线程并发对内存中的一个`int`变量执行`++`操作。那么最终这个变量的结果往往小于 100。此处 Actor 模式是如何避免此问题的。
+El patrón Actor es un modelo de programación estándar.A través de la aplicación de este modelo de programación, algunos sistemas pueden resolver el problema de la complejidad.El problema con la unión mencionada aquí es que cuando un equipo procesa lógicamente los mismos datos, puede causar datos incorrectos debido a múltiples solicitudes simultáneas.Este es un problema que debe encontrar cuando está programando multiproceso.Por ejemplo, si utiliza 100 subprocesos para realizar`una variable de`int`en memoria con 100 subprocesos en`sin bloqueo .A continuación, el resultado de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
 
-首先，为了便于理解，读者在此处可以将 Actor 认为是一个对象。在面向对象的语言（Java、C#等）当中，可以认为 Actor 就是通过`new`关键词创建出来的对象。不过这个对象有一些特别的特性：
+En primer lugar, para facilitar la comprensión, el lector puede pensar en Actor como un objeto aquí.En los lenguajes orientados a objetos (Java, C, etc.), el actor puede considerarse como un objeto creado``la nueva palabra clave.Pero este objeto tiene un characteristics：especial
 
-**拥有属于自身的状态**。对象都可以拥有自身的属性，这是面向对象语言基本都具备的功能。在 Actor 模式中，这些属性都被统称为`Actor的状态（State）`。Actor 的状态由 Actor 自身进行维护。
+**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.En el modo Actor, estas propiedades se`colectivamente como`de estado del actor.El estado del actor es mantenido por el propio actor.
 
-这就强调了两点：
+Esto pone de relieve dos points：
 
-第一、Actor 的状态只能由自身进行改变，若要从外部改变 Actor 的状态，只能通过调用 Actor 才能改变。
+En primer lugar, el estado de Actor sólo se puede cambiar por sí mismo, y para cambiar el estado de Actor desde el exterior, sólo se puede cambiar llamando a Actor.
 
-![更新Actor状态](/images/20190226-001.gif)
+![Actualizar el estado del actor](/images/20190226-001.gif)
 
-第二、Actor 的状态只在 Actor 内部进行维护，不与当前 Actor 之外的任何对象共享。这里说的不共享也是强调其不能通过外部某个属性的改变而导致 Actor 内部状态的变化。这点主要是为了区别于一些具备“对象引用”语言特性的编程语言而言的。例如：在 C#的`class`的`public`属性，假如是引用类型，那么在外部获得这个`class`之后是可以改变`class`中的属性的。但是这在 Actor 模式当中是不被允许的。
+En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de</code>pública`de<code>`de clase de C- puede cambiar la propiedad`en<code>clase`</code>después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
 
-![共享Actor状态](/images/20190226-003.gif)
+![Compartir el estado de Actor](/images/20190226-003.gif)
 
-不过从 Actor 内部读取数据到外部，这仍然是允许的。
+Sin embargo, la lectura de datos desde el interior de Actor al exterior todavía está permitida.
 
-![读取Actor状态](/images/20190226-002.gif)
+![Leer el estado del actor](/images/20190226-002.gif)
 
-**单线程**。Actor 通常同一时间只能接受一个调用。这里所述的线程不完全是指计算机中的线程，是为了凸显“Actor 同一时间只能处理一个请求的特性”而使用的词语。假如当前 Actor 正在接受一个调用，那么剩余的调用都会阻塞，直到调用结束，下一个请求才允许被进入。这其实类似于一个同步锁的机制。通过这种机制就避免了对 Actor 内部状态进行修改时，存在并发问题的可能。具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个`int`变量进行`++`操作。最终这个状态的数值一定是 100。
+****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de</code>int`, déjele hacer<code>`.El valor final para este estado debe ser 100.
 
-![并发调用Actor](/images/20190226-004.gif)
+![El actor se llama en un sintetizador](/images/20190226-004.gif)
 
-不过单线程也不是绝对的，在不存在并发问题的请求情况下，允许并发处理。例如读取 Actor 中的状态，这通常不会有并发问题，那么此时就允许进行并发操作。
+Sin embargo, el subprocesamiento único no es absoluto, lo que permite el procesamiento 2000 en ausencia de una solicitud de un problema.Por ejemplo, lea el estado en Actor, que normalmente no tiene un problema con el symp, por lo que se permite la misma operación en este momento.
 
-![并发读取Actor](/images/20190226-005.gif)
+![Leer actor al mismo tiempo](/images/20190226-005.gif)
 
-> 读到 Actor 单线程特性时，通常读者会考虑到这是否会导致 Actor 本身处理过慢而产生性能问题呢？关于这点，希望读者继续持有这个问题往后阅读，寻找答案。
+> Al leer sobre la naturaleza de un solo subproceso del actor, los lectores a menudo piensan si esto puede causar problemas de rendimiento porque el propio actor lo está manejando demasiado lentamente.Sobre este punto, espero que los lectores sigan ateniéndose a esta pregunta y la lean más adelante en la búsqueda de respuestas.
 
-### 事件溯源模式
+### Modo de trazabilidad de eventos
 
-事件溯源模式是一种软件设计思路。这种设计思路通常与传统的采用增删查改（CRUD）为主的系统设计思路相区别。CRUD 应用通常存在一些局限性：
+El patrón de trazabilidad de eventos es una especie de idea de diseño de software.Este tipo de idea de diseño suele ser diferente de la idea de diseño del sistema tradicional que se basa principalmente en la comprobación y corrección de complementos (CRUD).Las aplicaciones CRUD a menudo tienen algunos limitations：
 
-1. 通常来说 CRUD 应用会采用直接操作数据存储的做法。这样的实现方式可能会由于对数据库优化不足而导致性能瓶颈，并且这种做法会较难实现应用伸缩。
-2. 在特定的领域通常存在一些数据需要注意对并发问题进行处理，以防止数据更新的错误。这通常需要引入“锁”、“事务”等相关的技术来避免此类问题。但这样又有可能引发性能上的损失。
-3. 除非增加额外的审计手段，否则通常来说数据的变更历史是不可追踪的。因为数据存储中通常保存的是数据最终的状态。
+1. En general, las aplicaciones CRUD se encargan de operar directamente el almacenamiento de datos.Esta implementación puede provocar cuellos de botella en el rendimiento debido a la optimización insuficiente de la base de datos y puede ser más difícil escalar la aplicación.
+2. En áreas específicas, a menudo hay problemas de datos que requieren que se controle la atención para evitar errores en las actualizaciones de datos.Esto a menudo requiere la introducción de "bloqueos", "transacciones" y otras tecnologías relacionadas para evitar tales problemas.Sin embargo, esto también puede conducir a pérdidas de rendimiento.
+3. A menos que se agregue una auditoría adicional, el historial de cambios en los datos generalmente no es rastreable.Dado que el estado final de los datos normalmente se almacena en el almacén de datos.
 
-与 CRUD 做法对比，事件溯源则从设计上避免了上述描述的局限性。接下来围绕上文中提到的“转账”业务场景简述事件溯源的基础工作方式。
+A diferencia de las prácticas CRUD, el abastecimiento de eventos evita las limitaciones descritas anteriormente por el diseño.A continuación, describa las formas subyacentes en que el abastecimiento de eventos funciona en torno al escenario de negocio de "transferencia" mencionado anteriormente.
 
-采用 CRUD 的方法实现“转账”。
+Utilice el desmoronamiento para lograr "transferencias".
 
-![采用CRUD的方法实现“转账”](/images/20190226-006.gif)
+!["Transferir" utilizando el método CRUD](/images/20190226-006.gif)
 
-采用事件溯源的方式实现“转账”。
+"Transferencia" se logra mediante el seguimiento de eventos.
 
-![采用事件溯源的方法实现“转账”](/images/20190227-001.gif)
+!["Transferir" con el abastecimiento de eventos](/images/20190227-001.gif)
 
-如上图所示，通过事件溯源模式将转账业务涉及的余额变动采用事件的方式进行存储。同样也实现了业务本身，而这样却带来了一些好处：
+Como se muestra en la figura anterior, los cambios de saldo implicados en el negocio de transferencia se almacenan como eventos a través del modelo de trazabilidad de eventos.El negocio en sí también se realiza, y esto trae algunas benefits：
 
-- 通过事件，可以还原出账号任何阶段的余额，这就一定程度实现了对账号余额的跟踪。
-- 由于两个账号的事件是独立处理的。因此，两个账号的处理速度不会相互影响。例如，账号 B 的转入可能由于需要额外的处理，稍有延迟，但账号 A 仍然可以的转出。
-- 可以通过订阅事件来做一些业务的异步处理。例如：更新数据库中的统计数据，发送短信通知等其他的一些异步操作。
+- A través del evento, puede restaurar el saldo de la cuenta en cualquier etapa, que en cierta medida para lograr el seguimiento del saldo de la cuenta.
+- Porque los eventos de ambas cuentas se controlan de forma independiente.Por lo tanto, la velocidad de procesamiento de las dos cuentas no se afecta entre sí.Por ejemplo, la transferencia de la Cuenta B puede retrasarse ligeramente debido a la necesidad de procesamiento adicional, pero la Cuenta A todavía se puede transferir.
+- Puede realizar algún procesamiento asincrónico empresarial suscribiéndose a eventos.Por：otras acciones asincrónicas, como actualizar estadísticas en la base de datos, enviar notificaciones SMS, etc.
 
-当然引入事件溯源模式之后也就引入了事件溯源相关的一些技术问题。例如：事件所消耗的存储可能较为巨大；不得不应用最终一致性；事件具备不可变性，重构时可能较为困难等。相关的这些问题在一些文章中会有较为细致的说明。读者可以阅读后续的延伸阅读内容，进而进行了解与评估。
+Por supuesto, la introducción del modo de abastecimiento de eventos ha introducido algunos problemas técnicos relacionados con el abastecimiento de eventos.Por：el almacenamiento consumido por un evento puede ser grande, se debe aplicar la coherencia final, los eventos son inmutables, la refactorización puede ser difícil, etc.Estos problemas se describen con más detalle en algunos artículos.Los lectores pueden leer lecturas extendidas posteriores para su comprensión y evaluación.
 
-> 业务复杂度是不会因为系统设计变化而减少的，它只是从一个地方转移到了另外的地方。——总说自己菜的月落
+> La complejidad del negocio no se reduce por los cambios en el diseño del sistema, simplemente se mueve de un lugar a otro. Siempre di que la luna cae sobre tu propia comida
 
-## 让轮子转起来
+## Deja que las ruedas giren
 
-基于读者已经大体理解了上节理论的基础上，本节将结合上述描述的“转账”业务场景，介绍本框架的工作原理。首先读者需要了解一下本框架的两个名词。
+Basándose en la comprensión general del lector de la teoría en la sección anterior, esta sección introducirá cómo funciona este marco a la luz del escenario empresarial de "transferencia" descrito anteriormente.En primer lugar, el lector necesita entender los dos sustantivos de este marco.
 
 ### Claptrap
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap 是本框架定义的一种特殊 Actor。除了上文中提到 Actor 两种特性之外，Claptrap 还被定义为具有以下特性：
+Claptrap es un actor especial definido en este marco.Además de las dos características mencionadas anteriormente, Claptrap se define como tener los siguientes features：
 
-**状态由事件进行控制**。Actor 的状态在 Actor 内部进行维护。Claptrap 同样也是如此，不过改变 Claptrap 的状态除了限定在 Actor 内修改之外，还限定其只能通过事件进行改变。这就将事件溯源模式与 Actor 模式进行了结合。通过事件溯源模式保证了 Actor 状态的正确性和可追溯性。这些改变 Claptrap 状态的事件是由 Claptrap 自身产生的。事件产生的原因可以是外部的调用也可以是 Claptrap 内部的类触发器机制产生的。
+**estado de  se controla mediante el**de eventos.El estado del Actor se mantiene dentro del Actor.Lo mismo ocurre con Claptrap, pero cambiar el estado de Claptrap lo limita a solo eventos, además de modificaciones dentro de Actor.Esto combina el patrón de abastecimiento de eventos con el patrón Actor.La exactitud y trazabilidad del estado del actor está garantizada a través del modo de abastecimiento de eventos.Estos eventos que cambian el estado de Claptrap son generados por claptrap sí mismo.Los eventos pueden ocurrir entre llamadas externas y mecanismos de desencadenador de clase dentro de Claptrap.
 
-### Minion
+### Súbdito
 
-![Minion](/images/20190228-002.gif)
+![Súbdito](/images/20190228-002.gif)
 
-Minion 是本框架定义的一种特殊 Actor。是在 Claptrap 基础上做出的调整。其具备以下特性：
+Minion es un actor especial tal como se define en este marco.es un ajuste realizado sobre la base de Claptrap.Tiene los siguientes characteristics：
 
-**从对应的 Claptrap 读取事件**。与 Claptrap 相同，Minion 的状态也由事件进行控制。不同的是，Minion 就像其字面意思一样，总是从对应的 Claptrap 处获取事件，从而改变自身的状态。因此，其可以异步的处理 Claptrap 产生事件之后的后续操作。
+**puede leer el evento desde la**Claptrap correspondiente.Al igual que Claptrap, el estado del súbdito está controlado por eventos.La diferencia es que Minion, como literalmente lo hace, siempre obtiene eventos de la Claptrap correspondiente, cambiando su propio estado.Por lo tanto, puede controlar Claptrap de forma asincrónica después de generar el evento.
 
-### 业务实现
+### Implementación empresarial
 
-接下来有了前面的基础介绍，现在介绍一下本框架如何实现上文中的“转账”场景。首先可以通过下图来了解一下主要的流程：
+Ahora, con los conceptos básicos de la anterior, así es como este marco implementa el escenario de "transferencia" anterior.El siguiente diagrama comienza con un vistazo a la processes：principal
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
-如上图所示，整个流程便是本框架实现业务场景的大体过程。另外，还有一些需要指出的是：
+Como se muestra en la figura anterior, todo el proceso es el proceso general de implementación del escenario empresarial en este marco.Además, hay algunas cosas que deben tenerse en cuenta：
 
-- 图中 Client 与 Claptrap 的调用等待只有第一阶段的时候存在，也就是说，这使得 Client 可以更快的得到响应，不必等待整个流程结束。
-- Claptrap A 在处理完自身请求，并将事件发送给 Minion A 之后就可以重新接受请求，这样提高了 Claptrap A 的吞吐量。
-- Minion 不仅仅只能处理 Claptrap 之间的调用代理。在 Minion 当中还可以根据业务需求进行：发送短信，更新数据库统计数据等其他操作。
-- Minion 也可以具备自己的状态，将部分数据维持在自身的状态中以便外部可以从自身进行查询，而不需要从对应的 Claptrap 中进行查询。例如：统计该账号最近 24 小时的转账变动，以便快速查询。
+- La llamada entre Client y Claptrap en la figura espera solo para la primera etapa, lo que significa que el cliente puede obtener una respuesta más rápido sin tener que esperar a que finalice todo el proceso.
+- La trampa A puede aceptar solicitudes de nuevo después de procesar sus propias solicitudes y enviar eventos al esbirro A, lo que aumenta el rendimiento de la trampa A.
+- Minion hace algo más que manejar agentes de llamadas entre Claptrap.En Minion, también puedes hacer cosas como：, enviar mensajes de texto, actualizar estadísticas de bases de datos y mucho más, dependiendo de las necesidades de tu empresa.
+- Minion también puede tener su propio estado, manteniendo algunos de los datos en su propio estado para que pueda consultar externamente desde sí mismo sin tener que consultar desde el Claptrap correspondiente.Por example：las últimas 24 horas de los cambios de transferencia de la cuenta para una consulta rápida.
 
-### 业务容量
+### Capacidad empresarial
 
-前文提到本框架需要建设的是一个可以水平扩展的系统架构，只有如此才能应对业务容量的持续增长。在这点上，本框架现阶段采用的是微软开源的[Orleans](https://github.com/dotnet/orleans)实现应用程序和物理设备的放缩。当然，涉及数据存储部分时势必也涉及到数据库集群等一系列问题。这些属于技术应用的细节，而非框架理论设计的内容。因此，此处只表明本框架可以基于以上的开源架构进行容量放缩。应用过程中的实际问题，读者可以在后续的项目内容中寻求解答。
+Como se mencionó anteriormente, este marco necesita construir una arquitectura de sistema que pueda escalar horizontalmente para hacer frente al crecimiento continuo de la capacidad empresarial.En este punto, el marco de trabajo está utilizando actualmente el código abierto de Microsoft[Orleans](https://github.com/dotnet/orleans)para implementar el lanzamiento de aplicaciones y dispositivos físicos.Por supuesto, cuando se trata de almacenamiento de datos, está obligado a implicar una serie de problemas, como la agrupación en clústeres de bases de datos.Estos son los detalles de la aplicación técnica, no el contenido del diseño de la teoría marco.Por lo tanto, solo este marco de trabajo se puede reducir en función de la arquitectura de código abierto anterior.Preguntas prácticas durante el proceso de solicitud, los lectores pueden buscar respuestas en el contenido posterior del proyecto.
 
-## 延伸阅读
+## Lectura extendida
 
-以下这些内容都对本框架产生了深远的影响。读者可以通过阅读以下这些内容，增加对本框架的理解。
+Los siguientes han tenido un profundo impacto en este marco.Los lectores pueden aumentar su comprensión del marco leyendo lo siguiente.
 
-- [基于 Actor 框架 Orleans 构建的分布式、事件溯源、事件驱动、最终一致性的高性能框架——Ray](https://github.com/RayTale/Ray)
-- [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
-- [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [Service Fabric](https://docs.microsoft.com/zh-cn/azure/service-fabric/)
-- [ENode 1.0 - Saga 的思想与实现](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [Ray, un marco distribuido, rastreable por eventos, impulsado por eventos y, en última instancia, consistente y consistente, basado en Actor Framework Orleans](https://github.com/RayTale/Ray)
+- [Patrón de abastecimiento de eventos](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+- [Event Sourcing Pattern Traducción al chino](https://www.infoq.cn/article/event-sourcing)
+- [Orleans - Modelo de Actor Virtual Distribuido](https://github.com/dotnet/orleans)
+- [Fabric de servicio](https://docs.microsoft.com/zh-cn/azure/service-fabric/)
+- [ENode 1.0 - Ideas e implementaciones de Saga](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 <!-- md Footer-Newbe-Claptrap.md -->

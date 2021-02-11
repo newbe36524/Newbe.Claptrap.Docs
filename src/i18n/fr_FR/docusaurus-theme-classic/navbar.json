@@ -4,15 +4,15 @@
     "description": "The title in the navbar"
   },
   "item.label.GitHub": {
-    "message": "GitHub",
+    "message": "Github",
     "description": "Navbar item with label GitHub"
   },
   "item.label.开发文档": {
-    "message": "开发文档",
+    "message": "Documentation sur le développement",
     "description": "Navbar item with label 开发文档"
   },
   "item.label.博客": {
-    "message": "博客",
+    "message": "Blog",
     "description": "Navbar item with label 博客"
   }
 }

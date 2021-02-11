@@ -3,11 +3,11 @@ title: '第四步——利用Minion，商品下单'
 description: '第四步——利用Minion，商品下单'
 ---
 
-通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
+通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
 
 <!-- more -->
 
-## 开篇摘要
+## 開篇摘要
 
 本篇，我通过实现“商品下单”的需求来了解一下如何在已有的项目样例中使用 Minion 来完成异步的业务处理。
 
@@ -30,12 +30,12 @@ Minion 是一种特殊的 Claptrap，它与其 MasterClaptrap 之间的关系如
 | 定义 ClaptrapTypeCode         | √        | √      |
 | 定义 State                    | √        | √      |
 | 定义 Grain 接口                 | √        | √      |
-| 实现 Grain                    | √        | √      |
+| 實現 Grain                    | √        | √      |
 | 注册 Grain                    | √        | √      |
-| 定义 EventCode                | √        |        |
-| 定义 Event                    | √        |        |
-| 实现 EventHandler             | √        | √      |
-| 注册 EventHandler             | √        | √      |
+| 定義 EventCode                | √        |        |
+| 定義 Event                    | √        |        |
+| 實現 EventHandler             | √        | √      |
+| 註冊 EventHandler             | √        | √      |
 | 实现 IInitialStateDataFactory | √        | √      |
 
 这个删减的原因是由于 Minion 是 Claptrap 的事件消费者，所以事件相关的定义不需要处理。但是其他的部分仍然是必须的。
@@ -230,7 +230,7 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 
 > 星际宗师：因为星际争霸比赛节奏快，信息量大，选手很容易忽视或误判部分信息，因此经常发生“选手看不到发生在眼皮底下的关键事件”的搞笑失误。玩家们由此调侃星际玩家都是瞎子（曾经真的有一场盲人和职业选手的对决），段位越高，瞎得越严重，职业星际选手清一色的盲人。
 
-## 实现 Grain
+## 實現 Grain
 
 ```cs
 + using System.Collections.Generic;
@@ -344,7 +344,7 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
   }
 ```
 
-## 实现 EventHandler
+## 實現 EventHandler
 
 ```cs
 + using System.Threading.Tasks;
@@ -379,7 +379,7 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 
 1. IOrderRepository 是直接操作存储层的接口，用于订单的增删改查。此处调用该接口实现订单数据库的入库操作。
 
-## 注册 EventHandler
+## 註冊 EventHandler
 
 实际上为了节约篇幅，我们已经在“实现 Grain”章节的代码中进行注册。
 
@@ -398,13 +398,13 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 3. GET `/api/order` 下单成功后可以，通过该 API 查看到下单完成的订单。
 4. GET `/api/sku/yueluo-666` 可以通过 SKU API 查看下单后的库存余量。
 
-## 小结
+## 小結
 
 至此，我们就完成了“商品下单”这个需求的基础内容。通过该样例可以初步了解多个 Claptrap 可以如何合作，以及如何使用 Minion 完成异步任务。
 
 不过，还有一些问题，我们将在后续展开讨论。
 
-您可以从以下地址来获取本文章对应的源代码：
+你可以從以下位址來獲取本文章對應的原始程式碼：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
