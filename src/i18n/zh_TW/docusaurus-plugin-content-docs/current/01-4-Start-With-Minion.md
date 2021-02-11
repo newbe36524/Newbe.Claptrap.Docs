@@ -1,54 +1,54 @@
 ---
-title: '第四步——利用Minion，商品下單'
-description: '第四步——利用Minion，商品下單'
+title: 'Step 4 - Order using Minion, products'
+description: 'Step 4 - Order using Minion, products'
 ---
 
-通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## 開篇摘要
+## Summary
 
-本篇，我通過實現"商品下單"的需求來瞭解一下如何在已有的項目樣例中使用 Minion 來完成異步的業務處理。
+At this point, I will learn how to use Minion in existing project examples to complete asynchronous business handling.
 
-首先，先瞭解一下本篇需要涉及的業務用例：
+First, take a look at the business use cases involved in this article：
 
-1. 用戶可以進行下單操作，下單時將使用當前購物車中的所有 SKU 形成一個訂單。
-2. 下單後將會扣除相關 SKU 的庫存。如果某一 SKU 庫存不足，則下單失敗。
-3. 下單操作僅到扣減庫存成功為止，後續步驟不需要本樣例討論範圍。因此，本樣例在成功下單之後會在資料庫中生成一條訂單記錄，表示訂單創建結束。
+1. The user can make the order when placing the order will form an order using all SKU in the current cart.
+2. The order will deduct the relevant SKU inventory.Order failed if a SKU stock was not available.
+3. The order operation is only conducted until the stock deduction is successful, and the next step does not require a sample discussion.The sample will therefore generate an order record in the database after successfully placing the order, indicating the end of the order creation.
 
-本篇雖然重點在於 Minion 的使用，不過由於需要使用到一個新的 OrderGrain 物件，因此還是需要使用到前一篇「定義 Claptrap」的相關知識。
+While the focus is on Minion use, the need to use a new OrderGrain object requires the use of knowledge related to the previous “Definition Claptrap”.
 
-Minion 是一種特殊的 Claptrap，它與其 MasterClaptrap 之間的關係如下圖所示：
+Minion is a special Claptrap with relations between MasterClaptrap as shown below：
 
 ![Minion](/images/20190228-002.gif)
 
-其主體開發流程和 Claptrap 類似，只是有所刪減。對比如下：
+Its main development process is similar to Claptrap but has been reduced.Compare the following：
 
-| 步驟                           | Claptrap | Minion |
-| ---------------------------- | -------- | ------ |
-| 定義 ClaptrapTypeCode          | √        | √      |
-| 定義 State                     | √        | √      |
-| 定義 Grain 介面                  | √        | √      |
-| 實現 Grain                     | √        | √      |
-| 註冊 Grain                     | √        | √      |
-| 定義 EventCode                 | √        |        |
-| 定義 Event                     | √        |        |
-| 實現 EventHandler              | √        | √      |
-| 註冊 EventHandler              | √        | √      |
-| 實現 IInitial StateDataFactory | √        | √      |
+| Step                                      | Claptrap | Minion |
+| ----------------------------------------- | -------- | ------ |
+| Define ClaptrapTypeCode                   | √        | √      |
+| Definition of State                       | √        | √      |
+| Define Grain interface                    | √        | √      |
+| Implement grain.                          | √        | √      |
+| Sign up for Grain                         | √        | √      |
+| Define EventCode.                         | √        |        |
+| Define Event.                             | √        |        |
+| Implement EventHandler.                   | √        | √      |
+| Sign up for EventHandler.                 | √        | √      |
+| Implementing the IInitialStateDataFactory | √        | √      |
 
-這個刪減的原因是由於 Minion 是 Claptrap 的事件消費者，所以事件相關的定義不需要處理。但是其他的部分仍然是必須的。
+This deletion is due to the fact that Minion is a Claptrap event consumer, the definition of event does not need to be processed.But the rest is still necessary.
 
-> 本篇開始，我們將不再羅列相關代碼所在的具體檔位置，希望讀者能夠自行在專案中進行查找，以便熟練的掌握。
+> At the beginning of this chapter, we will no longer list the specific document locations where the relevant code is located, in the hope that the reader will be able to find himself in the project for proficiency.
 
-## 實現 OrderGrain
+## Implementing OrderGrain
 
-基於前一篇"定義 Claptrap"相關的知識，我們此處實現一個 OrderGrain 用來表示訂單下單操作。為節約篇幅，我們只羅列其中關鍵的部分。
+Based on the knowledge associated with the previous "Definition Clap" we implement an OrderGrain here to represent order action.In order to save space, we have only listed key elements.
 
 ### OrderState
 
-訂單狀態的定義如下：
+Order status defined below：
 
 ```cs
 using System.Collections.Generic;
@@ -65,24 +65,24 @@ namespace HelloClaptrap.Models.Order
 }
 ```
 
-1. OrderCreated 表示訂單是否已經創建，避免重複創建訂單
-2. UserId 下單用戶 Id
-3. Skus 訂單包含的 SkuId 和訂單量
+1. OrderCreated indicates whether an order has been created and avoid creating orders again.
+2. User Id under UserId
+3. SkuId and orders included in Skus orders
 
 ### OrderCreatedEvent
 
-訂單建立事件的定義如下：
+Order creation events defined below：
 
 ```cs
-using System.Collections.Generic;
+Using Systems. Generic;
 using Newbe.Claptrap;
 
-namespace HelloClaptrap.Models.Order.Events
-{
-    public class OrderCreatedEvent : IEventData
-    {
-        public string UserId { get; set; }
-        public Dictionary<string, int> Skus { get; set; }
+namespace HelloClaptrap.Models.Order. Events
+FU
+    Public class OrderCreatedEvent : IEventData
+    F.
+        Public string UserId. set; }
+        public Dictionary<string, int> Skus Filet; set; }
     }
 }
 ```
@@ -149,20 +149,20 @@ namespace HelloClaptrap.Actors.Order
 }
 ```
 
-1. OrderGrain 實現訂單的創建核心邏輯，其中的 CreateOrderAsync 方法完成購物車數據獲取，庫存扣減相關的動作。
-2. OrderCreatedEvent 執行成功後將會更新 State 中相關的欄位，此處就不再列出了。
+1. OrderGrain implements the core logic of order creation, in which CreateOrderAsync methods complete cart data acquisition, stock deduct related actions.
+2. The relevant fields in the State will be updated when OrderCreedEvent is executed successfully, and are no longer listed here.
 
-## 通過 Minion 向資料庫保存訂單數據
+## Save order data via Minion to database
 
-從系列開頭到此，我們從未提及資料庫相關的操作。因為當您在使用 Claptrap 框架時，絕大多數的操作都已經被「事件的寫入」和「狀態的更新」 代替了，故而完全不需要親自編寫資料庫操作。
+From the beginning of the series, we have never mentioned the operation of the database.Since when you are using the Claptrap framework, most operations have been replaced by "Event Write" and "Status Update", so there is no need to write the database operation in person.
 
-不過，由於 Claptrap 通常是對應單體物件（一個訂單，一個 SKU，一個購物車）而設計的，因而無法獲取全體（所有訂單，所有 SKU，所有購物車）的數據情況。此時，就需要將狀態數據持久化到另外的持久化結構中（資料庫，檔，緩存等）以便完成全體情況的查詢或其他操作。
+However, because Claptrap is usually designed as a counterpart object (a order, a SKU, a shopping cart) it is not possible to obtain data for all (all orders, all SKU, all carts).At this point, the status data will need to be perpetuated into another durable structure (databases, documents, caching, etc.) in order to complete general queries or other operations.
 
-在 Claptrap 框架中引入了 Minion 的概念來解決上述的需求。
+A Minion concept has been introduced in the Claptrap framework to address these needs.
 
-接下來，我們就在樣例中引入一個 OrderDbGrain （一個 Minion）來異步完成 OrderGrain 的訂單入庫操作。
+Next, we'll introduce an OrderDbGrain (a Minion) in the sample to asynchronize the OrderGrain purchase order.
 
-## 定義 ClaptrapTypeCode
+## Define ClaptrapTypeCode
 
 ```cs
   namespace HelloClaptrap.Models
@@ -200,37 +200,37 @@ namespace HelloClaptrap.Actors.Order
   }
 ```
 
-Minion 是一種特殊的 Claptrap，換言之，它也是一種 Claptrap。而 ClaptrapTypeCode 對於 Claptrap 來說是必需的，因而需要增加此定義。
+Minion is a special Claptrap, in other words, also a Claptrap.ClaptrapTypeCode is necessary for Claptrap and needs to be added.
 
-## 定義 State
+## Definition of State
 
-由於本樣例只需要向資料庫寫入一條訂單記錄就可以了，並不需要在 State 中任何數據，因此該步驟在本樣例中其實並不需要。
+Since the sample simply needs to write an order record to the database and does not require any data in the State, this step is not required in the sample.
 
-## 定義 Grain 介面
+## Define Grain interface
 
 ```cs
-+ using HelloClaptrap.Models;
++ Using HelloClaptrap.Models;
 + using Newbe.Claptrap;
-+ using Newbe.Claptrap.Orleans;
++ using Newbe.Claptrap. rleans;
 +
 + namespace HelloClaptrap.IActor
-+ {
-+ [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
-+ [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
-+ public interface IOrderDbGrain : IClaptrapMinionGrain
++ LO
++ [ClaptrapCodes. rderGrain]
++ [ClaptrapState(typeof(NoneStateData), ClaptrapCodes. rderDbGrain]
++ public interface IorderDbGrain: IClaptrapMinionGrain
 + {
 + }
 + }
 ```
 
-1. ClaptrapMinion 用來標記該 Grain 是一個 Minion，其中的 Code 指向其對應的 MasterClaptrap。
-2. ClaptrapState 用來標記 Claptrap 的 State 資料類型。前一步，我們闡明該 Minion 並不需要 StateData，因此使用 None StateData 這一框架內置類型來代替。
-3. IClaptrapMinionGrain 是區別於 IClaptrapGrain 的 Minion 介面。如果一個 Grain 是 Minion ，則需要繼承該介面。
-4. ClaptrapCodes.OrderGrain 和 ClaptrapCodes.OrderDbGrain 是兩個不同的字串，希望讀者不是星際宗師。
+1. ClaptrapMinion is used to mark Grain as a Minion, where Code points to its corresponding MasterClaptrap.
+2. ClaptrapState is used to mark the State data type of Claptrap.As a previous step, we clarify that Minion does not require StateData, and therefore use the NoneStateData inline type instead.
+3. IClapMinionGrain is a Minion Interface distinguished from IClapGrain.If a Grain is Minion, you need to inherit this interface.
+4. ClaptrapCodes.OrderGrain and ClaptrapCods. OrderDbGrain are two different strings, hoping that the reader is not an intersteller.
 
-> 星際宗師：因為星際爭霸比賽節奏快，資訊量大，選手很容易忽視或誤判部分資訊，因此經常發生"選手看不到發生在眼皮底下的關鍵事件"的搞笑失誤。玩家們由此調侃星際玩家都是瞎子（曾經真的有一場盲人和職業選手的對決），段位越高，瞎得越嚴重，職業星際選手清一色的盲人。
+> The interstealer：is frequently mocked because of the fast rhythm of the interstellation competition and the volume of information, and the ease with which the player ignores or misjudges part of the information.The players are all blind (there was a real battle between blind and professional players). The higher the range, the more blind, the more blind the professional star-players were.
 
-## 實現 Grain
+## Implement grain.
 
 ```cs
 + using System.Collections.Generic;
@@ -267,13 +267,13 @@ Minion 是一種特殊的 Claptrap，換言之，它也是一種 Claptrap。而 
 + }
 ```
 
-1. MasterEventReceivedAsync 是定義自 IClaptrapMinionGrain 的方法，表示即時接收來自 MasterClaptrap 的事件通知。此處暫不展開說明，按照上文範本實現即可。
-2. WakeAsync 是定義自 IClaptrapMinionGrain 的方法，表示 MasterClaptrap 主動喚醒 Minion 的操作。此處暫不展開說明，按照上文範本實現即可。
-3. 當讀者查看源碼時，會發現該類被單獨定義在一個程式集當中。這隻是一種分類辦法，可以理解為將 Minion 和 MasterClaptrap 分別放置在兩個不同的專案中進行分類。實際上放在一起也沒有問題。
+1. MasterEventReceivedAsync is a method defined from IClaptrapMinionGrain that it receives notification of events from MasterClaptrap in real time.This will be done on the basis of the above template.
+2. WakeAsync is a method defined from IClaptrapMinionGrain, representing MasterClaptrap active wake-up of Minion.This will be done on the basis of the above template.
+3. When readers view the source code, they find that the class is defined separately in a set of programs.This is only a classification, which can be understood as placing Minion and MasterClaptrap in two separate projects.In fact, there is no problem.
 
-## 註冊 Grain
+## Sign up for Grain
 
-此處，由於我們將 OrderDbGrain 定義在單獨的程式集，因此，需要額外的註冊這個程式集。如下所示：
+Here, additional registration is required as we define OrderDbGrain in in a separate set of programs.As shown below：
 
 ```cs
   using System;
@@ -344,7 +344,7 @@ Minion 是一種特殊的 Claptrap，換言之，它也是一種 Claptrap。而 
   }
 ```
 
-## 實現 EventHandler
+## Implement EventHandler.
 
 ```cs
 + using System.Threading.Tasks;
@@ -377,34 +377,34 @@ Minion 是一種特殊的 Claptrap，換言之，它也是一種 Claptrap。而 
 + }
 ```
 
-1. IOrderRepository 是直接操作存儲層的介面，用於訂單的增刪改查。此處調用該介面實現訂單資料庫的入庫操作。
+1. IOrderRepository is the interface to operate the storage layer directly, which is used for order additions and deletions.Use this interface to implement the order database access operation.
 
-## 註冊 EventHandler
+## Register EventHandler
 
-實際上為了節約篇幅，我們已經在"實現 Grain"章節的代碼中進行註冊。
+In fact, in order to save space, we are already registered in the code of the “Implementing Grain” section.
 
-## 實現 IInitial StateDataFactory
+## Implementing the IInitialStateDataFactory
 
-由於 StateData 沒有特殊定義，因此也不需要實現 IInitial StateDataFactory。
+There is no need to implement the IInitialStateDataFactor because State Data does not have a special definition.
 
-## 修改 Controller
+## Modify the Controller.
 
-樣例中，我們增加了 OrderController 用來下單和查詢訂單。讀者可以在源碼進行查看。
+In the sample, we added the OrderController to place orders and queries.Readers can view them on their source code.
 
-讀者可以使用以下步驟進行實際的效果測試：
+Readers can use the following steps to actually test effects：
 
-1. POST `/api/cart/123` {"skuId"："yueluo-666"，"count"：30} 向 123 號購物車加入 30 單位的 yueluo-666 號濃縮精華。
-2. POST `/api/order` {"userId"："999"，"cartId"："123"} 以 999 userId 的身份，從 123 號購物車進行下單。
-3. GET `/api/order` 下單成功後可以，通過該 API 查看到下單完成的訂單。
-4. GET `/api/sku/yueluo-666` 可以通過 SKU API 查看下單後的庫存餘量。
+1. POST `/api/cart/123` {"skuId":"yueluo-66", "count":30} added 30 units of yueluo-666 to 123 shopping cart.
+2. POST `/api/order` {"userId":"999", "cartId":"123"} use as 999 userId to place orders from the shopping cart.
+3. GET `/api/order` will be able to view orders completed with the API when orders are successfully placed.
+4. GET `/api/sku/yueluo-666` can view the balance of the order over the SKU API.
 
-## 小結
+## Summary
 
-至此，我們就完成了"商品下單"這個需求的基礎內容。通過該樣例可以初步瞭解多個 Claptrap 可以如何合作，以及如何使用 Minion 完成異步任務。
+By then, we have completed the basic element of the need for a “commodity order”.This example provides an initial idea of how multiple Claptrap can work together and how to use Minion to perform asynchronous tasks.
 
-不過，還有一些問題，我們將在後續展開討論。
+There are, however, a number of issues, and we will be following up.
 
-你可以從以下位址來獲取本文章對應的原始程式碼：
+You can get the source code for this article from the following address.：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
