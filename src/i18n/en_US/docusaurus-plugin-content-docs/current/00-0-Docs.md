@@ -30,8 +30,6 @@ You can get the samples about the project through [Newbe.Claptrap.Examples](http
 
 - [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
-- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Reference
