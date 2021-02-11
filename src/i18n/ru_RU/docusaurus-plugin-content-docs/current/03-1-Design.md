@@ -1,119 +1,119 @@
 ---
-title: 'Дизайн'
-description: 'Система продажи билетов на поезда - Дизайн'
+title: 'Design.'
+description: 'Train ticketing system - design.'
 ---
 
 
-## Бизнес-аналитика
+## Business analysis.
 
-### Бизнес-границы
+### Business boundaries.
 
-Система включает в себя только оставшуюся часть управления билетами.То есть, чтобы проверить оставшиеся места, купить билеты, чтобы уменьшить место.
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-Информация о заказе, платежи, управление потоком, управление ветром запросов и т.д. не включены в обсуждение.
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### Бизнес-варианты использования
+### Business use cases.
 
-- Запрос оставшихся билетов, чтобы иметь возможность проверить количество поездок, доступных между двумя станциями, а также количество оставшихся мест.
-- Проверьте билеты, соответствующие билетам, и вы можете узнать, сколько мест осталось между станциями для данного поезда.
-- Поддержка выбора места для размещения заказов, клиенты могут выбрать данный автомобиль и место, и сделать заказ на покупку билета.
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-## Реализуем анализ трудностей
+## Difficulty analysis
 
-### Управление оставшимися билетами
+### Ticketing management.
 
-Трудность управления билетами на поезд заключается в особенностях остальных запасов билетов.
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-Обычные товары электронной коммерции, с номерами SKU в качестве наименьших единиц, каждый из которых независим друг от друга и не влияет друг на друга.
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
-Билеты на поезд отличаются, потому что оставшиеся билеты будут затронуты в начале и после продажи билетов.Вот простая логическая модель, чтобы получить более подробную информацию об этой специфике.
+Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-Теперь мы предполагаем, что есть один раз, который проходит через четыре станции a, b, c, d, и в то же время мы упрощаем сценарий, предполагая, что есть только одно место в автомобиле.
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-Таким образом, до тех пор, пока никто не купит билеты, остаточный билет на этот автомобиль будет выглядеть следующим образом：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| От конца до конца | Оставшиеся голоса |
-| ----------------- | ----------------- |
-| a,b               | 1                 |
-| a,c               | 1                 |
-| a,d               | 1                 |
-| b,c               | 1                 |
-| b,d               | 1                 |
-| c,d               | 1                 |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
-Если клиент покупает билет a,c сейчас.Так как есть только одно место, нет билетов, кроме c, d.Остаток голосов становится следующим：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The rest of the ticket situation becomes the following:
 
-| От конца до конца | Оставшиеся голоса |
-| ----------------- | ----------------- |
-| a,b               | 0                 |
-| a,c               | 0                 |
-| a,d               | 0                 |
-| b,c               | 0                 |
-| b,d               | 0                 |
-| c,d               | 1                 |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
-Чтобы быть более прямой, если клиент покупает полный билет a, d, все оставшиеся билеты будут 0.Потому что пассажир всегда сидит на этом сиденье.
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-Это специфика билета на поезд：одно и то же место в том же поезде, количество оставшихся билетов в каждом пункте отсеи, зависит от происхождения и конца проданного билета.
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-Расширяя немного, легко сделать вывод, что нет никакого влияния между различными сиденьями в одном и том же автомобиле.
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### Запрос остаточного билета
+### Remaining ticket inquiries.
 
-Как отмечалось в предыдущем разделе, из-за специфики запасов оставшихся билетов.Для одного и того же транспортного средства a, b, c, d, есть 6 возможных вариантов покупки билетов.
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-И мы можем легко сделать вывод, что количество выбранных видов на самом деле рассчитывается как количество комбинаций, которые выбирают 2 на n сайтах, т.е. c(n, 2).
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-Тогда если у вас есть автомобиль, который проходит через 34 станции, его возможной комбинацией является c(34,2) — 561.
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-Как эффективно реагировать на различные запросы, которые могут существовать также является проблемой, которую система должна решить.
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Дизайн тела Claptrap
+## Claptrap Main Design
 
 ![Train Ticketing System Design](/images/20200720-001.png)
 
-### Каждое место на одном и том же автомобиле было разработано как Claptrap - SeatGrain
+### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
-State этого Claptrap содержит основную информацию
+The State of the Claptrap contains a basic information.
 
-| Тип                                    | Имя        | описание                                                                                                                                                                                                                                         |
-| -------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| IList&lt;int&gt;           | Stations   | Id-список станций маршрута начинается с начальной станции и заканчивается конечной станцией.Проверка при покупке билетов в основном.                                                                                                             |
-| Dictionary&lt;int, int&gt; | StationDic | Обратный словарь индекса для идентификатора станции пути.Stations — это список index-id, который является словарем соответствующего id-index для ускорения запросов.                                                                             |
-| List&lt;string&gt;         | RequestIds | Ключевые свойства.Идентификатор покупки билета, который был покупкой билета в каждом интервале.Например, индекс — 0, что означает идентификатор покупки билета от станции 0 до станции 1.Если он пуст, это означает, что нет билета на подписку. |
+| Type                                   | Name       | Description                                                                                                                                                                            |
+| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.The principal ticket is verified.                                                 |
+| Dictionary&lt;int, int&gt; | StationDic | The index of the pad id is reverse dictionary.Stations are a list of index-id dictionaries, which are the dictionary of the corresponding id-index in order to expedite queries.       |
+| List&lt;string&gt;         | RequestIds | Key properties.For each district, the ticket id has been purchased.For example, index is 0, which means ticket id for the station 0 to 1.If empty, indicate that there are no tickets. |
 
-С помощью этой структуры данных можно реализовать два бизнеса.
+With the design of this data structure, two operations could be achieved.
 
-#### Убедитесь, что вы можете приобрести его
+#### Verify if purchase is possible
 
-Переместив два идентификатора станции, вы можете узнать, принадлежит ли это SeatGrain.И запросы для всех сегментов, соответствующих конечной точке.Просто определите, является ли все сегменты в RequestIds не имеют идентификатора покупки билета.Если нет, это означает, что вы можете купить его.Если у вас уже есть идентификатор покупки билета на каком-либо сегменте, вы больше не можете приобрести его.
+By passing into two stops ids, it can be asked if this is this SeatGrain.and search for all the interval between the end of the end.It is sufficient to determine whether all the interval segments are not billed Id from RequestIs.If none is available, indicate that it can be purchased.If there is any paragraph with Purchase Id, then it is no longer available.
 
-Например, текущая ситуация с Stations составляет 10, 11, 12, 13. В то время как RequestIds 0, 1, 0.
+The current Stations case, for example, is 10,11,12,13. The RequestIds are 0,1,0.
 
-Ну, если вы хотите приобрести билет>10-12, это не так, так как второй интервал RequestIds уже куплен.
+So, if the ticket 10->12 is to be purchased, it will not do so because the second period of requestIds has already been purchased.
 
-Однако, если вы покупаете билеты на 10->11, вы можете, потому что первый интервал RequestIds еще никто не покупает.
+However, if the tickets for 10->11 are to be purchased, they can be bought because the first period of the Request Ids is not yet purchased.
 
-#### Купить
+#### Buy
 
-Просто соотдайте конечную точку идентификатором покупки билета на всех настройках интервала в RequestIds.
+Use the ticket Id to set up for all interval segments in RequestIs.
 
-### Дизайн оставшихся билетов на все места на одном и том же автомобиле, как Claptrap-TrainGran
+### Designed for a Claptrap - TrainGran for all seats on the same car
 
-State этого Claptrap содержит некоторую основную информацию
+The Claptrap State contains some basic information
 
-| Тип                                              | Имя       | описание                                                                                                                                                                                                                                |
-| ------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IReadOnlyList&lt;int&gt;             | Stations  | Id-список станций маршрута начинается с начальной станции и заканчивается конечной станцией.Проверка при основном запросе.                                                                                                              |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | Ключевые свойства.StationTuple представляет собой конечную точку.Коллекция содержит все возможные условия билета от конечной точки.Например, если автомобиль проходит через 34 места выше, словарь содержит 561 ключевой набор значений |
+| Type                                             | Name      | Description                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains the rest of the ticket situation for all possible starting points.For example, according to the above, if the car passes through 34 locations, the dictionary contains 561 key-value pairs |
 
-Основываясь на приведенной выше структуре данных, необходимо синхронизировать соответствующую информацию с Grain только после каждого завершения заказов SeatGrain.
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-Например, если a, c происходит покупка билета, вычитаете оставшиеся билеты a, c/a, b/b, c.
+For example, given a,c there was a single ticket, the surplus of a,c c /a,b b,c was reduced by one.
 
-Это можно сделать с помощью механизма Minion, встроенного в эту платформу.
+This can be done by using the Minion mechanism within this framework.
 
-Стоит отметить, что это дизайн больше, чем "минимальный конкурентный ресурс".Поскольку сценарий запроса не требует абсолютной быстроты в этом бизнес-сценарии.Такая конструкция снижает сложность системы.
+It is worth mentioning that this is a larger design than the “least competitive resources”.The search scene does not require absolute speed in the business scenario.This design reduces the complexity of the system.
 
 ## Id
 
