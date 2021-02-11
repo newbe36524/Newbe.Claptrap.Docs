@@ -1,6 +1,6 @@
 ---
-title: '実装'
-description: '列車発売システム - 実装'
+title: '实现'
+description: '火车售票系统-实现'
 ---
 
 
