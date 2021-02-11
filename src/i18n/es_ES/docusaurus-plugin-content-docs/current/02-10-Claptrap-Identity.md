@@ -1,23 +1,23 @@
 ---
-title: 'Identidad de Claptrap'
-description: 'Identidad de Claptrap'
+title: 'Claptrap Identity'
+description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity es la identidad única que localiza una Claptrap
+## Claptrap Identity is the unique identity for locating a Claptrap.
 
-Es una estructura.Contiene varias fields：principales
+It is a struct.It contains the following main fields:
 
-Claptrap Type Code, Claptrap código de clasificación.El código clasificado es el código definido por el desarrollador.Normalmente relacionado con el negocio asociado con Claptrap.Es importante tener en cuenta que no hay ninguna asociación forzada entre Claptrap y su Minion's Claptrap Type Code, pero por lo general durante el desarrollo, el código de tipo Claptrap de Minion debe diseñarse como parte de su Master Claptrap, que es más favorable para los negocios.
+Claptrap Type Code, the Claptrap Classification Code.Classification code is code that the developer defines itself.It is usually related to the business associated with the corresponding Claptrap.It is interesting to note that there is no compulsive association between Claptrap and its Minion's Clatrap Type Code, but usually during development, Minion's Clatrap Type Code should be designed as part of its Master Clatrap, so that it is more beneficial for the business to understand.
 
-Id, Claptrap Business ID.Esta es la identificación del negocio.Normalmente, es la clave principal del negocio.En el código y la documentación reales, Claptrap Identity aparece en nombre completo y, cuando aparecen los ID, normalmente hacen referencia a los ID de negocio.
+Id, Claptrap Business Id.This is the business ID.This is usually the primary key of the business.In the actual code, the Claptrap Identity will appear in a full-name fashion, and when an Id appears, it usually means the Business Id.
 
-## Identidad de Claptrap Este es un diseño independiente de la plataforma
+## Claptrap Identity this is a design that is not related to the running platform.
 
-Por lo tanto, cuando se combina con una plataforma específica, es necesario aclarar su punto de enlace.
+Thus, when combined with a specific platform, it is necessary to clarify its closing points.
 
-La encarnación de Claptrap Identity en Orleans.
+Claptrap Identity is reflected in Orleans.
 
-Claptrap Type Code：En Orleans, por lo general cada Claptrap se coloca para ejecutarse en ClaptrapBoxGrain.En este punto, Claptrap Type Code normalmente se marca en una clase o interfaz como una etiqueta de propiedad.
+Claptrap Type Code: In Orleans, typically each Claptrap is placed in ClaptrapBoxGrain.At this point, Claptrap Type Code is typically marked as a property tag on a class or interface.
 
-Id：En Orleans, Grain en sí viene con un PrimaryKey.Como resultado, PrimaryKey también se reutiliza directamente en ClaptrapBoxGrain como Claptrap ID.
+Id: In Orleans, Grain has a PrimaryKey in itself.As a result, the PrimaryKey was also directly reused as Clatrap Id in the ClatrapBoxGrain.
