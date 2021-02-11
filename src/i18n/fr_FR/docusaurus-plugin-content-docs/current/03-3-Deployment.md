@@ -1,6 +1,6 @@
 ---
-title: 'Déploiement'
-description: 'Système de billetterie des trains - déploiement'
+title: 'Deployment'
+description: 'Train ticketing system - deployment'
 ---
 
 
@@ -25,35 +25,35 @@ description: 'Système de billetterie des trains - déploiement'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## Déploiement autonome
+## Deploy independently.
 
-Les développeurs peuvent également utiliser le code source pour un déploiement indépendant dans l’environnement docker sur place.Il suffit de suivre ces étapes.
+Developers can also use the source code for independent deployment in the local docker environment.Just follow the steps below.
 
-1. Assurez-vous que l’environnement docker est correctement installé localement et que vous pouvez utiliser docker-composer/git
-2. Consultez la source du projet code <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. Exécutez la commande de build docker-composer dans le dossier src/Newbe.Claptrap.Ticketing pour compléter la compilation du projet
-4. Exécutez docker-composer up-d dans le dossier src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite pour démarrer tous les services
-5. Accédez `http://localhost:10080` pour ouvrir l’interface.
+1. Make sure that the docker environment is properly installed locally and that the docker-compose/git is available.
+2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. Run the docker-compose build command in the src/Newbe.Claptrap.Ticketing folder to complete project compilation.
+4. Run the docker-compose up-d in the src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite folder to start all services.
+5. Access the `http://localhost:10080` to open the Ui.
 
-En résumé, le script est aussi follows：
+To sum up, the script is as follows:
 
 ```bash
-clone git https://github.com/newbe36524/Newbe.Claptrap.Examples.git
+git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
 cd Newbe.Claptrap.Examples/src/Newbe.Claptrap.Ticketing
-docker-composer build
+docker-compose build
 cd Docker/LocalClusterSQLite
-docker-composer up -d
+docker-compose up -d
 ```
 
-Les étapes ci-dessus sont un moyen d’exécuter SQLite comme une base de données, et la base de code contient plusieurs autres modes de déploiement qui n’ont qu’à courir up.cmd dans des dossiers distincts pour：
+The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to:
 
-| Dossier             | Description                                         |
-| ------------------- | --------------------------------------------------- |
-| LocalClusterMongodb | MongoDb version d’équilibrage de charge multi-nœuds |
-| LocalClusterSQLite  | VERSION SQLite mono-nœud                            |
-| Tencent ( Tencent ) | La version déployée dans l’expérience en ligne      |
+| Folder              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| LocalClusterMongodb | MongoDb multi-node load balancing version.     |
+| LocalClusterSQLite  | SQLite single-node version.                    |
+| Tencent             | The version deployed in the Online Experience. |
 
-> - Si vous êtes actuellement chinois continent et connaissent lent téléchargement d’images netcore, vous pouvez essayer[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - Les développeurs peuvent également[de déployer](https://labs.play-with-docker.com/)test sur le réseau PWD
-> - Passer d’un mode de déploiement à l’autre, c’est faire attention à exécuter docker-composer en premier pour fermer le dernier déploiement
-> - Les ports Web peuvent varier d’un mode de déploiement à l’autre, selon les paramètres de docker-composer.yml
+> - If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> - Developer can also choose[PWD](https://labs.play-with-docker.com/)to deploy for testing
+> - Switch between different deployment modes to take note of running docker-compose down first to close previous deployment
+> - Web ports may vary from deployment pattern to deployment mode, depending on the settings in docker-compose.yml.
