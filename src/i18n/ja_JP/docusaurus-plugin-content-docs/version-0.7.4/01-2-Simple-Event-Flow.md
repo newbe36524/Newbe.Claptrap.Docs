@@ -1,35 +1,35 @@
 ---
-title: '第二步——简单业务，清空购物车'
-description: '第二步——简单业务，清空购物车'
+title: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
+description: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
 ---
 
-通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
+この記事では、Claptrap を使用してビジネスを開始できます。
 
 <!-- more -->
 
-## 开篇摘要
+## オープダイジェスト
 
-本篇，我通过实现“清空购物车”的需求来了解一下如何在已有的项目样例中增加一个业务实现。
+この記事では、"ショッピング カートを空にする" という要件を実装することで、既存のプロジェクト サンプルにビジネス実装を追加する方法について説明します。
 
-主要包含有以下这些步骤：
+主に次の手順が含まれます：
 
-1. 定义 EventCode
-2. 定义 Event
-3. 实现 EventHandler
-4. 注册 EventHandler
-5. 修改 Grain 接口
-6. 实现 Grain
-7. 修改 Controller
+1. EventCode を定義します
+2. Event を定義します
+3. EventHandler を実装します
+4. EventHandler を登録します
+5. Grain インターフェイスを変更します
+6. Grain を実装します
+7. Controllerを変更します
 
-这是一个从下向上的过程，实际的编码过程中开发也可以自上而下进行实现。
+これは下から上へのプロセスであり、実際のコーディング プロセスの開発もトップダウンで実装できます。
 
-## 定义 Event Code
+## Event Code を定義します
 
-EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别，序列化等方面起到了重要的作用。
+EventCode は、Claptrap システムの各イベントの一意のエンコーディングです。これは、イベントの識別、シリアル化などにおいて重要な役割を果たします。
 
-打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
+`HelloClaptrap.Models`プロジェクトの`ClaptrapCodes`します。
 
-添加“清空购物车事件”的 EventCode。
+[ショッピング カート イベントを空にする] の EventCode を追加します。
 
 ```cs
   namespace HelloClaptrap.Models
@@ -45,13 +45,13 @@ EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别
   }
 ```
 
-## 定义 Event
+## Event を定義します
 
-Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
+Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-在`HelloClaptrap.Models`项目的`Cart/Events`文件夹下创建`RemoveAllItemsFromCartEvent`类。
+`RemoveAllItemsFromCartEvent`クラスは、`HelloClaptrap.Models  プロジェクトの<code>Cart/Events`フォルダの下に</code>します。
 
-添加如下代码：
+次のようなコードを追加します：
 
 ```cs
 + using Newbe.Claptrap;
@@ -64,17 +64,17 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 + }
 ```
 
-由于在这个简单的业务场景中，清空购物车不需要特定的参数。因此，只要创建空类型即可。
+この単純なビジネス シナリオでは、ショッピング カートを空にする特定のパラメーターは必要ありません。したがって、空の型を作成するだけです。
 
-`IEventData`接口是框架中表示事件的空接口，用于在泛型推断时使用。
+`IEventData`インターフェイスは、ジェネリック推論で使用されるフレームワーク内のイベントを表す空のインターフェイスです。
 
-## 实现 EventHandler
+## EventHandler を実装します
 
-`EventHandler`用于将事件更新到 Claptrap 的`State`上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
+`EventHandler`Claptrap の`State にイベントを更新`します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
-在`HelloClaptrap.Actors`项目的`Cart/Events`文件夹下创建`RemoveAllItemsFromCartEventHandler`类。
+`HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
 
-添加如下代码：
+次のようなコードを追加します：
 
 ```cs
 + using System.Threading.Tasks;
@@ -98,29 +98,29 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 + }
 ```
 
-这里有一些常见的问题：
+ここでは、いくつかの一般的な質問があります：
 
-1. NormalEventHandler 是什么？
+1. NormalEventHandlerとは何ですか?
 
-   NormalEventHandler 是框架定义的一个简单基类，用于方便实现 Handler。 其中第一个泛型参数是 Claptrap 对应的 State 类型。结合前篇文档中，我们的购物车 State 类型就是 CartState。 第二个泛型参数是该 Handler 需要处理的 Event 类型。
+   NormalEventHandler は、Handler の実装を容易にするフレームワーク定義の単純な基本クラスです。 最初のジェネリック パラメーターは、Claptrap に対応する State 型です。前のドキュメントと組み合わせると、ショッピング カート State の種類は CartState です。 2 番目のジェネリック パラメーターは、Handler が処理する必要がある Event 型です。
 
-2. 为什么用`stateData.Items = null;`而不用`stateData.Items.Clear();`
+2. `stateData.Items = null を使用する理由。`stateData.Items.Clear() を`せずに、`
 
-   stateData 是保存在内存中的对象，Clear 不会缩小字典已占用的自身内存。当然，一般一个购物车也不会有数十万商品。但其实关键是在于，更新 State 时，需要注意的是 Claptrap 是一种常驻于内存中的对象，数量增加时会加剧内存的消耗。因此，尽可能在 State 中保持更少的数据。
+   stateData はメモリに保持されるオブジェクトであり、Clear はディクショナリが占有している自身のメモリを縮小しません。もちろん、一般的に1つのショッピングカートには数十万の商品はありません。ただし、State を更新する場合、Claptrap はメモリに常駐するオブジェクトであり、量が増するとメモリの消費が増加する可能性があります。したがって、State ではできるだけ少ないデータを保持します。
 
-3. ValueTask 是什么？
+3. ValueTaskとは何ですか?
 
-   可以通过这篇[《Understanding the Whys, Whats, and Whens of ValueTask》](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)进行了解。
+   この記事[understanding the Whys, Whats, and Whens of ValueTask"](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)できます。
 
-EventHandler 实现完成之后，不要忘记对其进行单元测试。这里就不罗列了。
+EventHandler の実装が完了したら、単体テストを行うのを忘れないでください。ここではリストしません。
 
-## 注册 EventHandler
+## EventHandler を登録します
 
-实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
+EventHandler を実装してテストしたら、EventCode と Claptrap に関連付ける前に EventHandler を登録できます。
 
-打开`HelloClaptrap.Actors`项目的`CartGrain`类。
+`HelloClaptrap.Actors`プロジェクトの`CartGrain`します。
 
-使用 Attribute 进行标记。
+タグに Attribute を使用します。
 
 ```cs
   using Newbe.Claptrap;
@@ -142,17 +142,17 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
           ....
 ```
 
-`ClaptrapEventHandlerAttribute`是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
+`ClaptrapEventHandlerAttribute`は、EventHandler 、 EventCode 、および ClaptrapGrain の 3 つの関連付けを実現するために Grain の実装クラスにタグ付けできるフレームワーク定義の Attribute です。
 
-关联之后，如果在此 Grain 中产生的对应 EventCode 的事件将会由指定的 EventHandler 进行处理。
+関連付け後、この Grain で発生した EventCode に対応するイベントは、指定された EventHandler によって処理されます。
 
-## 修改 Grain 接口
+## Grain インターフェイスを変更します
 
-修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
+Grain インターフェイスの定義を変更して、外部と Claptrap の相互運用性を提供します。
 
-打开`HelloClaptrap.IActors`项目的`ICartGrain`接口。
+`elloClaptrap.IActors`プロジェクトの`ICartGrain`します。
 
-添加接口以及 Attribute。
+インターフェイスと Attribute を追加します。
 
 ```cs
   using System.Collections.Generic;
@@ -179,18 +179,18 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
   }
 ```
 
-其中增加了两部分内容：
+これには 2 つの部分が追加されます：
 
-1. 标记了`ClaptrapEvent`，使得事件与 Grain 进行关联。注意，这里与前一步的`ClaptrapEventHandler`是不同的。此处标记的是 Event，上一步标记的是 EventHandler。
-2. 增加了 RemoveAllItemsAsync 方法，表示“清空购物车”的业务行为。需要注意的是 Grain 的方法定义有一定限制。详细可以参见[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+1. イベントを grain`関連付けるには、`ClaptrapEvent ファイルをマークします。ここでは、 ClaptrapEventHandler`前の手順とは`異なります。ここでマークされたのは Event で、前のステップは EventHandler でマークされています。
+2. RemoveAllItemsAsync メソッドが追加され、"ショッピング カートを空にする" というビジネス動作を表します。Grain のメソッド定義には制限があります。詳細については、[Developing a Grain を参照](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## 实现 Grain
+## Grain を実装します
 
-接下来按照上一步的接口修改，来修改相应的实现类。
+次に、前の手順のインターフェイスの変更に従って、対応する実装クラスを変更します。
 
-打开`HelloClaptrap.Actors`项目中的`Cart`文件夹下的`CartGrain`类。
+`HelloClaptrap.Actors`プロジェクトの`Cart`フォルダの下にある`CartGrain`します。
 
-添加对应的实现。
+対応する実装を追加します。
 
 ```cs
   using System;
@@ -233,23 +233,23 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
   }
 ```
 
-增加了对接口方法的对应实现。需要注意的有以下几点：
+インターフェイス メソッドの対応する実装が追加されます。注意すべき点は次：
 
-1. 一定要增加`if (StateData.Items?.Any() != true)`这行判断。因为这可以明显的减小存储的开销。
+1. `if (StateData.Items?. Any() != true)`行で判断できます。これにより、ストレージのオーバーヘッドが大幅に削減されます。
 
-   事件在当执行`Claptrap.HandleEventAsync(evt)`便会持久化。而就此处的场景而言，如果购物车中原本就没有内容，清空或者持久化这个事件只是增加开销，而没有实际的意义。 因此，在此之前增加判断可以减小存储的无用消耗。
+   イベントは、`Claptrap.HandleEventAsync(evt)`に永続化されます。ここでのシナリオでは、ショッピング カートにコンテンツがない場合、イベントを空にしたり永続化したりすると、オーバーヘッドが増加し、実用的な意味はありません。 したがって,それまで判定を増やすことで,メモリの無駄な消費を減らすことができます.
 
-2. 一定要判断 State 以及传入参数是否满足事件执行的条件。
+2. State と渡された引数がイベント実行の条件を満たしているかどうかを判断してください。
 
-   这与上一点所描述的内容侧重不同。上一点侧重表明“不要产生没有意义的事件”，这一点表明“绝不产生 EventHandler 无法消费的事件”。 在事件溯源模式中，业务的完成是以事件的持久化完成作为业务确定完成的依据。也就是说事件只要入库了，就可以认为这个事件已经完成了。 而在 EventHandler 中，只能接受从持久化层读出的事件。此时，按照事件的不可变性，已经无法再修改事件，因此一定要确保事件是可以被 EventHandler 消费的。所以，在`Claptrap.HandleEventAsync(evt)`之前进行判断尤为重要。 因此，一定要实现单元测试来确保 Event 的产生和 EventHandler 的处理逻辑已经被覆盖。
+   これは、前のポイントで説明した内容とは異なります。前のポイントは、「意味のないイベントを生成しない」という意味に焦点を合わし、「EventHandler が消費できないイベントを生成しない」ことを示しています。 イベント トレーサビリティ パターンでは、ビジネスの完了は、ビジネスの決定の完了の基礎として、イベントの永続的な完了に基づいています。つまり、イベントがライブラリ化されている限り、イベントは完了したと見なされます。 EventHandler では、永続化レイヤーから読み取ったイベントのみを受け入れることができます。この時点では、イベントの不変性に応じてイベントを変更できないため、EventHandler でイベントを消費することを確認してください。したがって、`claptrap.HandleEventAsync(evt)`を実行する前に判断することが特に重要です。 したがって、Event の生成と EventHandler の処理ロジックが上書きされていることを確認するために、単体テストを実装する必要があります。
 
-3. 此处需要使用到一些 TAP 库中的一些方法，可以参见[基于任务的异步模式](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+3. ここでは、いくつかの TAP ライブラリで使用する必要があるメソッドについては、「タスク ベースの非同期[」を参照してください](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 
-## 修改 Controller
+## Controllerを変更します
 
-前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“清空购物车”的操作。
+前のすべての手順が完了すると、Claptrap のすべての部分が完了します。ただし、Claptrap は外部プログラムとの相互運用性を直接提供できません。したがって、外部で 「ショッピング カートを空にする」ための API を Controller 層に追加する必要があります。
 
-打开`HelloClaptrap.Web`项目的`Controllers`文件夹下的`CartController`类。
+`elloClaptrap.Web`プロジェクトの`Controllers`フォルダの下にある`CartController`します。
 
 ```cs
   using System.Threading.Tasks;
@@ -281,11 +281,11 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
   }
 ```
 
-## 小结
+## 小さな結び目
 
-至此，我们就完成了“清空购物车”这个简单需求的所有内容。
+これで、ショッピング カートを空にする単純な要件がすべて完了しました。
 
-您可以从以下地址来获取本文章对应的源代码：
+この記事のソース コードは、次のアドレスから入手できます：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
