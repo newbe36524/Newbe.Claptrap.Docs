@@ -1,44 +1,44 @@
 ---
-title: 'El tercer paso es definir Claptrap y gestionar el inventario de mercancías'
-description: 'El tercer paso es definir Claptrap y gestionar el inventario de mercancías'
+title: 'Step 3 - Define Claptrap and manage inventory of goods.'
+description: 'Step 3 - Define Claptrap and manage inventory of goods.'
 ---
 
-Con esta lectura, puedes empezar a hacer negocios con Claptrap.
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## Un resumen de apertura
+## Summary
 
-En este artículo, aprendí a definir una Claptrap en un ejemplo de proyecto existente implementando los requisitos de "administrar el inventario".
+I know how to define a Claptrap in an existing project sample by fulfilling the need to manage inventory.
 
-En combinación con los pasos básicos del artículo anterior, defina Claptrap siempre y cuando agregue unos pasos fuera.Los pasos completos se muestran a continuación, donde la sección marcada como "Nuevo contenido" pertenece al nuevo contenido de este artículo que difiere del：anterior
+In conjunction with the basic step of the previous chapter, a definition of Claptrap could be made by adding additional steps.The full step is shown below, and the part marked as "new" is new to this page as distinguished from the previous one.：
 
-1. Definición de ClaptrapTypeCode (nuevo contenido)
-1. Definir estado (nuevo contenido)
-1. Definir interfaz de grano (nuevo contenido)
-1. Implementar grano (nuevo contenido)
-1. Regístrese en Grano (Nuevo Contenido)
-1. Definir EventCode
-1. Definir evento
-1. Implementar EventHandler
-1. Regístrese en EventHandler
-1. Implementación de IInitialStateDataFactory (Nuevo contenido)
-1. Modificar controlador
+1. Define ClaptrapTypeCode (new)
+1. Define State (new)
+1. Define Grain interface (new)
+1. Implement Grain (new)
+1. Sign up for Grain (new)
+1. Define EventCode.
+1. Define Event.
+1. Implement EventHandler.
+1. Sign up for EventHandler.
+1. Implement the IInitialStateDataFactory (new)
+1. Modify the Controller.
 
-Este es un proceso de abajo hacia arriba, y el desarrollo se puede ajustar durante el proceso de codificación real.
+This is a bottom-up process, and development can be adjusted during the actual coding process.
 
-Los casos de uso empresarial implementados en este artículo：
+The business use cases implemented in this article：
 
-1. Implementa un objeto SKU que representa los datos de inventario.
-2. Capacidad para actualizar y leer SKU.
+1. Implement SKU (Stocking Unit) objects that represent stock data.
+2. Can update and read SKUs.
 
-## Definir ClaptrapTypeCode
+## Define ClaptrapTypeCode
 
-ClaptrapTypeCode es el único código para Claptrap.Desempeña un papel importante en la identificación, serialización, etc. del Estado.
+ClaptrapTypeCode is a claptrap unique code.It plays an important role in State identification, serialization, etc.
 
-Abra`la clase de`ClaptrapCodes en`el proyecto de HelloClaptrap.`.
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-Agregue ClaptrapTypeCode de SKU.
+Add ClaptrapTypeCode of SKU.
 
 ```cs
   namespace HelloClaptrap.Models
@@ -52,48 +52,49 @@ Agregue ClaptrapTypeCode de SKU.
 
           #region Sku
 
-+         public const string SkuGrain = "sku_claptrap_newbe";
-+         private const string SkuEventSuffix = "_e_" + SkuGrain;
++ public const string SkuGrain = "sku_claptrap_newbe";
++ private const string SkuEventSuffix = "_e_" + SkuGrain;
 
           #endregion
       }
   }
 ```
 
-## Definir estado
+## Definition of State
 
-State representa el rendimiento de datos actual del objeto Actor en el modo Actor.
+State represents the current data of the Actor object in the Actor pattern.
 
-Porque Claptrap es un actor basado en patrones de abastecimiento de eventos.Por lo tanto, es importante definir el estado exacto.
+Actor, because Claptrap is based on event traceability mode.So it is important to define the right State.
 
-En este ejemplo, solo necesitamos registrar el inventario de la SKU actual, por lo que el diseño de estado es muy simple.
+In this example, we need to record only the stock of the current SKU and therefore the State is very simple in design.
 
-Agregue`<code>carpeta Sku`al proyecto de HelloClaptrap.</code>y cree el</code>skuState`en esa carpeta.</p>
+Add`<code>Sku`folder to the HelloClaptrap.</code>project and create the`SkuState`under that folder.
 
-<p spaces-before="0">Agregue los siguientes code：</p>
+Add the following code.：
 
-<pre><code class="cs">+ using Newbe.Claptrap;
+```cs
++ using Newbe.Claptrap;
 +
 + namespace HelloClaptrap.Models.Sku
 + {
-+     public class SkuState : IStateData
-+     {
-+         public int Inventory { get; set; }
-+     }
++ public class SkuState : IStateData
++ {
++ public int Inventory { get; set; }
 + }
-`</pre>
++ }
+```
 
-El inventario representa el inventario de la SKU actual.
+Inventory represents the stock of the current SKU.
 
-`interfaz IStateData`es una interfaz vacía que representa el estado en el marco de trabajo y se usa en inferencias genéricas.
+`IStateData`Interface is an empty interface for State representation in a frame that is used for general extrapolation.
 
-## Definir la interfaz de grano
+## Define Grain interface
 
-Defina la definición de la interfaz Grain para proporcionar interoperabilidad externa con Claptrap.
+Define the definition of the Grain interface to provide interoperability between external and Claptrap.
 
-Agregue`interfaz ISkuGrain a`proyecto de``HelloClaptrap.IActors.
+Adds an interface`ISkuGrain`in the`Hello Claptrap.IActors`project.
 
-Agregue interfaces así como atributo.
+Add interfaces and Attributes.
 
 ```cs
 + using System.Threading.Tasks;
@@ -104,38 +105,38 @@ Agregue interfaces así como atributo.
 +
 + namespace HelloClaptrap.IActor
 + {
-+     [ClaptrapState(typeof(SkuState), ClaptrapCodes.SkuGrain)]
-+     public interface ISkuGrain : IClaptrapGrain
-+     {
-+         /// <summary>
-+         /// Get latest inventory of this sku
-+         /// </summary>
-+         /// <returns></returns>
++ [ClaptrapState(typeof(SkuState), ClaptrapCodes.SkuGrain)]
++ public interface ISkuGrain : IClaptrapGrain
++ {
++ /// <summary>
++ /// Get latest inventory of this sku
++ /// </summary>
++ /// <returns></returns>
 +         Task<int> GetInventoryAsync();
 +
-+         /// <summary>
-+         /// Update inventory by add diff, diff could be negative number
-+         /// </summary>
-+         /// <param name="diff"></param>
-+         /// <returns>Inventory after updating</returns>
-+         Task<int> UpdateInventoryAsync(int diff);
-+     }
++ /// <summary>
++ /// Update inventory by add diff, diff could be negative number
++ /// </summary>
++ /// <param name="diff"></param>
++ /// <returns>Inventory after updating</returns>
++ Task<int> UpdateInventoryAsync(int diff);
++ }
 + }
 ```
 
-Se ha added：lo siguiente
+Add like this：
 
-1. Marque el`ClaptrapState`para que State esté asociado con Grain.
-2. La interfaz hereda`IClaptrapGrain`, una interfaz Grain definida por el marco de trabajo que se debe heredar para ejecutarse en Orleans.
-3. Se ha añadido el método GetInventoryAsync para indicar "obtener inventario actual".
-4. El método UpdateInventoryAsync se ha agregado para indicar una "actualización incremental del inventario actual".`diff 0 > 0` un aumento en el inventario,`diff < 0`una disminución en el inventario.
-5. Es importante tener en cuenta que la definición del método de Grain tiene ciertas limitaciones.Para obtener más información,[se puede encontrar en el "Desarrollo de una grain](https://dotnet.github.io/orleans/Documentation/grains/index.html).
+1. `ClapState`has been marked to associate State with Grain.
+2. The interface inherited`IClaptrapGrain`, a framework defined by Grain interface, which is the one that Orleans must inherit.
+3. The GetInventoryAsync method has been added to mean "Get current inventory".
+4. An UpdateInventoryAsync method has been added for "Update current inventory".`diff &gt; <code>` indicates stock increase,`diff < 0`indicates stock reduction.
+5. It is important to note that grain's method definition has certain limitations.Details can be found.[Developing a Grain](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## Implementar grano
+## Implement grain.
 
-Una vez que haya definido ISkuGrain, puede agregar código para implementarlo.
+Once you define a good ISkuGrain, you can add code to implement it.
 
-Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap.Actors`y agregue la carpeta`skugrain`.
+In`Hello Claptrap.Actors`Project new`Sku`folder and add`SkuGrain class`.
 
 ```cs
 + using System;
@@ -181,138 +182,138 @@ Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap.Actors`y agregue la 
 + }
 ```
 
-Se ha added：lo siguiente
+Add like this：
 
-1. Heredar`<SkuState>`ClaptrapBoxGrain e implementar``ISkuGrain,``ClaptrapBoxGrain es una clase base Grain definida por el marco donde los parámetros genéricos representan el tipo de estado correspondiente.
-2. Implemente el método GetInventoryAsync para leer el inventario actual de StateData.
-3. Implemente el método UpdateInventoryAsync, agregue código de juicio empresarial y produzca excepciones si no se cumplen las condiciones de las operaciones empresariales.
-4. El último de UpdateInventoryAsync ahora lanza NotImplementedException porque el evento actual aún no está definido y necesita esperar a una implementación de código posterior.
-5. BizException es una excepción personalizada que se puede agregar usted mismo.En el desarrollo real, también puede usar la excepción throw para representar la interrupción del negocio, pero entre un código de estado u otros valores devueltos.
+1. Inherit`ClaptrapBoxGrain<SkuState>`and implements`ISkuGrain`,`ClaptrapBoxGrain`is the frame defined Grain base class in which generic parameters represent the corresponding State type.
+2. Implement the GetInventoryAsync method, read current stock from StateData.
+3. Implement the UpdateInventoryAsync method, add business judgement code and throw an exception if the conditions of the operation are not met.
+4. UpdateInventoryAsync ends with NotImplementated Exception, because the current event is not defined and needs to wait for the next code to be implemented.
+5. BizException is a custom exception that can be added yourself.It is also possible to use a method for actual development without a drop exception to indicate business interruption, or to change the status code or other return value.
 
-## Regístrese en Grain
+## Sign up for Grain
 
-Grain for Claptrap debe registrarse al iniciar la aplicación para que el marco de trabajo pueda buscar la detección.
+Claptrap corresponding Grain needs to be registered on application startup in order to scan discovery.
 
-Dado que el código de ejemplo utiliza un examen de todo el ensamblado, en realidad no es necesario modificarlo.
+Since the sample code is scanned within the scope of the program, changes are not required in practice.
 
-La ubicación donde se produjo el registro se indica here：
+The location where the registration occurred is indicated here：
 
-Abra`clase Program para el proyecto helloClaptrap.BackendServer``el programa`.
+Open`Hello Claptrap.BackendServer`Project`Program`.
 
 ```cs
-  utilizando el sistema;
-  usando Autofac;
-  utilizando HelloClaptrap.Actors.Cart;
-  usa helloClaptrap.IActor;
-  utilizando HelloClaptrap.Repository;
-  mediante Microsoft.AspNetCore.Hosting;
-  mediante Microsoft.Extensions.Hosting;
-  mediante Microsoft.Extensions.Logging;
-  usando Newbe.Claptrap;
-  usando Newbe.Claptrap.Bootstrapper;
-  mediante NLog.Web;
-  usando Orleans;
+  using System;
+  using Autofac;
+  using HelloClaptrap.Actors.Cart;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Repository;
+  using Microsoft.AspNetCore.Hosting;
+  using Microsoft.Extensions.Hosting;
+  using Microsoft.Extensions.Logging;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Bootstrapper;
+  using NLog.Web;
+  using Orleans;
 
-  espacio de nombres HelloClaptrap.BackendServer
+  namespace HelloClaptrap.BackendServer
+  {
+      public class Program
+      {
 
-      clase pública Program
-      ?
-
-          public static IHostBuilder CreateHostBuilder(string[] args) ?>
+          public static IHostBuilder CreateHostBuilder(string[] args) =>
               Host.CreateDefaultBuilder(args)
-                  . ConfigureWebHostDefaults(webBuilder á> webBuilder.UseStartup<Startup>(); )
-                  . UseClaptrap( constructor de
-                      de>
-                      -
-+
-del constructor + . ScanClaptrapDesigns(new[]
-+ á
-+ typeof(ICartGrain). Montaje,
-+ typeof(CartGrain). Ensamblaje,
-+ ;
-                      , constructor de
-                      , constructor de> , constructor. RegisterModule<RepositoryModule>(); )
+                  . ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                  . UseClaptrap(
+                      builder =>
+                      {
++ builder
++ . ScanClaptrapDesigns(new[]
++ {
++ typeof(ICartGrain). Assembly,
++ typeof(CartGrain). Assembly,
++ });
+                      },
+                      builder => { builder. RegisterModule<RepositoryModule>(); })
                   . UseOrleansClaptrap()
-                  . UseOrleans(builder á> builder. UseDashboard(opciones )> opciones. Puerto 9000))
-                  . ConfigureLogging(logging ->
-                  - registro
-                      . ClearProviders(); Registro
-                      . SetMinimumLevel(LogLevel.Trace);
-                  )
+                  . UseOrleans(builder => builder. UseDashboard(options => options. Port = 9000))
+                  . ConfigureLogging(logging =>
+                  {
+                      logging. ClearProviders();
+                      logging. SetMinimumLevel(LogLevel.Trace);
+                  })
                   . UseNLog();
-
-  ?
+      }
+  }
 ```
 
-Dado que ISkuGrain y SkuGrain pertenecen al mismo ensamblado que ICartGrain y CartGrain, respectivamente, no es necesario modificarlo aquí.
+Because ISkuGrain and SkuGrain belong to the same set in ICartGrain and CartGrain respectively, changes are not required here.
 
-## Definir EventCode
+## Define EventCode.
 
-Hemos implementado la parte principal de Claptrap anteriormente, pero no hemos completado la operación de actualización del inventario.Esto se debe a que la actualización del inventario requiere actualizar el estado.Y todos sabemos que Claptrap es un patrón de actor rastreado por eventos, y las actualizaciones al estado deben realizarse a través de eventos.Así que comience aquí, vamos a actualizar el inventario a través de eventos.
+We have already implemented the main part of Claptrap before, but nothing has been done to update your inventory.This is because stock update is required for State updates.And we all know that Claptrap is an Actor mode based on event traceability and that updating state requires an event to complete.So it is here that we renew our stock through events.
 
-EventCode es el código único para cada evento en el sistema Claptrap.Desempeña un papel importante en la identificación y serialización de eventos.
+EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-Abra`la clase de`ClaptrapCodes en`el proyecto de HelloClaptrap.`.
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-Agregar EventCode para el inventario de actualización.
+Add EventCode to Update Inventory.
 
 ```cs
   namespace HelloClaptrap.Models
-  :
-      clase estática pública ClaptrapCodes
+  {
+      public static class ClaptrapCodes
+      {
+          #region Cart
 
-          #region
-
-          de cadena const pública CartGrain á "cart_claptrap_newbe";
-          cadena const privada CartEventSuffix - "_e_" + CartGrain;
-          cadena const pública AddItemToCart á "addItem" + CartEventSuffix;
-          cadena const pública RemoveItemFromCart - "removeItem" + CartEventSuffix;
-          cadena const pública RemoveAllItemsFromCart á "remoeAllItems" + CartEventSuffix;
+          public const string CartGrain = "cart_claptrap_newbe";
+          private const string CartEventSuffix = "_e_" + CartGrain;
+          public const string AddItemToCart = "addItem" + CartEventSuffix;
+          public const string RemoveItemFromCart = "removeItem" + CartEventSuffix;
+          public const string RemoveAllItemsFromCart = "remoeAllItems" + CartEventSuffix;
 
           #endregion
 
           #region Sku
 
-          cadena const public SkuGrain á "sku_claptrap_newbe";
-          cadena const privada SkuEventSuffix á "_e_" + SkuGrain;
-+ cadena const pública SkuInventoryUpdate á "inventoryUpdate" + SkuEventSuffix;
+          public const string SkuGrain = "sku_claptrap_newbe";
+          private const string SkuEventSuffix = "_e_" + SkuGrain;
++ public const string SkuInventoryUpdate = "inventoryUpdate" + SkuEventSuffix;
 
           #endregion
-      de
-  ?
+      }
+  }
 ```
 
-## Definir evento
+## Define Event.
 
-El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
+Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-Cree``InventoryUpdateEvent en la carpeta`Sku/Events`de`helloClaptrap.`proyectos.
+Creates`InventoryUpdateEvent class`in`Hello Class.Models`Project`Sku/Events`
 
-Agregue los siguientes code：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models.Sku.Events
-+ {
-+     public class InventoryUpdateEvent : IEventData
-+     {
-+         public int Diff { get; set; }
-+         public int NewInventory { get; set; }
-+     }
++ namespace Hello Claptrap.Models.Sku. vents
++ File
++ public class InventoryUpdateEvent : IIEventData
++ online
++ public int Diff LOget; set; }
++ public int NewInventories but it is also available on the web site; set; }
++ }
 + }
 ```
 
-1. Diff representa la cantidad de este inventario actualizado,`diferencia > 0` indica un aumento en el inventario y`diferencia < 0`indica una reducción en el inventario.
-2. NewInventory representa el inventario actualizado.Aquí, una recomendación se da con antelación, pero debido a problemas de espacio, no hay discusión：recomienda que los datos actualizados del Estado se incluyan en el evento.
+1. Diff indicates the amount of this stock updated,`diff >` indicates stock increase,`diff < 0`means stock reduction.
+2. The New Inventory indicates an updated inventory.Here a suggestion is given in advance, but due to space problems, there is no discussion：suggesting that State updated data be included in the event.
 
-## Implementar EventHandler
+## Implement EventHandler.
 
-`EventHandler`actualizar eventos al</code>de estado`de Claptrap.</p>
+`EventHandler.`Used to update events to Claptrap.`State.`.
 
-<p spaces-before="0">Cree<code>clase de`InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
+Created`InventoryUpp.Actors`Project`Sku/Events`Class created under`InventoryUpdateHandler`.
 
-Agregue los siguientes code：
+Add the following code.：
 
 ```cs
 + using System.Threading.Tasks;
@@ -322,229 +323,230 @@ Agregue los siguientes code：
 +
 + namespace HelloClaptrap.Actors.Sku.Events
 + {
-+     public class InventoryUpdateEventHandler
-+         : NormalEventHandler<SkuState, InventoryUpdateEvent>
-+     {
-+         public override ValueTask HandleEvent(SkuState stateData,
-+             InventoryUpdateEvent eventData,
-+             IEventContext eventContext)
-+         {
-+             stateData.Inventory = eventData.NewInventory;
-+             return new ValueTask();
-+         }
-+     }
++ public class InventoryUpdateEventHandler
++ : NormalEventHandler<SkuState, InventoryUpdateEvent>
++ {
++ public override ValueTask HandleEvent(SkuState stateData,
++ InventoryUpdateEvent eventData,
++ IEventContext eventContext)
++ {
++ stateData.Inventory = eventData.NewInventory;
++ return new ValueTask();
++ }
++ }
 + }
 ```
 
-1. Dado que el inventario actualizado ya está incluido en el evento, simplemente se asigna a StateData.
+1. Since the event already contains updated inventories, it is sufficient to assign the StateData directly.
 
-## Regístrese en EventHandler
+## Register EventHandler
 
-Después de implementar y probar EventHandler, puede registrar eventHandler para asociarlo con EventCode y Claptrap.
+Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
 
-Abra`clase SkuGrain para helloClaptrap.Actors`proyecto`el proyecto de`.
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
-Marca con Attribute y modifica updateInventoryAsync para ejecutar el evento.
+Flag with Ature and modify UpdateInventoryAsync executions.
 
 ```cs
-  uso de System.Threading.Tasks;
-+ mediante HelloClaptrap.Actors.Sku.Events;
-  usa HelloClaptrap.IActor;
-  uso de HelloClaptrap.Models;
-  mediante HelloClaptrap.Models.Sku;
-+ mediante HelloClaptrap.Models.Sku.Events;
-  usando Newbe.Claptrap;
-  usando Newbe.Claptrap.Orleans;
+  using System.Threading.Tasks;
++ using HelloClaptrap.Actors.Sku.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Models.Sku.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  espacio de nombres HelloClaptrap.Actors.Sku
-  á
+  namespace HelloClaptrap.Actors.Sku
+  {
 + [ClaptrapEventHandler(typeof(InventoryUpdateEventHandler), ClaptrapCodes.SkuInventoryUpdate)]
-      clase pública SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
-      á
-          pública SkuGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
+      public class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
+      {
+          public SkuGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
               : base( claptrapGrainCommonService)
           {
           }
 
-          tarea pública<int> GetInventoryAsync()
+          public Task<int> GetInventoryAsync()
+          {
+              return Task.FromResult(StateData.Inventory);
+          }
 
-              devolver Task.FromResult(StateData.Inventory);
-          :
+          public async Task<int> UpdateInventoryAsync(int diff)
+          {
+              if (diff == 0)
+              {
+                  throw new BizException("diff can`t be 0");
+              }
 
-          tarea asincrónica pública<int> UpdateInventoryAsync(int diff)
-          á
-              si
-              (diff á 0)
-                  producir una nueva BizException("diff can't ser 0");
-              á
+              var old = StateData.Inventory;
+              var newInventory = old + diff;
+              if (newInventory < 0)
+              {
+                  throw new BizException(
+                      $"failed to update inventory. It will be less than 0 if add diff amount. current : {old} , diff : {diff}");
+              }
 
-              var old - StateData.Inventory;
-              var newInventory á viejo + diff;
-              si (newInventory < 0)
-
-                  producir una nueva BizException(
-                      $"no pudo actualizar el inventario. Será menor que 0 si se añade la cantidad de diferencia. corriente : {old} , diff : {diff}");
-              -
-
-- lanzar new NotImplementedException();
-+ var evt . CreateEvent(new InventoryUpdateEvent
-+ á
-+ Diff - diff,
-+ NewInventory - newInventory
-+ ?
+- throw new NotImplementedException();
++ var evt = this. CreateEvent(new InventoryUpdateEvent
++ {
++ Diff = diff,
++ NewInventory = newInventory
++ });
 + await Claptrap.HandleEventAsync(evt);
-+ devolver StateData.Inventory;
-
-
-  ?
++ return StateData.Inventory;
+          }
+      }
+  }
 ```
 
-## Implementar IInitialStateDataFactory
+## Implementing the IInitialStateDataFactory
 
-Hemos completado la consulta de inventario y la actualización anteriormente.Pero generalmente hay una cantidad inicial en el inventario, y estamos complementando esta parte de la lógica en esta sección.
+We have completed inventory queries and updates earlier.Usually, however, the inventory has an initial amount, and we are supplementing that part of the logic in this section.
 
-Cree`clase de`SkuStateInitHandler en la carpeta`Sku`de`el proyecto de`HelloClaptrap.Actors.
+Create`SkuStateInitHandler`class under`Hello Class.Actors`Project`Sku`
 
 ```cs
-+ utilizando System.Threading.Tasks;
-+ mediante HelloClaptrap.Models.Sku;
-+ utilizando HelloClaptrap.Repository;
-+ usando Newbe.Claptrap;
++ using Systems. Threading.Tasks;
++ using HelloClaptrap.Models.Sku;
++ using HelloClaptrap.Repository;
++ using Newbe.Clapptrap;
 +
-+ namespace HelloClaptrap.Actors.Sku
-+ á
-+ public class SkuStateInitHandler : IInitialStateDataFactory
-+ á
-+ _skuRepository ISkuRepository privada;
++ namespace Claptrap.Actors. ku
++ online
++ public class SkuStateInitHandler: IInitialStateDataFactory
++ online
++ private readonly ISkuRepository _skuRepository; 
+ +
 +
-+ skuStateInitHandler público(
-+ ISkuRepository skuRepository)
-+ á
-+ _skuRepository á skuRepository;
-+ á
++ public SkuStateInitHandler(
++ ISkuRepository sku Repository)
++ 56
++ _skuRepository = skuRepository;
++ }
 +
 + public async Task<IStateData> Create(IClaptrapIdentity identity)
-+ á
-+ var skuId - identity. Id;
-+ va inventory á await _skuRepository.GetInitInventoryAsync(skuId);
-+ var re - nuevo SkuState
-+ -
-+ Inventario - inventario
-+ ?
-+ retorno re;
-+ á
-+ -
-+ ?
++ 56
++ var skuId = identity. d;
++ var inventory = await _sku Repository. etInitInventoryAsync (SkuId);
++ var re = new SkuState
++ {
++ Inventory = inventory
++ };
++ return re;
++ }
++ }
++ }
 ```
 
-1. `se llama a IInitialStateDataFactory`cuando Claptrap se activa por primera vez para crear el valor inicial de State.
-2. La inyección`ISkuRepository`lee el importe de inventario inicial de Sku de la base de datos, el código específico no aparece aquí y el lector puede ver la implementación en el almacén de ejemplo.
+1. `IInitialStateDataFactory`will be called when Claptrap is first activated to create State initials.
+2. Injecting`ISkuRepository`to read the initial amount of Sku inventory from the database, specific code is not listed here, and reader can view the implementation in sample repository.
 
-Además de implementar el código, se requiere el registro antes de que se pueda llamar.
+In addition to the actual modern code, registration is required before being called.
 
-Abra`clase SkuGrain para helloClaptrap.Actors`proyecto`el proyecto de`.
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
 ```cs
-  uso de System.Threading.Tasks;
-  uso de HelloClaptrap.Actors.Sku.Events;
-  usa HelloClaptrap.IActor;
-  uso de HelloClaptrap.Models;
-  mediante HelloClaptrap.Models.Sku;
-  uso de HelloClaptrap.Models.Sku.Events;
-  usando Newbe.Claptrap;
-  usando Newbe.Claptrap.Orleans;
+  using System.Threading.Tasks;
+  using HelloClaptrap.Actors.Sku.Events;
+  using HelloClaptrap.IActor;
+  using HelloClaptrap.Models;
+  using HelloClaptrap.Models.Sku;
+  using HelloClaptrap.Models.Sku.Events;
+  using Newbe.Claptrap;
+  using Newbe.Claptrap.Orleans;
 
-  espacio de nombres HelloClaptrap.Actors.Sku
-  á
+  namespace HelloClaptrap.Actors.Sku
+  {
 + [ClaptrapStateInitialFactoryHandler(typeof(SkuStateInitHandler))]
       [ClaptrapEventHandler(typeof(InventoryUpdateEventHandler), ClaptrapCodes.SkuInventoryUpdate)]
-      clase pública SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
-      á
-          SkuGrain público( IClaptrapGrainCommonService claptrapGrainCommonService)
+      public class SkuGrain : ClaptrapBoxGrain<SkuState>, ISkuGrain
+      {
+          public SkuGrain( IClaptrapGrainCommonService claptrapGrainCommonService)
               : base(claptrapGrainCommonService)
           {
           }
 
-          tarea pública<int> GetInventoryAsync()
-          -
-              devolver Task.FromResult(StateData.Inventory);
-          :
+          public Task<int> GetInventoryAsync()
+          {
+              return Task.FromResult(StateData.Inventory);
+          }
 
-          tarea asincrónica pública<int> UpdateInventoryAsync(int diff)
-          á
-              si
-              (diff - 0)
-                  producir una nueva Excepción BizException("diff no puede ser 0");
-              á
+          public async Task<int> UpdateInventoryAsync(int diff)
+          {
+              if (diff == 0)
+              {
+                  throw new BizException("diff can`t be 0");
+              }
 
-              var old - StateData.Inventory;
-              var newInventory - viejo + diff;
-              si (newInventory < 0)
+              var old = StateData.Inventory;
+              var newInventory = old + diff;
+              if (newInventory < 0)
+              {
+                  throw new BizException(
+                      $"failed to update inventory. It will be less than 0 if add diff amount. current : {old} , diff : {diff}");
+              }
 
-                  producir una nueva BizException(
-                      $"no pudo actualizar el inventario. Será menor que 0 si se añade la cantidad de diferencia. corriente : {old} , diff : {diff}");
-
-
-              var evt. CreateEvent(new InventoryUpdateEvent
-              ?
-                  Diff - diff,
-                  NewInventory ? newInventory
-              ;
+              var evt = this. CreateEvent(new InventoryUpdateEvent
+              {
+                  Diff = diff,
+                  NewInventory = newInventory
+              });
               await Claptrap.HandleEventAsync(evt);
-              devolver StateData.Inventory;
-
-
-  ?
+              return StateData.Inventory;
+          }
+      }
+  }
 ```
 
-## Modificar controlador
+## Modify the Controller.
 
-Para cuando se completen todos los pasos anteriores, se han completado todas las partes de Claptrap.Sin embargo, Claptrap no puede proporcionar directamente interoperabilidad con programas externos.Por lo tanto, también debe agregar una API en la capa Controller para operaciones externas de "inventario de lectura".
+Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.There is therefore a need to add an API at the Controller level to allow external "read stocks".
 
-Cree`nuevo`SkuController en la carpeta`Controllers``del proyecto helloClaptrap.web`.
+New`SkuController`class in the`Hello Claptrap.Web`Project`Controlers`folder
 
 ```cs
-+ utilizando System.Threading.Tasks;
-+ usando HelloClaptrap.IActor;
-+ mediante Microsoft.AspNetCore.Mvc;
-+ usando Orleans;
++ using System.Threading.Tasks;
++ using HelloClaptrap.IActor;
++ using Microsoft.AspNetCore.Mvc;
++ using Orleans;
 +
-+ espacio de nombres HelloClaptrap.Web.Controllers
-+ á
++ namespace HelloClaptrap.Web.Controllers
++ {
 + [Route("api/[controller]")]
-+ clase pública SkuController : Controlador
-+ á
-+ _grainFactory privado de IGrainFactory;
++ public class SkuController : Controller
++ {
++ private readonly IGrainFactory _grainFactory;
 +
-+ SkuController público (
++ public SkuController(
 + IGrainFactory grainFactory)
-+ á
-+ _grainFactory - grainFactory;
-+ á
++ {
++ _grainFactory = grainFactory;
++ }
 +
 + [HttpGet("{id}")]
-+ tarea asincrónica pública<IActionResult> GetItemsAsync(string id)
-+ á
-+ sku skuGrain - _grainFactory.GetGrain<ISkuGrain>(id);
-+ var inventory á await skuGrain.GetInventoryAsync();
-+ devolver Json(new
-+ á
-+ skuId - id,
-+ inventario - inventario,
-+ ? );
-+ á
-+ -
-+ ?
++ public async Task<IActionResult> GetItemsAsync(string id)
++ {
++ var skuGrain = _grainFactory.GetGrain<ISkuGrain>(id);
++ var inventory = await skuGrain.GetInventoryAsync();
++ return Json(new
++ {
++ skuId = id,
++ inventory = inventory,
++ });
++ }
++ }
++ }
 ```
 
-1. La nueva API lee el inventario de SkuIds específicos.Después de la implementación del código de ejemplo, puede pasar`yueluo-123`el importe del inventario es 666.Los SkuId que no existen producen excepciones.
-1. No hay ninguna API externa para actualizar el inventario aquí, porque en este ejemplo se realizarán operaciones de inventario cuando realice un pedido en la siguiente sección y la API no es necesaria aquí.
+1. Add an API to read stock specific to SkuId.By implementing the sample code, you can pass`yueluo-123`to receive stock amount of 666.The unexpected SkuId will throw an exception.
+1. There are no outgoing API created here because this example will perform stock operations on next order shopping, which is not required here.
 
-## Resumen
+## Summary
 
-En este punto, hemos completado el "gestionar el inventario de productos básicos" este simple requisito de todo el contenido.
+By then, we have completed all the elements of the simple need to “manage commodity inventories”.
 
-Puede obtener el código fuente de este artículo en la siguiente address：
+You can get the source code for this article from the following address.：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
