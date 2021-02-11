@@ -1,83 +1,83 @@
 ---
-title: 'Шаг 1 - Создайте проект и реализуйте простую корзину'
-description: 'Шаг 1 - Создайте проект и реализуйте простую корзину'
+title: 'The first step - create a project and implement a simple shopping cart'
+description: 'The first step - create a project and implement a simple shopping cart'
 ---
 
-Давайте перейдем к простой "электронной коммерции корзины" требования, чтобы понять, как использовать Newbe.Claptrap для разработки.
+Let's implement a simple "e-commerce cart" requirement to see how to develop using Newbe.Claptrap.
 
 <!-- more -->
 
-## Бизнес-потребности
+## Business needs
 
-Реализуйте простую потребность в "электронной коммерции корзины", которая реализует несколько простых бизнес-：
+Realize a simple "e-commerce shopping cart" requirement, where a few simple business：
 
-- Получает товары и количество в текущей корзине
-- Добавьте товар в корзину
-- Удалите определенный товар из корзины
+- Get items and quantities in your current shopping cart
+- Add items to your shopping cart
+- Remove specific items from your shopping cart
 
-## Установите шаблон проекта
+## Install project templates
 
-Во-первых, необходимо убедиться, что установлено . NetCore SDK 3.1 。[вы можете нажать здесь, чтобы получить последнюю версию](https://dotnet.microsoft.com/download).
+First, you need to make sure that you have installed the . NetCore SDK 3.1.[You can click here for the latest version for installation](https://dotnet.microsoft.com/download)。
 
-После установки пакета SDK откройте консоль, чтобы выполнить следующую команду для установки последнего шаблона проекта：
+Once the SDK is installed, open the console and run the following commands to install the latest project templates：
 
 ```bash
 dotnet new --install Newbe.Claptrap.Template
 ```
 
-После установки можно просмотреть установленный шаблон проекта в результатах установки.
+Once installed, you can see the project templates that have already been installed in the installation results.
 
-![Newbe.claptrap.template установлен](/images/20200709-001.png)
+![Newbe.claptrap template installed](/images/20200709-001.png)
 
-## Создайте проект
+## Create a project
 
-Выберите расположение, создайте папку, и в этом примере выберите папку с именем`HelloClaptrap`в разделе`D:\Repo`.Папка будет служить папкой кода для нового проекта.
+Select a location to create a folder, and this example selects the`D:\Repo` and Create a directory named `HelloClaptrap`.The folder will be used as a code folder for new projects.
 
-Откройте консоль и переключите рабочий каталог на`D:\Repo\HelloClaptrap`.Затем можно создать проект, выполнив следующую команду：
+Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then run the following command to create a project：
 
 ```bash
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> Как правило, рекомендуется`папку\RGit в качестве папки репозитория Git для`D:  epo\HelloClaptrap.Управляйте исходным кодом с помощью системы управления версиями.
+> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
 
-## Компиляция и запуск
+## Compilation and startup
 
-После создания проекта можно скомпилировать его с помощью решения открытия IDE, которое вы предпочитают.
+Once the project is created, you can compile the solution with your favorite IDE.
 
-После завершения компиляции запустите как веб-, так и BackendServer с помощью функции «Запуск» в интегрированной среде разработки.(VS требует консольного запуска службы, и если вы используете IIS Express, разработчик должен посмотреть на соответствующий номер порта, чтобы получить доступ к веб-странице)
+Once compiled, start both web and BackendServer projects with the Startup feature on the IDE.(VS needs to start the service as console, and if you use IIS Express, you need the developer to look at the port number to access the web page)
 
-После завершения запуска можно просмотреть`http://localhost:36525/swagger`API для примеров проектов, написав адрес.К ним относятся три основных API：
+If it is started, you can visiti `http://localhost:36525/swagger` to view the API description of the sample.This includes three mainly APIs：
 
-- `GET` `/api/Cart/{id}` для получения товаров и количества в определенной id-корзине
-- `,` `новый товар в покупку с указанным идентификатором{id}` /API/Cart/ ,000.00
-- `delete` `/api/Cart/{id}` удаляет определенные элементы из корзины с указанным идентификатором
+- `GET` `/api/Cart/{id}` Get items and quantities in a specific id shopping cart
+- `POST` `/api/Cart/{id}` Add a new item to the purchase of the specified id
+- `DELETE` `/api/Cart/{id}` Remove a specific item from the shopping cart of the specified id
 
-Вы можете попробовать несколько вызовов API с помощью кнопки Try It Out на интерфейсе.
+You can try to make several calls to the API through click the Try It Out button on the UI.
 
-> - [Как запустить несколько проектов одновременно в VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Как запустить несколько проектов одновременно в Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Ускорьте восстановление nuget с помощью облака Huawei](https://mirrors.huaweicloud.com/)
+> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
 
-## Добавить товар в первый раз, без эффекта?
+## It is no effect when add product at first time?
 
-Да, вы правы.Бизнес-реализация в шаблоне проекта имеет ошибку.
+Yes, you're right.There are BUGS in the business implementation in the project template.
 
-Далее мы откроем проект, чтобы устранить и устранить эти ошибки, добавив несколько точек останова.
+Next, let's open the project and troubleshoot and resolve these bugs by adding some breakpoints.
 
-И, позиционив ошибку, вы можете понять процесс передачи кода платформы.
+And by locating the BUG, you could understand the framework's code flow process.
 
-## Добавьте точку останова
+## Add breakpoints
 
-Ниже приведены инструкции по увеличению точки останова в соответствии с различными инструкциями по интегрированной среде разработки, и вы можете выбрать среду IDE, к которую вы привыкли для работы.
+The following instructions about adding the location of breakpoints base on different IDE, and you can choose the IDE you are used to operating.
 
-Если у вас нет интегрированной среды разработки в данный период, вы также можете пропустить этот раздел и прочитать его непосредственно позже.
+If you don't currently have an IDE on hand, you can also skip this section and read directly what follows.
 
 ### Visual Studio
 
-Запустите два проекта одновременно в соответствии с методом запуска, упомянутым выше.
+Start both projects at the same time, as mentioned above.
 
-Импорт точек останова：открыть окно «Точки останова», нажмите кнопку и выберите`breakpoints .xml`файл.Соответствующее местоположение операции можно найти на следующих двух скриншотах.
+Import breakpoints：Open the Breakpoint window, click the button, select `breakpoints.xml` file under project.You can find the location in the two screenshots below.
 
 ![Open Breakpoints Window](/images/20200709-002.png)
 
@@ -85,30 +85,30 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ### Rider
 
-Запустите два проекта одновременно в соответствии с методом запуска, упомянутым выше.
+Start both projects at the same time, as mentioned above.
 
-Rider в настоящее время не имеет функции импорта точек останова.Поэтому необходимо вручную создать точку останова в следующих местах：
+Rider does not currently have a breakpoint importing feature.Therefore, you need to manually create breakpoints at the following locations：
 
-| файл                      | Номер строки |
-| ------------------------- | ------------ |
-| CartController            | 30           |
-| CartController            | 34           |
-| CartGrain                 | 24           |
-| CartGrain                 | 32           |
-| AddItemToCartEventHandler | 14           |
-| AddItemToCartEventHandler | 28           |
+| File                        | Line No. |
+| --------------------------- | -------- |
+| CartController              | 30       |
+| CartController              | 34       |
+| CartGrain                   | 24       |
+| CartGrain                   | 32       |
+| AddItemToCart Event Handler | 14       |
+| AddItemToCart Event Handler | 28       |
 
-> [Go To File поможет вам быстро определить, где находятся файлы](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## Начните отладку
+## Start debugging
 
-Далее мы поймем весь процесс выполнения кода с помощью запроса.
+Next, we take a request to see how the entire code runs.
 
-Во-первых, мы отправим запрос POST через интерфейс swagger, чтобы попытаться добавить товар в корзину.
+First, let's send a POST request through the swagger interface and try adding items to the shopping cart.
 
 ### CartController Start
 
-Первой точкой прерывания жизни является код Controller на уровне веб-API：
+The first lifeline is the Controller code for the Web API layer：
 
 ```cs
 [HttpPost("{id}")]
@@ -120,17 +120,17 @@ public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput in
 }
 ```
 
-В этом коде мы создаем`_grainFactory`экземпляр ICartGrain`из`кодов.
+In this code, we pass`_grainFactory`to create a`ICartGrain`Instance.
 
-Этот экземпляр по своей природе является прокси-сервером, который указывает на конкретный Grain в Backend Server.
+This instance is essentially a proxy that points to a specific grain in Backend Server.
 
-Входящий идентификатор можно считать экземпляром привязки с помощью уникального идентификатора.В этом деловом контексте это можно понимать как идентификатор корзины покупок или идентификатор пользователя, если на пользователя имеется только одна корзина.
+The incoming id can be considered a unique identifier for the location instance.In this business context, it can be understood as "cart id" or "user id" (if each user has only one shopping cart).
 
-Перейдем к отладке и перейдем к следующему шагу, давайте посмотрим, как работает интерьер ICartGrain.
+Continue with debugging and move on to the next step, let's see how the inside of ICartGrain works.
 
 ### CartGrain Start
 
-Следующей точкой прерывания жизни является код CartGrain：
+The next stop point is the CartGrain code.：
 
 ```cs
 public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
@@ -145,28 +145,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-Здесь лежит суть реализации платформы, ключевое, как показано на следующем рисунке：
+Here is the core of the framework implementation, as shown in the following image.：
 
 ![Claptrap](/images/20190228-001.gif)
 
-В частности, в бизнесе код был запущен для конкретного объекта корзины покупок.
+Specifically, the code has run to a specific shopping cart object.
 
-Передаваемые skuId и count можно увидеть через отладчик, которые передаются из Controller.
+You can see through the debugger that both the incoming skuId and count are parameters passed from Controller.
 
-Здесь вы можете сделать следующее：
+Here you can do these things.：
 
-- Данные в Claptrap изменяются событиями
-- Чтение данных, сохраненных в Claptrap
+- Modify the data in Claptrap with events
+- Read data saved in Claptrap
 
-В этом коде мы создали`AddItemToCartEvent,`для представления изменения корзины.
+In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
 
-Затем он передается Claptrap для обработки.
+It is then passed to Claptrap for processing.
 
-Claptrap обновляет свои данные State после того, как он принял событие.
+Claptrap updates its State data after accepting the event.
 
-Наконец, мы возвращаем StateData.Items вызывающему объекту.(На самом деле StateData.Items является быстрым свойством Claptrap.State.Data.Items.)Таким образом, на самом деле он по-прежнему считывается из Claptrap. ）
+Finally, we return StateData.Items to the caller.(Actually, StateData.Items is a quick property for Claptrap.State.Data.Items.)So it's actually still read from Claptrap. )
 
-С помощью отладчика можно увидеть, что тип данных StateData выглядит следующим образом：
+From the debugger, you can see that the data types of StateData are shown below.：
 
 ```cs
 public class CartState : IStateData
@@ -175,13 +175,13 @@ public class CartState : IStateData
 }
 ```
 
-Это состояние корзины, разработанное в примере.Мы используем`Dictionary`SkuId в текущей корзине и соответствующее количество.
+This is the status of the shopping cart designed in the sample.We use a `Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
 
-Перейдите к отладке и перейдем к следующему шагу, давайте посмотрим, как Claptrap обрабатывает входящие события.
+Continue debugging and move on to the next step to see how Claptrap handles incoming events.
 
-### AddItemToCartEventHandler Start
+### AddItemToCart Event Handler Start
 
-Опять же, точка прерывания жизни является следующим кодом：
+Again, the point of interruption is this code below.：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -207,41 +207,41 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Этот код содержит два важных параметра:`CartState`, который представляет текущее состояние корзины, и события, которые необходимо обработать`AddItemToCartEvent`.
+This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
 
-Мы согласно бизнес-требованиям, чтобы определить, содержит ли словарь в состоянии SkuId, и обновить его количество.
+We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 
-Продолжайте отладку, и код будет выполняться до конца этого кода.
+Continue debugging and the code will run until the end of this code.
 
-На этом этапе с помощью отладчика можно обнаружить, что словарь stateData.Items, хотя и добавляет один элемент, имеет количество 0.Причина на самом деле из-за фрагмента кода else, который был аннотирован выше, и именно поэтому ошибки, которые всегда терпят неудачу при первом добавлении корзины.
+At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
 
-Здесь не прерывайте отладку сразу.Давайте продолжим отладку, чтобы код закончился, чтобы понять, как заканчивается весь процесс.
+Here, do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
 
-На самом деле, продолжая отладку, точка останова, в свою очередь, попадает в конец метода, соответствующего методу CartGrain и CartController.
+In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
 
-## Это на самом деле трехуровневая архитектура!
+## This is actually a three-tier architecture!
 
-Подавляющее большинство разработчиков знают трехуровневую архитектуру.В самом деле, мы также можем сказать, что Newbe.Claptrap на самом деле трехуровневая архитектура.Давайте сравним это с таблицей：
+The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe. Claptrap is actually a three-tier architecture.Let's compare it in a table.：
 
-| Традиционные три этажа           | Newbe.Claptrap     | описание                                                                                                                                          |
-| -------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Уровень отображения Presentation | Слой Controller    | Используется для стыковки с внешними системами, чтобы обеспечить внешнюю совместимость                                                            |
-| Бизнес-уровень Business          | Слой Grain         | Бизнес-обработка входящих бизнес-параметров в соответствии с бизнесом (в примере на самом деле не написано суждение, необходимо судить count > 0) |
-| Слой сохраняемости Persistence   | Слой Эвента Хандле | Обновление бизнес-результатов                                                                                                                     |
+| Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
+| ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Presentation Layer       | Controller Layer   | Used to dock external systems to provide external interoperability                                                           |
+| Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
+| Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-Конечно, вышеупомянутое подобное является простым описанием.В конкретном процессе, не нужно слишком запутаться, это просто вспомогательное понимание.
+Of course, the above analogy is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
 
-## У вас также есть ошибка, которая будет исправлена
+## You also have a BUG to fix
 
-Далее мы вернулись, чтобы исправить предыдущий вопрос о том, что "первое присоединение не вступает в силу".
+Then we go back and fix the previous "First Join Products Don't Take Effect" issue.
 
-### Это платформа для рассмотрения модульных тестов
+### This is a framework for considering unit testing
 
-В шаблоне проекта существует проект`HelloClaptrap.Actors.Tests`, содержащий модульные тесты основного бизнес-кода.
+There is a project in the project template.`HelloClaptrap.Actors.Tests.`The project contains unit tests of the main business code.
 
-Теперь мы знаем,`, аннотированная в AddItEmToCartEvent`, является основной причиной существования ошибки.
+We now know that`AddItemToCartEventHandler.`The code in the comments is the main cause of the BUG.
 
-Мы можем`модульные тесты в тестовом проекте с помощью`dotnet test, чтобы получить две ошибки:
+We can use it.`dotnet test.`If you run the unit tests in your test project, you get two errors:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -291,7 +291,7 @@ Total tests: 7
 
 ```
 
-Давайте посмотрим на код одного из ошибок модульного теста：
+Let's look at the code for one of the faulty unit tests.：
 
 ```cs
 [Test]
@@ -315,20 +315,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEvent Handler`является компонентом основного теста, и поскольку stateData и event построены вручную, разработчики могут легко создавать сценарии, которые необходимо протестировать по мере необходимости.Нет необходимости создавать что-то особенное.
+`AddItemToCartEventHandler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-Теперь просто восстан`овите аннотированную часть кода в addItEmToCart Eent`, чтобы повторно запустить модульный тест.Модульные тесты были пройсуты.Ошибки также были исправлены естественным образом.
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
 
-Конечно, есть еще один модульный тест на сцене удаления, который также завершается неудачей.Разработчики могут исправить эту проблему, следуя идеям "точки останова" и "модульного тестирования", описанным выше.
+Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
 
-## Данные уже сохраняются
+## The data has been persisted.
 
-Вы можете попробовать перезапустить Backend Server и Web, и вы обнаружите, что данные, с которыми вы ранее работали, были сохранены.
+You can try restarting Backend Server and the Web, and you'll find that the data you worked on before has been persisted.
 
-Мы рассмотрим это далее в последующих главах.
+We will cover it further in a later chapter.
 
-## Сделать небольшой узел
+## Summary
 
-В этой статье мы предварительно узнали, как создать базовую структуру проекта для реализации простого сценария корзины покупок.
+Through this article, we have a preliminary understanding of how to create a basic project framework to implement a simple shopping cart scenario.
 
-Есть много вещей, которые мы не：, структуру проекта, развертывание, долговечность и т.д.Вы можете прочитать последующие статьи, чтобы узнать больше.
+There's a lot of things we don't have to explain in detail.：Project structure, deployment, persistence, and more.You can read further to learn more.
