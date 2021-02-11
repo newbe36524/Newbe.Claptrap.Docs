@@ -1,24 +1,24 @@
 ---
-title: 'Claptrap 工廠 (Claptrap Factory)'
-description: 'Claptrap 工廠 (Claptrap Factory)'
+title: 'Claptrap Factory'
+description: 'Claptrap Factory'
 ---
 
 
-## Claptrap Factory 組裝 Claptrap
+## Claptrap Factory assembles Claptrap.
 
-Claptrap 擁有較高的可定製性。開發者可以為 Claptrap 物件指定自訂的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列元件。為了適應這種可定製性，故而需要選用良好的方案來實現 Claptrap 物件的裝配。
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.In order to adapt to this customizable nature, good options are needed for the assembly of Claptrap objects.
 
-目前框架選用的是 Autofac 作為裝配器來完成。主要原因是 Autofac 支援 Delegate Factory / Decorator / Generic Type / Module 等等一些相較於 System.Depenedency Injection 更豐富的特性。
+The current framework is selected by Autofac as an assembler.The main reason is that Autofac supports the Delegate Factory/Decorator/Generic Type/Module and more features that are richer compared to the System.Dependencynjection.
 
-## Claptrap Factory 控制 Claptrap 生命週期
+## Claptrap Factory controls the Claptrap lifetime scope.
 
-由於 Claptrap Factory 是 Claptrap 的生產者，因此一般也負責 Claptrap 級的生命週期控制功能。在基於 Autofac 實現的 Claptrap Factory，這種生命週期控制就體現在使用 Autofac 的 Lifetime Scope 物件來控制整個裝載、創建和卸載的過程。
+Since the Clatraptrap Factory is a producer of Claptrap, it is generally also responsible for the lifetime scope control functions of Clatrap level.With the Autofac-based Claptrap Factory, this lifetime scope control is reflected in the process of controlling the entire loading, creation and offloading using Autovac's LifetimeScope objects.
 
 ---
 
-以下是關於故事化描述，用於輔助理解。不必太過在意。
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Factory 是進行 Claptrap 進行生產的主要場所。它將依照給定的 Claptrap Design 對每一個出廠的 Claptrap 執行客製化裝配，而它擁有著極高的產品合格率和工作效能。
+The Claprap Factory is the main place for the production of Claptrap.It will perform a customized assembly of each of the factory's Claptraps in accordance with the given Claptrap Design, and it has an extremely high product pass rate and work effectiveness.
 
 ## ICON
 
