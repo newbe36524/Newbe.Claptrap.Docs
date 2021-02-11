@@ -3,38 +3,38 @@ title: 'Claptrap'
 description: 'Claptrap'
 ---
 
-简单来说 Claptrap = [Actor](02-1-Actor-Pattern) + [事件溯源](02-2-Event-Sourcing)
+Autrement dit, Claptrap ['](02-1-Actor-Pattern) [événement trace](02-2-Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 
-Claptrap 是本框架定义的一种特殊 Actor。除了 Actor 的基础特性之外，Claptrap 还被定义为具有以下特性：
+Claptrap est un acteur spécial défini dans ce cadre.En plus des caractéristiques sous-jacentes de l’acteur, Claptrap est défini comme ayant les：
 
-**状态由事件进行控制**。Actor 的状态在 Actor 内部进行维护。Claptrap 同样也是如此，不过改变 Claptrap 的状态除了在 Actor 之外，还限定其只能通过事件进行改变。这就将事件溯源模式与 Actor 模式进行了结合。通过事件溯源模式保证了 Actor 状态的正确性和可追溯性。这些改变 Claptrap 状态的事件是由 Claptrap 自身产生的。事件产生的原因可以是外部的调用也可以是 Claptrap 内部的类触发器机制产生的。
+**état est contrôlé par l’événement**.L’état de l’acteur est maintenu au sein de l’Acteur.Il en va de même pour Claptrap, mais changer l’état de Claptrap le limite aux événements, en plus de l’acteur.Cela combine le modèle d’approvisionnement de l’événement avec le modèle Acteur.La justesse et la traçabilité de l’état de l’acteur sont garanties par le mode d’approvisionnement en événements.Ces événements qui changent l’État de Claptrap sont générés par Claptrap lui-même.Des événements peuvent se produire entre les appels externes et les mécanismes de déclenchement de classe à l’intérieur de Claptrap.
 
-> Claptrap 是 newbe36524 曾经玩过的一款老游戏中的经典角色。[点击此处了解](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
+> Claptrap est un personnage classique dans un vieux jeu que newbe36524 a joué.[cliquez ici pour](https://zh.moegirl.org/%E5%B0%8F%E5%90%B5%E9%97%B9)
 
 ---
 
-以下是关于 Claptrap 的故事化描述，用于辅助理解。不必太过在意。
+Ce qui suit est une description storytized de Claptrap pour aider à comprendre.Ne t’inquiète pas trop.
 
-Claptrap 是一种结构简单、功能简单的机器人。虽然它能够完成各种各样的任务，但是它却有一些限制。
+Claptrap est une structure simple et un robot de fonction simple.Bien qu’il puisse accomplir une variété de tâches, il a certaines limites.
 
-Claptrap 是一种单线程的机器人，它每次只能进行一个任务。如果你想要交给它多个任务的话，它会按照事情安排的先后顺序逐个处理。
+Claptrap est un robot à fil unique qui ne peut effectuer qu’une seule tâche à la fois.Si vous voulez lui donner plusieurs tâches, il sera manipulé un par un dans l’ordre dans lequel les choses sont arrangées.
 
-Claptrap 工作的时候大概的过程是这样的。当他接受到一个任务时，他会先考虑这个事情是否是他能够百分之百完成的。如果这件事情他能够百分之百完成，那么那就将这件事情写入到他的备忘录当中，然后完成这件事情。然后接下来处理下一个事情。
+Le travail de Claptrap est probablement comme ça.Lorsqu’il acceptera une tâche, il examinera d’abord si elle est réalisable à 100 p. 100.S’ll peut le faire à 100 pour cent, écrivez-le dans son mémo et finissez-le.Ensuite, passez à la prochaine chose.
 
-每天早上一起来，Claptrap 做的第一件事情就是找回迷失的自我。找回昨天那个棒棒的自己。首先它会尝试看看有没有昨天的靓照，如果有的话，它将复刻昨天的样貌。接下来，从手中的备忘录当中阅读昨天拍照之后发生的种种事情，逐渐的恢复自己的记忆。这样就成功的找回的自己。
+La première chose que Claptrap fait tous les matins est de trouver son moi perdu.Reviens le grand moi que tu étais hier.Tout d’abord, il va essayer de voir s’il ya de belles photos d’hier, le cas échéant, il va regraver l’apparition d’hier.Ensuite, lisez le mémo dans votre main ce qui s’est passé après la séance photo d’hier et de restaurer progressivement votre mémoire.De cette façon, le succès de la récupération de leurs propres.
 
-Claptrap 是一种标准化的机器人。它们都产出于 Claptrap 工厂的生产线。工厂会按照 Claptrap 设计图使用标准化的组件来组装一个 Claptrap 机器人。这些必要的组件主要包括了：内存、手持型备忘录、多功能任务处理器和内存打印机。
+Claptrap est un robot standardisé.Ils sont tous produits sur la chaîne de production de l’usine Claptrap.L’usine assemble un robot Claptrap à l’aide de composants standardisés conformément à la conception Claptrap.Ces composants nécessaires comprennent：mémoire, des mémos portatifs, des processeurs de tâches multifonctions et des imprimantes mémoire.
 
-内存。Claptrap 配备有一个定制化大小的内存，用于保存当前整机的状态数据。由于内存数据的断电易失性，所以假如 Claptrap 断电了，那么内存中的数据也就丢失了。
+Mémoire.Claptrap est équipé d’une mémoire personnalisée pour contenir les données d’état actuelles pour l’ensemble de la machine.En raison de la coupure de courant des données de mémoire, si Claptrap perd de la puissance, les données en mémoire sont perdues.
 
-多功能任务处理器。基于成本的考虑，每个 Claptrap 配备的多功能任务处理器都是为了特种的任务定制过的。例如：专门用于消防的 Claptrap ，在它们的多功能任务处理器中基本上包含的都是和消防有关的功能。但是它就无法处理家政相关的任务。
+Processeur de tâches multifonctionnel.Pour des raisons de coût, chaque Claptrap est équipé d’un processeur multitâle qui est personnalisé pour des tâches spéciales.Pour：Claptrap, qui se spécialise dans la lutte contre les incendies, inclut essentiellement des fonctionnalités liées au feu dans leurs processeurs de tâches multifonctions.Mais il ne peut pas gérer les tâches domestiques.
 
-手持型备忘录。Claptrap 在做每件任务之前都会用手持型备忘录记录任务相关的一切细节，来确保任务的每个细节都准确无误。
+Notes de poche.Avant chaque tâche, Claptrap enregistre tous les détails de la tâche avec une note de service tenue à la main pour s’assurer que chaque détail de la tâche est exact.
 
-内存打印机。可以将内存当中的数据打印成一份可以持久化保存的物理格式，在实际生产中用的比较多的是 DNA 记忆体。由于内存数据的断电易失性，所以重启之后内存当中的数据只能通过备忘录记录来逐个找回。但由于备忘录数据有可能很大，这样恢复起来会比较的缓慢。有了内存打印机的帮助，便可以将某一时刻的内存状态完全打印出来，这样在重启恢复时将加快内存数据恢复的速度。
+Imprimante mémoire.Les données en mémoire peuvent être imprimées dans un format physique qui peut être persisté, et plus de mémoires d’ADN sont utilisées dans la production réelle.En raison de la coupure de courant des données de mémoire, les données en mémoire ne peuvent être récupérées qu’une par une par des enregistrements de mémo après le redémarrage.Mais comme les données des notes de service sont susceptibles d’être importantes, il sera lent à se rétablir.À l’aide d’une imprimante mémoire, vous pouvez imprimer l’état de mémoire à un certain moment, ce qui accélère la récupération des données mémoire lorsque vous redémarrez la récupération.
 
-## ICON
+## Icône
 
-![claptrap](/images/claptrap_icons/claptrap.svg)
+![claptrap claptrap](/images/claptrap_icons/claptrap.svg)
