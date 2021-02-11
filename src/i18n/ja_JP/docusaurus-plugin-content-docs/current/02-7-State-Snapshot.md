@@ -1,31 +1,31 @@
 ---
-title: 'ステータススナップ（State Snapshot）'
-description: 'ステータススナップ（State Snapshot）'
+title: 'State Snapshot'
+description: 'State Snapshot'
 ---
 
-## State Snapshot 速度リハート
+## State Snapshot accelerates state restore speed.
 
-クラプテックがアクティブな状態でいる、現在の state に更新。これは、アトリビュートが修正されたものを元にしたものです。時としてイベントを巨大にしている場合もある。state を復元するためにイベントを利用するとより多くの時間かかることがあります。そのために、Claptrap フレームワークのstateを特定の条件の後続のステータスのスナップショットにスナップショットを提供しました。この場合通常は次の数種類です：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by event sourcing.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following:
 
-1. イベントの発生からといちます。
-2. Claptrap Deactive タイミング。
-3. 一定の時間周期以内。
+1. After a number of events have been handled.
+2. At the time of the Claptrap Deactive.
+3. In a certain time period.
 
-イベントスナップショットが存在する、state の回復速度を上げるために永続化されます。スナップショットが存在する場合に、ステータスの復元は、通常以下のステップで行う：
+The presence of state snapshots increases the speed at which states are restored from the persistent layer.If a snapshot exists in the persistent layer, a state restore is usually performed in the following steps:
 
-1. ステータスのスナップショットを読み込んでいます。
-2. 状態スナップショットをバージョンの説明から開始し、将来のすべての予定の状態を復元します。
-3. アップグレードステータスが残りのイベントが終了するまで更新が終了しました。
+1. Read the state snapshot.
+2. Start of the version number corresponding to the status snapshot and read the update of the status of all the events backwards.
+3. Update the state until the persistent layer has no remaining events.
 
-しかし、スナップショットが無い場合は手順の状態に戻します：
+However, if there are no snapshots, the restore step changes to the following:
 
-1. カスタムメソッドで初期状態を作成します
-2. リポジトリ内のすべてのイベントから、 state の更新を取得しています。
-3. アップグレードステータスが残りのイベントが終了するまで更新が終了しました。
+1. Create the initial state through a user-defined method.
+2. Read all events from the event library to update the status.
+3. Update the state until the persistent layer has no remaining events.
 
-それでもスナップショット実装によって特別な効果ももたらされます。上記の指示は結合して容易に発見できます するとスナップショットが再生：
+But.The presence of snapshots can also lead to some peculiarity.Combining the working steps above, it is easy for us to find out, once a snapshot is formed:
 
-1. このユーザーはカスタマイズできません。
-2. スナップショット番号以下のイベントは実行されません.
+1. The user's custom method will no longer be executed.
+2. Events smaller than the snapshot version number will not be executed again.
 
-フレームワークは最後にスナップショットを保存する他の識別子にまとめられます
+Currently, the framework can hold only one final snapshot for each Id.
