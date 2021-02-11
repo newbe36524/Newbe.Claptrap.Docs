@@ -5,6 +5,9 @@ on:
       - master
       - develop
       - feature/docusaurus
+  push:
+    branches:
+      - feature/docusaurus
 
 jobs:
   build:
