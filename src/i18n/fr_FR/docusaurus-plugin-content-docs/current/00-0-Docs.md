@@ -30,6 +30,8 @@ Vous[un exemple de code pour le projet](https://github.com/newbe36524/Newbe.Clap
 
 - [Github Question](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Question de Gitee](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Boîte aux lettres newbe-claptrap@googlegroups.com (le contenu envoyé à la boîte aux lettres sera rendu public)
+- [Gitter ( Gitter )](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [Groupe QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Ressources
