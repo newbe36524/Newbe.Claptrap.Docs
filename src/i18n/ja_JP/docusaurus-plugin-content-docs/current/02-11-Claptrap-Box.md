@@ -4,21 +4,21 @@ description: 'Claptrap Box'
 ---
 
 
-## Claptrap BoxもしくはClaptrap を介して、追加のフレームワークを利用することができます。
+## Claptrap Box enables Claptrap to run on more frameworks.
 
-Claptrap は、Actor のパターンの実装の一部である。このメソッドはイベントと状態の制御を備えた能力を持つものである。つまり、実際にシーンの動作（環境）、あるいは外部のビジネスインターフェイス（外部）を作成するのに必要な設定に依存する。
+Claptrap is an object implemented based on the Actor pattern.It has only the ability to deal with event and state control.Therefore, in the actual scenario, it is often necessary to rely on the specific operating environment to host it, or need to design the external business interface according to the business.
 
-典型的なユースケースは Orleansという グレインと結合しますGrain は Orleans forno Actorの実装であり、Claptrap はActorである。クラップと Grain が統合されると、Claptrap ラッパーを Grain のクラスにラップすることを選択しました。そこでクラプトンは この分散的な特徴を 活用しながら コードベースでイベントの仕組みや Grain で実行することで Orleans 分散的な特徴付けができるようにしましたクラプトゥンを射出する時、 Grain それを実行しながらも 箱のように回転させ 射出されるものをデザインパターンの パターンに大変似ています。 Grain はClassroptrap は外部と同じように、外部から送られることも同時に理解するようにします。ここで Class ptrap を Claptrap と呼ばれる特定のドアオブジェクトに埋め込むために、このステージオブジェクトのスタイルを Claptrap Boxter と呼びます。このような存在により、Claptrapは複雑なプラットフォームや業務にも適用できるようになった。オルレアンス で Claptrap ボックスは Claptrap BoxBox と呼ばれ
+The most typical use case is to combine with the Grain of Orleans.Grain is the virtual Actor implementation of Orleans, and Claptrap is an actor.When Claptrap and Grain are combined, we choose to encase Claptrap inside Grain.In this way, we have The Actor, which combines event souring, running in Grain, which takes full advantage of Orleans' distributed features.When we put Claptrap into grain, we can think of Grain as a box, and the combination of objects is very similar to the facade pattern in design pattern, where Grain provides Claptrap with a facade to communicate with the outside, masking internal details while making the outside more aware of how it interacts.Here we call this "how Claptrap works in a specific facade object" as The Claptrap Box pattern, where the facade object is called Claptrap Box.This approach allows Claptrap to be applied to more complex platforms and businesses.In Orleans, this Claptrap Box is called ClaptrapBoxGrain.
 
-クラプトボックスの存在で、Claptrapは将来のインクレメントをそれ自体から離れていても、 Actor の基本的な状態を保てることができます。例えば、シンプルなコンソールアプリケーションでは、開発者は NormalClaptrapBox を使用して、アンモニアオブジェクトになります。この場合 Orleans 分布の利点を 投げることができました
+Due to the existence of Claptrap Box, Claptrap can maintain the basic conditions of the event sourcing and the Actor pattern even if detached from the Orleans.For example, in a simple console program, developers can still use NormalClaptrapBox as a facade object.This, however, loses the advantage of Orleans distributed.
 
-ストックの Claptrap ボックスの概念の存在により、Claptrap は複数のプラットフォームやフレームワークの上でも機能します。現在Orleans / Akka.net/ 承継なく使用できるドアオブジェクトのみをそれぞれ選びます。
+The existence of the Claptrap Box concept enables Claptrap to operate on more basic platforms and frameworks.Although currently only Orleans / Akka.net / no bearer, etc. are available for selection of face objects.
 
 ---
 
-こちらはストーリーの表現であり、分かりやすくなっていますあまり気にしなくても構いません。
+The following is a story-based description to aid understanding.Don't care too much.
 
-クラップは、本当にカスタマイズ性の高いロボットです。Claptrap の複雑な環境で機能させるために、異なる環境でクラス要素をロードすることができます。例えば：最も海中に要るクラップには、沼沢地がある 中のクラップスプラップが使われるなど、高圧な容器を含有するのに十分な水圧容器を含有するのに必要です。 火口付近は高火駆動で作されているクラップで作製キットが必要です。このシリーズは Claptrap Boxと名付けました。これはこれらは共通する特徴で パッケージごとに配置されているボックスです もちろん「Box」と呼んでいますクラプト,クラプスは様々な環境で実行されるようになりました。
+Claptrap is a highly customizable robot.In order for Claptrap to operate in a more complex environment, you need to design loaded loads for different real-world environments so that they work perfectly.For example, Claptrap which works on the seafloor, needs to be equipped with a load bearing water pressure; Claptrap, which works in a swamp, needs to be equipped with a trap-proof moisture-proof carrier; the Claptrap, which works near the crater, needs to be equipped with a carrier made of high temperature resistant materials.This series of vehicles, collectively known as Claptrap Box.This is because these carriers all have a common feature that they are all fully packaged boxes, of course, in different shapes, but we collectively refer to box.With these vehicles, Claptrap works well in a variety of different environments.
 
 ## ICON
 
