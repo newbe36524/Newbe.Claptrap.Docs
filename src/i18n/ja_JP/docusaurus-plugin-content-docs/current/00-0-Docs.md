@@ -1,6 +1,6 @@
 ---
-title: "日本語の説明"
-description: "これは、基本論のサーバフレームワークである `Acor` や`Actor` を基本論理の枠組みとして開発したものです。その上に開発されたアプリケーションは、より簡単に「分散」 、クラテック、テスト可能な高レベルなアプリケーションシステムを作ることができる。"
+title: "Introduction"
+description: "This is a set of server-side development frameworks with reactive, event sourcing and Actor pattern as basic theories.On top of this, developers can develop \"distributed\", \"scale out\", and \"easy to test\" application more simply."
 slug: /
 ---
 
@@ -12,43 +12,43 @@ slug: /
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![ビルドバトル](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
+[![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-これは、`反応`、`イベントのソース`と`Actor`を基本的な理論のフレームワークとして使用されます。その上に開発されたアプリケーションは、より簡単に「分散」 、クラテック、テスト可能な高レベルなアプリケーションシステムを作ることができる。
+This is a set of server-side development frameworks with `reactive`, `event sourcing` and `Actor pattern` as basic theories.On top of this, developers can develop "distributed", "scale out", and "easy to test" application more simply.
 
-## プロジェクトの現在の状態
+## Project Status
 
-現在、プロジェクトは Preview ステージに入っています。関連するバージョンは master ブランチに公開されます。最新の開発パッケージをNnuget で購入することができます。Preview は環境づくりに利用するのにはお勧めしません。
+The project has entered the Preview stage, and related versions will be released on the master branch.You can get the latest development package through nuget.org.We do not recommend using the Preview version for production environments.
 
 Claptrap and it`s Minions are coming.
 
-## プロジェクトのサンプル
+## Samples
 
-このプロジェクトで[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)を使用してプロジェクトのサンプルコードを取得できます。
+You can get the samples about the project through [Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples) so that you can understand how to use the project.
 
-## ディスカッションに参加
+## Discussion
 
-- [GitHub Issues](https://github.com/newbe36524/Newbe.Claptrap/issues)
-- [Gite Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- newbe-claptrap@googlegroups.com（メールに送られる内容）が公開されます）
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-- [QQ グループ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
+- [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
+- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
-## リファレンス観覧
+## Reference
 
-プロジェクトは、多くのオープンソースプロジェクトとブログの物語に感銘しました：
+The project was inspired by many open source projects and blog posts:
 
-- [Actor フレームOrleans ビルドハッシュ方式、イベントのソース、イベントドライブ、最終的に共通度の高い高パフォーマンスフレームワークであるRay](https://github.com/RayTale/Ray)
+- [A distributed, event event-sourcing, event-driven, and high-performance framework built on the Actor framework Orleans -- Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [vent Sourcing Pattern 文語に翻訳します。](https://www.infoq.cn/article/event-sourcing)
+- [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
 - [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [ENode1.0 - 思想と実装済み](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [ENode 1.0 - Saga's idea and realization](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/newbe36524/Newbe.Claptrap.svg)](https://starchart.cc/newbe36524/Newbe.Claptrap)
 
-## コントリビューター✨
+## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -69,15 +69,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## アイコン
+## Icon
 
-このプロジェクトは現在利用されているアイコンは[The Noun Project](https://thenounproject.com/)です。多くの著作権情報については、[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)をご覧ください。
+The icons currently used in this project are all from [The Noun Project](https://thenounproject.com/).You can view the copyright information of each section in [/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source).
 
 ## Gitee
 
-もしGitHubのアカウントを使用できない場合は、giteを使用することでソースやサンプルを得ることができます。
+If you cannot use Github normally, you can also use Gitee to clone the source code and samples (Mainly for China mainland).
 
-- [https://gitee.com/yks/Newbe.Class.Classptrap](https://gitee.com/yks/Newbe.Claptrap)
+- <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
