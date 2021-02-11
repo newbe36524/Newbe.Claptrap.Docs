@@ -1,26 +1,26 @@
 ---
-title: 'Sérialisation'
-description: 'Sérialisation'
+title: 'Serialization'
+description: 'Serialization'
 ---
 
 
-Étant donné que les événements et les états doivent être transmis et stockés dans un système Claptrap, les événements et les états doivent être sérialisés pour gérer une grande variété de scénarios de transport et de stockage.
+Due to the need for transmission and storage of events and states in the Claptrap system, it is necessary to serialize events and states so that they can cope with a wide variety of transport and storage scenarios.
 
-## Comment choisir un schéma de sérialisation
+## How to select a serialization method.
 
-Il existe une variété d’options de sérialisation, généralement：JSON, MessagePack, Protobuf, et plus encore.Les scénarios sérialisés du projet réel peuvent être envisagés en fonction des éléments points：
+Optional serialization methods are available in a variety of ways, typically: JSON, MessagePack, Protobuf, etc.Serialization methods in actual projects can be considered on the following points:
 
-1. Lisibilité.S’il y a des exigences plus élevées en matière de lisibilité, plus vous devriez envisager une sérialisation textuelle.
-2. Efficacité de transmission, utilisation de l’espace de stockage.S’il y a des exigences plus élevées pour l’efficacité du transport et l’espace de stockage, la sérialisation plus binaire devrait être envisagée.
+1. Readability.If there is a higher requirement for readability, the more you should consider a text-focused serialization method.
+2. Transfer efficiency, storage space utilization.If there are higher requirements for transfer efficiency and storage space, the more binary-based serialization methods should be considered.
 
-Dans le système Claptrap, parce que chaque Claptrap est entièrement personnalisable, les développeurs peuvent choisir différents schémas de sérialisation pour différents Claptrap.Cependant, la seule chose à noter est que le schéma de sérialisation est difficile à modifier une fois sélectionné, de sorte qu’il doit être soigneusement examiné à l’étape de la conception.
+In the Claptrap system, because each Claptrap has completely independent customization, developers can choose different serialization method for different Claptraps.However, the only thing to note is that once the serialization method is selected, it is difficult to change, so it needs to be carefully considered at the design stage.
 
-## Sérialisation et indépendance du transporteur
+## Serialization and carrier independence.
 
-Dans le cadre claptrap, le stockage, le transport et la sérialisation sont indépendants les uns des autres.En d’autres termes, vous pouvez utiliser une sérialisation JSON plus lisible pendant la transmission, choisir une sérialisation binaire plus propice à l’utilisation du stockage, et vice versa.
+In the Claptrap framework, storage, transport, and serialization are independent of each other.In other words, a more readable JSON serialization can be used at the time of transmission, the binary serialization that is more conducive to the storage utilization at the time of storage, and vice versa.
 
-## Sérialisation et contraintes de transporteur
+## Serialization and the constraint of the carrier.
 
-La sérialisation sera également limitée face à des vecteurs spécifiques de stockage ou de transport.Par example：vous utilisez actuellement une base de données qui ne prend pas en charge le stockage direct binaire comme une couche persistante pour les événements, puis le choix d’enregistrer des événements par sérialisation binaire devient imparable.Par conséquent, avant de choisir un schéma de sérialisation, vous devez hiérarchiser les scénarios de transport et de stockage.
+The manner in which serialization is also limited in the face of a particular storage or transport editing vector.For example, currently is using a database that does not support binary direct storage as a persistent layer of events, then it will become unfeasible to choose to want to save events by binary serialization.Therefore, before selecting a serialization method, priority needs to be given to the transport and storage scenario.
 
-Actuellement, tous les schémas de sérialisation pris en charge sont publiés sur nuget sous le nom de « Newbe.Claptrap.DataSerializer ».
+Currently, all the supported serialization method are published on nuget with the name " Newbe.Clatrap.DataSerializer. \*".
