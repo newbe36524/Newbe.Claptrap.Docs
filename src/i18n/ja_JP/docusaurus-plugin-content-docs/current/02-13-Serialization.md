@@ -1,26 +1,26 @@
 ---
-title: 'シリアライズ'
-description: 'シリアライズ'
+title: 'Serialization'
+description: 'Serialization'
 ---
 
 
-Claptrapのシステムでは、イベントやstateへの転送と保存を行う必要があります。そのため、多くの種類の転送量に対応し、かつ、多くのイベントや状態を繰り返す必要があります。
+Due to the need for transmission and storage of events and states in the Claptrap system, it is necessary to serialize events and states so that they can cope with a wide variety of transport and storage scenarios.
 
-## シーケンスフロー選択方法
+## How to select a serialization method.
 
-：JSON, MessagePack, Protobufなどの標準化されたシーケンス表示のような多くの方法です。プロジェクトのソートプログラムは、以下のいくつかのポイントに基づいて考えることができます：
+Optional serialization methods are available in a variety of ways, typically: JSON, MessagePack, Protobuf, etc.Serialization methods in actual projects can be considered on the following points:
 
-1. 可読性可読性を有するよりも高い条件であれば、その配列はテキストで扱うのと同じです。
-2. 送信効率、ストレージ容量など。転送効率やストレージ容量の高い要件を満たすために、バイナリーのような一連の流れを検討してください。
+1. Readability.If there is a higher requirement for readability, the more you should consider a text-focused serialization method.
+2. Transfer efficiency, storage space utilization.If there are higher requirements for transfer efficiency and storage space, the more binary-based serialization methods should be considered.
 
-クラプトの機能はすべての Claptrap で独立したカスタマイズが可能であるため、他のクラスの Claptrap から違うシーケンスフローを選択することができますしかし唯一の影響は、もし変更が困難になったら、設計段階でこれを慎重に考慮する必要があります。
+In the Claptrap system, because each Claptrap has completely independent customization, developers can choose different serialization method for different Claptraps.However, the only thing to note is that once the serialization method is selected, it is difficult to change, so it needs to be carefully considered at the design stage.
 
-## シリアライズとキャリア独立性
+## Serialization and carrier independence.
 
-Claptrap フレームワークにおいて、ストレージ、転送、シーケンス村が独立して行われる。言い換えれば、転送時に読めるJSON形式でシリアライズファイルを追加したり、保存時に選択することでビットのバイナリシリアル化や逆もまた利得可能である。
+In the Claptrap framework, storage, transport, and serialization are independent of each other.In other words, a more readable JSON serialization can be used at the time of transmission, the binary serialization that is more conducive to the storage utilization at the time of storage, and vice versa.
 
-## シリアライズドとキャリアシステム
+## Serialization and the constraint of the carrier.
 
-シーケンスの分析は特定のストレージや転送上層に対応している。例えば、：はいないバイナリを直接格納できないデータベースを持つデータベースを使用しているため、イベントを保存する時は、イベントを保存できません。そのため、シリアライズ化の選択の前で、送信と保存方法の優先順位を指定してください。
+The manner in which serialization is also limited in the face of a particular storage or transport editing vector.For example, currently is using a database that does not support binary direct storage as a persistent layer of events, then it will become unfeasible to choose to want to save events by binary serialization.Therefore, before selecting a serialization method, priority needs to be given to the transport and storage scenario.
 
-現在では、サポートされている全てのリストが「Newbe.Claptrap.DataSerializer.\*」の名称がnuget に公開されている。
+Currently, all the supported serialization method are published on nuget with the name " Newbe.Clatrap.DataSerializer. \*".
