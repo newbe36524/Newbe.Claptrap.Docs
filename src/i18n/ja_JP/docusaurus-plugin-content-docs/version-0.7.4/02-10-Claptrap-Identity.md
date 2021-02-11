@@ -4,20 +4,20 @@ description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity 是定位一个 Claptrap 的唯一标识
+## Claptrap Identity は、Claptrap を検索するための一意の ID です
 
-它是一个结构体。其包含有以下几个主要的字段：
+構造体です。これは、次のいくつかの主要なフィールドが含まれています：
 
-Claptrap Type Code，Claptrap 分类代码。分类代码是由开发者自行定义的代码。通常和对应 Claptrap 所关联的业务有关。值得特别注意的是， Claptrap 及其 Minion 的 Claptrap Type Code 之间没有强制的关联关系，但通常在开发过程中，Minion 的 Claptrap Type Code 应该被设计为其 Master Claptrap 的部分，这样更有利于业务上的理解。
+Claptrap Type Code,Claptrap分類コード。分類コードは、開発者が独自に定義するコードです。通常、対応する Claptrap に関連付けられているビジネスに関連しています。特に、Claptrap とその Minion の Claptrap Type Code の間には強制的な相関関係はありませんが、通常、開発中は、Minion の Claptrap Type Code を Master Claptrap の一部として設計する必要があります。
 
-Id, Claptrap 业务 Id。这是业务的 Id。通常来说是业务的主键。在实际的代码、文档中，Claptrap Identity 都会以全称的方式出现，而出现 Id 时，通常是指业务 Id。
+Id, Claptrap ビジネス Id.これはビジネスの Id です。通常、ビジネスの主キーです。実際のコードやドキュメントでは、Claptrap Identity はフルネームで表示され、Id が表示される場合は通常、ビジネス Id を参照します。
 
-## Claptrap Identity 这是与运行平台无关的设计
+## Claptrap Identity これは、実行プラットフォームに依存しない設計です
 
-因而在与具体的平台结合时，需要明确其结合点。
+したがって、特定のプラットフォームと組み合わせると、その結合点を明確にする必要があります。
 
-Claptrap Identity 在 Orleans 中的体现。
+Orleans における Claptrap Identity の表現。
 
-Claptrap Type Code：在 Orleans 中，通常每个 Claptrap 都会被放置在 ClaptrapBoxGrain 中运行。此时，Claptrap Type Code 通常会以属性标记的方式，标记在类或者接口上。
+Claptrap Type Code：Orleansでは、通常、各ClaptrapはClaptrapBoxGrainに配置して実行されます。この時点で、Claptrap Type Code は、通常、クラスまたはインターフェイスにプロパティ タグとしてマークされます。
 
-Id：在 Orleans 中，Grain 本身就带有一个 PrimaryKey 。因而，在 ClaptrapBoxGrain 中也直接重用了该 PrimaryKey 作为 Claptrap Id。
+Id：Orleans では、Grain 自体に PrimaryKey があります。したがって、PrimaryKey は ClaptrapBoxGrain で Claptrap Id として直接再利用されます。
