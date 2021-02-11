@@ -1,32 +1,32 @@
 ---
-title: 'イベント(Event)'
-description: 'イベント(Event)'
+title: 'Event'
+description: 'Event'
 ---
 
-クラップはイベントソースでとるまで Actor モードを指す。自然の作用が重要な役割をもたらすのです
+Claptrap is an event-sourcing based Actor pattern.Events naturally play a crucial role.
 
-Claptrapをアクションするイベントを配信する必要があります。このことはClaptrap State の唯一のパラメーターになります。その場合、Claptrap でビルドされたシステムでは、他の種類のシステムアクションが Claptrap に行われたときにイベントに変換されます。イベントには以下の特徴があります：
+You need to pass events on if you want to operate Claptrap.Events are also the only parameters that change Claptrap State.Therefore, when you build a system with Claptrap, all system operations are converted to events and passed into Claptrap.Events have these characteristics:
 
-## 出来事は順序だ
+## The events are orderly.
 
-各イベントには一意のシーケンス番号があります。このフレームワークではバージョン番号(Version)と呼ばれます。イベント番号は1より侵襲し始める系統の配列です。イベントの順序付けは、状態が変わらない計算と並行性を保証するものではありません。これはステータスデータの信頼性の重要性です。
+Each event contains a unique serial number.In this framework, this serial number is called version number.The version number of the event is a sequence that is incremented by 1 from 1.The orderonfness of the event ensures that the calculation of the state does not have concurrent problems.This is an important guarantee of state data reliability.
 
-事件の順番に、クラプットの順番で 正式に証言が要求されますこのイベントを実行する場合、Claptrap はイベントの実行の場合、一連の処理を必ず行う必要があった。Actor モードを示す 単スレッド機能が、自然発火する。
+The order of events directly reflects the sequence in which Claptrap executes events.And because of the need to ensure this order, Claptrap has to process events on a case-by-case basis when performing events.This happens to have a natural fit with the single-threaded nature of the Actor pattern.
 
-## ルールは変わらない
+## Events are immutable.
 
-ある事件が起こると 不可能になります物語の語り手は、事件の不変性であるため、データの信頼性が低い。事象を読み取れば、どんな事象が作られる可能性は高いのですしかし不変性は 物理的な制限ではなく物理ストレージにイベントデータを変更することはできます。でも 注意してください 危険であるためですデザインし、「オープンになる原則」に従いましょう 「拡張性」を公開し 閉ざすようにするのですなぜ「クローズド」を強調するのか?ペンのケースラインナップは 閉館者にとって 未知な変化をもたらします実行されたコードから、生成されたデータです。彼らは閉め込みをしていますこれは既存のテストに合格したものです直観を確実にしたときに直す テストを直していくべき 変更をもっと劇する いいものではありません出来事は性質というのも特殊な性質である。
+Once an event is produced, it is immutable.Just because of the immutability of events, event sourcing makes the data reliable.Because as long as the event is read, it is possible to restore the state after any one event is executed.But immutability is not a physical limitation.You can still modify event data in physical storage.Please note, however, that this is dangerous and extremely unrecommended behavior.Let's relate to the "open and close principle" in design pattern, which can be summed up as "open to expansion, closed to modification".Why should there be an emphasis on "closed to modification"?In the author's opinion, the reason for the closure of the modification is actually due to the unknown nature brought about by the modification.Because of the code executed in the past, the data generated.They have all formed a certain degree of closure.They have been validated by existing tests.If you try to modify them, it is bound to be necessary to adjust the corresponding test, and this further aggrafies the modification, which is not a good thing.The immutable of the event is of a nature and more of a requirement.
 
-バグが何らかの理由で発生しなくなってしまった場合、バグ修正にはどうしましょうか？ペンのアドバイス: 既存のイベントを変更しないでください。現在の状態を修正するには、新しいイベントとアルゴリズムを追加します。古いものを修正しないでください。これはチャンスだと思う。そこで独自の汲み上げとなる。
+Then if due to the fact that a BUG has resulted in incorrect data production in the past, it is now necessary to amend this BUG, what should be done?The writer's advice, do not try to revise the already existing events.New events and algorithms should be appended to fix the current state.Don't adjust old content.The author thinks that this is more in line with the principle of opening and closing.Developers are at their discretion.
 
-## この事件は永久にです
+## The event is permanent.
 
-イベントは Claptrap State の適切なパラメーターになります。このイベントを恒久的に保存しておく必要があります。しかし、これは絶対的ではなく、 下記の条件が満たされた場合、そのイベントが失われる：
+Events are an important parameter for ensuring the correctness of Claptrap State.Therefore, you need to ensure that the event is saved permanently.However, this is not an absolute case, and if the following conditions are met, the event is allowed to be lost:
 
-1. 事象が発生する前に永続的な state を持つスナップショットが存在します
-2. クラップに対応するクラプスはもう終わりだ。どちらもアクティブではない。
+1. There is a permanent State snapshot before the event is lost.
+2. The corresponding Claptrap is dead and will never be activated again.
 
-逆に、上記の条件が満たされない場合、本番環境でのイベントが正しく永続化されており (任用される) が正しく保存されなければならない。
+Conversely, if the above conditions are not met, then it is important to ensure that events in the production environment are properly preserved in the persistence layer and that there are appropriate disaster tolerance scans.
 
 ## ICON
 
