@@ -1,31 +1,31 @@
 ---
-title: '狀態快照 (State Snapshot)'
-description: '狀態快照 (State Snapshot)'
+title: 'State Snapshot'
+description: 'State Snapshot'
 ---
 
-## State Snapshot 加速狀態還原速度
+## State Snapshot accelerates state restore speed.
 
-一個處於啟動狀態的 Claptrap ，它的 State 即是當前的最新數據狀態。這是通過事件溯源的方式來從持久化層還原的。有時，事件的數量可能非常龐大。那麼通過事件來還原 State 將會花費更多的時間。因此，在 Claptrap 框架中提供了狀態快照來持久化特定 Claptrap 在一定條件之後的狀態。這個條件通常來說是以下幾種：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by event sourcing.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following:
 
-1. 執行了若干個事件之後
-2. 在 Claptrap Deactive 時
-3. 在一定的時間週期內
+1. After a number of events have been handled.
+2. At the time of the Claptrap Deactive.
+3. In a certain time period.
 
-事件快照的存在，使得狀態從持久層還原的速度得到了提升。如果持久層存在快照，則一個狀態的還原通常是按照以下步驟進行的：
+The presence of state snapshots increases the speed at which states are restored from the persistent layer.If a snapshot exists in the persistent layer, a state restore is usually performed in the following steps:
 
-1. 讀取狀態快照
-2. 從狀態快照對應的版本號開始，向後讀取所有的事件進行狀態的更新
-3. 更新狀態直到持久層已經沒有剩餘的事件
+1. Read the state snapshot.
+2. Start of the version number corresponding to the status snapshot and read the update of the status of all the events backwards.
+3. Update the state until the persistent layer has no remaining events.
 
-但是，如果沒有快照，則還原步驟則變為如下所示：
+However, if there are no snapshots, the restore step changes to the following:
 
-1. 通過使用者自定義方法來創建初始狀態
-2. 從事件庫中讀取所有事件來進行狀態的更新
-3. 更新狀態直到持久層已經沒有剩餘的事件
+1. Create the initial state through a user-defined method.
+2. Read all events from the event library to update the status.
+3. Update the state until the persistent layer has no remaining events.
 
-不過，快照的存在也會帶來一些特殊性。結合上面的工作步驟，我們很容易就發現，一旦形成了快照：
+But.The presence of snapshots can also lead to some peculiarity.Combining the working steps above, it is easy for us to find out, once a snapshot is formed:
 
-1. 將不會再執行使用者的自定義方法
-2. 小於快照版本號的事件將不會被再次執行
+1. The user's custom method will no longer be executed.
+2. Events smaller than the snapshot version number will not be executed again.
 
-目前，框架對於每個 Id 僅僅能夠保存一個最後的快照。
+Currently, the framework can hold only one final snapshot for each Id.
