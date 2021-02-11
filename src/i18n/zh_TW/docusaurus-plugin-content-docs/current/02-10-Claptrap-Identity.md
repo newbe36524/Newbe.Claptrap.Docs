@@ -4,20 +4,20 @@ description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity 是定位一個 Claptrap 的唯一標識
+## Claptrap Identity is the unique identity for locating a Claptrap.
 
-它是一個結構體。其包含有以下幾個主要的欄位：
+It is a struct.It contains the following main fields:
 
-Claptrap Type Code，Claptrap 分類代碼。分類代碼是由開發者自行定義的代碼。通常和對應 Claptrap 所關聯的業務有關。值得特別注意的是， Claptrap 及其 Minion 的 Claptrap Type Code 之間沒有強制的關聯關係，但通常在開發過程中，Minion 的 Claptrap Type Code 應該被設計為其 Master Claptrap 的部分，這樣更有利於業務上的理解。
+Claptrap Type Code, the Claptrap Classification Code.Classification code is code that the developer defines itself.It is usually related to the business associated with the corresponding Claptrap.It is interesting to note that there is no compulsive association between Claptrap and its Minion's Clatrap Type Code, but usually during development, Minion's Clatrap Type Code should be designed as part of its Master Clatrap, so that it is more beneficial for the business to understand.
 
-Id， Claptrap 業務 Id。這是業務的 Id。通常來說是業務的主鍵。在實際的代碼、文檔中，Claptrap Identity 都會以全稱的方式出現，而出現 Id 時，通常是指業務 Id。
+Id, Claptrap Business Id.This is the business ID.This is usually the primary key of the business.In the actual code, the Claptrap Identity will appear in a full-name fashion, and when an Id appears, it usually means the Business Id.
 
-## Claptrap Identity 這是與運行平台無關的設計
+## Claptrap Identity this is a design that is not related to the running platform.
 
-因而在與具體的平台結合時，需要明確其結合點。
+Thus, when combined with a specific platform, it is necessary to clarify its closing points.
 
-Claptrap Identity 在 Orleans 中的體現。
+Claptrap Identity is reflected in Orleans.
 
-Claptrap Type Code：在 Orleans 中，通常每個 Claptrap 都會被放置在 ClaptrapBoxGrain 中運行。此時，Claptrap Type Code 通常會以屬性標記的方式，標記在類或者介面上。
+Claptrap Type Code: In Orleans, typically each Claptrap is placed in ClaptrapBoxGrain.At this point, Claptrap Type Code is typically marked as a property tag on a class or interface.
 
-Id：在 Orleans 中， Grain 本身就帶有一個 PrimaryKey 。因而，在 ClaptrapBoxGrain 中也直接重用了該 PrimaryKey 作為 Claptrap Id。
+Id: In Orleans, Grain has a PrimaryKey in itself.As a result, the PrimaryKey was also directly reused as Clatrap Id in the ClatrapBoxGrain.
