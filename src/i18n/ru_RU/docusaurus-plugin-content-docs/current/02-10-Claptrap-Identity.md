@@ -4,20 +4,20 @@ description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity является единственным удостоверением для поиска Claptrap
+## Claptrap Identity is the unique identity for locating a Claptrap.
 
-Это структура.Он содержит несколько основных полей：
+It is a struct.It contains the following main fields:
 
-Код классификации Claptrap Type Code, Claptrap.Код классификации — это код, определяемый разработчиком.Обычно это связано с бизнесом, связанным с Claptrap.Примечательно, что нет обязательной корреляции между Claptrap и его Minion Claptrap Type Code, но, как правило, в процессе разработки, Minion Claptrap Type Code должен быть разработан как часть своего Master Claptrap, что делает его более полезным для понимания бизнеса.
+Claptrap Type Code, the Claptrap Classification Code.Classification code is code that the developer defines itself.It is usually related to the business associated with the corresponding Claptrap.It is interesting to note that there is no compulsive association between Claptrap and its Minion's Clatrap Type Code, but usually during development, Minion's Clatrap Type Code should be designed as part of its Master Clatrap, so that it is more beneficial for the business to understand.
 
-Id, Claptrap Бизнес Id.Это идентификатор бизнеса.Обычно является первисмным ключом для бизнеса.В фактическом коде и документации Claptrap Identity появляется в полном названии, в то время как идентификатор обычно относится к бизнес-идентификатору при его появлении.
+Id, Claptrap Business Id.This is the business ID.This is usually the primary key of the business.In the actual code, the Claptrap Identity will appear in a full-name fashion, and when an Id appears, it usually means the Business Id.
 
-## Claptrap Identity это дизайн, который не имеет ничего общего с запуском платформы
+## Claptrap Identity this is a design that is not related to the running platform.
 
-Таким образом, в сочетании с конкретной платформой, необходимо четко определить точку интеграции.
+Thus, when combined with a specific platform, it is necessary to clarify its closing points.
 
-Воплощение Claptrap Identity в Orleans.
+Claptrap Identity is reflected in Orleans.
 
-Claptrap Type Code：в Orleans, как правило, каждый Claptrap помещается в ClaptrapBoxGrain для запуска.На этом этапе Claptrap Type Code обычно помечается на классе или интерфейсе в качестве тега свойства.
+Claptrap Type Code: In Orleans, typically each Claptrap is placed in ClaptrapBoxGrain.At this point, Claptrap Type Code is typically marked as a property tag on a class or interface.
 
-Id：в Orleans, Grain сам поставляется с PrimaryKey.Таким образом, PrimaryKey был повторно использован непосредственно в качестве идентификатора Claptrap в ClaptrapBoxGrain.
+Id: In Orleans, Grain has a PrimaryKey in itself.As a result, the PrimaryKey was also directly reused as Clatrap Id in the ClatrapBoxGrain.
