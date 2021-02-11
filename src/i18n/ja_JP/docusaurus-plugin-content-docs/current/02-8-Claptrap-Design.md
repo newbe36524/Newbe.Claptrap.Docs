@@ -1,32 +1,32 @@
 ---
-title: 'Claptrap デザインマップ (Claptrap Design)'
-description: 'Claptrap デザインマップ (Claptrap Design)'
+title: 'Claptrap Design'
+description: 'Claptrap Design'
 ---
 
-## Claptrap Design Claptrap を実現する高いカスタマイズ機能
+## Clatrap Design realizes the high customizable nature of Claptrap
 
-クラップのよりカスタマイズがアップ。開発者はClaptrap オブジェクト用のEvent Loader/ Event Saver/ State Loader / State Saver / EventNotification Method など複数のコンポーネントで構成することができます。これらのカスタマイズにより、Claptrap Design オブジェクトを満たすことができる。
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.All of this customization can be reflected on the Claptrap Design object.
 
-Claptrap DesignはClaptrap の Crap の各詳細で発生する： に似ています。
+Claptrap Design is like a design that determines every detail of Claptrap, commonly included:
 
-1. イベントを処理する方法は、どのようなものですか？ Event Saver に実装されています。
-2. State スナップショットを保存するまでの時間。
-3. Minion は master が有名です。
-4. どれだけのイベントが どれくらいいるでしょう？ Event Handler とは何ですか？
+1. What event Loader / Event Saver is used to handle the event.
+2. How often do you save a State snapshot.
+3. Minion? if so, then master who is it.
+4. How many events are there, and what is the corresponding Event Handler.
 
-これらの詳細は、アプリケーションの起動時に適用されます。タイプスキャン、プロパティタグ、一貫性インターフェース、プロファイルなど、様々な方法で設定されます。そして完全に新しい Claptrap Design を形成します。更に、起動時にClaptrap Designのとても適切な確認 - Claptrap Designs がされています。これは、『シャンパンによって書かれた Handler』 と同じレベルの低いエラーと見なされません。
+These details will be configured in a number of ways by type scanning, attribute tags, coherent interfaces, configuration files, etc. when the application is launched.Thus the complete Clatraptrap Design is formed.Also, Claptrap Design is validated for reasonableness at startup to ensure that Claptrap Design is basically available.Thus there will not be a low-level error like "forgetting to write the Handler corresponding to the Event".
 
-すべての Claptrap Designライブラリは、ClaptrapDesignストアで使用されている、Claptrap ファクトリーのビルドに保持されます。
+All Claprap Design will be centrally saved in a memory object such as IClatrapDesignStore so that the Clatraptrap Factory is being retrieved by building Claptrap.
 
-開発者がIClaptrapDesignStoreの全データを基に作り、深い所定のテキストやグラフィックスを含むことができ、深いレベルで見やすくするために使われるようになるように、開発者はコーディングに於いて様々な工程の詳細を得ることができます。
+Developers can also, based on all the data in the IClatrapDesignStore, make up the text or graphics available for human reading in order to more easily understand the correlation and configuration details between Claptrap in the current system from the high level, resulting from the code being higher than the code.
 
 ---
 
-こちらはストーリーの表現であり、分かりやすくなっていますあまり気にしなくても構いません。
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Design はClaptrap Factoryで Claptrap が本番に不可欠なものです。Design Cevの特定の種類の Claptrap に必要なカスタマイズ装置を記録します。例えば：多目的タスク・プロセッサでMODを導入する; 持ち合わせているデバイス種別を選択します; 制御器の復元方法決定。
+Claptrap Design Design is an important basis for Claptrap Factory's Claptrap production.The customized devices required for a particular type of Claptrap are documented in Design.For example, Decide on the task execution module in the multifunction task processor, decide the device model for the handheld memo, and decide the recovery strategy of the memory recovery controller.
 
-Claptrap によるアーティファクトを分析する前に、ClassroomDesignを開発し、最終的にその製品が必要とする重要なステップを保証します。
+Before deciding on the commissioning of Claptrap, the design of the Claptrap Design is an important part of ensuring that the end product meets the requirements.
 
 ## ICON
 
