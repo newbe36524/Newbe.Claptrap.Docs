@@ -1,33 +1,33 @@
 ---
-title: 'Événements'
-description: 'Événements'
+title: 'Event'
+description: 'Event'
 ---
 
-Claptrap est un modèle d’acteur basé sur l’événement.Les événements jouent naturellement un rôle vital.
+Claptrap is an event-sourcing based Actor pattern.Events naturally play a crucial role.
 
-Pour faire fonctionner Claptrap, vous devez lui transmettre des événements.Les événements sont également les seuls paramètres qui modifient l’état Claptrap.Par conséquent, lorsque vous construisez un système avec Claptrap, toutes les opérations du système sont converties en événements et passées dans Claptrap.Les événements ont les characteristics：
+You need to pass events on if you want to operate Claptrap.Events are also the only parameters that change Claptrap State.Therefore, when you build a system with Claptrap, all system operations are converted to events and passed into Claptrap.Events have these characteristics:
 
-## Les événements sont commandés
+## The events are orderly.
 
-Chaque événement contient un numéro de série unique.Dans ce cadre, ce numéro de série est appelé numéro de version.Le numéro de version de l’événement est une séquence qui s’incrément par 1 à partir de 1.L’ordre de l’événement garantit qu’il n’y a pas de problème avec le calcul de l’état.Il s’agit d’une garantie importante de la fiabilité des données de l’État.
+Each event contains a unique serial number.In this framework, this serial number is called version number.The version number of the event is a sequence that is incremented by 1 from 1.The orderonfness of the event ensures that the calculation of the state does not have concurrent problems.This is an important guarantee of state data reliability.
 
-L’ordre des événements reflète directement l’ordre dans lequel Claptrap exécute des événements.En raison de la nécessité d’assurer cette commande, Claptrap doit gérer les événements au cas par cas lors de l’exécution d’événements.Cela s’inscrit naturellement dans la nature à fil unique du motif Actor.
+The order of events directly reflects the sequence in which Claptrap executes events.And because of the need to ensure this order, Claptrap has to process events on a case-by-case basis when performing events.This happens to have a natural fit with the single-threaded nature of the Actor pattern.
 
-## Les événements sont modifiés imm
+## Events are immutable.
 
-Une fois qu’un événement se produit, il est imm changeable.La traçabilité des événements rend les données fiables précisément en raison de l’immuabilité de l’événement.Parce que tant que vous lisez l’événement, vous pouvez restaurer l’état après qu’un événement est exécuté.Mais l’immuabilité n’est pas une limitation physique.Vous pouvez toujours modifier les données d’événements dans le stockage physique.Veuillez toutefois noter qu’il s’agit d’un comportement dangereux et fortement peu conseillé.Contactons le « principe ouvert et étroit » dans le mode design, le classique peut se résumer comme « ouvert à l’expansion, fermé à la modification ».Pourquoi devrions-nous mettre l’accent sur « fermé à la modification »?Du point de vue de l’auteur, la raison de la modification de la fermeture est en fait en raison de la nature inconnue provoquée par la modification.En raison du code exécuté dans le passé, les données qui en résultent.Ils ont tous formé un certain degré de fermeture.Ils ont été validés par des tests existants.Si vous essayez de les modifier, vous devrez ajuster les tests, ce qui aggrave encore les modifications, ce qui n’est pas une bonne chose.La nature immédicale de l’événement est une sorte de nature, mais aussi une sorte d’exigence.
+Once an event is produced, it is immutable.Just because of the immutability of events, event sourcing makes the data reliable.Because as long as the event is read, it is possible to restore the state after any one event is executed.But immutability is not a physical limitation.You can still modify event data in physical storage.Please note, however, that this is dangerous and extremely unrecommended behavior.Let's relate to the "open and close principle" in design pattern, which can be summed up as "open to expansion, closed to modification".Why should there be an emphasis on "closed to modification"?In the author's opinion, the reason for the closure of the modification is actually due to the unknown nature brought about by the modification.Because of the code executed in the past, the data generated.They have all formed a certain degree of closure.They have been validated by existing tests.If you try to modify them, it is bound to be necessary to adjust the corresponding test, and this further aggrafies the modification, which is not a good thing.The immutable of the event is of a nature and more of a requirement.
 
-Que se passe-t-il si un BUG provoque des données d’événements incorrectes dans le passé et doit être corrigé maintenant ?Le conseil de l’auteur n’est pas d’essayer de modifier les événements existants.De nouveaux événements et algorithmes doivent être annexés pour corriger l’état actuel.N’ajustez pas l’ancien contenu.L’auteur pense que c’est plus conforme au principe d’ouverture et de fermeture.Les développeurs peuvent le faire à leur discrétion.
+Then if due to the fact that a BUG has resulted in incorrect data production in the past, it is now necessary to amend this BUG, what should be done?The writer's advice, do not try to revise the already existing events.New events and algorithms should be appended to fix the current state.Don't adjust old content.The author thinks that this is more in line with the principle of opening and closing.Developers are at their discretion.
 
-## L’événement est permanent
+## The event is permanent.
 
-Les événements sont des paramètres importants pour s’assurer que l’état Claptrap est correct.Par conséquent, vous devez vous assurer que l’événement est enregistré en permanence.Toutefois, il ne s’agit pas d’un cas absolu, et si les conditions suivantes sont remplies, alors l’événement permet：
+Events are an important parameter for ensuring the correctness of Claptrap State.Therefore, you need to ensure that the event is saved permanently.However, this is not an absolute case, and if the following conditions are met, the event is allowed to be lost:
 
-1. Il y a un instantané permanent de l’État avant que l’événement ne soit perdu
-2. Le Claptrap correspondant est mort et ne sera plus jamais activé
+1. There is a permanent State snapshot before the event is lost.
+2. The corresponding Claptrap is dead and will never be activated again.
 
-Inversement, si les conditions ci-dessus ne sont pas remplies, il est important de s’assurer que les événements dans l’environnement de production sont correctement préservés dans la couche de persistance et qu’il existe des moyens appropriés de tolérance aux catastrophes.
+Conversely, if the above conditions are not met, then it is important to ensure that events in the production environment are properly preserved in the persistence layer and that there are appropriate disaster tolerance scans.
 
-## Icône
+## ICON
 
-![claptrap claptrap](/images/claptrap_icons/event.svg)
+![claptrap](/images/claptrap_icons/event.svg)
