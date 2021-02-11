@@ -1,27 +1,27 @@
 ---
-title: 'Ressources concurrentielles minimales'
-description: 'Ressources concurrentielles minimales'
+title: 'Minimal Competing Resources'
+description: 'Minimal Competing Resources'
 ---
 
 
-Un concept qui est important lors de l’utilisation du cadre Claptrap pour des ressources concurrentielles minimales.Comprendre ce concept peut aider les développeurs à mieux concevoir l’état de Claptrap et éviter la mauvaise conception.
+Minimal Competiing Resources is a concept that is important when using the Claptrap framework.Understanding this concept helps developers to better design Claptrap's State and avoid the wrong design.
 
-## Quelle est la ressource concurrentielle minimale
+## What is the Minimal Competing Resources.
 
-Le concept de « concurrence des ressources » dans la programmation multicœur est présenté ici comme le concept de « ressource concurrentielle minimale » dans les systèmes d’entreprise.Ce concept permet de trouver facilement des points de conception pour la façon d’appliquer Newbe.Claptrap.
+In analogy with the concept of "resource competition" in multi-thread programming, here is proposed the "Minimum Competing Resources" concept in a business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
 
-Par exemple, dans le cas du commerce électronique, chaque article est une « ressource concurrentielle minimale ».Notez que cela ne veut pas dire que toutes les marchandises sont une « ressource concurrentielle minimale ».Parce que, si vous comptez 10.000 articles, alors la ruée vers l’achat des première et deuxième marchandises, il n’y a pas de concurrence en soi.Par conséquent, chaque produit est une ressource concurrentielle minimale.
+In the case of e-commerce, for example, each commodity is a "Minimal Competing Resources".Note that this is not to say that all goods are a "Minimal Competing Resources".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and goods 2, there is no competition.Therefore, each commodity is a Minimal Competing Resources.
 
-Voici quelques exemples available：
+Here are some examples available:
 
-- Dans un système d’entreprise qui ne permet que les connexions unifaches, le ticket de connexion d’un utilisateur est la ressource la moins compétitive
-- Dans un système de configuration, chaque élément de configuration est la ressource la moins compétitive
-- Dans un marché boursier, chaque ordre d’achat ou de vente est la ressource la moins compétitive
+- In a business system that allows only single-ended logins, a user's login ticket is the Minimal Competing Resources.
+- In a configuration system, each configuration item is the Minimal Competing Resources.
+- In a stock market, each buy or sell order is Minimal Competing Resources.
 
-Dans certains scénarios, la plus petite ressource concurrentielle est également connue sous le nom d’unité simultanée minimale
+In some scenarios, Minimal Competing Resources is also known as the "Minimum Concurrent Unit"
 
-## L’État de Claptrap devrait être au moins supérieur ou égal à la portée des « ressources concurrentielles minimales ».
+## Claptrap's State should be at least larger than or equal to the range of "Minimal Competing Resources".
 
-Combiné avec des exemples de snap-up e-commerce, si tous les éléments sont conçus dans le même État Claptrap (plus grand que la ressource concurrentielle minimale).Ensuite, différents utilisateurs achètent des éléments qui s’affectent les uns les autres parce que Claptrap est basé sur le modèle Acteur qui fait la queue pour traiter les demandes.C’est-à-dire, en supposant que chaque article doit traiter 10ms, alors il est jusqu’à 10000 pour traiter toutes les demandes d’achat.Toutefois, si chaque élément est numéroté, chaque élément est conçu comme un état Claptrap distinct.Donc, parce qu’ils ne sont pas liés les uns aux autres.La vente de toutes les marchandises ne nécessiterait théoriquement que 10ms.
+Combined with the example of e-commerce snapping, if all goods are designed in the same Claptrap State (greater than range of Minimal Competing Resources).Well, different users buy goods to influence each other, because, the Actor pattern based on the Claptrap is the queuing processing request.That is to say, assuming that each item needs to process 10ms, it also takes 10000\* 10 ms to process all the purchase requests as soon as you want.But if each item is numbered, each item is designed as a separate Claptrap State.Well, since they are not related to each other.Selling all the goods would theoretically only cost 10ms.
 
-Il est donc facile de conclure que si l’État de Claptrap est plus grand que la plage minimale de ressources concurrentielles, le système n’aura pas de problème avec la justesse, mais il peut y avoir des pertes de performance. En outre, si l’État de Claptrap est inférieur à la plage minimale de ressources concurrentielles, la relation entre Claptrap devient difficile à gérer et risquée.Étant donné que cela équivaut à diviser une ressource concurrentielle minimale en pièces, et que la ressource concurrentielle minimale doit habituellement être traitée en une seule transaction, cela revient au problème des transactions distribuées, qui est très courante dans la distribution, difficile à traiter.
+It is therefore easy to conclude that if Claptrap's State is larger than the Minimal Competing Resources, the system will not have a correctness issue, but there may be some performance penalties. In addition, if Claptrap's State is smaller than the Minimal Competing Resources, the relationship between Claptrap becomes difficult and risky.Because this is equivalent to splitting a Minimal Competing Resource into multiple parts, and Minimal Competing Resources usually needs to be dealt with in a single transaction, which goes back to the very common problem of distributed transactions in distributed parts that are difficult to handle.
