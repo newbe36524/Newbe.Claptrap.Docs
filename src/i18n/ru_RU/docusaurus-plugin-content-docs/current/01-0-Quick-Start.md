@@ -1,6 +1,6 @@
 ---
-title: 'Краткое работу'
-description: 'Newbe.Claptrap Краткое открытие'
+title: 'Quick start'
+description: 'Newbe.Claptrap Quick Start'
 ---
 
-В этой серии еженеках мы рассмотрим, например, разработку системы на стороне службы с помощью Newbe.Claptrap с помощью упрощенного небольшого приложения электронной коммерции.
+This series, we will learn about the development of a service-end system through a simplified e-commerce small application such as the use of Newbe.Claptrap.
