@@ -1,6 +1,6 @@
 ---
-title: 'Le glossaire'
-description: 'Le glossaire'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-La lecture du glossaire de ce projet vous permettra de mieux comprendre les concepts associés à ce projet.
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
