@@ -30,8 +30,6 @@ Claptrap and it`s Minions are coming.
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- パブリック メールボックス newbe-claptrap@googlegroups.com (メールボックスに送信されたコンテンツは公開されます)
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQグループ553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 参考文献
