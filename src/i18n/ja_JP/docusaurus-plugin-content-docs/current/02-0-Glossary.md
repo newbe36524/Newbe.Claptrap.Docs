@@ -1,6 +1,6 @@
 ---
-title: '用語集'
-description: '用語集'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-このプロジェクトについてのより詳しい説明を読む。このプロジェクトについての思い方をよく学ぶことができます。
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
