@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.someSidebar.category.项目简介": {
-    "message": "Introduction to the project",
+    "message": "Introduction",
     "description": "The label for category 项目简介 in sidebar someSidebar"
   },
   "sidebar.someSidebar.category.快速入门": {
