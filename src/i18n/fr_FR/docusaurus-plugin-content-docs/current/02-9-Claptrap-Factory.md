@@ -1,25 +1,25 @@
 ---
-title: 'Usine Claptrap'
-description: 'Usine Claptrap'
+title: 'Claptrap Factory'
+description: 'Claptrap Factory'
 ---
 
 
-## Claptrap Factory assemble Claptrap
+## Claptrap Factory assembles Claptrap.
 
-Claptrap a un haut degré de personnalisation.Les développeurs peuvent spécifier une gamme de composants pour l’objet Claptrap, tels que le chargeur d’événements personnalisé/économiseur d’événements/chargeur d’état/économiseur d’état/ méthode de notification d’événements.Afin de s’adapter à cette personnalisation, il est nécessaire d’utiliser un bon schéma pour réaliser l’assemblage d’objets Claptrap.
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.In order to adapt to this customizable nature, good options are needed for the assembly of Claptrap objects.
 
-Le cadre actuel est fait avec Autofac comme assembleur.La raison principale est que Autofac prend en charge des fonctionnalités telles que Delegate Factory / Decorator / Generic Type / Module qui sont plus riches que System.DesignEdencyInjection.
+The current framework is selected by Autofac as an assembler.The main reason is that Autofac supports the Delegate Factory/Decorator/Generic Type/Module and more features that are richer compared to the System.Dependencynjection.
 
-## Claptrap Factory contrôle le cycle de vie de Claptrap
+## Claptrap Factory controls the Claptrap lifetime scope.
 
-Parce que Claptrap Factory est un producteur de Claptrap, il est également généralement responsable des capacités de contrôle du cycle de vie au niveau claptrap.Dans l’usine Claptrap basée à Autofac, ce contrôle du cycle de vie se reflète dans l’utilisation des objets LifetimeScope d’Autofac pour contrôler l’ensemble du processus de chargement, de création et de déchargement.
+Since the Clatraptrap Factory is a producer of Claptrap, it is generally also responsible for the lifetime scope control functions of Clatrap level.With the Autofac-based Claptrap Factory, this lifetime scope control is reflected in the process of controlling the entire loading, creation and offloading using Autovac's LifetimeScope objects.
 
 ---
 
-Ce qui suit est une description révélatrice pour faciliter la compréhension.Ne t’inquiète pas trop.
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Factory est l’emplacement principal pour la production Claptrap.Il effectuera l’assemblage personnalisé de chaque claptrap d’usine selon un design donné de Claptrap, qui a un taux de passage de produit très élevé et la performance.
+The Claprap Factory is the main place for the production of Claptrap.It will perform a customized assembly of each of the factory's Claptraps in accordance with the given Claptrap Design, and it has an extremely high product pass rate and work effectiveness.
 
-## Icône
+## ICON
 
-![claptrap claptrap](/images/claptrap_icons/claptrap_factory.svg)
+![claptrap](/images/claptrap_icons/claptrap_factory.svg)
