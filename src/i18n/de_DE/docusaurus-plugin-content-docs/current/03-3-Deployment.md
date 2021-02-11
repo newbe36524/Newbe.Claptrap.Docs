@@ -1,6 +1,6 @@
 ---
-title: 'Einsatz'
-description: 'Zugticketsystem - Bereitstellung'
+title: 'Deployment'
+description: 'Train ticketing system - deployment'
 ---
 
 
@@ -25,17 +25,17 @@ description: 'Zugticketsystem - Bereitstellung'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## Eigenständige Bereitstellung
+## Deploy independently.
 
-Entwickler können den Quellcode auch für die unabhängige Bereitstellung in der lokalen Docker-Umgebung verwenden.Folgen Sie einfach diesen Schritten.
+Developers can also use the source code for independent deployment in the local docker environment.Just follow the steps below.
 
-1. Stellen Sie sicher, dass die Docker-Umgebung lokal ordnungsgemäß installiert ist und dass Sie docker-compose/git verwenden können.
-2. Schauen Sie sich die Projektquelle code <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. Führen Sie den Befehl docker-compose build im Ordner src/Newbe.Claptrap.Ticketing aus, um die Projektkompilierung abzuschließen.
-4. Führen Sie docker-compose up-d im Ordner src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite aus, um alle Dienste zu starten.
-5. Zugriff `http://localhost:10080` , um die Schnittstelle zu öffnen.
+1. Make sure that the docker environment is properly installed locally and that the docker-compose/git is available.
+2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. Run the docker-compose build command in the src/Newbe.Claptrap.Ticketing folder to complete project compilation.
+4. Run the docker-compose up-d in the src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite folder to start all services.
+5. Access the `http://localhost:10080` to open the Ui.
 
-Zusammenfassend ist das Skript so follows：
+To sum up, the script is as follows:
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -45,15 +45,15 @@ cd Docker/LocalClusterSQLite
 docker-compose up -d
 ```
 
-Die obigen Schritte sind eine Möglichkeit, SQLite als Datenbank auszuführen, und die Codebasis enthält mehrere andere Bereitstellungsmodi, die nur in separaten Ordnern ausgeführt werden müssen, um：
+The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to:
 
-| Ordner              | Beschreibung                                        |
-| ------------------- | --------------------------------------------------- |
-| LocalClusterMongodb | MongoDb Multi-Node Load Balancing Version           |
-| LocalClusterSQLite  | SQLite Single-Node-Version                          |
-| Tencent             | Die in der Online-Erfahrung bereitgestellte Version |
+| Folder              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| LocalClusterMongodb | MongoDb multi-node load balancing version.     |
+| LocalClusterSQLite  | SQLite single-node version.                    |
+| Tencent             | The version deployed in the Online Experience. |
 
-> - Wenn Sie derzeit chinesisches Festland sind und netcore-Images langsam herunterladen, können Sie versuchen,[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - Entwickler können auch[,](https://labs.play-with-docker.com/)Test im PWD-Netzwerk bereitzustellen
-> - Beim Wechseln zwischen verschiedenen Bereitstellungsmodi ist darauf zu achten, dass docker-compose zuerst ausgeführt wird, um die letzte Bereitstellung zu schließen.
-> - Webports können je nach den Einstellungen in docker-compose.yml vom Bereitstellungsmodus bis zum Bereitstellungsmodus variieren.
+> - If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> - Developer can also choose[PWD](https://labs.play-with-docker.com/)to deploy for testing
+> - Switch between different deployment modes to take note of running docker-compose down first to close previous deployment
+> - Web ports may vary from deployment pattern to deployment mode, depending on the settings in docker-compose.yml.
