@@ -30,8 +30,6 @@ Claptrap and it`s Minions are coming.
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- 公开邮箱 newbe-claptrap@googlegroups.com （发送到该邮箱的内容将被公开）
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 参考资料
