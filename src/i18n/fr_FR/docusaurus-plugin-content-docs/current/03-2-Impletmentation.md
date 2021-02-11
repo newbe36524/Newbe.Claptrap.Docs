@@ -1,7 +1,7 @@
 ---
-title: 'Réaliser'
-description: 'Système de billetterie des trains - mise en œuvre'
+title: 'Implementation'
+description: 'Train ticketing system - implementation.'
 ---
 
 
-Tbd
+TBD.
