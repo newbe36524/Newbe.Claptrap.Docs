@@ -1,6 +1,6 @@
 ---
-title: '詞彙表'
-description: '詞彙表'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-睇睇哩個詞彙表，可以令你更好咁了解呢個項目相關嘅概念。
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
