@@ -3,7 +3,7 @@ title: 'Claptrap'
 description: 'Claptrap'
 ---
 
-Autrement dit, Claptrap ['](/zh_Hans/2-Glossary/Actor-Pattern) [événement trace](/zh_Hans/2-Glossary/Event-Sourcing)
+Autrement dit, Claptrap ['](02-1-Actor-Pattern) [événement trace](02-2-Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 

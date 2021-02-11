@@ -1,12 +1,12 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: "Newbe.Claptrap",
-  tagline: "The tagline of my site",
+  tagline: "Newbe.Claptrap",
   url: "https://claptrap.newbe.pro",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
+  favicon: "images/icon/favicon.ico",
   organizationName: "newbe36524", // Usually your GitHub org/user name.
   projectName: "Newbe.Claptrap", // Usually your repo name.
   i18n: {
@@ -36,36 +36,36 @@ module.exports = {
   },
   themeConfig: {
     navbar: {
-      title: "My Site",
+      title: "Newbe.Claptrap",
       logo: {
-        alt: "My Site Logo",
-        src: "img/logo.svg",
+        alt: "Newbe.Claptrap",
+        src: "images/main_banner.png",
       },
       items: [
         {
           to: "docs/",
           activeBasePath: "docs",
-          label: "Docs",
+          label: "开发文档",
           position: "left",
         },
-        { to: "blog", label: "Blog", position: "left" },
+        { to: "blog", label: "博客", position: "left" },
         // right
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/newbe36524/Newbe.Claptrap",
           label: "GitHub",
           position: "right",
         },
-        // {
-        //   type: 'docsVersionDropdown',
-        //   position: 'right',
-        //   dropdownActiveClassDisabled: true,
-        //   dropdownItemsAfter: [
-        //     {
-        //       to: '/versions',
-        //       label: 'All versions',
-        //     },
-        //   ],
-        // },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
+          // dropdownItemsAfter: [
+          //   {
+          //     to: '/versions',
+          //     label: 'All versions',
+          //   },
+          // ],
+        },
         {
           type: "localeDropdown",
           position: "right",
@@ -82,50 +82,46 @@ module.exports = {
       style: "dark",
       links: [
         {
-          title: "Docs",
-          items: [
-            // {
-            //   label: "Style Guide",
-            //   to: "docs/",
-            // },
-            // {
-            //   label: "Second Doc",
-            //   to: "docs/doc2/",
-            // },
-          ],
-        },
-        {
-          title: "Community",
+          title: "开发文档",
           items: [
             {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
+              label: "项目简介",
+              to: "docs/",
             },
             {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/docusaurus",
+              label: "快速入门",
+              to: "docs/01-0-Quick-Start/",
             },
           ],
         },
         {
-          title: "More",
+          title: "参与讨论",
           items: [
             {
-              label: "Blog",
+              label: "QQ 群",
+              href: "https://jq.qq.com/?_wv=1027&k=vRi0usiG",
+            },
+          ],
+        },
+        {
+          title: "更多资源",
+          items: [
+            {
+              label: "项目博客",
               to: "blog",
             },
             {
+              label: "个人博客",
+              href: "https://www.newbe.pro",
+            },
+            {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: "https://github.com/newbe36524/Newbe.Claptrap",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `MIT ${new Date().getFullYear()} newbe36524. Built with Docusaurus.`,
     },
     gtag: {
       trackingID: "UA-100658571-3",
@@ -137,15 +133,13 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
+            "https://github.com/newbe36524/Newbe.Claptrap.Docs/edit/master/src/",
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
+            "https://github.com/newbe36524/Newbe.Claptrap.Docs/edit/master/src/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

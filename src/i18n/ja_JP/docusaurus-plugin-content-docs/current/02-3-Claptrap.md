@@ -3,7 +3,7 @@ title: 'Claptrap'
 description: 'Claptrap'
 ---
 
-Claptrap = [Actor](/zh_Hans/2-Glossary/Actor-Pattern) + [イベントのソース](/zh_Hans/2-Glossary/Event-Sourcing)
+Claptrap = [Actor](02-1-Actor-Pattern) + [イベントのソース](02-2-Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 

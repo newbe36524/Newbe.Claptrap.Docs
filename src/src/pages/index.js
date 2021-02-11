@@ -1,48 +1,62 @@
-import React from 'react';
-import clsx from 'clsx';
-import Layout from '@theme/Layout';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import Layout from "@theme/Layout";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import styles from "./styles.module.css";
+import Translate, { translate } from "@docusaurus/Translate";
 
 const features = [
   {
-    title: 'Easy to Use',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
+    title: translate({
+      message: "轻松应对并发问题",
+      description: "The homepage 轻松应对并发问题",
+    }),
+    imageUrl: "img/undraw_docusaurus_mountain.svg",
+    description: translate({
+      message: (
+        <>
+          基于 Actor
+          模式和事件溯源模式作为基础原理，轻松处理并发环境下的问题处理。
+        </>
+      ),
+      description: "The homepage 轻松应对并发问题 detail",
+    }),
   },
   {
-    title: 'Focus on What Matters',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
+    title: translate({
+      message: "完全支持水平扩展",
+      description: "The homepage 完全支持水平扩展",
+    }),
+    imageUrl: "img/undraw_docusaurus_tree.svg",
+    description: translate({
+      message: (
+        <>依托 dapr/Orleans 框架等与生俱来的水平扩展能力，轻松做到从一到百。</>
+      ),
+      description: "The homepage 完全支持水平扩展 detail",
+    }),
   },
   {
-    title: 'Powered by React',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
+    title: translate({
+      message: "全面关注完整周期",
+      description: "The homepage 全面关注完整周期",
+    }),
+    imageUrl: "img/undraw_docusaurus_react.svg",
+    description: translate({
+      message: (
+        <>
+          从设计，到开发，到上线。每个环节都是我们考虑的要素。每个环节我们都充分考虑。
+        </>
+      ),
+      description: "The homepage 全面关注完整周期 detail",
+    }),
   },
 ];
 
-function Feature({imageUrl, title, description}) {
+function Feature({ imageUrl, title, description }) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
-    <div className={clsx('col col--4', styles.feature)}>
+    <div className={clsx("col col--4", styles.feature)}>
       {imgUrl && (
         <div className="text--center">
           <img className={styles.featureImage} src={imgUrl} alt={title} />
@@ -56,25 +70,19 @@ function Feature({imageUrl, title, description}) {
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      title={`${siteConfig.title}`}
+      description="Docs about Newbe.Claptrap project"
+    >
+      <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
-          <div className={styles.buttons}>
-            <Link
-              className={clsx(
-                'button button--outline button--secondary button--lg',
-                styles.getStarted,
-              )}
-              to={useBaseUrl('docs/')}>
-              Get Started
-            </Link>
-          </div>
+          <img
+            src={require("/static/images/20190228-002.gif").default}
+            alt="Example banner"
+          />
         </div>
       </header>
       <main>

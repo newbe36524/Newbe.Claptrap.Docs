@@ -68,7 +68,7 @@ Actor, because Claptrap is based on event traceability mode.So it is important t
 
 In this example, we need to record only the stock of the current SKU and therefore the State is very simple in design.
 
-Add`<code>Sku`folder to the HelloClaptrap.</code>project and create the`SkuState`under that folder.
+Add `Sku` folder to the `HelloClaptrap`. project and create the`SkuState`under that folder.
 
 Add the following code.：
 

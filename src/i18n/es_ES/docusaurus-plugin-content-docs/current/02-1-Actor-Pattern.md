@@ -15,7 +15,7 @@ En primer lugar, el estado de Actor sólo se puede cambiar por sí mismo, y para
 
 ![Actualizar el estado del actor](/images/20190226-001.gif)
 
-En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de</code>pública`de<code>`de clase de C- puede cambiar la propiedad`en<code>clase`</code>después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
+En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de `públicade`de clase de C- puede cambiar la propiedad en`clase`después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
 
 ![Compartir el estado de Actor](/images/20190226-003.gif)
 
@@ -23,7 +23,7 @@ Sin embargo, la lectura de datos desde el interior de Actor al exterior todavía
 
 ![Leer el estado del actor](/images/20190226-002.gif)
 
-****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de</code>int`, déjele hacer<code>`.El valor final para este estado debe ser 100.
+****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de `int`, déjele hacer.El valor final para este estado debe ser 100.
 
 ![El actor se llama en un sintetizador](/images/20190226-004.gif)
 

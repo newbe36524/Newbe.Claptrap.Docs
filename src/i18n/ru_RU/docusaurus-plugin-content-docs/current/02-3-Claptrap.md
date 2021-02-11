@@ -3,7 +3,7 @@ title: 'Claptrap'
 description: 'Claptrap'
 ---
 
-Проще говоря, Claptrap — [Actor](/zh_Hans/2-Glossary/Actor-Pattern) + [источник событий](/zh_Hans/2-Glossary/Event-Sourcing)
+Проще говоря, Claptrap — [Actor](02-1-Actor-Pattern) + [источник событий](02-2-Event-Sourcing)
 
 ![Claptrap](/images/20190228-001.gif)
 
