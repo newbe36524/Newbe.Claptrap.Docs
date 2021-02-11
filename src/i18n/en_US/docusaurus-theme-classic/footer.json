@@ -8,7 +8,7 @@
     "description": "The footer copyright"
   },
   "link.title.开发文档": {
-    "message": "Development documentation",
+    "message": "Docs",
     "description": "The title of the footer links column with title=开发文档 in the footer"
   },
   "link.title.参与讨论": {
