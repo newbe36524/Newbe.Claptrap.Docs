@@ -1,114 +1,114 @@
 ---
-title: '第一歩ーショッピングモールの作成を。'
-description: '第一歩ーショッピングモールの作成を。'
+title: 'The first step - create a project and implement a simple shopping cart'
+description: 'The first step - create a project and implement a simple shopping cart'
 ---
 
-オンラインで済むような「電気 Newbe.Claptrap を使って開発する方法」をいくつか見ていきましょう。
+Let's implement a simple "e-commerce cart" requirement to see how to develop using Newbe.Claptrap.
 
 <!-- more -->
 
-## 必要なビジネス
+## Business needs
 
-Education Edition のシンプルな「ビジネス・カート」を行うためのシンプルな「サービス」を実装します：
+Realize a simple "e-commerce shopping cart" requirement, where a few simple business：
 
-- 現在のカート内の商品と個数をフェッチします
-- 商品をカートに追加
-- カートから指定した製品を削除
+- Get items and quantities in your current shopping cart
+- Add items to your shopping cart
+- Remove specific items from your shopping cart
 
-## プロジェクトテンプレートをインストール
+## Install project templates
 
-まず、あなたが.NetCore SDK 3.1 がインストールされていることを確認する必要があります。[最新バージョンはこちらで入手できます。](https://dotnet.microsoft.com/download)
+First, you need to make sure that you have installed the . NetCore SDK 3.1.[You can click here for the latest version for installation](https://dotnet.microsoft.com/download)。
 
-SDK のインストール完了後、以下コンソールでプロジェクトテンプレートをインストールします：
+Once the SDK is installed, open the console and run the following commands to install the latest project templates：
 
 ```bash
-dotnet-new - Newbe.Classptrap.Template
+dotnet new --install Newbe.Claptrap.Template
 ```
 
-インストール後、既にインストールされているプロジェクトテンプレートを確認できます。
+Once installed, you can see the project templates that have already been installed in the installation results.
 
-![newbe.claptrap.templateのインストール完了](/images/20200709-001.png)
+![Newbe.claptrap template installed](/images/20200709-001.png)
 
-## プロジェクトを作成
+## Create a project
 
-場所を選択するためにディレクトリを作成しましょう。この例では、`D:\Repo`以下`Helloクラス`フォルダを作成してください。このフォルダーは、プロジェクトのコードとして新しいフォルダーになります。
+Select a location to create a folder, and this example selects the`D:\Repo` and Create a directory named `HelloClaptrap`.The folder will be used as a code folder for new projects.
 
-コンソールを開き、作業ディレクトリを`D:\Repo\HelloClaptrap` に切り替えます。次に、次のコマンドを実行すると、それをプロジェクトが作成できます：
+Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then run the following command to create a project：
 
 ```bash
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> 一般的に言えば、`D:\Repo\Helloクラップ`を Git のリポジトリフォルダとして作成することをお勧めします。バージョン管理によるソースコードを管理します。
+> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
 
-## ビルドと起動
+## Compilation and startup
 
-プロジェクト作成が完了した後は、好きな IDE を使用してソリューションをコンパイルします。
+Once the project is created, you can compile the solution with your favorite IDE.
 
-ビルド完了後、IDE で起動してWeb と BackendServer の2つのプロジェクトを実行します。(VSはコンソールのサービスとして起動する必要があり、IIS Expressを使用するにはデベロッパーにこのポート番号を参照してください)
+Once compiled, start both web and BackendServer projects with the Startup feature on the IDE.(VS needs to start the service as console, and if you use IIS Express, you need the developer to look at the port number to access the web page)
 
-起動時に、`http://localhost:365/swagger`アドレスをを介してサンプルプロジェクトの一覧を見ることができます。これらのうち、3 つの主要なAPIを含む：
+If it is started, you can visiti `http://localhost:36525/swagger` to view the API description of the sample.This includes three mainly APIs：
 
-- `GET` `/api/Cart/{id}` 特定のid カート内の商品と数量を取得する
-- `POST` `/api/Cart/{id}` 指定されたid に新規商品を追加。
-- `DELETE` `/api/Cart/{id}` 指定した id カートからカートを削除します。
+- `GET` `/api/Cart/{id}` Get items and quantities in a specific id shopping cart
+- `POST` `/api/Cart/{id}` Add a new item to the purchase of the specified id
+- `DELETE` `/api/Cart/{id}` Remove a specific item from the shopping cart of the specified id
 
-トルネードボタンは、インタフェース上で何回か呼び出せるようにしてください。
+You can try to make several calls to the API through click the Try It Out button on the UI.
 
-> - [複数のプロジェクトを同時起動する方法](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [複数のプロジェクトを同時に起動する方法](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [戻るとノブ マイナジーの間の移動速度](https://mirrors.huaweicloud.com/)
+> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
 
-## 最初の商品を追加しました。不適格?
+## It is no effect when add product at first time?
 
-はい、そうでしょうか。プロジェクトテンプレート 実装は バグがあります。
+Yes, you're right.There are BUGS in the business implementation in the project template.
 
-次に、いくつかのバグからこれらのブレークポイントを取得してそれをランク付けして問題を解決しましょう。
+Next, let's open the project and troubleshoot and resolve these bugs by adding some breakpoints.
 
-さらに、バグの場所を特定することで、フレームワークのコードの転送について学習することができます。
+And by locating the BUG, you could understand the framework's code flow process.
 
-## ブレークポイントを追加
+## Add breakpoints
 
-ここに、 IDE の指示に従って、ブレークポイントを設置してください。あなたの既存のIDE から操作できます。
+The following instructions about adding the location of breakpoints base on different IDE, and you can choose the IDE you are used to operating.
 
-現時点での頭はIDEがない場合は、このセクションをスキップすることで、背後にあるものを直接読むことができます。
+If you don't currently have an IDE on hand, you can also skip this section and read directly what follows.
 
 ### Visual Studio
 
-前記のブートスタイルで同時に2 つのプロジェクトを開始します。
+Start both projects at the same time, as mentioned above.
 
-ブレークポイントのインポート：[ブレークポイント] ウィンドウを開き、ボタンをクリックして、プロジェクトの下から`breakpoints ファイル.xml`します。下記の２つのスクリーンショットを撮ることで対応する操作を行うことができます。
+Import breakpoints：Open the Breakpoint window, click the button, select `breakpoints.xml` file under project.You can find the location in the two screenshots below.
 
-![Open Breakpoints Winindow](/images/20200709-002.png)
+![Open Breakpoints Window](/images/20200709-002.png)
 
 ![Import Breakpoints](/images/20200709-003.png)
 
 ### Rider
 
-前記のブートスタイルで同時に2 つのプロジェクトを開始します。
+Start both projects at the same time, as mentioned above.
 
-Riderにブレークポイントでインポート機能がありません。このため、以下のスロットに ブレークポイント を作成します：
+Rider does not currently have a breakpoint importing feature.Therefore, you need to manually create breakpoints at the following locations：
 
-| ファイル                      | 行番号 |
-| ------------------------- | --- |
-| CartController            | 30  |
-| CartController            | 34  |
-| CartGrain                 | 24  |
-| CartGrain                 | 32  |
-| AddItemToCartEventHandler | 14  |
-| AddItemToCartEventHandler | 28  |
+| File                        | Line No. |
+| --------------------------- | -------- |
+| CartController              | 30       |
+| CartController              | 34       |
+| CartGrain                   | 24       |
+| CartGrain                   | 32       |
+| AddItemToCart Event Handler | 14       |
+| AddItemToCart Event Handler | 28       |
 
-> [GoTo Fileを使って素早くファイルの場所を管理できます。](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## デバッグを開始
+## Start debugging
 
-つぎに、１つずつ実行してコード実行のプロセスを学べます。
+Next, we take a request to see how the entire code runs.
 
-まず、swagger インタフェースからPOSTリクエストを送り、新しい商品をカートに追加しようとしています。
+First, let's send a POST request through the swagger interface and try adding items to the shopping cart.
 
 ### CartController Start
 
-最初に web API レイヤーコード： で干渉する
+The first lifeline is the Controller code for the Web API layer：
 
 ```cs
 [HttpPost("{id}")]
@@ -120,17 +120,17 @@ public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput in
 }
 ```
 
-このスニペットでは、`_grainFactory`から作成して`ICartGrain`インスタンスを作成します。
+In this code, we pass`_grainFactory`to create a`ICartGrain`Instance.
 
-このインスタンスはエージェントで、Backend Server 内にある Grain（Grain）どちらかを指すプロキシです。
+This instance is essentially a proxy that points to a specific grain in Backend Server.
 
-受信した id は、インスタンス内で一意な識別子として識別できます。このビジネスコンテキスト内では、「カートID」もしくは「カートID」あるいは「ユーザid」になりましょう.
+The incoming id can be considered a unique identifier for the location instance.In this business context, it can be understood as "cart id" or "user id" (if each user has only one shopping cart).
 
-まずデバッグを続けて下さい ICartGrain の内部はどう働きます
+Continue with debugging and move on to the next step, let's see how the inside of ICartGrain works.
 
 ### CartGrain Start
 
-次のブレークポイントを果たすまでのポイントは CartGrain コード：
+The next stop point is the CartGrain code.：
 
 ```cs
 public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
@@ -145,43 +145,43 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-ここからフレームワークが実装されるコアです。以下の図に示す鍵：
+Here is the core of the framework implementation, as shown in the following image.：
 
 ![Claptrap](/images/20190228-001.gif)
 
-具体的にはビジネスに述べています。コードは特定のカートオブジェクトを既に実行しています。
+Specifically, the code has run to a specific shopping cart object.
 
-デバッガで渡されたskuIdとcountyは、Controller から引数として渡されます。
+You can see through the debugger that both the incoming skuId and count are parameters passed from Controller.
 
-ここで以下の操作を完了できます：
+Here you can do these things.：
 
-- クラップでのデータ変更（Claptrap でのデータ）
-- Claptrap から保存されたデータの読み込み
+- Modify the data in Claptrap with events
+- Read data saved in Claptrap
 
-このコードでは、カートに対する変更を表す`AddItemToCartEvent`オブジェクトを作成します。
+In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
 
-そしてそれをClaptrap に渡して処理します
+It is then passed to Claptrap for processing.
 
-クラプターの承認後、state は自身の state データを更新します。
+Claptrap updates its State data after accepting the event.
 
-直近に私たちは state Data.Items を呼び出すようになりました。(事実StateData.Items は Claptrap.State.Data.Items のショートカットです実際にはまだ Claptrap から読み込まれている必要があります)
+Finally, we return StateData.Items to the caller.(Actually, StateData.Items is a quick property for Claptrap.State.Data.Items.)So it's actually still read from Claptrap. )
 
-デバッガーを使う場合、私は state のデータ型のデータ型がわかります：
+From the debugger, you can see that the data types of StateData are shown below.：
 
 ```cs
-class CartState : IStateデータ
+public class CartState : IStateData
 {
-    { public Dictionary<string, int> Items { get; set; }
+    public Dictionary<string, int> Items { get; set; }
 }
 ```
 
-サンプルのデザインのカートの状態です`Dictionary`を使用してこのカート内のSkuIdとその関連数を示すためのものです。
+This is the status of the shopping cart designed in the sample.We use a `Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
 
-デバッグ作業を続け、次に，Claptrapが受信するイベントの出力について見てみましょう。
+Continue debugging and move on to the next step to see how Claptrap handles incoming events.
 
-### AddItemToCartEventHandler Start
+### AddItemToCart Event Handler Start
 
-再ヒットポイントは、以下のコードの一部です：
+Again, the point of interruption is this code below.：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -207,41 +207,41 @@ public class AddItemToCartEventHandler
 }
 ```
 
-このコードには、カートステータスを表す２つの重要引数が含まれます。これらは、それぞれカートの`CartState`や、処理を必要とする`AddItemToCartEvent` メソッドです。
+This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
 
-ビジネス要件に従って、ユーザーの状態にあるDictionaryを表示して数を更新してください。
+We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 
-このプログラムをデバッグして最後の実行に移します。
+Continue debugging and the code will run until the end of this code.
 
-この時点では、デバッガを使うことで、stateData.Itemsformat@@1 が辞書に追加されることがあります。しかし数量は 0 です。なぜかというと 注記されている `else コード段が原因で 常にカートに追加されたが未だに 決定的なものだからです
+At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
 
-ここでは すぐにテストを終了しませんパズルを完了したら、コード全体をどのように終えたのか進めましょう。
+Here, do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
 
-これを続けると、ブレークポイントは次の時間で終わり、CartGrain と CartController間のメソッドの最後尾になります。
+In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
 
-## これが三階構造です
+## This is actually a three-tier architecture!
 
-優れた開発者は様々な階調のメカニズムを解明した。Newbe.Claptrap とは 三つの層構造だと教えてくれますこのフォームをひとつ付ければ、この比較してみましょう：
+The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe. Claptrap is actually a three-tier architecture.Let's compare it in a table.：
 
-| 従来型三階                | Newbe.Claptrap | 説明                                              |
-| -------------------- | -------------- | ----------------------------------------------- |
-| Presenation バナー      | Controller     | 外部から対するシステムを用いた，外部への相互運用性                       |
-| Business ビジネスレイヤー    | Grain レイヤー     | ビジネス パラメータをビジネスとして扱う (サンプルに書いては書かない限りは評価され > 0) |
-| Persistence Locale | | EventHandler 層 | ビジネス結果の更新                                       |
+| Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
+| ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Presentation Layer       | Controller Layer   | Used to dock external systems to provide external interoperability                                                           |
+| Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
+| Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-上記の類似は単純なもので具体的には理解するのに難しすぎて 理解できる用語です
+Of course, the above analogy is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
 
-## 修正が必要なバグがあります。
+## You also have a BUG to fix
 
-これまでの商品への最初の参加不有効でない問題を修正しました。
+Then we go back and fix the previous "First Join Products Don't Take Effect" issue.
 
-### これはユニットテストのためのフレームワークです
+### This is a framework for considering unit testing
 
-プロジェクト テンプレートに新しいプロジェクト`HelloClaptrap.Actors.Tests`があるプロジェクトでは、そのプロジェクトはビジネスコードのユニットテストを含んでいます。
+There is a project in the project template.`HelloClaptrap.Actors.Tests.`The project contains unit tests of the main business code.
 
-`AddItemToCartEventHandler`のグローバルコードの変換が、BUGにとって大きな原因となることでしょう。
+We now know that`AddItemToCartEventHandler.`The code in the comments is the main cause of the BUG.
 
-`dotnette`を使用してプロジェクトの中のユニットテストを実行すると、次の2つのエラーを取得できます。
+We can use it.`dotnet test.`If you run the unit tests in your test project, you get two errors:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -291,7 +291,7 @@ Total tests: 7
 
 ```
 
-単体テストコードの一つ一つの例を見てみましょう：
+Let's look at the code for one of the faulty unit tests.：
 
 ```cs
 [Test]
@@ -315,20 +315,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`は、主となるテストコンポーネントであり、stateData と event の両方が手動で構築されているため、開発者は事前テストが必要です。何も構築しない特別なコンテンツが必要です。
+`AddItemToCartEventHandler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-`AddItemToCartEventHandler`の項目をコメント文に復元するだけです。ユニットテストを再度実行してください。ユニットテストに合格しました。バグZは自然治癒の力を持たせました
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
 
-しかし、シナリオを削除すること自体に点在する別なテストも失敗しました。開発者が見出しの「ブレークポイント」「ユニットテスト」のように手順を記載したものを修正することができます。
+Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
 
-## データは永続的です
+## The data has been persisted.
 
-Backend Server と Webを再起動して、以前の作業データが永続的に保存されているでしょう。
+You can try restarting Backend Server and the Web, and you'll find that the data you worked on before has been persisted.
 
-さらに詳細な紹介文があります
+We will cover it further in a later chapter.
 
-## ミニ投稿
+## Summary
 
-この章で、ベースプロジェクトのフレームワークを作成する方法を事前に理解し、カート環境のような単純な発想を実現します。
+Through this article, we have a preliminary understanding of how to create a basic project framework to implement a simple shopping cart scenario.
 
-まだまだ詳しく：プロジェクト構造、展開、永続化など詳細な情報がありません。続きを読むための記事できるようになっています。
+There's a lot of things we don't have to explain in detail.：Project structure, deployment, persistence, and more.You can read further to learn more.
