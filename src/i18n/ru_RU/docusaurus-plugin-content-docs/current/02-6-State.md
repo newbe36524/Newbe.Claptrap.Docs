@@ -1,34 +1,34 @@
 ---
-title: 'Статус (State)'
-description: 'Статус (State)'
+title: 'State'
+description: 'State'
 ---
 
-State представляет текущую производительность данных объекта Actor в режиме Actor.Claptrap просто добавляет ограничение выше этого："State может быть обновлен только путем отслеживания событий".State в Claptrap также имеет лучшую надежность из-за надежности отслеживания событий.
+State represents the current data of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-sourcing manner."State in Claptrap has better reliability due to the reliability of event sourcing.
 
-## Номер версии State
+## The version number of State.
 
-State в Claptrap имеет свойство с именем Version, которое представляет текущую версию State.Номер версии — это самоукрепление, начиная с 0, которое увеличивается после каждой обработки события.
+The State in Clatrap has a property called Version, which represents the current version of the State.The version number is a self-increasing number starting from 0, which will be self-increasing after each processing of an event.
 
-State с номером версии 0 является начальным состоянием Claptrap, которое также можно назвать состоянием Бытия.Начальное состояние может быть настроено в соответствии с бизнес-потребностями.
+The State of which the version number is 0 is the initial state of the Clatrap, or it can also be called the genesis state.The initial state can be customized according to the business needs.
 
-Claptrap и Minion также имеют некоторые различия в обработке номеров версий.
+Claptrap and Minion also make some difference in the processing of version numbers.
 
-Для Claptrap Claptrap является производителем события, поэтому номер версии события сам по себе предоставляется Claptrap.Например, во время обработки события в свою очередь происходят следующие события：
-
-1. State Version = 1000
-2. Начните работу с Event, Version — State Version + 1 — 1001
-3. Event обрабатывается, обновление State Version = 1001
-
-Для Minion, так как он является потребителем событий Claptrap.Таким образом, номер версии обрабатывается немного по-другому.Например, во время обработки события следующие события происходят поот：
+For Claptrap, Claptrap is the producer of the event, so the version number of the event itself is given by Claptrap.For example, during the processing of an event, the following things will occur in turn.：
 
 1. State Version = 1000
-2. Событие, прочитанное для Event Version 1001
-3. Event обрабатывается, обновление State Version = 1001
+2. Start processing the Event, its Version = State Version + 1 = 1001
+3. Event processed, updated State Version = 1001
 
-Номера версий State и Event зависят друг от друга и проверяют друг друга, что является ключом к упорядоченности событий.Если номер версии State не совпадает с номером версии Event во время обработки, это может быть серьезной проблемой.Как правило, номера версий не совпадают, и есть только два случая：
+For Minion, because it is a consumer of The Claptrap event.Therefore, the processing of the version number is slightly different.For example, during the processing of an event, the following events occur in turn.：
 
-1. События на уровне сохраняемого данных отсутствуют
-2. Рамка злокачественная ошибка
+1. State Version = 1000
+2. Read the event that Event Version is 1001.
+3. Event processed, updated State Version = 1001
+
+State's version number and Event's version number are interdependent and mutually verified, which is key to event ordering.If there is a mismatch between The State's version number and Event's version number during processing, this can be a serious problem.Usually, the appearance version number does not match, there are only two cases：
+
+1. There has been a loss of events in the persistence layer
+2. Frame malignant BUG
 
 ## ICON
 
