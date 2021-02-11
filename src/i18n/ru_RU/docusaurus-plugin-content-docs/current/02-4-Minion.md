@@ -5,45 +5,45 @@ description: 'Minion'
 
 ![Minion](/images/20190228-002.gif)
 
-Minion — это особый Claptrap, определенный этой платформой.Это корректировка, сделанная на основе Claptrap.Он имеет следующие характеристики：
+Minion is a special Claptrap defined by this framework.it's an adjustment based on Claptrap.It has the following features：
 
-**считывает события из соответствующего Claptrap**.Как и Claptrap, состояние Minion контролируется событием.Разница в том, что Minion, как и в буквальном смысле этого слова, всегда получает события от соответствующего Claptrap, изменяя свое состояние.Таким образом, он может асинхронно обрабатывать последующие действия после того, как Claptrap создает событие.
+**Read event from the corresponding Claptrap**。Like Claptrap, minion's state is controlled by events.The difference is that Minion, like its literal meaning, always gets events from the corresponding Claptrap, changing its state.Therefore, it can asynchronously handle subsequent actions after The Claptrap-generated event.
 
-> Слово Minion является результатом игры удачи[The Stone Le легенда](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), которая описывается как "minion" в английской версии.
+> Minion is from a game of luck played by newbe36524[The Legend of furnace stone](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), where "随从" is described in the English version as "minion".
 
 ---
 
-Ниже приведено сюжетное описание Миниона для дополнительного понимания.Не обижись слишком много.
+The following is a story-based description of Minion to aid understanding.Don't care too much.
 
-Один Claptrap может быть трудно выполнить для более сложных задач.Таким образом, при разработке такого Claptrap, Claptrap будет добавить несколько младших братьев, чтобы помочь ему с задачей под рукой, как это необходимо.Эти младшие братья называются Минон.Minion также является роботом Claptrap по своей природе, но они уменьшают количество портативных заметок по сравнению с полной версией Claptrap.Это связано с тем, что его способ работы немного отличается от Claptrap.
+For more complex tasks, a single Claptrap can be difficult to complete.Therefore, when designing this type of Claptrap, a few younger brothers are added to the Claptrap as needed to assist it with the task at hand.These little brothers are called Minions.Minion's essence is also a Claptrap robot, but they reduce the handheld memo device compared to the full version of Claptrap.This is why it works slightly differently from Claptrap.
 
-Minion может выполнять задачи только совместно с Claptrap, и они не могут решить, следует ли выполнять задачу.Таким образом, портативные заметки, записываемые сведения о задаче, могут быть выполнены до тех пор, пока они удерживаются Claptrap.Когда Claptrap завершает задачу, он информирует своих Минионов о деталях миссии.Это позволяет Миниону синхронизировать содержимое задачи и обновлять память.Давайте объясним эту модель работы на примере.
+Minions can only complete tasks by collaborating with Claptrap, and they cannot decide whether to do a task.So a handheld memo that records the details of the task as long as claptrap holds it.When Claptrap completes a task, it informs his Minions about the details of the task.This allows Minion to synchronize the content of the task and use it to update your memory.Let's explain this pattern of work in an example.
 
-Предположим, что мы сейчас запускаем робота Claptrap в каком-то районе в качестве робота швейцара.Его должностные обязанности включают в себя следующие：
+Let's say we've now put a Claptrap robot in a neighborhood to act as a doorman robot.Its job responsibilities includes as the following：
 
-1. Отвечает за осмотр и высылку транспортных средств в дверных проемах
-2. Отвечает за различные запросы от прохожих
+1. Responsible for inspecting and releasing vehicles in the concierge
+2. Responsible for dealing with all kinds of inquiries from passers-by
 
-Теперь мы знаем, что роботЫ Claptrap могут обрабатывать только одну вещь одновременно, когда они работают.То есть, если он проверяет и отпускает транспортное средство, он не может справиться с запросами прохожих.Аналогичным образом, если он допрашивается прохожими, он не может справиться с осмотром и высвоевываемым транспортным средством.Это не очень эффективно.Поэтому мы добавим Minion к этому Claptrap, чтобы помочь ему с его задачей по приему запросов от прохожих.
+We now know that Claptrap robots can only handle one thing at once while working.That is, if it is inspecting and releasing a vehicle, it will not be able to handle inquiries from passers-by.Similarly, if it is being questioned by passers-by, it will not be able to handle the inspection and release of the vehicle.It's not efficient.Therefore, we added a Minion to this Claptrap to assist it with the task of being asked by passers-by.
 
-Это работает следующим образом：Каждый день Claptrap проверяет окрестности и записывает всю конкретную информацию в ручные заметки.И он уведомляет minion о деталях этих задач.Таким образом, Минион также знает все подробности о районе, так что он может легко справиться с запросами прохожих.
+The specific way of working is this：Every day, Claptrap checks the situation around the neighborhood and records all the specific information in a handheld memo.And it informs its Minion of the details of these tasks.So Minion knew all the details about the neighborhood, so it was able to easily deal with questions from passers-by.
 
-Благодаря такому сотрудничеству, Claptrap может быть более эффективным, чтобы сосредоточиться на осмотре и отпуска транспортных средств, в то время как запросы прохожих передаются Minion для обработки.
+This collaboration allows Claptrap to focus more efficiently on vehicle inspection and release, while passers-by' inquiries are left to Minion.
 
-Тем не менее, некоторые детали нуждаются в дополнительном объяснении, чтобы читатели могли понять：
+However, additional explanations are needed for some details to be understood by the reader：
 
-Почему бы просто не добавить новый Claptrap, чтобы иметь дело с запросами прохожих напрямую?Новый Claptrap означает новый участник, способный выполнять задачи независимо друг от друга, что увеличивает затраты на управление.Но если вы просто добавите новый Minion, он может управляться Claptrap, к которому он принадлежит, что делает его легче управлять.Конечно, для того, чтобы добавить немного мещности,：можно понять, что Minion не хватает ручной памятки устройства по сравнению с обычным Claptrap.Стоимость этого устройства составляет 99% от общей стоимости оборудования.Почему бы и нет, чтобы сократить расходы на выполнение той же задачи?
+Why not add a new Claptrap to handle passers-by' inquiries directly?A new Claptrap means a new entity that can complete tasks independently, which increases the cost of management.But if you add only one Minion, it can be managed by the Claptrap it belongs to, which is easier to manage than it is.Of course, in order to add a little sense of generation, you can also understand so：Minion lacks the handheld memo device compared to the regular Claptrap.The cost of this device is 99% of the total hardware cost.Reduce costs to accomplish the same task, why not?
 
-Будет ли стоимость Claptrap уведомлять Minion о деталях задачи?Нет, не будет.Claptrap и Minion, как правило, банды, и это будет стоить все меньше и меньше, как технология беспроводной сети в настоящее время улучшается.Расширение прав и возможностей 5G, будущее может быть.
+Will the cost of Notifying Minion of task details by Claptrap is high?No, it won't.Claptrap and Minion are generally gang jobs, and as wireless network technology continues to improve, the cost will become smaller and smaller.5G empowerment, future.
 
-Теперь рассмотрим дополнительный сценарий：если менеджер по недвижимости хочет, чтобы Claptrap отчитывался о доступе транспортных средств в районе на ежедневной основе.Аналогичным образом, для того, чтобы увеличить чувство мещности, мы могли бы также предположить, что этот район очень занят, с транспортными средствами, входящими и выходями 24 часа в сутки.Таким образом, если он имеет время, чтобы сообщить о доступе транспортного средства, из-за однопоточного характера Claptrap, то, скорее всего, дверь сообщества будет заблокирована.
+Now, let's consider an extra scenario.：If the property manager wants Claptrap to report regularly on vehicle movements in the area.Similarly, in order to increase the sense of admission, we may as well assume that the community is very busy, with vehicles coming in and out 24 hours a day.So if you let it come up with time to report on vehicle access, it's likely that the neighborhood gate will be blocked because of Claptrap's single-threaded nature.
 
-Имея предыдущий опыт, мы также можем оснастить этот Claptrap новым Minion для выполнения задачи отчетности перед менеджером по недвижимости.Потому что Claptrap уведомляет Minion о деталях, когда транспортное средство выходит на инспекцию.Таким образом, Минон также знает все подробности о сегодняшнем доступе транспортных средств и делает отчеты, которые вытянуты в минуту.
+With the experience we've had earlier, we can also equip this Claptrap with a new Minion to handle the task of reporting to the property manager.Because Claptrap will notify Minion of the details when the vehicle is being inspected.So Minion knows all the details about today's vehicle access and makes a statement, which is a small case.
 
-Давайте добавим еще один сценарий：нам нужно проверьте численность населения.Затем информация о человеке записывается только при проверке доступного персонала claptrap, швейцара сообщества.Аналогичным образом, мы добавляем Minion, который специально агрегирует данные для этих ядер и будет иметь вышестоящинную службу.Так случилось, что начальство также получает отчеты о данных от своих потомок с помощью робота Claptrap, и именно один из них также имеет Minion для агрегирования данных из нижестоятся и отчетности его начальство.Вот и все Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… слой за слоем вверх.Таким образом, мы завершили национальную и глобальную сводку данных.
+Let's add another scene.：We need to take a census of the population.Then only need to check the access personnel at the community doorman Claptrap, the person's information is recorded.Similarly, we'll add a Minion to compile those core data and put the parent department in.Coincidentally, the parent department also receives the subordinate's data report through a Claptrap robot, and it also has a Minion that summarizes the data from the subordinate report and reports it to its superior.That's it Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… upward.So we finished the data aggregation nationally and even globally.
 
-Итак, мы можем подвести итоги.С Minion, по крайней мере три категории вещей могут быть лучше сделаны для Claptrap：
+So we can summarize.With Minion's addition, you can do at least three things better for Claptrap：
 
-1. Помощь в разделении старых задач класса запросов
-2. Оказание помощи в решении некоторых задач, которые могут быть асинхронно обработаны с помощью статистики, уведомлений и т.д
-3. Помощь в выполнении совместной работы с другими Claptrap для выполнения более масштабных задач
+1. Assist in sharing the original query class tasks
+2. Assist ingup statistics, notifications, and more that can be handled asynchronously
+3. Assist inge with other Claptraps to accomplish larger tasks
