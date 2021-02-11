@@ -1,34 +1,34 @@
 ---
-title: 'ステータス（State）'
-description: 'ステータス（State）'
+title: 'State'
+description: 'State'
 ---
 
-State はActor のオブジェクトの現在のデータ表現を表します。Claptrap では、このイベントのみを更新するだけで：「state はイベントへの全てのバックログのアップデート」でありました。イベントソースに依存する基盤は信頼性が高く、クラプトレイプでは他のモデルも信頼性が向上していた。
+State represents the current data of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-sourcing manner."State in Claptrap has better reliability due to the reliability of event sourcing.
 
-## ステージのビルド番号
+## The version number of State.
 
-Claptrap の state に Version プロパティが存在し、state は現在のバージョンを示しています。バージョン番号は、0 から始まる自己増分です。イベントの処理をするたびに増分します。
+The State in Clatrap has a property called Version, which represents the current version of the State.The version number is a self-increasing number starting from 0, which will be self-increasing after each processing of an event.
 
-バージョン番号は、0 の state です。Claptrap の初期stateであり、創造のstate としても知られています。初期状態は、ビジネス ニーズに合わせて変更することができます。
+The State of which the version number is 0 is the initial state of the Clatrap, or it can also be called the genesis state.The initial state can be customized according to the business needs.
 
-クラップとMinion はバージョン番号で区別される区別があります。
+Claptrap and Minion also make some difference in the processing of version numbers.
 
-Claptrap は Claptrap はイベントのプロデューサーであり、イベント号のバージョンコード自体が Claptrap によって許可されている。例えば、一日のうち，以下の場合に発生します：
+For Claptrap, Claptrap is the producer of the event, so the version number of the event itself is given by Claptrap.For example, during the processing of an event, the following things will occur in turn.：
 
-1. State Verison = 10000
-2. Event on = State Version + 1 = 1001 の Version を処理します。
-3. Event 処理完了、State Version = 1001 を更新
+1. State Version = 1000
+2. Start processing the Event, its Version = State Version + 1 = 1001
+3. Event processed, updated State Version = 1001
 
-Minion の場合は Claptrap イベントの購入者のようですそのため、バージョンの処理は少し異なる。たとえば，親イベントを処理する際，次のイベントは順で起きます：
+For Minion, because it is a consumer of The Claptrap event.Therefore, the processing of the version number is slightly different.For example, during the processing of an event, the following events occur in turn.：
 
-1. State Verison = 10000
-2. Event Version 1001 イベントを読んだ時
-3. Event 処理完了、State Version = 1001 を更新
+1. State Version = 1000
+2. Read the event that Event Version is 1001.
+3. Event processed, updated State Version = 1001
 
-State のバージョン番号とEvent ビルド番号が相互依存し、相互認証はイベントの順序であることを意味する。State が成功したときにビルド番号とEvent ビルド番号が一致しない場合は深刻な問題となります。バージョン番号の不一致, そしてふたつのみ：
+State's version number and Event's version number are interdependent and mutually verified, which is key to event ordering.If there is a mismatch between The State's version number and Event's version number during processing, this can be a serious problem.Usually, the appearance version number does not match, there are only two cases：
 
-1. 永続化レイヤーに問題が発生しています
-2. フレームワークのごろつき BUG
+1. There has been a loss of events in the persistence layer
+2. Frame malignant BUG
 
 ## ICON
 
