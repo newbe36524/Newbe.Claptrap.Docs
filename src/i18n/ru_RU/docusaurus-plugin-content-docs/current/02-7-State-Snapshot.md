@@ -1,31 +1,31 @@
 ---
-title: 'Моментальный снимок состояния (State Snapshot)'
-description: 'Моментальный снимок состояния (State Snapshot)'
+title: 'State Snapshot'
+description: 'State Snapshot'
 ---
 
-## State Snapshot ускоряет скорость восстановления состояния
+## State Snapshot accelerates state restore speed.
 
-Активный Claptrap, стат которого является текущим последним состоянием данных.Это восстанавливается из уровня сохраняемости путем отслеживания событий.Иногда количество инцидентов может быть очень большим.Восстановление State с помощью событий займет больше времени.Таким образом, моментальный снимок состояния предоставляется в платформе Claptrap для сохраняемого состояния определенного Claptrap после определенных условий.Это условие обычно является следующим：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by event sourcing.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following:
 
-1. После выполнения нескольких событий.
-2. При Claptrap Deactive.
-3. В течение определенного периода времени.
+1. After a number of events have been handled.
+2. At the time of the Claptrap Deactive.
+3. In a certain time period.
 
-Наличие моментальных снимков событий приводит к увеличению скорости восстановления состояния с постоянного уровня.Если на постоянном уровне существует моментальный снимок, восстановление состояния обычно осуществляется следующим образом：
+The presence of state snapshots increases the speed at which states are restored from the persistent layer.If a snapshot exists in the persistent layer, a state restore is usually performed in the following steps:
 
-1. Чтение моментального снимка состояния.
-2. Начиная с номера версии, соответствующего моментально-снимку состояния, все события считываются снова для обновления состояния.
-3. Состояние обновляется до тех пор, пока на постоянном уровне не будет оставшихся событий.
+1. Read the state snapshot.
+2. Start of the version number corresponding to the status snapshot and read the update of the status of all the events backwards.
+3. Update the state until the persistent layer has no remaining events.
 
-Однако без моментального снимка шаги восстановления становятся следующими：
+However, if there are no snapshots, the restore step changes to the following:
 
-1. Создайте начальное состояние с помощью пользовательского метода.
-2. Чтение всех событий из библиотеки событий для обновления состояния.
-3. Состояние обновляется до тех пор, пока на постоянном уровне не будет оставшихся событий.
+1. Create the initial state through a user-defined method.
+2. Read all events from the event library to update the status.
+3. Update the state until the persistent layer has no remaining events.
 
-Тем не менее.Наличие моментальных снимков также может привести к некоторой специфике.В сочетании с рабочими шагами выше, мы можем легко обнаружить, что как только моментальные снимки：
+But.The presence of snapshots can also lead to some peculiarity.Combining the working steps above, it is easy for us to find out, once a snapshot is formed:
 
-1. Пользовательские методы пользователя больше не будут выполняться.
-2. События, которые меньше номера версии моментального снимка, не будут выполняться снова.
+1. The user's custom method will no longer be executed.
+2. Events smaller than the snapshot version number will not be executed again.
 
-В настоящее время платформа может хранить только один последний моментальный снимок для каждого идентификатора.
+Currently, the framework can hold only one final snapshot for each Id.
