@@ -1,32 +1,32 @@
 ---
-title: 'Чертежи Claptrap (Claptrap Design)'
-description: 'Чертежи Claptrap (Claptrap Design)'
+title: 'Claptrap Design'
+description: 'Claptrap Design'
 ---
 
-## Claptrap Design обеспечивает высокую настраиваемость Claptrap
+## Clatrap Design realizes the high customizable nature of Claptrap
 
-Claptrap имеет высокую настраиваемость.Разработчики могут настроить ряд компонентов, таких как Event Loader/Event Saver/State Loader/ State Saver / Event Notification Method и многое другое для объектов Claptrap.И все это может быть настроено, чтобы отразить его конкретно на объекте Claptrap Design.
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.All of this customization can be reflected on the Claptrap Design object.
 
-Claptrap Design подобен чертежу, который определяет каждую деталь Claptrap, которая обычно включает в себя：
+Claptrap Design is like a design that determines every detail of Claptrap, commonly included:
 
-1. Какой Event Loader / Event Saver используется для обработки событий.
-2. Как часто сохраняется моментальный снимок State.
-3. Минион, если да, то кто такой Мастер.
-4. Сколько событий, соответствующих Эвенту Хэндлеру, соответственно.
+1. What event Loader / Event Saver is used to handle the event.
+2. How often do you save a State snapshot.
+3. Minion? if so, then master who is it.
+4. How many events are there, and what is the corresponding Event Handler.
 
-Эти сведения настраиваются с помощью сканирования типов, тегов свойств, последовательных интерфейсов, профилей и многого другого при запуске приложения.Таким образом, формируется полный Claptrap Design.Кроме того, Claptrap Design проверяется разумно при запуске, чтобы убедиться, что Claptrap Design в основном доступен.Таким образом, не возникает низкоуровневых ошибок, таких как «Забудьте написать Handler для Event».
+These details will be configured in a number of ways by type scanning, attribute tags, coherent interfaces, configuration files, etc. when the application is launched.Thus the complete Clatraptrap Design is formed.Also, Claptrap Design is validated for reasonableness at startup to ensure that Claptrap Design is basically available.Thus there will not be a low-level error like "forgetting to write the Handler corresponding to the Event".
 
-Все Claptrap Design централизованно хранятся в объекте памяти, таком как IClaptrapDesignStore, чтобы Claptrap Factory мог быть извлечен при построении Claptrap.
+All Claprap Design will be centrally saved in a memory object such as IClatrapDesignStore so that the Clatraptrap Factory is being retrieved by building Claptrap.
 
-Разработчики также могут создавать текст или графику, доступные для чтения человеком, на основе всех данных в IClaptrapDesignStore, чтобы упростить понимание взаимосвязи и деталей конфигурации Claptrap в текущей системе на высоком уровне, но из кода выше кода.
+Developers can also, based on all the data in the IClatrapDesignStore, make up the text or graphics available for human reading in order to more easily understand the correlation and configuration details between Claptrap in the current system from the high level, resulting from the code being higher than the code.
 
 ---
 
-Ниже приведено описание истории для дополнительного понимания.Не обижись слишком много.
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Design является важной основой для производства Claptrap Factory.Пользовательские устройства, необходимые для определенного типа Claptrap, были записаны в Design.Например,：определяет модуль выполнения задач в многофункциональном процессоре задач, модель устройства, на которой выполняется ручная заметка, и политику восстановления контроллера восстановления памяти.
+Claptrap Design Design is an important basis for Claptrap Factory's Claptrap production.The customized devices required for a particular type of Claptrap are documented in Design.For example, Decide on the task execution module in the multifunction task processor, decide the device model for the handheld memo, and decide the recovery strategy of the memory recovery controller.
 
-Проектирование Claptrap Design является важной частью обеспечения того, чтобы конечный продукт соответствовал требованиям, прежде чем принять решение о запуске Claptrap.
+Before deciding on the commissioning of Claptrap, the design of the Claptrap Design is an important part of ensuring that the end product meets the requirements.
 
 ## ICON
 
