@@ -1,35 +1,35 @@
 ---
-title: 'Statut (État)'
-description: 'Statut (État)'
+title: 'State'
+description: 'State'
 ---
 
-L’état représente les performances de données actuelles de l’objet Acteur en mode Acteur.Claptrap ajoute simplement une limite à cette：« L’État ne peut être mis à jour que par l’approvisionnement en événements.En raison de la fiabilité de la traçabilité des événements, State in Claptrap a également une meilleure fiabilité.
+State represents the current data of the Actor object in the Actor pattern.Claptrap just adds a limit to this.："State can only be updated in an event-sourcing manner."State in Claptrap has better reliability due to the reliability of event sourcing.
 
-## Le numéro de version de l’Etat
+## The version number of State.
 
-State in Claptrap a une propriété appelée Version qui représente la version actuelle de l’État.Le numéro de version est un numéro auto-ajouté qui commence à 0 et s’auto-augmente après chaque événement est traité.
+The State in Clatrap has a property called Version, which represents the current version of the State.The version number is a self-increasing number starting from 0, which will be self-increasing after each processing of an event.
 
-L’état avec la version numéro 0 est l’état initial de Claptrap et peut également être appelé un état de Genèse.L’état initial peut être personnalisé en fonction des besoins de l’entreprise.
+The State of which the version number is 0 is the initial state of the Clatrap, or it can also be called the genesis state.The initial state can be customized according to the business needs.
 
-Claptrap et Minion ont également quelques différences dans la façon dont les numéros de version sont traités.
+Claptrap and Minion also make some difference in the processing of version numbers.
 
-Pour Claptrap, Claptrap est le producteur de l’événement, de sorte que le numéro de version de l’événement lui-même est donné par Claptrap.Par exemple, lors du traitement d’un événement, les choses suivantes se produiront dans turn：
+For Claptrap, Claptrap is the producer of the event, so the version number of the event itself is given by Claptrap.For example, during the processing of an event, the following things will occur in turn.：
 
-1. Version d’État = 1000
-2. Démarrer le traitement de l’événement, dont la version d’état version s 1 s 1001
-3. L’événement est traité, mettre à jour state version s 1001
+1. State Version = 1000
+2. Start processing the Event, its Version = State Version + 1 = 1001
+3. Event processed, updated State Version = 1001
 
-Pour Minion, parce que c’est un consommateur d’événements Claptrap.Par conséquent, le numéro de version est traité légèrement différemment.Par exemple, lors du traitement d’un événement, les événements suivants se produiront：
+For Minion, because it is a consumer of The Claptrap event.Therefore, the processing of the version number is slightly different.For example, during the processing of an event, the following events occur in turn.：
 
-1. Version d’État = 1000
-2. Un événement avec Event Version 1001 a été lu
-3. L’événement est traité, mettre à jour state version s 1001
+1. State Version = 1000
+2. Read the event that Event Version is 1001.
+3. Event processed, updated State Version = 1001
 
-Le numéro de version de l’État et le numéro de version de l’événement sont interdépendants et mutuellement validés, ce qui est la clé de l’ordre d’événement.S’il y a un décalage entre le numéro de version de l’État et le numéro de version de l’événement pendant le traitement, cela peut être un problème grave.En général, il y a un décalage de numéro de version, et il n’y a que deux cas：
+State's version number and Event's version number are interdependent and mutually verified, which is key to event ordering.If there is a mismatch between The State's version number and Event's version number during processing, this can be a serious problem.Usually, the appearance version number does not match, there are only two cases：
 
-1. Les événements de la couche de persistance ont été perdus
-2. Cadre malin BUG
+1. There has been a loss of events in the persistence layer
+2. Frame malignant BUG
 
-## Icône
+## ICON
 
-![claptrap claptrap](/images/claptrap_icons/state.svg)
+![claptrap](/images/claptrap_icons/state.svg)
