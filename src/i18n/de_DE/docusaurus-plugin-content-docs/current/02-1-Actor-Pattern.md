@@ -1,32 +1,32 @@
 ---
-title: 'Actor-Modus'
-description: 'Actor-Modus'
+title: 'Actor Pattern'
+description: 'Actor Pattern'
 ---
 
-Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses Programmiermodells können einige Systeme das Problem der Komplexität lösen.Das Problem mit der hier erwähnten Union besteht darin, dass ein Computer, der dieselben Daten logisch verarbeitet, aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dies ist ein Problem, das bei der Multithreadprogrammierung auftreten muss.Als einfaches Beispiel, wenn Sie 100 Threads verwenden, um`eine<code>int`Variable im Speicher mit 100 Threads in</code>ohne  Sperre auszuführen.Dann ist das Ergebnis dieser Variable oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call `++` operator on the same `int` variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-Erstens, um das Verständnis zu erleichtern, kann sich der Leser hier Schauspieler als Objekt vorstellen.In objektorientierten Sprachen (Java, C- usw.) kann der Akteur als ein Objekt betrachtet werden, das``dem neuen Schlüsselwort erstellt wurde.Aber dieses Objekt hat einige besondere characteristics：
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
-**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.Im Schauspielermodus werden diese Eigenschaften gemeinsam als Actor es State</code>`.Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.</p>
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be descibed as ``actor`s state``.The state of actor should be matained by itself.
 
-<p spaces-before="0">Dies hebt zwei points：</p>
+There are two points:
 
-<p spaces-before="0">Erstens kann der Zustand des Schauspielers nur von selbst geändert werden, und um den Zustand des Schauspielers von außen zu ändern, kann er nur durch Aufrufen von Actor geändert werden.</p>
+Firstly, state of actor must be change by itself. If you want to change the state, you have to call the method of actor.
 
-<p spaces-before="0"><img src="/images/20190226-001.gif" alt="Aktualisieren des Actor-Status" /></p>
+![Update Actor state](/images/20190226-001.gif)
 
-<p spaces-before="0">Zweitens wird der Status des Akteurs nur innerhalb von Actor beibehalten und nicht für ein anderes Objekt als den aktuellen Actor freigegeben.Die Nicht-Freigabe hier betont auch, dass sie den internen Status von Actor nicht durch eine Änderung in einer externen Eigenschaft ändern kann.Dies ist vor allem, um es von Programmiersprachen mit "Objektreferenz" Sprachmerkmale zu unterscheiden.Für example：kann die<code>öffentliche`-Eigenschaft in`Klasse`von C- die`-Eigenschaft in<code>Klasse ändern,`</code>nachdem es sich um einen Verweistyp handelt, wenn es sich um einen Verweistyp handelt.Im Schauspielermodus ist dies jedoch nicht zulässig.
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example: There is a `public` property in a `class` in C#, and it is a reference type, you can change the property if you get this object.It is not allowed to do so in actor pattern.
 
-![Freigeben des Status "Akteur"](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
-Das Lesen von Daten von innen nach außen ist jedoch weiterhin erlaubt.
+But it is still allow to retrive data out of the state by method.
 
-![Lesen Sie den Status "Schauspieler"](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-**eingedatorten**.Der Schauspieler akzeptiert in der Regel jeweils nur einen Anruf.Die hier beschriebenen Threads sind nicht genau Threads im Computer und werden verwendet, um die "Attribute hervorzuheben, die Actor nur eine Anforderung gleichzeitig verarbeiten kann".Wenn Actor derzeit einen Anruf annimmt, werden die verbleibenden Anrufe blockiert, bis der Anruf beendet und die nächste Anforderung zugelassen wird.Dies ähnelt tatsächlich einem Mechanismus zum Synchronisieren von Sperren.Dieser Mechanismus vermeidet die Möglichkeit eines Problems mit dem Vorhandensein eines Problems beim Ändern des internen Zustands des Akteurs.Specifically：Wenn Sie 100 Threads verwenden, um einen Aufruf an einen Actor in einer`int`-Variablen zu erstellen, lassen Sie ihn``.Der endgültige Wert für diesen Zustand muss 100 sein.
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int` variable to perform`++` operation.The final value for this state must be 100.
 
-![Schauspieler wird in einem Synthesizer genannt](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
-Single Threading ist jedoch nicht absolut, so dass 2000 verarbeitet werden kann, wenn kein Problemantrag gestellt wird.Lesen Sie beispielsweise den Status in Actor, der normalerweise kein Problem mit dem Symp hat, sodass zu diesem Zeitpunkt derselbe Vorgang zulässig ist.
+However, single threads are not absolute, allowing concurrent processing in the absence of concurrent requests.For example, reading the state in the Actor, which usually does not have concurrency issues, allows concurrent operations at this time.
 
-![Lesen Sie Schauspieler zur gleichen Zeit](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
