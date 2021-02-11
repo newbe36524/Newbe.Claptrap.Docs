@@ -1,24 +1,24 @@
 ---
-title: 'Claptrap ファクトリー (Claptrap Factory)'
-description: 'Claptrap ファクトリー (Claptrap Factory)'
+title: 'Claptrap Factory'
+description: 'Claptrap Factory'
 ---
 
 
-## Claptrap Factory セットの Claptrap
+## Claptrap Factory assembles Claptrap.
 
-クラップのよりカスタマイズがアップ。開発者はClaptrap オブジェクトに Event Loader/Event Saver/ State Loader / State Saver / EventNotification Method など複数のコンポーネントを指定します。これを適合させるには良いパターンを作るためにClaptrap オブジェクトの作成を実装する適切なスキームが必要です。
+Claptrap has a high degree of customization.Developers can specify a custom set of components for the Claptrap object, such as Event Loader/Event Saver/State Saver/State Saver/Event Notification Method, and so on.In order to adapt to this customizable nature, good options are needed for the assembly of Claptrap objects.
 
-現在のフレームワークは Autofac をボディランナーとして使用しますAutofac は Delegate Factory / Decorator / Generic Type / Module などよりも、System.DepenedenedInjection をサポートしているからである。
+The current framework is selected by Autofac as an assembler.The main reason is that Autofac supports the Delegate Factory/Decorator/Generic Type/Module and more features that are richer compared to the System.Dependencynjection.
 
-## クラプトファクトy は Claptrap のライフサイクルを制御します。
+## Claptrap Factory controls the Claptrap lifetime scope.
 
-クラプトファクトリは Claptrap のプロデューサーなので Claptrap のライフサイクル操作と、Claptrap のライフサイクル制御に関するものとなっている。Autofac 経由で実現した Claptrap Factory? このライフサイクルの制御は、今のAutofac の Life オブジェクトを使用してすべてのマウント・アンインストール・アンインストール・プロセスを制御します。
+Since the Clatraptrap Factory is a producer of Claptrap, it is generally also responsible for the lifetime scope control functions of Clatrap level.With the Autofac-based Claptrap Factory, this lifetime scope control is reflected in the process of controlling the entire loading, creation and offloading using Autovac's LifetimeScope objects.
 
 ---
 
-こちらはストーリーの表現であり、分かりやすくなっていますあまり気にしなくても構いません。
+The following is a story-based description to aid understanding.Don't care too much.
 
-Claptrap Factory は Claptrap で本番環境で実施する主要な場所です。Claptrap Design の各工場出荷時 Classptrap はアセンブリにカスタムして機能し、極めて高い製品合格率と作業を可能にします。
+The Claprap Factory is the main place for the production of Claptrap.It will perform a customized assembly of each of the factory's Claptraps in accordance with the given Claptrap Design, and it has an extremely high product pass rate and work effectiveness.
 
 ## ICON
 
