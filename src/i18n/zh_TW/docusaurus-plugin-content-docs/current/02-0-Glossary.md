@@ -1,6 +1,6 @@
 ---
-title: '詞彙表'
-description: '詞彙表'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-閱讀本項目的詞彙表，可以使您更好的了解本項目相關的概念。
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
