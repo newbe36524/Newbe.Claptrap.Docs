@@ -1,114 +1,114 @@
 ---
-title: 'El primer paso es crear un proyecto e implementar un simple carrito de compras'
-description: 'El primer paso es crear un proyecto e implementar un simple carrito de compras'
+title: 'The first step - create a project and implement a simple shopping cart'
+description: 'The first step - create a project and implement a simple shopping cart'
 ---
 
-Vamos a implementar un simple requisito de "carrito de compras de comercio electrónico" para entender cómo desarrollar usando Newbe.Claptrap.
+Let's implement a simple "e-commerce cart" requirement to see how to develop using Newbe.Claptrap.
 
 <!-- more -->
 
-## Requisitos empresariales
+## Business needs
 
-Consiga un simple requisito de "carrito de compras de comercio electrónico", aquí para lograr unas pocas：de negocios simples
+Realize a simple "e-commerce shopping cart" requirement, where a few simple business：
 
-- Obtener los artículos y cantidades en el carro de la compra actual
-- Añade artículos a tu carrito de compras
-- Retire un artículo específico de su carrito de compras
+- Get items and quantities in your current shopping cart
+- Add items to your shopping cart
+- Remove specific items from your shopping cart
 
-## Instale la plantilla de proyecto
+## Install project templates
 
-En primer lugar, debe asegurarse de que el archivo . SDK de NetCore 3.1 。[puede hacer clic aquí para ver la última versión del](https://dotnet.microsoft.com/download)de instalación.
+First, you need to make sure that you have installed the . NetCore SDK 3.1.[You can click here for the latest version for installation](https://dotnet.microsoft.com/download)。
 
-Una vez instalado el SDK, abra la consola y ejecute los siguientes comandos para instalar el proyecto más reciente template：
+Once the SDK is installed, open the console and run the following commands to install the latest project templates：
 
 ```bash
 dotnet new --install Newbe.Claptrap.Template
 ```
 
-Una vez instalado, puede ver las plantillas de proyecto que se han instalado en los resultados de la instalación.
+Once installed, you can see the project templates that have already been installed in the installation results.
 
-![newbe.claptrap.template instalado](/images/20200709-001.png)
+![Newbe.claptrap template installed](/images/20200709-001.png)
 
-## Crear un proyecto
+## Create a project
 
-Seleccione una ubicación, cree una carpeta y en este ejemplo se elija crear una carpeta denominada``HelloClaptrap en`D:\Repo`.La carpeta actuará como la carpeta de código para el nuevo proyecto.
+Select a location to create a folder, and this example selects the`D:\Repo` and Create a directory named `HelloClaptrap`.The folder will be used as a code folder for new projects.
 
-Abra la consola y cambie el directorio de trabajo a`D:\R`epo/HelloClaptrap.A continuación, puede crear un entorno de proyecto ejecutando las siguientes commands：
+Open the console and switch the work directory to`D:\Repo\HelloClaptrap`。Then run the following command to create a project：
 
 ```bash
-dotnet newbe.claptrap --name HelloClaptrap
+dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> En general, se recomienda`D:\R`epo.helloClaptrap como una carpeta de almacén de Git.Administre el código fuente a través del control de versiones.
+> In general, we recommend that the`D:\Repo\HelloClaptrap` should be created as a Git repository.Manage your source code with version control.
 
-## Compilación y puesta en marcha
+## Compilation and startup
 
-Una vez creado el proyecto, puede abrir la solución con su IDE preferido para compilarlo.
+Once the project is created, you can compile the solution with your favorite IDE.
 
-Una vez completada la compilación, inicie los proyectos web y BackendServer con la característica de inicio en el IDE.(VS necesita iniciar el servicio como una consola y, si usa IIS Express, necesita que el desarrollador examine el número de puerto correspondiente para tener acceso a la página Web)
+Once compiled, start both web and BackendServer projects with the Startup feature on the IDE.(VS needs to start the service as console, and if you use IIS Express, you need the developer to look at the port number to access the web page)
 
-Una vez iniciado, puede ver`http://localhost:36525/swagger`descripción del proyecto de ejemplo mediante la dirección.Esto incluye tres：API principales
+If it is started, you can visiti `http://localhost:36525/swagger` to view the API description of the sample.This includes three mainly APIs：
 
-- `GET` `/api/Cart/{id}` para obtener los artículos y las cantidades en un carrito de identificación en particular
-- `registrar` `/api/cart/{id}` para agregar nuevos artículos a la compra del identificador especificado
-- `eliminar` `/api/cart/{id}` eliminar un artículo específico del carro de la compra del id especificado
+- `GET` `/api/Cart/{id}` Get items and quantities in a specific id shopping cart
+- `POST` `/api/Cart/{id}` Add a new item to the purchase of the specified id
+- `DELETE` `/api/Cart/{id}` Remove a specific item from the shopping cart of the specified id
 
-Puede intentar realizar varias llamadas a la API mediante el botón Try It Out de la interfaz.
+You can try to make several calls to the API through click the Try It Out button on the UI.
 
-> - [Cómo iniciar varios proyectos al mismo tiempo en VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Cómo iniciar varios proyectos en Rider al mismo tiempo](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Utilice Huawei Cloud para acelerar la velocidad de restauración de nuget](https://mirrors.huaweicloud.com/)
+> - [How to start multiple projects in VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [How to start multiple projects in Rider](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [Use Huawei Cloud to accelerate nuget restore speed (In China)](https://mirrors.huaweicloud.com/)
 
-## La primera vez que agregas un elemento, ¿no funciona?
+## It is no effect when add product at first time?
 
-Sí, tienes razón.La implementación empresarial en la plantilla de proyecto se basa en errores.
+Yes, you're right.There are BUGS in the business implementation in the project template.
 
-Abramos el proyecto y solucionemos problemas y resuelvamos estos BUGes agregando algunos puntos de interrupción.
+Next, let's open the project and troubleshoot and resolve these bugs by adding some breakpoints.
 
-Y al posicionar los BUG, puede comprender el proceso de flujo de código del marco de trabajo.
+And by locating the BUG, you could understand the framework's code flow process.
 
-## Añadir un punto de interrupción
+## Add breakpoints
 
-Lo siguiente se basa en diferentes instrucciones IDE para aumentar la posición del punto de interrupción, puede elegir el IDE habitual para hacer.
+The following instructions about adding the location of breakpoints base on different IDE, and you can choose the IDE you are used to operating.
 
-Si actualmente no tiene un IDE a mano, puede omitir esta sección y leer lo siguiente directamente.
+If you don't currently have an IDE on hand, you can also skip this section and read directly what follows.
 
 ### Visual Studio
 
-Inicie ambos proyectos al mismo tiempo, como se mencionó anteriormente.
+Start both projects at the same time, as mentioned above.
 
-Importar punto de interrupción：abrir la ventana Punto de interrupción, haga clic en el botón y seleccione los puntos de interrupción`.xml`elemento.La ubicación correspondiente se puede encontrar en las siguientes dos capturas de pantalla.
+Import breakpoints：Open the Breakpoint window, click the button, select `breakpoints.xml` file under project.You can find the location in the two screenshots below.
 
-![Abrir ventana de puntos de interrupción](/images/20200709-002.png)
+![Open Breakpoints Window](/images/20200709-002.png)
 
-![Importar puntos de interrupción](/images/20200709-003.png)
+![Import Breakpoints](/images/20200709-003.png)
 
-### Jinete
+### Rider
 
-Inicie ambos proyectos al mismo tiempo, como se mencionó anteriormente.
+Start both projects at the same time, as mentioned above.
 
-Rider no tiene actualmente una entidad de importación de punto de interrupción.Por lo tanto, debe crear manualmente puntos de interrupción en los siguientes：
+Rider does not currently have a breakpoint importing feature.Therefore, you need to manually create breakpoints at the following locations：
 
-| Archivo                   | El número de línea |
-| ------------------------- | ------------------ |
-| CartController            | 30                 |
-| CartController            | 34                 |
-| CartGrain                 | 24                 |
-| CartGrain                 | 32                 |
-| AddItemToCartEventHandler | 14                 |
-| AddItemToCartEventHandler | 28                 |
+| File                        | Line No. |
+| --------------------------- | -------- |
+| CartController              | 30       |
+| CartController              | 34       |
+| CartGrain                   | 24       |
+| CartGrain                   | 32       |
+| AddItemToCart Event Handler | 14       |
+| AddItemToCart Event Handler | 28       |
 
-> [Ir a archivo le ayuda a localizar rápidamente dónde están sus archivos](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> ["Go To File" lets you quickly locate where your files are located](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## Iniciar depuración
+## Start debugging
 
-A continuación, echemos un vistazo a todo el código ejecutado a través de una solicitud.
+Next, we take a request to see how the entire code runs.
 
-En primer lugar, vamos a enviar una solicitud POST a través de la interfaz swagger e intentar agregar artículos al carro de la compra.
+First, let's send a POST request through the swagger interface and try adding items to the shopping cart.
 
-### Inicio de CartController
+### CartController Start
 
-El primer punto de interrupción fatal es el código Controller en la API web：
+The first lifeline is the Controller code for the Web API layer：
 
 ```cs
 [HttpPost("{id}")]
@@ -120,17 +120,17 @@ public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput in
 }
 ```
 
-En este código, usamos la`_grainFactory`para crear una instancia`de la instancia de`ICartGrain.
+In this code, we pass`_grainFactory`to create a`ICartGrain`Instance.
 
-Esta instancia es esencialmente un proxy que apunta a un grano específico en el servidor back-end.
+This instance is essentially a proxy that points to a specific grain in Backend Server.
 
-Un identificador entrante se puede considerar como la localización de una instancia mediante un identificador único.En este contexto empresarial, se puede entender como "id de carrito de compras" o "id de usuario" (si cada usuario tiene un solo carro de la compra).
+The incoming id can be considered a unique identifier for the location instance.In this business context, it can be understood as "cart id" or "user id" (if each user has only one shopping cart).
 
-Continuando con la depuración y pasando al siguiente paso, echemos un vistazo a cómo funciona ICartGrain en el interior.
+Continue with debugging and move on to the next step, let's see how the inside of ICartGrain works.
 
 ### CartGrain Start
 
-El siguiente es el código CartGrain：
+The next stop point is the CartGrain code.：
 
 ```cs
 public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
@@ -145,28 +145,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-Este es el núcleo de la implementación del marco de trabajo y los elementos clave que se muestran en la siguiente：
+Here is the core of the framework implementation, as shown in the following image.：
 
 ![Claptrap](/images/20190228-001.gif)
 
-En concreto, el código se ha ejecutado en un objeto de carrito de compras específico.
+Specifically, the code has run to a specific shopping cart object.
 
-Puede ver a través del depurador que el skuId entrante y count son parámetros pasados desde Controller.
+You can see through the debugger that both the incoming skuId and count are parameters passed from Controller.
 
-Aquí puedes hacer el following：
+Here you can do these things.：
 
-- Los datos de Claptrap se modifican mediante un evento
-- Lea los datos guardados en Claptrap
+- Modify the data in Claptrap with events
+- Read data saved in Claptrap
 
-En este código, creamos un`addItemToCartEvent`objeto para representar un cambio en el carro de la compra.
+In this code, we create a `AddItemToCartEvent` object to represent a change to the shopping cart.
 
-A continuación, se pasa a Claptrap para su procesamiento.
+It is then passed to Claptrap for processing.
 
-Claptrap actualiza sus datos de estado después de aceptar el evento.
+Claptrap updates its State data after accepting the event.
 
-Por último, devolvemos StateData.Items al autor de la llamada.(StateData.Items es en realidad una propiedad de acceso directo de Claptrap.State.Data.Items.)Así que en realidad se lee de Claptrap. ）
+Finally, we return StateData.Items to the caller.(Actually, StateData.Items is a quick property for Claptrap.State.Data.Items.)So it's actually still read from Claptrap. )
 
-Con el depurador, puede ver que el tipo de datos de StateData tiene el aspecto：
+From the debugger, you can see that the data types of StateData are shown below.：
 
 ```cs
 public class CartState : IStateData
@@ -175,13 +175,13 @@ public class CartState : IStateData
 }
 ```
 
-Este es el estado del carro de la compra diseñado en la muestra.Vamos a usar un`Dictionary`para representar el SkuId en el carro de la compra actual y el número al que corresponde.
+This is the status of the shopping cart designed in the sample.We use a `Dictionary`to represent the SkuId in the current shopping cart and its corresponding quantity.
 
-Continúe la depuración y pase al siguiente paso y veamos cómo Claptrap controla los eventos entrantes.
+Continue debugging and move on to the next step to see how Claptrap handles incoming events.
 
-### Inicio de AddItemToCartEventHandler
+### AddItemToCart Event Handler Start
 
-Una vez más, el código siguiente es el：
+Again, the point of interruption is this code below.：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -207,41 +207,41 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Este código contiene dos parámetros importantes, el`CartState`, que representa el estado actual del carro, y el evento`AddItemToCartEvent`.
+This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
 
-Determinamos si el diccionario en el estado contiene SkuId y actualizamos su cantidad de acuerdo con nuestras necesidades empresariales.
+We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 
-Continúe la depuración y el código se ejecutará hasta el final del código.
+Continue debugging and the code will run until the end of this code.
 
-En este punto, con el depurador, puede ver que el stateData.Items diccionario agrega uno más, pero el número es 0.La razón es en realidad debido al código snippy comentado anteriormente, que es la causa del BUG que siempre no puede agregar el carro de la compra por primera vez.
+At this point, through the debugger, you can see that the stateData.Items dictionary has increased by one, but the number is 0.The reason is actually because of the else snippet above, which is the cause of the BUG that always fails to add a shopping cart for the first time.
 
-Aquí, no interrumpa la depuración inmediatamente.Pasemos a la depuración y dejemos que el código pase para ver cómo termina todo el proceso.
+Here, do not interrupt debugging immediately.Let's go ahead and let the code go through to see how the whole process ends.
 
-De hecho, continúe la depuración y la ruptura llegará al final del método para CartGrain y CartController a su vez.
+In fact, continuing debugging, the breakpoint hits the end of the cartGrain and CartController methods in turn.
 
-## ¡Esta es en realidad una arquitectura de tres niveles!
+## This is actually a three-tier architecture!
 
-La gran mayoría de los desarrolladores entienden la arquitectura de tres niveles.De hecho, también podemos decir que Newbe.Claptrap es en realidad una arquitectura de tres niveles.Comparemos los resultados con un table：
+The vast majority of developers understand the three-tier architecture.In fact, we can also say that Newbe. Claptrap is actually a three-tier architecture.Let's compare it in a table.：
 
-| Tres plantas tradicionales           | Newbe.Claptrap       | Descripción                                                                                                                                             |
-| ------------------------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Capa de presentación de presentación | Capa del controlador | Se utiliza para interactuar con sistemas externos y proporcionar interoperabilidad externa                                                              |
-| Capa de negocio                      | Capa de grano        | Procesamiento empresarial de parámetros empresariales entrantes basados en el negocio (no se escribe realmente ningún juicio en la muestra, cuenta > 0) |
-| Capa de persistencia de persistencia | Capa EventHandler    | Actualizar los resultados empresariales                                                                                                                 |
+| Traditional three-tiered | Newbe.Claptrap     | Description                                                                                                                  |
+| ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Presentation Layer       | Controller Layer   | Used to dock external systems to provide external interoperability                                                           |
+| Business Tier            | Grain Layer        | Business processing based on incoming business parameters (sample does not actually write judgment, need to judge count > 0) |
+| Persistence Layer        | EventHandler Layer | Update business results                                                                                                      |
 
-Por supuesto, la similitud anterior es sólo una descripción simple.En el proceso, no hay necesidad de enredarse demasiado, esto es sólo una comprensión auxiliar de la declaración.
+Of course, the above analogy is a simple description.In the specific process, there is no need to be too entangled, this is only an auxiliary understanding of the statement.
 
-## También tiene un BUG para arreglar
+## You also have a BUG to fix
 
-A continuación, volvamos y solucionemos el problema anterior de "la entrada por primera vez no surta efecto".
+Then we go back and fix the previous "First Join Products Don't Take Effect" issue.
 
-### Este es un marco para considerar las pruebas unitarias
+### This is a framework for considering unit testing
 
-Hay un proyecto en la plantilla de proyecto`HelloClaptrap.Actors.Tests`, que incluye pruebas unitarias del código de negocio principal.
+There is a project in the project template.`HelloClaptrap.Actors.Tests.`The project contains unit tests of the main business code.
 
-Ahora sabemos que`comentado en el`AddItemToCartEventHandler es la causa principal de los errores.
+We now know that`AddItemToCartEventHandler.`The code in the comments is the main cause of the BUG.
 
-Podemos usar``de prueba dotnet para ejecutar pruebas unitarias en un proyecto de prueba y obtener dos errores:
+We can use it.`dotnet test.`If you run the unit tests in your test project, you get two errors:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -291,7 +291,7 @@ Total tests: 7
 
 ```
 
-Echemos un vistazo al código de una de las unidades de error tests：
+Let's look at the code for one of the faulty unit tests.：
 
 ```cs
 [Test]
@@ -315,20 +315,20 @@ public async Task AddFirstOne()
 }
 ```
 
-``AddItemToCartEventHandler es el componente de prueba principal de esta prueba y, dado que stateData y event se compilan manualmente, los desarrolladores pueden crear fácilmente escenarios que deben probarse a petición.No necesitas construir nada especial.
+`AddItemToCartEventHandler.`is the main test component of this test, and since both stateData and event are manually built, it is easy for developers to build scenarios that need to be tested as needed.There is no need to build anything special.
 
-Ahora, simplemente restaure`fragmento de código comentado desde la`addItemToCartEventHandler y vuelva a ejecutar la prueba unitaria.La prueba unitaria pasa.BUG es también una solución natural.
+Now, as long as the`AddItemToCart Event Handler` restore the commented code and rerun the unit test.Unit tests pass.BUGS ARE ALSO NATURALLY FIXED.
 
-Por supuesto, hay otra prueba unitaria en el escenario de eliminación que falló.Los desarrolladores pueden solucionar este problema siguiendo las ideas de "puntos de interrupción" y "pruebas unitarias" descritas anteriormente.
+Of course, there's another unit test of the deletion scenario above that fails.Developers can fix this problem by following the "breakpoint" and "unit test" ideas described above.
 
-## Los datos se han conservado
+## The data has been persisted.
 
-Puede intentar reiniciar el servidor back-end y la Web, y verá que los datos en los que trabajó anteriormente se han conservado.
+You can try restarting Backend Server and the Web, and you'll find that the data you worked on before has been persisted.
 
-Lo trataremos más adelante en un capítulo de seguimiento.
+We will cover it further in a later chapter.
 
-## Resumen
+## Summary
 
-En este artículo, echamos un primer vistazo a cómo crear un marco de proyecto básico para implementar un escenario de carrito de compras simple.
+Through this article, we have a preliminary understanding of how to create a basic project framework to implement a simple shopping cart scenario.
 
-Hay mucho que no tenemos：detalles, estructura del proyecto, implementación, persistencia, etc.Puede leer más sobre él en artículos posteriores.
+There's a lot of things we don't have to explain in detail.：Project structure, deployment, persistence, and more.You can read further to learn more.
