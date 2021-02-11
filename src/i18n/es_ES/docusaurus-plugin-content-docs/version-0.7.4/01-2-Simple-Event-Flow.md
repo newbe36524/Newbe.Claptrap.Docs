@@ -49,7 +49,7 @@ Agregue EventCode para eventos vacíos del carro de la compra.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree```RemoveAllItems FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap.Models.
+Cree```RemoveAllItems FromCartEvent en la carpeta<code>Cart/Events`del proyecto de</code>HelloClaptrap.Models.
 
 Agregue los siguientes code：
 
@@ -70,9 +70,9 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 ## Implementar EventHandler
 
-`EventHandler`actualizar eventos al de estado`de Claptrap.Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.
+`EventHandler`actualizar eventos al</code>de estado`de Claptrap.Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.</p>
 
-Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.Actor s .
+<p spaces-before="0">Cree<code><code>clase RemoveAllItems FromCartEventHandler en la carpeta<code>Cart/Events`del proyecto HelloClaptrap.Actor</code>s</code>.
 
 Agregue los siguientes code：
 
@@ -150,12 +150,11 @@ Después de la asociación, si el evento correspondiente a EventCode se produce 
 
 Modifique la definición de la interfaz Grain para proporcionar interoperabilidad externa con Claptrap.
 
-Abra`interfaz ICartGrain para`proyecto de de proyecto HelloClaptrap.IActor`s.
+Abra`interfaz ICartGrain para`proyecto de</code>de proyecto HelloClaptrap.IActor`s.</p>
 
-Agregue interfaces así como atributo.
+<p spaces-before="0">Agregue interfaces así como atributo.</p>
 
-```cs
-  using System.Collections.Generic;
+<pre><code class="cs">  using System.Collections.Generic;
   using System.Threading.Tasks;
   using HelloClaptrap.Models;
   using HelloClaptrap.Models.Cart;
@@ -177,7 +176,7 @@ Agregue interfaces así como atributo.
 +         Task RemoveAllItemsAsync();
       }
   }
-```
+`</pre>
 
 Se han added：dos partes
 
@@ -188,7 +187,7 @@ Se han added：dos partes
 
 A continuación, siga las modificaciones de interfaz del paso siguiente para modificar la clase de implementación correspondiente.
 
-Abra la clase`CartGrain`el ` Cart en el proyecto de`HelloClaptrap.actors.
+Abra la clase`CartGrain`el</code>`<code>Cart en el proyecto de`HelloClaptrap.actors.
 
 Agregue la implementación correspondiente.
 
@@ -249,7 +248,7 @@ Se ha agregado la implementación correspondiente del método de interfaz.Hay lo
 
 Para cuando se completen todos los pasos anteriores, se han completado todas las partes de Claptrap.Sin embargo, Claptrap no puede proporcionar directamente interoperabilidad con programas externos.Por lo tanto, también debe agregar una API en la capa Controller para "vaciar el carro de la compra" externamente.
 
-Abra la CartController`en la carpeta Controllers``para el proyecto helloClaptrap.web`.
+Abra la</code>CartController`en la carpeta<code>Controllers``para el proyecto helloClaptrap.web`.
 
 ```cs
   using System.Threading.Tasks;
