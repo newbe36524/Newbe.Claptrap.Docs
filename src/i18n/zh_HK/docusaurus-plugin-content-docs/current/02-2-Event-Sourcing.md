@@ -1,33 +1,33 @@
 ---
-title: '事件溯源（Event Sourcing）'
-description: '事件溯源（Event Sourcing）'
+title: 'Event Sourcing'
+description: 'Event Sourcing'
 ---
 
-事件溯源模式係一種軟體設計嘅思路。呢種設計思路通常跟傳統用到以CRUD為主嘅系統設計思路有啲唔同。CRUD 系統通常存在一哋局限性：
+The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
-1. 通常黎講 CRUD 系統會採用直接操作數據存儲嘅做法。咁樣嘅實現方式可能會因為Database優化唔夠而發生性能瓶頸，並且呢種做法會較難實現應用伸縮。
-2. 喺特定嘅領域通常存在一哋數據併發嘅問題需要進行處理，防止數據更新引致嘅錯誤。通常我地會引入“Lock”、“Transaction”呢哋相關嘅技術嚟避免此類問題。但咁做又有可能引發性能上嘅損失。
-3. 除非增加額外的審計手段，否則通常來說數據的變更歷史是不可追蹤的。因為數據存儲中通常保存嘅係數據最終狀態。
+1. In general, CRUD applications take the practice of operating data storage directly.Such an implementation can result in performance bottlenecks due to inadequate database optimization, and this can be difficult to scale applications.
+2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But this can also lead to performance losses.
+3. Unless additional auditing is added, the history of data changes is generally untraceable.Because the data store is usually saved in the final state of the data.
 
-跟 CRUD 做法對比，事件溯源則由設計上避免咗上述描述嘅局限性。跟住落黎圍繞上文中提到嘅“轉賬”業務場景簡述一下事件溯源嘅基礎工作方式。
+In contrast to the CRUD approach, event sourcing avoids the limitations of the above description by design.The next step is to outline the basic working method of event sourcing around the "transfer" business scenario mentioned above.
 
-採用 CRUD 嘅方法實現“轉賬”。
+Use the CRUD approach to "transfer".
 
-![採用CRUD的方法實現“轉賬”](/images/20190226-006.gif)
+!["Transfer" using CRUD](/images/20190226-006.gif)
 
-採用事件溯源嘅方式實現“轉賬”。
+"Transfer" in the form of event sourcing.
 
-![採用事件溯源的方法實現“轉賬”](/images/20190227-001.gif)
+!["Transfer" using an event-souring approach](/images/20190227-001.gif)
 
-如上圖所示，通過事件溯源模式將轉賬業務涉及嘅余額變動採用事件方式進行存儲。同樣亦實現咗業務本身，但係就帶嚟咗一哋好處：
+As shown in the figure above, the balance changes involved in the transfer business are stored in an event-based manner through the event-sourcing pattern.Also realizes the business itself, which brings some benefits：
 
-- 通過事件，可以還原出賬號任何階段嘅余額，咁就一定程度實現咗對賬號余額嘅跟蹤。
-- 由於兩個賬號事件是係獨立處理嘅。因此，兩個賬號嘅處理速度唔會相互影響。例如，賬號 B 嘅轉入可能由於需要額外處理，稍有延遲，但賬號 A 仍然可以繼續轉出。
-- 可以通過訂閱事件嚟做一哋業務的嘅異步處理。例如：更新數據庫入面嘅統計數據，發送SMS通知等其他一些異步嘅操作。
+- Through the event, you can restore the balance of any stage of the account, which to a certain extent to achieve the tracking of the account balance.
+- Because the events of both accounts are handled independently.Therefore, the processing speed of the two accounts does not affect each other.For example, the transfer of Account B may be slightly delayed due to additional processing, but Account A can still be transferred out.
+- You can subscribe to events to do some asynchronous processing of your business.For example：Update statistics in the database, send SMS notifications, and other asynchronous operations.
 
-當然引入事件溯源模式之後也就引入了事件溯源相關嘅一些技術問題。例如：事件所消耗的存儲可能較為巨大；不得不應用最終一致性；事件具備不可變性，重構時可能較為困難等。相關的這些問題在一些文章中會有較為細緻的說明。讀者可以閱讀後續嘅延伸閱讀內容，更進一步了解及評估可行性。
+Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> 參考資料
+> Reference
 > 
 > - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Event Sourcing Pattern 中文譯文](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
