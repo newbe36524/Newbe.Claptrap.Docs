@@ -1,27 +1,27 @@
 ---
-title: '最小競争リソース(Minimal Competing Resources)'
-description: '最小競争リソース(Minimal Competing Resources)'
+title: 'Minimal Competing Resources'
+description: 'Minimal Competing Resources'
 ---
 
 
-最小競争リソースは、Claptrap フレームワークを使用した重要な概念です。このアイデアを理解することは、開発者のための Claptrap の state をより良いものにすることがよくあります。
+Minimal Competiing Resources is a concept that is important when using the Claptrap framework.Understanding this concept helps developers to better design Claptrap's State and avoid the wrong design.
 
-## 最低限の競争リソースとは何ですか？
+## What is the Minimal Competing Resources.
 
-クラスはマルチスレッドプログラマよりも「リソース競合」概念を制定しています。これはビジネスシステムの「最小競争リソース」の概念です。この概念を使用することで Newbe.Claptrap を使用する方法を簡単に行えます。
+In analogy with the concept of "resource competition" in multi-thread programming, here is proposed the "Minimum Competing Resources" concept in a business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
 
-例えば、電気メーカーが買っている場合 "すべての商品" は "最小の競争資源" です。これは言うまでもなく すべての商品が「最小のビジネス」なのです一万商品から参照番号があればその方法について競合することはない。それですべての商品はそれぞれ 魚が最小となるのです
+In the case of e-commerce, for example, each commodity is a "Minimal Competing Resources".Note that this is not to say that all goods are a "Minimal Competing Resources".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and goods 2, there is no competition.Therefore, each commodity is a Minimal Competing Resources.
 
-いくつか例があります：
+Here are some examples available:
 
-- モバイルログインのみビジネスシステムを使用している場合を除き、ユーザーのログインチケットは、最小競合リソースです。
-- システムを設定するごとに、すべての構成項目は最小の競争リソースです。
-- 少なくとも 1 つの株式取引マーケットで 1 つのオーダーを購入し、1 つのは競争力のある資源です
+- In a business system that allows only single-ended logins, a user's login ticket is the Minimal Competing Resources.
+- In a configuration system, each configuration item is the Minimal Competing Resources.
+- In a stock market, each buy or sell order is Minimal Competing Resources.
 
-最小限のリソースは「最小の並列ユニット」(Minimal Concurrent Unit)とも呼ばれている。
+In some scenarios, Minimal Competing Resources is also known as the "Minimum Concurrent Unit"
 
-## ClaptrapのState は少なくとも「最低限のリソース」の範囲に等しくなければなりません
+## Claptrap's State should be at least larger than or equal to the range of "Minimal Competing Resources".
 
-モーターの買収の例。クラプトレイップのすべての商品は、同じ Claptrap の state に置き換えた（最小競争資源よりも大きい）。そうすると、購入した商品は他のユーザーからも影響され、Claptrap はリクエストはアクティブActorでリクエストを処理します。つまり、10ms処理が必要と仮定した場合、全ての購入リクエストを処理するために 1000\* 10 ms が必要です。ただし全ての商品に数字を適用する場合、各製品は個別の Claptrap の state です。関係ないからでしょうすべての商品を取り出し 理論的には10msです
+Combined with the example of e-commerce snapping, if all goods are designed in the same Claptrap State (greater than range of Minimal Competing Resources).Well, different users buy goods to influence each other, because, the Actor pattern based on the Claptrap is the queuing processing request.That is to say, assuming that each item needs to process 10ms, it also takes 10000\* 10 ms to process all the purchase requests as soon as you want.But if each item is numbered, each item is designed as a separate Claptrap State.Well, since they are not related to each other.Selling all the goods would theoretically only cost 10ms.
 
-このメソッドは、Claptrap の state が最小競合する範囲よりも大きい場合、システムの正当な問題がなくなり、パフォーマンスの低下を引き起こします。 また、ClaptrapのState が最小リソースより小さいになると、Claptrap間のリレーションが処理できないリスクが存在する可能性があります。これは「最低限の競合」リソースを一つにまとめるための最小競合リソースは、通常、トランザクションで一挙に処理する必要があり、それが分散型で一般的な分布している問題にも属しません。
+It is therefore easy to conclude that if Claptrap's State is larger than the Minimal Competing Resources, the system will not have a correctness issue, but there may be some performance penalties. In addition, if Claptrap's State is smaller than the Minimal Competing Resources, the relationship between Claptrap becomes difficult and risky.Because this is equivalent to splitting a Minimal Competing Resource into multiple parts, and Minimal Competing Resources usually needs to be dealt with in a single transaction, which goes back to the very common problem of distributed transactions in distributed parts that are difficult to handle.
