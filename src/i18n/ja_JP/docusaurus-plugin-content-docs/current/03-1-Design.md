@@ -1,120 +1,120 @@
 ---
-title: 'デザイン'
-description: '電車の切符号 - 設計'
+title: 'Design.'
+description: 'Train ticketing system - design.'
 ---
 
 
-## 業務解析
+## Business analysis.
 
-### 業界
+### Business boundaries.
 
-このシステムにはチケットを追加できるのはチケットの管理セクションだけです。即席の残る部分は、得票注文である。
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-注文情報、支払いコントロール、リクエスト風制御などは、この議論の範囲に含まれているものとします。
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### 事案
+### Business use cases.
 
-- チケットの意味では、駅の間の利用可のある車種と残っているシート数も参照。
-- 乗車券で指定された回数に関連して、乗車券の差を測定し、各駅の間にいくつの座席が残る。
-- 組み合わせた注文がサポートされ、指定された回数と座席を選択し、チケットを買うのが可能になります。
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-## 実装の困難解析
+## Difficulty analysis
 
-### 請求管理
+### Ticketing management.
 
-乗客の多様性が宝庫の可否は重要だった。
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-SKU が提供する一般商品は、SKU が最小単位の場合、各SKUの間で独立して相互に影響しない。
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
-また列車の切票は多様であるが、票数票の回収により影響されている。以下は、簡潔な論理的モデルを組み合わせることで、その特性を詳しく調べることができます。
+Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-現時点では 次々に a,b,c,d 四つのウェブサイトを ひとつの席で簡易化して モデルで説明しましょう
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-例えば、チケットを購入する前にこのご注文に賛成した場合は：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| 終了点  | 残りの投票量 |
-| ---- | ------ |
-| a b  | 1      |
-| a, c | 1      |
-| a,d  | 1      |
-| b,c  | 1      |
-| b,d  | 1      |
-| c,d  | 1      |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
-現在 C、c、切符があれば顧客が購入するとです。座席はたったひとつ c,d以外の 付加は例外ではない。その他のチケットはこちら：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The rest of the ticket situation becomes the following:
 
-| 終了点  | 残りの投票量 |
-| ---- | ------ |
-| a b  | 0      |
-| a, c | 0      |
-| a,d  | 0      |
-| b,c  | 0      |
-| b,d  | 0      |
-| c,d  | 1      |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
-白い部分より。あるお客様が、チケットは全て0になり、全ての残りのチケットは全て0に設定される。その席でずっとこの乗客に隣接している。
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-それは特殊な切符です：同じ車の共感と同席で、出発地の終着数を決めます
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-この延長は、車種間の異なる席の間にも影響し得ないことに気づきます。
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### カード名義人検索
+### Remaining ticket inquiries.
 
-前節で説明したように、余剰在庫の特殊なケースである。a,b,c,dに対して可能なチケットの選択は、6種類あります。
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-しかも簡単な計算方法はn 個のサイトで 2 つの順序数,... c(nn,2) どちらかを選ぶことができます。
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-そのため、34個のサイトのカートを一度行った場合、c(34,2) = 561という組み合わせである。
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-システム全体での、存在する複数のクエリに効果的な対策は、システム内で行うべき問題を解決する方法です。
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Claptrap フィーチャー
+## Claptrap Main Design
 
-![システムズの Train Ticketing Design](/images/20200720-001.png)
+![Train Ticketing System Design](/images/20200720-001.png)
 
-### 車体の各座席に同じ座席を クラプト- SeatGrain でデザインする
+### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
-このクラスの state には、基本情報を記載する基本情報が含まれています。
+The State of the Claptrap contains a basic information.
 
-| タイプ                                    | 注文番号による検索  | 説明                                                                                    |
-| -------------------------------------- | ---------- | ------------------------------------------------------------------------------------- |
-| IList&lt;int&gt;           | ステーションス    | 当駅の id の一覧は、始発・終着駅、終着駅となっている。主要な購入の際に認証を行う。                                           |
-| Dictionary&lt;int, int&gt; | StationDic | 授与式の辞書 id である。Stations は index-id と異なった辞書(id-index u) を持つディクショナリに注目する。                |
-| List&lt;string&gt;         | RequestIds | キープロパティ。この期間ごとに、投票したチケット ID。例. index が 0 の場合、駅 - 駅である 0 から 1 へのチケット空白の場合は請求書がまだありません。 |
+| Type                                   | Name       | Description                                                                                                                                                                            |
+| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.The principal ticket is verified.                                                 |
+| Dictionary&lt;int, int&gt; | StationDic | The index of the pad id is reverse dictionary.Stations are a list of index-id dictionaries, which are the dictionary of the corresponding id-index in order to expedite queries.       |
+| List&lt;string&gt;         | RequestIds | Key properties.For each district, the ticket id has been purchased.For example, index is 0, which means ticket id for the station 0 to 1.If empty, indicate that there are no tickets. |
 
-データ構造を利用すれば 二種類のビジネスに使えるのです
+With the design of this data structure, two operations could be achieved.
 
-#### 購入可能かどうかを確認します
+#### Verify if purchase is possible
 
-このSeatGrain に属するか、 二つの駅のIDを渡ることを通しただけである。さらに距離と終端を含むセグメントを調べる。RequestIds から特定の区間について、すべての区間が1つのチケットがないと判断してください。バックも残っていないなら購入することができます。既に購入済み票IDがあれば既に購入することはできません
+By passing into two stops ids, it can be asked if this is this SeatGrain.and search for all the interval between the end of the end.It is sufficient to determine whether all the interval segments are not billed Id from RequestIs.If none is available, indicate that it can be purchased.If there is any paragraph with Purchase Id, then it is no longer available.
 
-例えば、現在 Stations の場合は 10,11,12,13. これはRequestIds は 0,1,0です。
+The current Stations case, for example, is 10,11,12,13. The RequestIds are 0,1,0.
 
-10～>12個のチケットを購入する場合、ストップウォッチの第二セグメントが購入されたためです。
+So, if the ticket 10->12 is to be purchased, it will not do so because the second period of requestIds has already been purchased.
 
-しかし、10～>11のチケットを購入する場合、未購入でRequestIds は、まだ未購入です。
+However, if the tickets for 10->11 are to be purchased, they can be bought because the first period of the Request Ids is not yet purchased.
 
-#### 購入
+#### Buy
 
-RequestIds ですべての区間セグメントの料金が適用され、いずれかを行えます。
+Use the ticket Id to set up for all interval segments in RequestIs.
 
-### 車種内のシトロンの部品名を Claptrap - TrainGran としてデザインする
+### Designed for a Claptrap - TrainGran for all seats on the same car
 
-このクラスの state には、基本情報が含まれていました
+The Claptrap State contains some basic information
 
-| タイプ                                              | 注文番号による検索 | 説明                                                                                                           |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | ステーションス   | 当駅の id の一覧は、始発・終着駅、終着駅となっている。問い合わせ時に認証する。                                                                    |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | キープロパティ。最終終了点をポイントビューとして継続する。コレクションには、開始時点で終了可能なすべてのチケットが含まれています。例えば 次は 34か場所を選んで このディクショナリは561 個のキーをも含んでいます |
+| Type                                             | Name      | Description                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains the rest of the ticket situation for all possible starting points.For example, according to the above, if the car passes through 34 locations, the dictionary contains 561 key-value pairs |
 
-複数のデータ構造に基づいているので、注文を完了したら、Grainに対応するデータの同期が必要になります。
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-例えば、a,c,チケットを一度だけ適用し、 a,c / a,b / b,c の投票は全て減算している。
+For example, given a,c there was a single ticket, the surplus of a,c c /a,b b,c was reduced by one.
 
-このフレームワークが組み込まれている Minion メカニズムによって実装されます。
+This can be done by using the Minion mechanism within this framework.
 
-ちなみに これは"最小の競争資源"よりこのビジネスシーンに必ずクリックしない作業シーンは必要とされています。デザインはシステムの複雑さを減らします
+It is worth mentioning that this is a larger design than the “least competitive resources”.The search scene does not require absolute speed in the business scenario.This design reduces the complexity of the system.
 
 ## Id
 
-![システムIDにTrain Ticketing](/images/20200813-001.png)
+![Train Ticketing System Id](/images/20200813-001.png)
