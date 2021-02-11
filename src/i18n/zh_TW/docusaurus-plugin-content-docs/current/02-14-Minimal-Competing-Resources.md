@@ -1,27 +1,27 @@
 ---
-title: '最小競爭資源 （Minimal Competing Resources）'
-description: '最小競爭資源 （Minimal Competing Resources）'
+title: 'Minimal Competing Resources'
+description: 'Minimal Competing Resources'
 ---
 
 
-最小競爭資源在使用 Claptrap 框架時重要的一個概念。理解此概念有助於開發者更好的設計 Claptrap 的 State ，避免錯誤的設計。
+Minimal Competiing Resources is a concept that is important when using the Claptrap framework.Understanding this concept helps developers to better design Claptrap's State and avoid the wrong design.
 
-## 什麼是最小競爭資源
+## What is the Minimal Competing Resources.
 
-類比多線程程式設計中 「資源競爭」 的概念，這裡提出在業務系統中的 「最小競爭資源」 概念。借助這個概念可以很簡單的找到如何應用 Newbe.Claptrap 的設計點。
+In analogy with the concept of "resource competition" in multi-thread programming, here is proposed the "Minimum Competing Resources" concept in a business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
 
-例如在電商搶購的例子中，每個商品都是一個 「最小競爭資源」。注意，這裡不是說，所有商品是一個 「最小競爭資源」。因為，如果對一萬個商品進行編號，那麼搶購一號商品和二號商品，本身其實不存在競爭關係。因此，每個商品都是一個最小競爭資源。
+In the case of e-commerce, for example, each commodity is a "Minimal Competing Resources".Note that this is not to say that all goods are a "Minimal Competing Resources".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and goods 2, there is no competition.Therefore, each commodity is a Minimal Competing Resources.
 
-這裡還有一些可用的例子：
+Here are some examples available:
 
-- 在一個只允許單端登錄的業務系統中，一個使用者的登錄票據就是最小競爭資源
-- 在一個配置系統中，每個配置項都是最小競爭資源
-- 在一個股票交易市場中，每個買單或者賣單都是最小競爭資源
+- In a business system that allows only single-ended logins, a user's login ticket is the Minimal Competing Resources.
+- In a configuration system, each configuration item is the Minimal Competing Resources.
+- In a stock market, each buy or sell order is Minimal Competing Resources.
 
-在有的場景中，最小競爭資源也被稱為"最小併發單元（Minimal Concurrent Unit）"
+In some scenarios, Minimal Competing Resources is also known as the "Minimum Concurrent Unit"
 
-## Claptrap 的 State 至少應該大於等於 「最小競爭資源」 的範圍
+## Claptrap's State should be at least larger than or equal to the range of "Minimal Competing Resources".
 
-結合電商搶購的例子，如果所有商品設計在同一個 Claptrap 的 State 中（大於最小競爭資源）。那麼，不同用戶購買商品就會相互影響，因為，Claptrap 基於的 Actor 模式是排隊處理請求的。也就是說，假設每個商品需要處理 10ms，那麼最快也需要 10000 \* 10 ms 來處理所有的購買請求。但如果每個商品都進行編號，每個商品設計為單獨的 Claptrap 的 State。那麼由於他們是互不相關的。賣掉所有商品，理論上就只需要 10ms。
+Combined with the example of e-commerce snapping, if all goods are designed in the same Claptrap State (greater than range of Minimal Competing Resources).Well, different users buy goods to influence each other, because, the Actor pattern based on the Claptrap is the queuing processing request.That is to say, assuming that each item needs to process 10ms, it also takes 10000\* 10 ms to process all the purchase requests as soon as you want.But if each item is numbered, each item is designed as a separate Claptrap State.Well, since they are not related to each other.Selling all the goods would theoretically only cost 10ms.
 
-故而容易得出，如果 Claptrap 的 State 大於最小競爭資源的範圍，系統不會有正確性的問題，但可能有一些性能損失。 另外，如果 Claptrap 的 State 小於最小競爭資源的範圍，Claptrap 間的關係將會變得難以處理，存在風險。因為這就相當於將一個最小競爭資源拆分為多個部分，而最小競爭資源通常來說需要在一個事務中一併處理，這也就又回到了分散式中非常常見的分散式事務的問題，難以處理。
+It is therefore easy to conclude that if Claptrap's State is larger than the Minimal Competing Resources, the system will not have a correctness issue, but there may be some performance penalties. In addition, if Claptrap's State is smaller than the Minimal Competing Resources, the relationship between Claptrap becomes difficult and risky.Because this is equivalent to splitting a Minimal Competing Resource into multiple parts, and Minimal Competing Resources usually needs to be dealt with in a single transaction, which goes back to the very common problem of distributed transactions in distributed parts that are difficult to handle.
