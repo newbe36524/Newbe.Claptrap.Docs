@@ -1,7 +1,7 @@
 commit_message: "[ci skip]"
 preserve_hierarchy: true
 files:
-  - source: "/i18n/en_US/**/*"
+  - source: "/i18n/zh_Hans/**/*"
     translation: "/i18n/%locale_with_underscore%/**/%original_file_name%"
   - source: "/docs/**/*"
     translation: "/i18n/%locale_with_underscore%/docusaurus-plugin-content-docs/current/**/%original_file_name%"
