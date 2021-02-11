@@ -1,5 +1,5 @@
 ---
-title: '火车售票系统'
-description: '火车售票系统'
+title: '電車の切符システム'
+description: '電車の切符システム'
 ---
 
