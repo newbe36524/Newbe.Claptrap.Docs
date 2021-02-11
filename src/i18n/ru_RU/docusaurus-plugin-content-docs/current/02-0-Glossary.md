@@ -1,6 +1,6 @@
 ---
-title: 'Глоссарий'
-description: 'Глоссарий'
+title: 'Glossary'
+description: 'Glossary'
 ---
 
-Прочитайте глоссарий этого проекта, чтобы лучше понять концепции, связанные с этим проектом.
+Reading the glossary of this project will give you a better understanding of the concepts related to this project.
