@@ -1,120 +1,120 @@
 ---
-title: 'Design'
-description: 'Zugticketsystem - Design'
+title: 'Design.'
+description: 'Train ticketing system - design.'
 ---
 
 
-## Unternehmensanalyse
+## Business analysis.
 
-### Geschäftsgrenzen
+### Business boundaries.
 
-Das System enthält nur den verbleibenden Ticketverwaltungsteil des Tickets.Das heißt, die restlichen Plätze abfragen, ein Ticket bestellen, um den Sitzplatz zu reduzieren.
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-Das Generieren von Auftragsinformationen, Zahlung, Verkehrssteuerung, Windsteuerung usw. ist in diesem Diskussionsbereich nicht enthalten.
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### Business-Anwendungsfälle
+### Business use cases.
 
-- Überprüfen Sie die restlichen Tickets und können Sie die Anzahl der zwischen den beiden Bahnhöfen verfügbaren Tickets und die Anzahl der verbleibenden Sitzplätze überprüfen.
-- Überprüfen Sie die verbleibenden Tickets entsprechend der Anzahl der Fahrten, kann die angegebene Anzahl von Malen abfragen, zwischen den Stationen, wie viele Plätze bleiben.
-- Unterstützung bei der Sitzplatzauswahl, Können Kunden eine bestimmte Anzahl von Autos und Sitzplätzen wählen und Tickets bestellen.
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-## Implementieren schwieriger Analysen
+## Difficulty analysis
 
-### Restkartenverwaltung
+### Ticketing management.
 
-Die Schwierigkeit der Restfahrkartenverwaltung liegt in der Besonderheit des verbleibenden Ticketbestands.
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-Gewöhnliche E-Commerce-Waren, SKU als kleinste Einheit, jede SKU ist unabhängig voneinander, beeinflussen sich nicht gegenseitig.
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
-Die übrigen Tickets für den Zug sind unterschiedlich, da sie vom Verkauf der Tickets ab dem Ende der Laufzeit betroffen sind.Hier ist ein einfaches logisches Modell, um einen detaillierten Blick auf diese Besonderheit zu erhalten.
+Train tickets are different because the remaining tickets will be affected by the start and end of the sold tickets.Here's a simple logical model to take a detailed look at this particularity.
 
-Nehmen wir nun an, dass ein Zug durch vier Stationen fährt, a, b, c, d, und gleichzeitig vereinfachen wir das Szenario, vorausgesetzt, dass es nur einen Sitzplatz in der Fahrt gibt.
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-Bevor also jemand ein Ticket kauft, ist die verbleibende Ticketsituation für diese Anzahl von Tickets so follows：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| Start und Ende | Die Anzahl der verbleibenden Tickets |
-| -------------- | ------------------------------------ |
-| a,b            | 1                                    |
-| a,c            | 1                                    |
-| a,d            | 1                                    |
-| b,c            | 1                                    |
-| b,d            | 1                                    |
-| c,d            | 1                                    |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
-Wenn ein Kunde jetzt ein a,c-Ticket erworben hat.Da es also nur einen Sitzplatz gibt, gibt es keine anderen Restkarten als c,d.Die verbleibende Abstimmungssituation wird die folgende：
+If a customer now has purchased a,c ticket.So since there is only one seat, there are no tickets other than c,d.The rest of the ticket situation becomes the following:
 
-| Start und Ende | Die Anzahl der verbleibenden Tickets |
-| -------------- | ------------------------------------ |
-| a,b            | 0                                    |
-| a,c            | 0                                    |
-| a,d            | 0                                    |
-| b,c            | 0                                    |
-| b,d            | 0                                    |
-| c,d            | 1                                    |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
-Um es direkter zu machen: Wenn ein Kunde a,d für das gesamte Ticket kauft, werden alle verbleibenden Tickets auf 0 geändert.Denn der Passagier sitzt immer auf diesem Platz.
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-Dies ist die Besonderheit der Zugtickets：gleichen Sitzplatz es im selben Zug, die Anzahl der an jedem Abfahrtsort verbleibenden Tickets wird durch den Start und das Ende des verkauften Tickets beeinflusst.
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-Wenn man ein wenig ausdehnt, lässt sich leicht feststellen, dass es keinen solchen Effekt zwischen verschiedenen Sitzen in der gleichen Fahrt gibt.
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### Restticket-Anfrage
+### Remaining ticket inquiries.
 
-Wie im vorherigen Abschnitt erwähnt, aufgrund der Besonderheit des Restkartenbestands.Für die gleiche Fahrt a, b, c, d, gibt es 6 mögliche Ticketoptionen.
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-Und es ist leicht zu schlussfolgern, dass die Methode zur Berechnung der Anzahl der gewählten Arten tatsächlich darin besteht, zwei Kombinationen in n-Standorten auszuwählen, d. h.c(n, 2).
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-Wenn also ein Auto durch 34 Stationen fährt, ist die mögliche Kombination c (34,2) s 561.
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-Wie man mit vielen Arten von Abfragen umgeht, die effizient existieren können, ist auch ein Problem, das das System lösen muss.
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Claptrap Körperdesign
+## Claptrap Main Design
 
 ![Train Ticketing System Design](/images/20200720-001.png)
 
-### Gestalten Sie jeden Sitz auf der gleichen Fahrt wie ein Claptrap-SeatGrain
+### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
-Der Zustand von Claptrap enthält eine grundlegende Information
+The State of the Claptrap contains a basic information.
 
-| Typ                                    | Namen      | Beschreibung                                                                                                                                                                                      |
-| -------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stationen  | Die ID-Liste der Routenstationen, beginnend mit der Ursprungsstation und endend mit dem Terminal.Überprüfung zum Zeitpunkt des Kaufs des Haupttickets.                                            |
-| Wörterbuch&lt;int, int&gt; | StationDic | Das Index-Reverse-Wörterbuch, das die Stations-ID leitet.Stationen sind eine Liste von Index-IDs, und das Wörterbuch ist das entsprechende id-index-Wörterbuch, um Abfragen zu beschleunigen.     |
-| Liste&lt;string&gt;        | RequestIds | Schlüsseleigenschaften.In jedem Intervall wird die gekaufte Ticket-ID.Ein Index von 0 stellt z. B. eine Ticket-ID von Station 0 zu Station 1 dar.Wenn es leer ist, gibt es kein Abonnementticket. |
+| Type                                   | Name       | Description                                                                                                                                                                            |
+| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.The principal ticket is verified.                                                 |
+| Dictionary&lt;int, int&gt; | StationDic | The index of the pad id is reverse dictionary.Stations are a list of index-id dictionaries, which are the dictionary of the corresponding id-index in order to expedite queries.       |
+| List&lt;string&gt;         | RequestIds | Key properties.For each district, the ticket id has been purchased.For example, index is 0, which means ticket id for the station 0 to 1.If empty, indicate that there are no tickets. |
 
-Mit dem Entwurf dieser Datenstruktur können zwei Unternehmen implementiert werden.
+With the design of this data structure, two operations could be achieved.
 
-#### Überprüfen Sie, ob es erworben werden kann
+#### Verify if purchase is possible
 
-Wenn Sie zwei Stations-IDs passieren, können Sie herausfinden, ob dies zu diesem SeatGrain gehört.Und alle Intervallsegmente abfragen, die den Start- und Endpunkten entsprechen.Beurteilen Sie einfach, ob alle Segmente in den RequestIds nicht über eine Ticket-ID verfügen.Wenn nicht, kann es gekauft werden.Wenn in einem Abschnitt bereits eine Ticket-Einkaufs-ID vorhanden ist, ist der Kauf nicht mehr möglich.
+By passing into two stops ids, it can be asked if this is this SeatGrain.and search for all the interval between the end of the end.It is sufficient to determine whether all the interval segments are not billed Id from RequestIs.If none is available, indicate that it can be purchased.If there is any paragraph with Purchase Id, then it is no longer available.
 
-Die aktuelle Situation bei Stationen ist beispielsweise 10, 11, 12, 13. RequestIds hingegen sind 0,1,0.
+The current Stations case, for example, is 10,11,12,13. The RequestIds are 0,1,0.
 
-Wenn Sie also ein 10->12-Ticket kaufen, ist das nicht möglich, da die zweite Reihe von RequestIds bereits gekauft wurde.
+So, if the ticket 10->12 is to be purchased, it will not do so because the second period of requestIds has already been purchased.
 
-Wenn Sie jedoch 10->11 Tickets  möchten, können Sie dies, da niemand im ersten Bereich von RequestIds sie noch kaufen muss.
+However, if the tickets for 10->11 are to be purchased, they can be bought because the first period of the Request Ids is not yet purchased.
 
-#### Kaufen
+#### Buy
 
-Platzieren Sie einfach die Start- und Endpunkte in allen Intervallsegmenteinstellungen in RequestIds.
+Use the ticket Id to set up for all interval segments in RequestIs.
 
-### Entwerfen Sie das Restticket für alle Sitzplätze auf der gleichen Fahrt wie ein Claptrap-TrainGran
+### Designed for a Claptrap - TrainGran for all seats on the same car
 
-Der Zustand von Claptrap enthält einige grundlegende Informationen
+The Claptrap State contains some basic information
 
-| Typ                                              | Namen     | Beschreibung                                                                                                                                                                                                                                                 |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stationen | Die ID-Liste der Routenstationen, beginnend mit der Ursprungsstation und endend mit dem Terminal.Überprüfen sie für die Hauptabfrage.                                                                                                                        |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | Schlüsseleigenschaften.StationTuple stellt einen Ausgangspunkt dar.Die Sammlung enthält die restlichen Tickets für alle möglichen Start- und Endpunkte.Wenn die Fahrt beispielsweise durch 34 Standorte verläuft, enthält das Wörterbuch 561 Schlüsselpaare. |
+| Type                                             | Name      | Description                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains the rest of the ticket situation for all possible starting points.For example, according to the above, if the car passes through 34 locations, the dictionary contains 561 key-value pairs |
 
-Basierend auf der obigen Datenstruktur müssen Sie die entsprechenden Informationen erst nach Abschluss jeder SeatGrain-Bestellung mit dem Korn synchronisieren.
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-Wenn a,c z. B. einen Ticketkauf hat, werden die verbleibenden Tickets für a,c/a,b/b,c um eins reduziert.
+For example, given a,c there was a single ticket, the surplus of a,c c /a,b b,c was reduced by one.
 
-Dies kann mit dem in diesem Framework integrierten Minion-Mechanismus erreicht werden.
+This can be done by using the Minion mechanism within this framework.
 
-Es ist erwähnenswert, dass dies ein größeres Design als die "minimale wettbewerbsorientierte Ressource" ist.Da das Abfrageszenario in diesem Geschäftsszenario nicht absolut schnell sein muss.Dieser Entwurf reduziert die Komplexität des Systems.
+It is worth mentioning that this is a larger design than the “least competitive resources”.The search scene does not require absolute speed in the business scenario.This design reduces the complexity of the system.
 
 ## Id
 
-![Zugticketing System Id](/images/20200813-001.png)
+![Train Ticketing System Id](/images/20200813-001.png)
