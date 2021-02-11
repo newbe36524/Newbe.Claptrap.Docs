@@ -1,6 +1,6 @@
 {
   "title": {
-    "message": "My Site",
+    "message": "Meine Website",
     "description": "The title in the navbar"
   },
   "item.label.Docs": {
@@ -12,7 +12,7 @@
     "description": "Navbar item with label Blog"
   },
   "item.label.GitHub": {
-    "message": "GitHub",
+    "message": "Github",
     "description": "Navbar item with label GitHub"
   }
 }
