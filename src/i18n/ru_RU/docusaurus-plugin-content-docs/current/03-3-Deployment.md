@@ -1,6 +1,6 @@
 ---
-title: 'Развертывание'
-description: 'Система продажи билетов на поезда - развертывание'
+title: 'Deployment'
+description: 'Train ticketing system - deployment'
 ---
 
 
@@ -25,17 +25,17 @@ description: 'Система продажи билетов на поезда - �
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## Развертывание самостоятельно
+## Deploy independently.
 
-Разработчики также могут использовать исходный код для автономного развертывания в локальной среде docker.Просто выполните следующие действия.
+Developers can also use the source code for independent deployment in the local docker environment.Just follow the steps below.
 
-1. Убедитесь, что среда docker установлена локально и что docker-compose/git доступен
-2. Извлечение исходного кода проекта <https://github.com/newbe36524/Newbe.Claptrap.Examples>
-3. Запустите команду docker-compose build в папке src/Newbe.Claptrap.Ticketing для завершения компиляции проекта
-4. Запустите docker-compose up-d в папке src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite, чтобы запустить все службы
-5. Посетите `http://localhost:10080` , чтобы открыть интерфейс.
+1. Make sure that the docker environment is properly installed locally and that the docker-compose/git is available.
+2. Check out the project source <https://github.com/newbe36524/Newbe.Claptrap.Examples>
+3. Run the docker-compose build command in the src/Newbe.Claptrap.Ticketing folder to complete project compilation.
+4. Run the docker-compose up-d in the src/Newbe.Claptrap.Ticketing/Docker/LocalClusterSQLite folder to start all services.
+5. Access the `http://localhost:10080` to open the Ui.
 
-Подводя итог, сценарий выглядит следующим образом：
+To sum up, the script is as follows:
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -45,15 +45,15 @@ cd Docker/LocalClusterSQLite
 docker-compose up -d
 ```
 
-Приведенные выше действия — это способ запуска базы данных с SQLite, который также содержит несколько других режимов развертывания, которые требуют только запуска up.cmd в разных папках для：
+The above steps are a way to run SQLite as a database, and the code base contains several other deployment modes that require only up.cmd in different folders to:
 
-| папки               | описание                                          |
-| ------------------- | ------------------------------------------------- |
-| LocalClusterMongodb | Многоузловая версия балансировки нагрузки MongoDb |
-| LocalClusterSQLite  | Одноузловая версия SQLite                         |
-| Tencent             | Версия, развернутая в онлайн-опыте                |
+| Folder              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| LocalClusterMongodb | MongoDb multi-node load balancing version.     |
+| LocalClusterSQLite  | SQLite single-node version.                    |
+| Tencent             | The version deployed in the Online Experience. |
 
-> - Если вы в настоящее время находитесь в материковом Китае и испытываете проблемы с медленной загрузкой образа netcore, попробуйте использовать[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
-> - Разработчики также[развернуть](https://labs.play-with-docker.com/)на PWD
-> - Переключение между различными режимами развертывания заключается в том, чтобы сначала запустить docker-compose down, чтобы закрыть ваше первое развертывание
-> - Веб-порты могут отличаться в зависимости от режима развертывания, и необходимо просмотреть параметры в docker-compose.yml
+> - If you are currently Chinese mainland and are experiencing slow download of the netcore image, try using[docker-mcr](https://github.com/newbe36524/Newbe.McrMirror)
+> - Developer can also choose[PWD](https://labs.play-with-docker.com/)to deploy for testing
+> - Switch between different deployment modes to take note of running docker-compose down first to close previous deployment
+> - Web ports may vary from deployment pattern to deployment mode, depending on the settings in docker-compose.yml.
