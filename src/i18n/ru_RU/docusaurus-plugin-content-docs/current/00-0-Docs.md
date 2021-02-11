@@ -1,6 +1,6 @@
 ---
-title: "Инструкции по китайскому языку"
-description: "Это платформа разработки на стороне службы с \"реактивным\", \"отслеживанием событий\" и \"моделью Actor\" в качестве основных теорий.По этой основе разработчики могут более просто разрабатывать \"распределенные\", \"горизонтально масштабируемые\" и \"тестируемые\" приложения."
+title: "Introduction"
+description: "This is a set of server-side development frameworks with reactive, event sourcing and Actor pattern as basic theories.On top of this, developers can develop \"distributed\", \"scale out\", and \"easy to test\" application more simply."
 slug: /
 ---
 
@@ -14,35 +14,35 @@ slug: /
 
 [![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-Это платформа разработки на стороне службы, основанная на`реактивном`,`отслеживании событий`и режиме`Actor`в качестве базовой теории.По этой основе разработчики могут более просто разрабатывать "распределенные", "горизонтально масштабируемые" и "тестируемые" приложения.
+This is a set of server-side development frameworks with `reactive`, `event sourcing` and `Actor pattern` as basic theories.On top of this, developers can develop "distributed", "scale out", and "easy to test" application more simply.
 
-## Текущее состояние проекта
+## Project Status
 
-Текущий проект находится в стадии Preview, и соответствующая версия будет выпущена в ветви master.Вы можете получить последние пакеты разработки с помощью nuget.Не рекомендуется использовать версию Preview в рабочей среде.
+The project has entered the Preview stage, and related versions will be released on the master branch.You can get the latest development package through nuget.org.We do not recommend using the Preview version for production environments.
 
 Claptrap and it`s Minions are coming.
 
-## Пример проекта
+## Samples
 
-Вы можете[пример кода для проекта, используя Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples), чтобы узнать, как его использовать.
+You can get the samples about the project through [Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples) so that you can understand how to use the project.
 
-## Примите участие в обсуждении
+## Discussion
 
-- [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
-- [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Общедоступный почтовый ящик newbe-claptrap@googlegroups.com (содержимое, отправленное в почтовый ящик, будет общедоступным)
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-- [Группа QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
+- [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
+- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+- [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
-## Справочные материалы
+## Reference
 
-Проект вдохновлен многочисленными проектами с открытым исходным кодом и блогами：
+The project was inspired by many open source projects and blog posts:
 
-- [Ray, распределенная, отслеживаемая событиями, управляемая событиями и в конечном счете консистенция высокопроизводительной платформы, построенной на основе Платформы Actor Orleans](https://github.com/RayTale/Ray)
+- [A distributed, event event-sourcing, event-driven, and high-performance framework built on the Actor framework Orleans -- Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Перевод Event Sourcing Pattern на китайский язык](https://www.infoq.cn/article/event-sourcing)
+- [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
 - [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [ENode 1.0 - Мысль и реализация Саги](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [ENode 1.0 - Saga's idea and realization](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 ## Stargazers over time
 
@@ -71,13 +71,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## значок
+## Icon
 
-Значки, используемые в настоящее время в этом проекте, поступают из[noun Project](https://thenounproject.com/).Вы[информацию об авторских правах noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)разделах в разделе /docs/2.
+The icons currently used in this project are all from [The Noun Project](https://thenounproject.com/).You can view the copyright information of each section in [/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source).
 
 ## Gitee
 
-Если вы не можете использовать Github должным образом, вы также можете использовать Gitee для получения исходного кода и примеров.
+If you cannot use Github normally, you can also use Gitee to clone the source code and samples (Mainly for China mainland).
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
