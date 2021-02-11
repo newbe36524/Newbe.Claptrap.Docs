@@ -1,93 +1,93 @@
 ---
-title: '第四步——利用Minion，商品下单'
-description: '第四步——利用Minion，商品下单'
+title: '配信が無効となりました'
+description: '配信が無効となりました'
 ---
 
-通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
+この Class Chartp でビジネスを始めるために、これを読んでみてください。
 
 <!-- more -->
 
-## 开篇摘要
+## 投稿のまとめ
 
-本篇，我通过实现“商品下单”的需求来了解一下如何在已有的项目样例中使用 Minion 来完成异步的业务处理。
+この本は、既存のプロジェクトケースを使用して注文を行う必要性を理解し、非同期のビジネス処理を完了する方法について学ぶことができます。
 
-首先，先了解一下本篇需要涉及的业务用例：
+まずは、本プログラムの関連例を示します。：
 
-1. 用户可以进行下单操作，下单时将使用当前购物车中的所有 SKU 形成一个订单。
-2. 下单后将会扣除相关 SKU 的库存。如果某一 SKU 库存不足，则下单失败。
-3. 下单操作仅到扣减库存成功为止，后续步骤不需要本样例讨论范围。因此，本样例在成功下单之后会在数据库中生成一条订单记录，表示订单创建结束。
+1. ユーザーは注文を行うことができ、注文を行うと、現在のショッピングカートにあるすべてのSKUによる注文が作成されます。
+2. 注文になった後にSKUによる在庫が差し引かれます。SKU が在庫不足の場合、注文は失敗します。
+3. 注文操作は在庫が減少するまでのみ有効であり、今後の手順については議論を必要としません。注文は正常に作成されたあと、データベースに登録されたすべての注文レコードを生成し、注文作成が終了します。
 
-本篇虽然重点在于 Minion 的使用，不过由于需要使用到一个新的 OrderGrain 对象，因此还是需要使用到前一篇“定义 Claptrap”的相关知识。
+この論文はMinion で使用されていますが、新しいOrderGrain オブジェクトが必要です。そのため、前の論文に「Claptrap」という専門的な知識が必要です。
 
-Minion 是一种特殊的 Claptrap，它与其 MasterClaptrap 之间的关系如下图所示：
+Minion は要りの Claptrap です。その MasterClaptrap との関係はこちらから：
 
-![Minion](/images/20190228-002.gif)
+![ミニオン](/images/20190228-002.gif)
 
-其主体开发流程和 Claptrap 类似，只是有所删减。对比如下：
+主要な開発プロセスは Claptrap と同じく、削除された。適用先：
 
-| 步骤                          | Claptrap | Minion |
-| --------------------------- | -------- | ------ |
-| 定义 ClaptrapTypeCode         | √        | √      |
-| 定义 State                    | √        | √      |
-| 定义 Grain 接口                 | √        | √      |
-| 实现 Grain                    | √        | √      |
-| 注册 Grain                    | √        | √      |
-| 定义 EventCode                | √        |        |
-| 定义 Event                    | √        |        |
-| 实现 EventHandler             | √        | √      |
-| 注册 EventHandler             | √        | √      |
-| 实现 IInitialStateDataFactory | √        | √      |
+| ステップ                       | Claptrap | ミニオン |
+| -------------------------- | -------- | ---- |
+| ClaptrapTypes の定義          | √        | √    |
+| state を定義します。              | √        | √    |
+| Grain インターフェースの定義          | √        | √    |
+| Grain 実装                   | √        | √    |
+| Grain に登録                  | √        | √    |
+| Eventのコード                  | √        |      |
+| Event の定義                  | √        |      |
+| EventHandlerの実装            | √        | √    |
+| EventHandlerに登録            | √        | √    |
+| 実装IInitialStateDataFactory | √        | √    |
 
-这个删减的原因是由于 Minion 是 Claptrap 的事件消费者，所以事件相关的定义不需要处理。但是其他的部分仍然是必须的。
+これを削除すると、マイコンは Mintion が Claptrap の顧客によって行われるので、イベントに関する定義は処理されません。でも他の部分は必須です
 
-> 本篇开始，我们将不再罗列相关代码所在的具体文件位置，希望读者能够自行在项目中进行查找，以便熟练的掌握。
+> この章から、あるファイルの場所を一覧に組み込んでみて、熟練のマスタリーに応じてプログラム内で確認していきましょう。
 
-## 实现 OrderGrain
+## 実装のOrderGrain
 
-基于前一篇“定义 Claptrap”相关的知识，我们此处实现一个 OrderGrain 用来表示订单下单操作。为节约篇幅，我们只罗列其中关键的部分。
+ご注文を表す「Claptrap」という定義について記載された知識から、注文を表すOrderGrain を実装しました。保存費用の部分については重要な一部のみ示しています。
 
 ### OrderState
 
-订单状态的定义如下：
+注文ステータスを定義：
 
 ```cs
 using System.Collections.Generic;
 using Newbe.Claptrap;
 
-namespace HelloClaptrap.Models.Order
+namespace ハロークラップ.Models rder
 {
     public class OrderState : IStateData
     {
         public bool OrderCreated { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; set; }
         public Dictionary<string, int> Skus { get; set; }
     }
-}
+
 ```
 
-1. OrderCreated 表示订单是否已经创建，避免重复创建订单
-2. UserId 下单用户 Id
-3. Skus 订单包含的 SkuId 和订单量
+1. 注文が既に作成されているか、重複注文の作成を避けてください
+2. ユーザー ID のユーザー ID
+3. Skus注文にSkuId と注文があります。
 
 ### OrderCreatedEvent
 
-订单创建事件的定义如下：
+注文作成イベントは以下のように設定されます：
 
 ```cs
 using System.Collections.Generic;
 using Newbe.Claptrap;
 
-namespace HelloClaptrap.Models.Order.Events
+namespace Helloe Claptrap.Models.Order. vents
 {
     public class OrderCreatedEvent : IEventData
     {
         public string UserId { get; set; }
         public Dictionary<string, int> Skus { get; set; }
     }
-}
+
 ```
 
-### OrderGrain
+### システム設定
 
 ```cs
 using System.Threading.Tasks;
@@ -124,7 +124,7 @@ namespace HelloClaptrap.Actors.Order
             }
 
             // get items from cart
-            var cartGrain = _grainFactory.GetGrain<ICartGrain>(input.CartId);
+            var cartGrain = _grainFactory.GetGrain<ICartGrain>(input. CartId);
             var items = await cartGrain.GetItemsAsync();
 
             // update inventory for each sku
@@ -138,9 +138,9 @@ namespace HelloClaptrap.Actors.Order
             await cartGrain.RemoveAllItemsAsync();
 
             // create a order
-            var evt = this.CreateEvent(new OrderCreatedEvent
+            var evt = this. CreateEvent(new OrderCreatedEvent
             {
-                UserId = input.UserId,
+                UserId = input. UserId,
                 Skus = items
             });
             await Claptrap.HandleEventAsync(evt);
@@ -149,20 +149,20 @@ namespace HelloClaptrap.Actors.Order
 }
 ```
 
-1. OrderGrain 实现订单的创建核心逻辑，其中的 CreateOrderAsync 方法完成购物车数据获取，库存扣减相关的动作。
-2. OrderCreatedEvent 执行成功后将会更新 State 中相关的字段，此处就不再列出了。
+1. 注文処理における注文に関するコアロジックを実装します。CreateOrderAsync はカートデータを取り込み、在庫減算に関係する処理を裏付けています。
+2. OrderCreatedEvent 実装の成功後に、State に関連したフィールドを更新します。これは、今後は表示されません。
 
-## 通过 Minion 向数据库保存订单数据
+## Minion から注文データをデータベースに保存する
 
-从系列开头到此，我们从未提及数据库相关的操作。因为当您在使用 Claptrap 框架时，绝大多数的操作都已经被“事件的写入”和“状态的更新”代替了，故而完全不需要亲自编写数据库操作。
+指定されたコレクションからは、データベースへの参照の無い操作があります。Claptrap フレームワークを使用する時、ほとんどのアクションが「イベント書き込み」と「状態の更新」が行われているため、完全にデータベース操作を行う必要はなくなりました。
 
-不过，由于 Claptrap 通常是对应单体对象（一个订单，一个 SKU，一个购物车）而设计的，因而无法获取全体（所有订单，所有 SKU，所有购物车）的数据情况。此时，就需要将状态数据持久化到另外的持久化结构中（数据库，文件，缓存等）以便完成全体情况的查询或其他操作。
+クラプスは基本的にシングルボディオブジェクトに対応するものであるといいます(注文・SKU、ショッピングカートなどのすべての注文・ボディ内のデータへのアクセス。すべての注文・SKU、すべての注文による注文データ。これによりstateデータの永続化は、さまざまな永続化オブジェクト（データベース、ファイル、キャッシュなど）に行われる。
 
-在 Claptrap 框架中引入了 Minion 的概念来解决上述的需求。
+Claptrap フレームワークで Minion の概念を導入した。
 
-接下来，我们就在样例中引入一个 OrderDbGrain （一个 Minion）来异步完成 OrderGrain 的订单入库操作。
+次に、OrderbGrain (1つの Minion)を使用して注文を非同期してライブラリでの注文処理を検査します。
 
-## 定义 ClaptrapTypeCode
+## ClaptrapTypes の定義
 
 ```cs
   namespace HelloClaptrap.Models
@@ -193,44 +193,44 @@ namespace HelloClaptrap.Actors.Order
           private const string OrderEventSuffix = "_e_" + OrderGrain;
           public const string OrderCreated = "orderCreated" + OrderEventSuffix;
 
-+         public const string OrderDbGrain = "db_order_claptrap_newbe";
++ public const string OrderDbGrain = "db_order_claptrap_newbe";
 
           #endregion
       }
   }
 ```
 
-Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 ClaptrapTypeCode 对于 Claptrap 来说是必需的，因而需要增加此定义。
+Mineは非常に特殊なクラプです これはClaptrapの一種で Claptrap のことですClaptrapTypes は Claptrap の順番に必要です。
 
-## 定义 State
+## state を定義します。
 
-由于本样例只需要向数据库写入一条订单记录就可以了，并不需要在 State 中任何数据，因此该步骤在本样例中其实并不需要。
+このサンプルでは、state にデータをデータベースに書き込むだけで何も行えません。したがって、この例では、実際には必要はありません。
 
-## 定义 Grain 接口
+## Grain インターフェースの定義
 
 ```cs
-+ using HelloClaptrap.Models;
++using HelloClaptrap.Model;
 + using Newbe.Claptrap;
-+ using Newbe.Claptrap.Orleans;
++ using Newbe.Class.クラッパ。 rleans;
 +
 + namespace HelloClaptrap.IActor
 + {
-+     [ClaptrapMinion(ClaptrapCodes.OrderGrain)]
-+     [ClaptrapState(typeof(NoneStateData), ClaptrapCodes.OrderDbGrain)]
-+     public interface IOrderDbGrain : IClaptrapMinionGrain
-+     {
-+     }
++ [ClaptrapMinion(ClaptrapCodes) rderGrain)]
++ [ClaptrapStates : typeof(NoneStateData), Class: RderbGrain)]
++ public interface IOrderDbGrain : IClaptrapMinion
++ {
++ }
 + }
 ```
 
-1. ClaptrapMinion 用来标记该 Grain 是一个 Minion，其中的 Code 指向其对应的 MasterClaptrap。
-2. ClaptrapState 用来标记 Claptrap 的 State 数据类型。前一步，我们阐明该 Minion 并不需要 StateData，因此使用 NoneStateData 这一框架内置类型来代替。
-3. IClaptrapMinionGrain 是区别于 IClaptrapGrain 的 Minion 接口。如果一个 Grain 是 Minion ，则需要继承该接口。
-4. ClaptrapCodes.OrderGrain 和 ClaptrapCodes.OrderDbGrain 是两个不同的字符串，希望读者不是星际宗师。
+1. クラプト意識は Grain は Minium に対応する クラスのコードに対応する Claptraps です。
+2. ClaptrapState は Claptrap の State データの型を指定できます。前のステップでは、MineDataはStateDataを必要としないことが分かり、NoneStateデータというフレームワークの型を置き換えることを示した。
+3. IClaptrapMinionGrain との違いは、IClaptrapGrain の Minion ポートの違いである。Grain が Minion なら、インターフェースを引き継ぐ必要があります。
+4. ClaptrapCodes.OrderGrain と ClaptrapCodes.OrderbGrain は二つの文字列です。読者が星宗師ではないことを希望します。
 
-> 星际宗师：因为星际争霸比赛节奏快，信息量大，选手很容易忽视或误判部分信息，因此经常发生“选手看不到发生在眼皮底下的关键事件”的搞笑失误。玩家们由此调侃星际玩家都是瞎子（曾经真的有一场盲人和职业选手的对决），段位越高，瞎得越严重，职业星际选手清一色的盲人。
+> 星間宗師：星間争覇の試合速度による ピリオットやゲーマーの質素な情報などにより容易な情報を持っているため、選手は目の前後の肝心なイベントが発生しないと、おかしい。プレイヤーたちはのひらめき(今まで本気で目隠し者とプロの対決）を放ち、能力が高い程、目立った選手の無色の盲人を目指していた。
 
-## 实现 Grain
+## Grain 実装
 
 ```cs
 + using System.Collections.Generic;
@@ -243,37 +243,37 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 +
 + namespace HelloClaptrap.Actors.DbGrains.Order
 + {
-+     [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
-+     public class OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
-+     {
-+         public OrderDbGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
-+             : base(claptrapGrainCommonService)
-+         {
-+         }
++ [ClaptrapEventHandler(typeof(OrderCreatedEventHandler), ClaptrapCodes.OrderCreated)]
++ public class OrderDbGrain : ClaptrapBoxGrain<NoneStateData>, IOrderDbGrain
++ {
++ public OrderDbGrain(IClaptrapGrainCommonService claptrapGrainCommonService)
++ : base(claptrapGrainCommonService)
++ {
++ }
 +
-+         public async Task MasterEventReceivedAsync(IEnumerable<IEvent> events)
-+         {
-+             foreach (var @event in events)
-+             {
-+                 await Claptrap.HandleEventAsync(@event);
-+             }
-+         }
++ public async Task MasterEventReceivedAsync(IEnumerable<IEvent> events)
++ {
++ foreach (var @event in events)
++ {
++ await Claptrap.HandleEventAsync(@event);
++ }
++ }
 +
-+         public Task WakeAsync()
-+         {
-+             return Task.CompletedTask;
-+         }
-+     }
++ public Task WakeAsync()
++ {
++ return Task.CompletedTask;
++ }
++ }
 + }
 ```
 
-1. MasterEventReceivedAsync 是定义自 IClaptrapMinionGrain 的方法，表示实时接收来自 MasterClaptrap 的事件通知。此处暂不展开说明，按照上文模板实现即可。
-2. WakeAsync 是定义自 IClaptrapMinionGrain 的方法，表示 MasterClaptrap 主动唤醒 Minion 的操作。此处暂不展开说明，按照上文模板实现即可。
-3. 当读者查看源码时，会发现该类被单独定义在一个程序集当中。这只是一种分类办法，可以理解为将 Minion 和 MasterClaptrap 分别放置在两个不同的项目中进行分类。实际上放在一起也没有问题。
+1. MasterEventReceivedAsync は IClaptrapMinionGrain メソッドであり、MasterClaptrap からイベント通知を受け取ります。上記で実装されていないノートはテンプレートで実装されています。
+2. WakeAsync は IClaptrapMinionGrain メソッドによって定義されており、マスターClaptrap よりアクティブな操作であることを示します。上記で実装されていないノートはテンプレートで実装されています。
+3. これを聞いた人がソースを読んでいれば、そのクラスは単一のアプリケーションコンポーネントとして定義されるでしょう。これは、Minion と MasterClap を 2 つのカテゴリーに配置したカテゴリのいずれかのカテゴリのいずれかに置けるための方法です。実際は全く問題ないものでした
 
-## 注册 Grain
+## Grain に登録
 
-此处，由于我们将 OrderDbGrain 定义在单独的程序集，因此，需要额外的注册这个程序集。如下所示：
+このディレクトリはシステム別のアプリケーションセットとしてOrderbGrain を定義しているので、コードを追加登録する必要があります。：
 
 ```cs
   using System;
@@ -296,16 +296,16 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
       {
           public static void Main(string[] args)
           {
-              var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+              var logger = NLogBuilder.ConfigureNLog("nlog.config"). GetCurrentClassLogger();
               try
               {
-                  logger.Debug("init main");
-                  CreateHostBuilder(args).Build().Run();
+                  logger. Debug("init main");
+                  CreateHostBuilder(args). Build(). Run();
               }
               catch (Exception exception)
               {
                   //NLog: catch setup errors
-                  logger.Error(exception, "Stopped program because of exception");
+                  logger. Error(exception, "Stopped program because of exception");
                   throw;
               }
               finally
@@ -317,94 +317,94 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 
           public static IHostBuilder CreateHostBuilder(string[] args) =>
               Host.CreateDefaultBuilder(args)
-                  .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-                  .UseClaptrap(
+                  . ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                  . UseClaptrap(
                       builder =>
                       {
                           builder
-                              .ScanClaptrapDesigns(new[]
+                              . ScanClaptrapDesigns(new[]
                               {
-                                  typeof(ICartGrain).Assembly,
-                                  typeof(CartGrain).Assembly,
-+                                 typeof(OrderDbGrain).Assembly
+                                  typeof(ICartGrain). Assembly,
+                                  typeof(CartGrain). Assembly,
++ typeof(OrderDbGrain). Assembly
                               })
-                              .ConfigureClaptrapDesign(x =>
+                              . ConfigureClaptrapDesign(x =>
                                   x.ClaptrapOptions.EventCenterOptions.EventCenterType = EventCenterType.OrleansClient);
                       },
-                      builder => { builder.RegisterModule<RepositoryModule>(); })
-                  .UseOrleansClaptrap()
-                  .UseOrleans(builder => builder.UseDashboard(options => options.Port = 9000))
-                  .ConfigureLogging(logging =>
+                      builder => { builder. RegisterModule<RepositoryModule>(); })
+                  . UseOrleansClaptrap()
+                  . UseOrleans(builder => builder. UseDashboard(options => options. Port = 9000))
+                  . ConfigureLogging(logging =>
                   {
-                      logging.ClearProviders();
-                      logging.SetMinimumLevel(LogLevel.Trace);
+                      logging. ClearProviders();
+                      logging. SetMinimumLevel(LogLevel.Trace);
                   })
-                  .UseNLog();
+                  . UseNLog();
       }
   }
 ```
 
-## 实现 EventHandler
+## EventHandlerの実装
 
 ```cs
 + using System.Threading.Tasks;
-+ using HelloClaptrap.Models.Order.Events;
-+ using HelloClaptrap.Repository;
++ using Hellop.Models.Order.Events;
++ using Helloptrap.Repository;
 + using Newbe.Claptrap;
 + using Newtonsoft.Json;
 +
-+ namespace HelloClaptrap.Actors.DbGrains.Order.Events
++ namespace Helptrap.Actors.Actors.Dbrap.Order. vents
 + {
-+     public class OrderCreatedEventHandler
-+         : NormalEventHandler<NoneStateData, OrderCreatedEvent>
-+     {
-+         private readonly IOrderRepository _orderRepository;
++ public class OrderCreatedEventHandler
++ : NormalEventHandler<NoneStateData, OrderCreatedEvent>
++ {
++ private readonly IorderRepository Repository;
 +
-+         public OrderCreatedEventHandler(
-+             IOrderRepository orderRepository)
-+         {
-+             _orderRepository = orderRepository;
-+         }
++ public OrderCreatedEventHandler(
++ IorderRepositorderRepository)
++ {
++ _orderRepository = ordsitory;
++ }
 +
-+         public override async ValueTask HandleEvent(NoneStateData stateData,
-+             OrderCreatedEvent eventData,
-+             IEventContext eventContext)
-+         {
-+             var orderId = eventContext.State.Identity.Id;
-+             await _orderRepository.SaveAsync(eventData.UserId, orderId, JsonConvert.SerializeObject(eventData.Skus));
-+         }
-+     }
++ public override asyncValueTask HandleEvent(NoneStateData,
++ 注文用CreatedEvent Data,
++ IEvent Context)
++ {
++ var orderId = eventContext。 tate.Identity.Id;
++ await _orderRepository.SaveAsync(eventData.UserId, orderId, JsonConvert. erializeObject(eventData.Skus));
++ }
++ }
 + }
 ```
 
-1. IOrderRepository 是直接操作存储层的接口，用于订单的增删改查。此处调用该接口实现订单数据库的入库操作。
+1. IKriderRepositorはストレージ上のインターフェイスを直接実装し、注文の詳細削除に利用する。このインターフェイスは、データベースへのオープンデータベース操作を実装する。
 
-## 注册 EventHandler
+## EventHandlerに登録
 
-实际上为了节约篇幅，我们已经在“实现 Grain”章节的代码中进行注册。
+実際のところ Grain' 章の章の一部を達成したのがわかりました。
 
-## 实现 IInitialStateDataFactory
+## 実装IInitialStateDataFactory
 
-由于 StateData 没有特殊定义，因此也不需要实现 IInitialStateDataFactory。
+StateData はIInitialStateDataFactoryを実装すべきではないからである。
 
-## 修改 Controller
+## Controller の変更
 
-样例中，我们增加了 OrderController 用来下单和查询订单。读者可以在源码进行查看。
+サンプルの場合、注文とクエリのため、OrderController を加えました。読者はソースから参照できます。
 
-读者可以使用以下步骤进行实际的效果测试：
+読者の方は、この手順で実際の効果テストに使用できます：
 
-1. POST `/api/cart/123` {"skuId":"yueluo-666","count":30} 向 123 号购物车加入 30 单位的 yueluo-666 号浓缩精华。
-2. POST `/api/order` {"userId":"999","cartId":"123"} 以 999 userId 的身份，从 123 号购物车进行下单。
-3. GET `/api/order` 下单成功后可以，通过该 API 查看到下单完成的订单。
-4. GET `/api/sku/yueluo-666` 可以通过 SKU API 查看下单后的库存余量。
+1. POST `/api/cart/123` {"skuId":"yueluo-666","count"30} は123便に 30単位の yueluo-666 を圧縮しました。
+2. POST `/api/order` {"userId":"999","cartId"123"} カートから999 userId として発注されました。
+3. GET `/api/order` による注文は、この API で注文された注文が表示されます。
+4. GET `/api/sku/yueluo-666` はSKU API で注文された在庫数を閲覧することができます。
 
-## 小结
+## ミニ投稿
 
-至此，我们就完成了“商品下单”这个需求的基础内容。通过该样例可以初步了解多个 Claptrap 可以如何合作，以及如何使用 Minion 完成异步任务。
+ここで「もの注文に対する要望のベース」が完成しましたこの例では、複数のクラスの Claptrap が協調の方法を把握し、Minion 処理を非同期タスクにする方法について知ることができます。
 
-不过，还有一些问题，我们将在后续展开讨论。
+しかし、他にも疑問があります。議論をここにもなります。
 
-您可以从以下地址来获取本文章对应的源代码：
+この記事に対応するソースコードを取得することができます：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
+- [GitHub](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
