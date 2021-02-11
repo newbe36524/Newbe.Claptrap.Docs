@@ -1,32 +1,32 @@
 ---
-title: 'Actor 模式'
-description: 'Actor 模式'
+title: 'Actor Pattern'
+description: 'Actor Pattern'
 ---
 
-Actor 模式係併發編程嘅一種模型。透過呢種編程模型編寫嘅應用程式可以很好咁去處理一哋系統性嘅併發問題。當中提到嘅併發問題係指程式對同一數據進行邏輯處理嘅時候，可能由於同時發起多個請求產生數據出現唔正確嘅問題。喺多線程編程入面一定會遇到嘅問題。舉例而言，假如喺唔加SyncLock 嘅情況下，用 100 個threads併發對相同嘅一個`int`變量執行`++`操作。到最後，呢個變量嘅結果往往會小於 100。後續會講下 Actor 模式係點樣避免呢類問題既。
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call `++` operator on the same `int` variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-首先，為了便於理解，讀者在此處可以將 Actor 認為是一個物件。在物件導向程式設計的語言（Java、C#等）當中，可以認為 Actor 就是通過`new`關鍵詞創建出來的物件。不過這個物件有一些特別的特性：
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
-**擁有屬於自身的狀態**。物件都可以擁有自身的屬性，這是物件導向語言基本都具備的功能。在 Actor 模式中，這些屬性都被統稱為`Actor的狀態（State）`。Actor 的狀態由 Actor 自身進行維護。
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be descibed as ``actor`s state``.The state of actor should be matained by itself.
 
-這就強調了兩點：
+There are two points:
 
-第一、Actor 的狀態只能由自身進行改變，若要從外部改變 Actor 的狀態，只能通過調用 Actor 才能改變。
+Firstly, state of actor must be change by itself. If you want to change the state, you have to call the method of actor.
 
-![更新Actor狀態](/images/20190226-001.gif)
+![Update Actor state](/images/20190226-001.gif)
 
-第二、Actor 的狀態只在 Actor 內部進行維護，不與當前 Actor 之外的任何對象共享。這裏說的不共享也是強調其不能通過外部某個屬性的改變而導致 Actor 內部狀態的變化。這點主要是為了區別於一些具備“物件導向”語言特性的編程語言而言的。例如：在 C#的`class`的`public`屬性，假如是引用型別，那麼在外部獲得這個`class`之後是可以改變`class`中的屬性的。但是這在 Actor 模式當中是不被允許的。
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example: There is a `public` property in a `class` in C#, and it is a reference type, you can change the property if you get this object.It is not allowed to do so in actor pattern.
 
-![共享Actor狀態](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
-不過從 Actor 內部讀取數據到外部，這仍然是允許的。
+But it is still allow to retrive data out of the state by method.
 
-![讀取Actor狀態](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-**單線程**。Actor 通常同一時間只能接受一個呼叫（做一件事）。這裏所述的線程不完全是指電腦領域中的線程，是為了凸顯“Actor 同一時間只能處理一個請求的特性”而使用的詞語。假如當前 Actor 正在接受一個呼叫，那麼剩餘的呼叫都會阻塞，直到呼叫結束，下一個請求才允許被進入。這其實類似於一個同步鎖的機制。透過這種機制就避免了對 Actor 內部狀態進行修改時，存在併發問題的可能性。具體一點說明：如果使用 100 個線程對一個 Actor 進行併發呼叫，讓 Actor 對狀態中的一個`int`變數進行`++`操作。最終這個狀態的數值一定是 100。
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int` variable to perform`++` operation.The final value for this state must be 100.
 
-![併發執行Actor](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
-不過單線程也不是絕對的，在不存在併發問題的請求情況下，允許併發處理。例如讀取 Actor 中的狀態，這通常不會有併發問題，那麼此時就允許進行併發操作。
+However, single threads are not absolute, allowing concurrent processing in the absence of concurrent requests.For example, reading the state in the Actor, which usually does not have concurrency issues, allows concurrent operations at this time.
 
-![併發讀取Actor](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
