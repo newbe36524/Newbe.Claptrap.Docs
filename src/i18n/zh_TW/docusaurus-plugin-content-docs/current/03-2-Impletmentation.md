@@ -1,7 +1,7 @@
 ---
-title: '實現'
-description: '火車售票系統-實現'
+title: 'Implementation'
+description: 'Train ticketing system - implementation.'
 ---
 
 
-TBD
+TBD.
