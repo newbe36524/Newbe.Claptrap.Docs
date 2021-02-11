@@ -4,20 +4,20 @@ description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity は、Claptrap の唯一の識別子です。
+## Claptrap Identity is the unique identity for locating a Claptrap.
 
-構造物ですがいくつかあるフィールドがあります：
+It is a struct.It contains the following main fields:
 
-クラプト Type Code、Claptrap の分類コード。分類コードは開発者独自のコードです通常はこの Claptrap に関連する業務と関係があります特に注意すべきは、Claptrap とその Crap Types セッティングの間に強制された関係がないことです。しかし、開発中にMinion の Claptrap TypeCode はプロジェクト内で使用されている Mangype のパーツを設計することの下で開発されて設計されるべきです。
+Claptrap Type Code, the Claptrap Classification Code.Classification code is code that the developer defines itself.It is usually related to the business associated with the corresponding Claptrap.It is interesting to note that there is no compulsive association between Claptrap and its Minion's Clatrap Type Code, but usually during development, Minion's Clatrap Type Code should be designed as part of its Master Clatrap, so that it is more beneficial for the business to understand.
 
-Id, Claptrap ビジネス ID です。これは業務ID です通常は営業担当の主キーです実際のコード、ドキュメント、Claptrap Identity はこのインスタンス全体を表すように表示されます。Id が、一般的には例外を発生させます。
+Id, Claptrap Business Id.This is the business ID.This is usually the primary key of the business.In the actual code, the Claptrap Identity will appear in a full-name fashion, and when an Id appears, it usually means the Business Id.
 
-## Claptrap Identity は、プラットフォームなしのデザインです。
+## Claptrap Identity this is a design that is not related to the running platform.
 
-特定のプラットフォームと競合する場合には、その結合ポイントを指定しなければなりません。
+Thus, when combined with a specific platform, it is necessary to clarify its closing points.
 
-Claptrap Identity Organizationで、在職されたのがOrleans on
+Claptrap Identity is reflected in Orleans.
 
-クラプト Type Code：Claptrap の各クラスの Claptrap は Claptrap Boxor にに配置されます。この場合、 クラスやインタフェースのマークアップをどちらかに示すか Claptrap Types は一般的にはプロパティのマークアップを受け取ります。
+Claptrap Type Code: In Orleans, typically each Claptrap is placed in ClaptrapBoxGrain.At this point, Claptrap Type Code is typically marked as a property tag on a class or interface.
 
-Id：Orleans では、Grain 自体に PrimaryKey があります。そのため、クラプトゥークンはClaptrapBox GrainにもPrimaryKey を Claptrap Idとして再利用している。
+Id: In Orleans, Grain has a PrimaryKey in itself.As a result, the PrimaryKey was also directly reused as Clatrap Id in the ClatrapBoxGrain.
