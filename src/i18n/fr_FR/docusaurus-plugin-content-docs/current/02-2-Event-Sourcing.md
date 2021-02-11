@@ -1,33 +1,33 @@
 ---
-title: 'Sourcing événement'
-description: 'Sourcing événement'
+title: 'Event Sourcing'
+description: 'Event Sourcing'
 ---
 
-Le modèle de traçabilité des événements est une sorte d’idée de conception logicielle.Ce type d’idée de conception est généralement différent de l’idée traditionnelle de conception du système qui est principalement basée sur le contrôle add-delete et la correction (CRUD).Les applications CRUD ont souvent des limitations：
+The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
-1. En général, les applications CRUD prennent la pratique d’exploiter directement le stockage de données.Cette implémentation peut entraîner des goulots d’étranglement des performances en raison d’une optimisation insuffisante de la base de données, et il peut être plus difficile d’mettre à l’échelle votre application.
-2. Dans des domaines spécifiques, il y a souvent des problèmes de données qui nécessitent une attention particulière pour prévenir les erreurs dans les mises à jour des données.Cela nécessite souvent l’introduction de « verrous », « transactions » et d’autres technologies connexes pour éviter de tels problèmes.Toutefois, cela peut également entraîner des pertes de performance.
-3. À moins que des vérifications supplémentaires ne soient ajoutées, l’historique des modifications apportées aux données n’est généralement pas traçable.Parce que l’état final des données est généralement stocké dans le magasin de données.
+1. In general, CRUD applications take the practice of operating data storage directly.Such an implementation can result in performance bottlenecks due to inadequate database optimization, and this can be difficult to scale applications.
+2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But this can also lead to performance losses.
+3. Unless additional auditing is added, the history of data changes is generally untraceable.Because the data store is usually saved in the final state of the data.
 
-Contrairement aux pratiques crud, l’approvisionnement en événements évite les limitations décrites ci-dessus par la conception.Ensuite, décrivez les façons sous-jacentes dont l’approvisionnement en cas d’événement fonctionne autour du scénario d’affaires de « transfert » mentionné ci-dessus.
+In contrast to the CRUD approach, event sourcing avoids the limitations of the above description by design.The next step is to outline the basic working method of event sourcing around the "transfer" business scenario mentioned above.
 
-Utilisez la crudding pour réaliser des « transferts ».
+Use the CRUD approach to "transfer".
 
-![« Transfert » selon la méthode CRUD](/images/20190226-006.gif)
+!["Transfer" using CRUD](/images/20190226-006.gif)
 
-Le « transfert » est réalisé à l’aide du traçage des événements.
+"Transfer" in the form of event sourcing.
 
-![« Transfert » avec l’approvisionnement d’événements](/images/20190227-001.gif)
+!["Transfer" using an event-souring approach](/images/20190227-001.gif)
 
-Comme le montre la figure ci-dessus, les changements de solde impliqués dans l’activité de transfert sont stockés sous forme d’événements via le modèle de traçabilité des événements.L’entreprise elle-même est également réalisée, ce qui apporte benefits：
+As shown in the figure above, the balance changes involved in the transfer business are stored in an event-based manner through the event-sourcing pattern.Also realizes the business itself, which brings some benefits：
 
-- Grâce à l’événement, vous pouvez restaurer le solde du compte à n’importe quelle étape, ce qui, dans une certaine mesure, pour atteindre le suivi du solde du compte.
-- Parce que les événements pour les deux comptes sont traités indépendamment.Par conséquent, la vitesse de traitement des deux comptes ne s’affecte pas mutuellement.Par exemple, le transfert du compte B peut être légèrement retardé en raison de la nécessité d’un traitement supplémentaire, mais le compte A peut toujours être transféré.
-- Vous pouvez faire quelques affaires de traitement asynchrone en vous abonnant à des événements.Par：autres actions asynchrones telles que la mise à jour des statistiques dans la base de données, l’envoi de notifications SMS, et ainsi de suite.
+- Through the event, you can restore the balance of any stage of the account, which to a certain extent to achieve the tracking of the account balance.
+- Because the events of both accounts are handled independently.Therefore, the processing speed of the two accounts does not affect each other.For example, the transfer of Account B may be slightly delayed due to additional processing, but Account A can still be transferred out.
+- You can subscribe to events to do some asynchronous processing of your business.For example：Update statistics in the database, send SMS notifications, and other asynchronous operations.
 
-Bien sûr, l’introduction du mode d’approvisionnement des événements a introduit quelques problèmes techniques liés à l’approvisionnement en événements.Par：le stockage consommé par un événement peut être important, la cohérence éventuelle doit être appliquée, les événements sont immuables, la refactorisation peut être difficile, et ainsi de suite.Ces questions sont décrites plus en détail dans certains articles.Les lecteurs peuvent lire les lectures étendues ultérieures pour la compréhension et l’évaluation.
+Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> Ressources
+> Reference
 > 
-> - [Modèle d’approvisionnement d’événements](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-> - [Événement Sourcing Pattern traduction chinoise](https://www.infoq.cn/article/event-sourcing)
+> - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
+> - [Event Sourcing Pattern - Chinese translated](https://www.infoq.cn/article/event-sourcing)
