@@ -1,44 +1,44 @@
 ---
-title: '第三步——定義Claptrap，管理商品庫存'
-description: '第三步——定義Claptrap，管理商品庫存'
+title: 'Step 3 - Define Claptrap and manage inventory of goods.'
+description: 'Step 3 - Define Claptrap and manage inventory of goods.'
 ---
 
-通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
+With this reading, you're ready to try using Claptrap to implement your business.
 
 <!-- more -->
 
-## 開篇摘要
+## Summary
 
-本篇，我通過實現"管理庫存"的需求來瞭解一下如何在已有的項目樣例中定義一個 Claptrap。
+I know how to define a Claptrap in an existing project sample by fulfilling the need to manage inventory.
 
-結合前一篇的基本步驟，定義 Claptrap 只要而外增加一些步驟就可以了。完整的步驟如下所示，其中標記為「新內容」的部分屬於本篇的區別於前篇的新內容：
+In conjunction with the basic step of the previous chapter, a definition of Claptrap could be made by adding additional steps.The full step is shown below, and the part marked as "new" is new to this page as distinguished from the previous one.：
 
-1. 定義 ClaptrapTypeCode （新內容）
-1. 定義 State （新內容）
-1. 定義 Grain 介面 （新內容）
-1. 實現 Grain （新內容）
-1. 註冊 Grain （新內容）
-1. 定義 EventCode
-1. 定義 Event
-1. 實現 EventHandler
-1. 註冊 EventHandler
-1. 實作 IInitialStateDataFactory （新內容）
-1. 修改 Controller
+1. Define ClaptrapTypeCode (new)
+1. Define State (new)
+1. Define Grain interface (new)
+1. Implement Grain (new)
+1. Sign up for Grain (new)
+1. Define EventCode.
+1. Define Event.
+1. Implement EventHandler.
+1. Sign up for EventHandler.
+1. Implement the IInitialStateDataFactory (new)
+1. Modify the Controller.
 
-這是一個從下向上的過程，實際的編碼過程中開發也可以有所調整。
+This is a bottom-up process, and development can be adjusted during the actual coding process.
 
-本篇實現的業務用例：
+The business use cases implemented in this article：
 
-1. 實現表示庫存資料的 SKU（Stock keeping Unit） 物件。
-2. 能夠對 SKU 進行更新和讀取。
+1. Implement SKU (Stocking Unit) objects that represent stock data.
+2. Can update and read SKUs.
 
-## 定義 ClaptrapTypeCode
+## Define ClaptrapTypeCode
 
-ClaptrapTypeCode 是一個 Claptrap 的唯一編碼。其在 State 的識別，序列化等方面起到了重要的作用。
+ClaptrapTypeCode is a claptrap unique code.It plays an important role in State identification, serialization, etc.
 
-打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-添加 SKU 的 ClaptrapTypeCode。
+Add ClaptrapTypeCode of SKU.
 
 ```cs
   namespace HelloClaptrap.Models
@@ -60,17 +60,17 @@ ClaptrapTypeCode 是一個 Claptrap 的唯一編碼。其在 State 的識別，�
   }
 ```
 
-## 定義 State
+## Definition of State
 
-State 在 Actor 模式中代表了 Actor 物件當前的數據表現。
+State represents the current data of the Actor object in the Actor pattern.
 
-由於 Claptrap 是基於事件溯源模式的 Actor。因此定義恰好的 State 非常重要。
+Actor, because Claptrap is based on event traceability mode.So it is important to define the right State.
 
-在該示例當中，我們只需要記錄當前 SKU 的庫存即可，因此，State 的設計非常的簡單。
+In this example, we need to record only the stock of the current SKU and therefore the State is very simple in design.
 
-在`HelloClaptrap.Models`專案添加`Sku`資料夾，並在該資料夾下創建`SkuState`類。
+Add`<code>Sku`folder to the HelloClaptrap.</code>project and create the`SkuState`under that folder.
 
-添加如下代碼：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
@@ -84,17 +84,17 @@ State 在 Actor 模式中代表了 Actor 物件當前的數據表現。
 + }
 ```
 
-Inventory 表示當前 SKU 的庫存。
+Inventory represents the stock of the current SKU.
 
-`IStateData`介面是框架中表示 State 的空介面，用於在泛型推斷時使用。
+`IStateData`Interface is an empty interface for State representation in a frame that is used for general extrapolation.
 
-## 定義 Grain 介面
+## Define Grain interface
 
-定義 Grain 介面的定義，才能夠提供外部與 Claptrap 的互通性。
+Define the definition of the Grain interface to provide interoperability between external and Claptrap.
 
-在`HelloClaptrap.IActors`專案中添加`ISkuGrain`介面。
+Adds an interface`ISkuGrain`in the`Hello Claptrap.IActors`project.
 
-添加介面以及 Attribute。
+Add interfaces and Attributes.
 
 ```cs
 + using System.Threading.Tasks;
@@ -124,19 +124,19 @@ Inventory 表示當前 SKU 的庫存。
 + }
 ```
 
-其中增加了以下內容：
+Add like this：
 
-1. 標記了`ClaptrapState`，使得 State 與 Grain 進行關聯。
-2. 介面繼承了`IClaptrapGrain`，這是框架定義的 Grain 介面，這是依託於 Orleans 運行必須繼承的介面。
-3. 增加了 GetInventoryAsync 方法，表示「獲取當前庫存」。
-4. 增加了 UpdateInventoryAsync 方法，表示"增量更新當前庫存"。`diff > 0` 表示增加庫存，`diff < 0`表示減少庫存。
-5. 需要注意的是 Grain 的方法定義有一定限制。詳細可以參見[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+1. `ClapState`has been marked to associate State with Grain.
+2. The interface inherited`IClaptrapGrain`, a framework defined by Grain interface, which is the one that Orleans must inherit.
+3. The GetInventoryAsync method has been added to mean "Get current inventory".
+4. An UpdateInventoryAsync method has been added for "Update current inventory".`diff &gt; <code>` indicates stock increase,`diff < 0`indicates stock reduction.
+5. It is important to note that grain's method definition has certain limitations.Details can be found.[Developing a Grain](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
-## 實現 Grain
+## Implement grain.
 
-定義好 ISkuGrain 之後，便可以添加代碼進行實現。
+Once you define a good ISkuGrain, you can add code to implement it.
 
-在`HelloClaptrap.Actors`專案新建`Sku`資料夾，並在該資料夾中添加`SkuGrain`類。
+In`Hello Claptrap.Actors`Project new`Sku`folder and add`SkuGrain class`.
 
 ```cs
 + using System;
@@ -182,23 +182,23 @@ Inventory 表示當前 SKU 的庫存。
 + }
 ```
 
-其中增加了以下內容：
+Add like this：
 
-1. 繼承`ClaptrapBoxGrain<SkuState>`並實現`ISkuGrain`，`ClaptrapBoxGrain`是框架定義的 Grain 基類，其中的泛型參數表示對應的 State 類型。
-2. 實現 GetInventoryAsync 方法，從 StateData 中讀取當前的庫存。
-3. 實現 UpdateInventoryAsync 方法，添加業務判斷代碼，若不滿足業務操作的條件則拋出異常。
-4. UpdateInventoryAsync 的最後我們現在拋出 NotImplementedException ，因為當前事件還沒有定義，需要等待後續的代碼實現。
-5. BizException 是一個自定義異常，可以自行添加。實際開發中也可以不使用拋出異常的方式表示業務中斷，改用狀態碼或者其他返回值也是可以的。
+1. Inherit`ClaptrapBoxGrain<SkuState>`and implements`ISkuGrain`,`ClaptrapBoxGrain`is the frame defined Grain base class in which generic parameters represent the corresponding State type.
+2. Implement the GetInventoryAsync method, read current stock from StateData.
+3. Implement the UpdateInventoryAsync method, add business judgement code and throw an exception if the conditions of the operation are not met.
+4. UpdateInventoryAsync ends with NotImplementated Exception, because the current event is not defined and needs to wait for the next code to be implemented.
+5. BizException is a custom exception that can be added yourself.It is also possible to use a method for actual development without a drop exception to indicate business interruption, or to change the status code or other return value.
 
-## 註冊 Grain
+## Sign up for Grain
 
-Claptrap 對應的 Grain 需要在應用程式啟動時進行註冊，這樣框架才能掃描發現。
+Claptrap corresponding Grain needs to be registered on application startup in order to scan discovery.
 
-由於示例代碼採用的是程式集範圍內掃描，因此實際上不需要進行修改。
+Since the sample code is scanned within the scope of the program, changes are not required in practice.
 
-這裡指出發生註冊的位置：
+The location where the registration occurred is indicated here：
 
-打開`HelloClaptrap.BackendServer`專案的`Program`類。
+Open`Hello Claptrap.BackendServer`Project`Program`.
 
 ```cs
   using System;
@@ -245,17 +245,17 @@ Claptrap 對應的 Grain 需要在應用程式啟動時進行註冊，這樣框�
   }
 ```
 
-因為ISkuGrain和SkuGrain分別於ICartGrain和CartGrain屬於同一程式集，因而此處不需要修改。
+Because ISkuGrain and SkuGrain belong to the same set in ICartGrain and CartGrain respectively, changes are not required here.
 
-## 定義 EventCode
+## Define EventCode.
 
-前面我們已經實現了 Claptrap 的主要部分，但唯獨沒有完成更新庫存的操作。這是因為更新庫存是需要對 State 進行更新的。而我們都知道 Claptrap 是基於事件溯源的 Actor 模式，對 State 的更新需要通過事件才能完成。故而由這裡開始，我們來通過事件更新庫存。
+We have already implemented the main part of Claptrap before, but nothing has been done to update your inventory.This is because stock update is required for State updates.And we all know that Claptrap is an Actor mode based on event traceability and that updating state requires an event to complete.So it is here that we renew our stock through events.
 
-EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別，序列化等方面起到了重要的作用。
+EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
-添加「更新庫存」的 EventCode。
+Add EventCode to Update Inventory.
 
 ```cs
   namespace HelloClaptrap.Models
@@ -283,37 +283,37 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
   }
 ```
 
-## 定義 Event
+## Define Event.
 
-Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
+Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-在`HelloClaptrap.Models`專案的`Sku/Events`資料夾下創建`InventoryUpdateEvent`類。
+Creates`InventoryUpdateEvent class`in`Hello Class.Models`Project`Sku/Events`
 
-添加如下代碼：
+Add the following code.：
 
 ```cs
 + using Newbe.Claptrap;
 +
-+ namespace HelloClaptrap.Models.Sku.Events
-+ {
-+ public class InventoryUpdateEvent : IEventData
-+ {
-+ public int Diff { get; set; }
-+ public int NewInventory { get; set; }
++ namespace Hello Claptrap.Models.Sku. vents
++ File
++ public class InventoryUpdateEvent : IIEventData
++ online
++ public int Diff LOget; set; }
++ public int NewInventories but it is also available on the web site; set; }
 + }
 + }
 ```
 
-1. Diff 表示此次更新庫存的數額，`diff > 0` 表示增加庫存，`diff < 0`表示減少庫存。
-2. NewInventory 表示更新之後的庫存。此處，提前給出一個建議，但由於篇幅問題，不展開討論：建議在事件中包含 State 的更新後數據。
+1. Diff indicates the amount of this stock updated,`diff >` indicates stock increase,`diff < 0`means stock reduction.
+2. The New Inventory indicates an updated inventory.Here a suggestion is given in advance, but due to space problems, there is no discussion：suggesting that State updated data be included in the event.
 
-## 實現 EventHandler
+## Implement EventHandler.
 
-`EventHandler`用於將事件更新到 Claptrap 的`State`上。
+`EventHandler.`Used to update events to Claptrap.`State.`.
 
-在`HelloClaptrap.Actors`專案的`Sku/Events`資料夾下創建`InventoryUpdateEventHandler`類。
+Created`InventoryUpp.Actors`Project`Sku/Events`Class created under`InventoryUpdateHandler`.
 
-添加如下代碼：
+Add the following code.：
 
 ```cs
 + using System.Threading.Tasks;
@@ -337,15 +337,15 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + }
 ```
 
-1. 因為事件中已經包含了更新后的庫存，故而直接對 StateData 進行賦值即可。
+1. Since the event already contains updated inventories, it is sufficient to assign the StateData directly.
 
-## 註冊 EventHandler
+## Register EventHandler
 
-實現並測試完 EventHandler 之後，便可以將 EventHandler 進行註冊，以便與 EventCode 以及 Claptrap 進行關聯。
+Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
 
-打開`HelloClaptrap.Actors`專案的`SkuGrain`類。
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
-使用 Attribute 進行標記，並修改 UpdateInventory Async 執行事件。
+Flag with Ature and modify UpdateInventoryAsync executions.
 
 ```cs
   using System.Threading.Tasks;
@@ -400,34 +400,35 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
   }
 ```
 
-## 實現 IInitial StateDataFactory
+## Implementing the IInitialStateDataFactory
 
-前面我們已經完成了庫存的查詢和更新。不過通常來說庫存有一個初始數額，我們本節在補充這部分邏輯。
+We have completed inventory queries and updates earlier.Usually, however, the inventory has an initial amount, and we are supplementing that part of the logic in this section.
 
-在`HelloClaptrap.Actors`專案的`Sku`資料夾下創建`SkuStateInitHandler`類。
+Create`SkuStateInitHandler`class under`Hello Class.Actors`Project`Sku`
 
 ```cs
-+ using System.Threading.Tasks;
++ using Systems. Threading.Tasks;
 + using HelloClaptrap.Models.Sku;
 + using HelloClaptrap.Repository;
-+ using Newbe.Claptrap;
++ using Newbe.Clapptrap;
 +
-+ namespace HelloClaptrap.Actors.Sku
-+ {
-+ public class SkuStateInitHandler : IInitialStateDataFactory
-+ {
-+ private readonly ISkuRepository _skuRepository;
++ namespace Claptrap.Actors. ku
++ online
++ public class SkuStateInitHandler: IInitialStateDataFactory
++ online
++ private readonly ISkuRepository _skuRepository; 
+ +
 +
 + public SkuStateInitHandler(
-+ ISkuRepository skuRepository)
-+ {
++ ISkuRepository sku Repository)
++ 56
 + _skuRepository = skuRepository;
 + }
 +
 + public async Task<IStateData> Create(IClaptrapIdentity identity)
-+ {
-+ var skuId = identity. Id;
-+ var inventory = await _skuRepository.GetInitInventoryAsync(skuId);
++ 56
++ var skuId = identity. d;
++ var inventory = await _sku Repository. etInitInventoryAsync (SkuId);
 + var re = new SkuState
 + {
 + Inventory = inventory
@@ -438,12 +439,12 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + }
 ```
 
-1. `IInitialStateDataFactory`會在 Claptrap 初次啟動時被調用，用來創建 State 的初始值。
-2. 注入`ISkuRepository`從資料庫中讀取 Sku 對應的庫存初始數額，具體的代碼此處不進行羅列，讀者可以查看樣例倉庫中的實現。
+1. `IInitialStateDataFactory`will be called when Claptrap is first activated to create State initials.
+2. Injecting`ISkuRepository`to read the initial amount of Sku inventory from the database, specific code is not listed here, and reader can view the implementation in sample repository.
 
-除了實現代碼之外，還需要進行註冊才會被調用。
+In addition to the actual modern code, registration is required before being called.
 
-打開`HelloClaptrap.Actors`專案的`SkuGrain`類。
+Open`Hello Claptrap.Actors`Project`SkuGrain`.
 
 ```cs
   using System.Threading.Tasks;
@@ -498,11 +499,11 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
   }
 ```
 
-## 修改 Controller
+## Modify the Controller.
 
-前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「讀取庫存」 的操作。
+Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.There is therefore a need to add an API at the Controller level to allow external "read stocks".
 
-在`HelloClaptrap.Web`專案的`Controllers`資料夾下新建`SkuController`類。
+New`SkuController`class in the`Hello Claptrap.Web`Project`Controlers`folder
 
 ```cs
 + using System.Threading.Tasks;
@@ -538,14 +539,14 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 + }
 ```
 
-1. 新增 API 讀取特定 SkuId 的庫存。按照樣例代碼的實現，可以傳入`yueluo-123`得到庫存數額為 666。不存在的 SkuId 將會拋出異常。
-1. 此處沒有創建更新庫存的對外 API，因為本示例將在下篇進行下單購物時進行庫存操作，此處暫不需要 API。
+1. Add an API to read stock specific to SkuId.By implementing the sample code, you can pass`yueluo-123`to receive stock amount of 666.The unexpected SkuId will throw an exception.
+1. There are no outgoing API created here because this example will perform stock operations on next order shopping, which is not required here.
 
-## 小結
+## Summary
 
-至此，我們就完成了"管理商品庫存"這個簡單需求的所有內容。
+By then, we have completed all the elements of the simple need to “manage commodity inventories”.
 
-你可以從以下位址來獲取本文章對應的原始程式碼：
+You can get the source code for this article from the following address.：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
+- [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart3/HelloClaptrap)
