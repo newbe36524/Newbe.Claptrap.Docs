@@ -1,5 +1,5 @@
 ---
-title: 'Система продажи билетов на поезда'
-description: 'Система продажи билетов на поезда'
+title: 'Train ticketing system.'
+description: 'Train ticketing system.'
 ---
 
