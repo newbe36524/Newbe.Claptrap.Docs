@@ -1,34 +1,34 @@
 ---
-title: '狀態 (State)'
-description: '狀態 (State)'
+title: '状态 （State）'
+description: '状态 （State）'
 ---
 
-State 在 Actor 模式中代表了 Actor 物件當前的數據表現。而在 Claptrap 僅僅只是在此之上增加了一個限制："State 只能通過事件溯源的方式進行更新"。由於事件溯源的可靠性，Claptrap 中的 State 也就擁有了更好的可靠性。
+State 在 Actor 模式中代表了 Actor 对象当前的数据表现。而在 Claptrap 仅仅只是在此之上增加了一个限制：“State 只能通过事件溯源的方式进行更新”。由于事件溯源的可靠性，Claptrap 中的 State 也就拥有了更好的可靠性。
 
-## State 的版本號
+## State 的版本号
 
-在 Claptrap 中的 State 有一個名為 Version 的屬性，它表示 State 當前的版本。版本號是一個從 0 開始的自增數位，會在每次處理一個事件之後進行自增。
+在 Claptrap 中的 State 有一个名为 Version 的属性，它表示 State 当前的版本。版本号是一个从 0 开始的自增数字，会在每次处理一个事件之后进行自增。
 
-版本號為 0 的 State 是 Claptrap 的初始狀態，也可以被稱為創世狀態。初始狀態可以根據業務需要進行定製。
+版本号为 0 的 State 是 Claptrap 的初始状态，也可以被称为创世状态。初始状态可以根据业务需要进行定制。
 
-Claptrap 和 Minion 對於版本號的處理也有一些區別。
+Claptrap 和 Minion 对于版本号的处理也有一些区别。
 
-對於 Claptrap 而言，Claptrap 是事件的生產者，因此，事件的版本號本身就是由 Claptrap 進行賦予的。例如，在一次事件的處理過程中，以下這些事情將會依次發生：
-
-1. State Version = 1000
-2. 開始處理 Event ，其 Version = State Version + 1 = 1001
-3. Event 處理完畢，更新 State Version = 1001
-
-對於 Minion 而言，由於它是 Claptrap 事件的消費者。因此版本號的處理略有不同。例如，在一次事件的處理過程中，以下事件將會依次發生：
+对于 Claptrap 而言，Claptrap 是事件的生产者，因此，事件的版本号本身就是由 Claptrap 进行赋予的。例如，在一次事件的处理过程中，以下这些事情将会依次发生：
 
 1. State Version = 1000
-2. 讀取到了 Event Version 為 1001 的事件
-3. Event 處理完畢，更新 State Version = 1001
+2. 开始处理 Event ，其 Version = State Version + 1 = 1001
+3. Event 处理完毕，更新 State Version = 1001
 
-State 的版本號和 Event 的版本號相互依存，相互驗證，是事件有序性的關鍵。如果在處理過程中，出現 State 的版本號和 Event 的版本號不匹配的情況，將會是嚴重的問題。通常來說，出現版本號不匹配，只有兩種情況：
+对于 Minion 而言，由于它是 Claptrap 事件的消费者。因此版本号的处理略有不同。例如，在一次事件的处理过程中，以下事件将会依次发生：
 
-1. 持久化層中的事件出現了丟失
-2. 框架惡性 BUG
+1. State Version = 1000
+2. 读取到了 Event Version 为 1001 的事件
+3. Event 处理完毕，更新 State Version = 1001
+
+State 的版本号和 Event 的版本号相互依存，相互验证，是事件有序性的关键。如果在处理过程中，出现 State 的版本号和 Event 的版本号不匹配的情况，将会是严重的问题。通常来说，出现版本号不匹配，只有两种情况：
+
+1. 持久化层中的事件出现了丢失
+2. 框架恶性 BUG
 
 ## ICON
 
