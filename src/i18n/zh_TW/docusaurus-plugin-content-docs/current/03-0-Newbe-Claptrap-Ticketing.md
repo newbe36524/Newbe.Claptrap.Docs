@@ -1,5 +1,5 @@
 ---
-title: '火車售票系統'
-description: '火車售票系統'
+title: 'Train ticketing system.'
+description: 'Train ticketing system.'
 ---
 
