@@ -1,31 +1,31 @@
 ---
-title: 'Instantánea de estado'
-description: 'Instantánea de estado'
+title: 'State Snapshot'
+description: 'State Snapshot'
 ---
 
-## Instantánea de estado acelera la velocidad de restauración del estado
+## State Snapshot accelerates state restore speed.
 
-Un Claptrap activo cuyo estado es el estado actual de los datos más recientes.Esto se restaura a partir de la capa de persistencia mediante el abastecimiento de eventos.A veces, el número de eventos puede ser muy grande.Restaurar el estado a través de eventos llevará más tiempo.Por lo tanto, se proporciona una instantánea de estado en el marco de Claptrap para conservar el estado de una Claptrap determinada después de una determinada condición.Esta afección suele ser la following：
+An active Claptrap whose State is the current state of the most recent data.This is restored from the persistence layer by event sourcing.Sometimes, the number of events can be very large.It will take more time to restore State through events.Therefore, a state snapshot is provided in the Claptrap framework to persist the state of a particular Claptrap after a certain condition.This condition is usually the following:
 
-1. Después de que se hayan ejecutado varios eventos.
-2. En Claptrap Deactive.
-3. Durante un período de tiempo.
+1. After a number of events have been handled.
+2. At the time of the Claptrap Deactive.
+3. In a certain time period.
 
-La presencia de instantáneas de eventos aumenta la velocidad a la que se restauran los estados de la capa persistente.Si existe una instantánea en una capa persistente, la restauración de un estado se realiza normalmente siguiendo：
+The presence of state snapshots increases the speed at which states are restored from the persistent layer.If a snapshot exists in the persistent layer, a state restore is usually performed in the following steps:
 
-1. Lea la instantánea de estado.
-2. Comience con el número de versión de la instantánea de estado y lea todos los eventos de las actualizaciones de estado.
-3. Actualice el estado hasta que la capa de persistencia no tenga eventos restantes.
+1. Read the state snapshot.
+2. Start of the version number corresponding to the status snapshot and read the update of the status of all the events backwards.
+3. Update the state until the persistent layer has no remaining events.
 
-Sin embargo, si no hay ninguna instantánea, el paso de restauración se convierte en el siguiente：
+However, if there are no snapshots, the restore step changes to the following:
 
-1. Cree un estado inicial a través de un método definido por el usuario.
-2. Lea todos los eventos de la biblioteca de eventos para obtener actualizaciones de estado.
-3. Actualice el estado hasta que la capa de persistencia no tenga eventos restantes.
+1. Create the initial state through a user-defined method.
+2. Read all events from the event library to update the status.
+3. Update the state until the persistent layer has no remaining events.
 
-Pero.La existencia de instantáneas también aporta cierta especialidad.Combinado con los pasos anteriores, es fácil ver que una vez que una instantánea es：
+But.The presence of snapshots can also lead to some peculiarity.Combining the working steps above, it is easy for us to find out, once a snapshot is formed:
 
-1. El método personalizado del usuario ya no se ejecutará.
-2. Los eventos menores que el número de versión de instantánea no se volverán a ejecutar.
+1. The user's custom method will no longer be executed.
+2. Events smaller than the snapshot version number will not be executed again.
 
-Actualmente, el marco de trabajo solo puede contener una instantánea final para cada identificador.
+Currently, the framework can hold only one final snapshot for each Id.
