@@ -1,32 +1,32 @@
 ---
-title: 'アクティブモード'
-description: 'アクティブモード'
+title: 'Actor Pattern'
+description: 'Actor Pattern'
 ---
 
-Actorモードでは、同時プログラミングモデルです。このモデルを使用したアプリケーションは、いくつかのシステムの並列問題を解決するのに便利です。ここで述べた同時実行問題は、複数の並列・リクエストがあった場合にデータを正しく処理できないよう、コンピュータが使われているという問題である。これはスレッドを複数のスレッドで実装する際に予想される問題です。たとえば、ロックをせずに100個のスレッドで並列実行しているなら、`int`変数で`++`操作を実行します。結局 100回分の その数はあり得るのですこのこの問題を回避するにはActorが利用することができません。
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call `++` operator on the same `int` variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-まず Actorがオブジェクトだと主張する上で 理解できるようにしますオブジェクト指向言語 (Java, C#など) では、Actor が`new`キーワードを介して作成するオブジェクトだと解釈できます。ただし、このオブジェクトに特別な特長があります：
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
-**は、自分の状態** を所有しています。オブジェクト自身の属性を持つことができます。これはオブジェクト指向の機能を備えているものです。Actorモードではそれらのプロパティが`Actorのステータス` と呼ばれます。Actorが自身でメンテナンスされている。
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be descibed as ``actor`s state``.The state of actor should be matained by itself.
 
-この2つの点を強調：
+There are two points:
 
-Actorは自身だけではなくActor のステータスを変更するには、Actor の呼び出しの中でのみ変更することができます。
+Firstly, state of actor must be change by itself. If you want to change the state, you have to call the method of actor.
 
-![Actorステータスの更新](/images/20190226-001.gif)
+![Update Actor state](/images/20190226-001.gif)
 
-Actorしが現在のActor以外とActorで作品を共有していない状態にする。これは外部のサブプロパティによって変化しないことを強調し、Actor の内部の表示の変化を引き起こすることである。それでも、オブジェクト指向プログラミング言語と言語の流れを汲むもののとの違いが主な違いである。たとえば、：C# の`class`の`public`プロパティは、参照型の場合、この`class`を外部で取得した後、`class`のプロパティを変更できます。このモードはActorモードでは禁止されています
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example: There is a `public` property in a `class` in C#, and it is a reference type, you can change the property if you get this object.It is not allowed to do so in actor pattern.
 
-![共有Actorの状態](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
-Actor社から外部のデータへの読み込みが可能である。
+But it is still allow to retrive data out of the state by method.
 
-![アクティブの状態を読み取る](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-**一行程**Actorは通常同じタイミングで1個の呼び出ししか許容できません。ここに記載されているスレッドは、Actorの特定の要求を処理できるスレッドを、コンピュータ内のスレッドで完全に意味して処理することを意味しない。現在のActorが呼ばれ続けている場合、残りの呼び出しはブロックされます。次のリクエストは許可されません。これは同期ロックメカニズムみたいですこの仕組みによって、Actor の組み込みの状態を変更する時に並列問題を回避することができます。具体的な説明：Actor が100個のスレッドで並列に展開した場合、Actor が 1 つのスレッドで１つ`int`変数を`++`を実施します。人類全体の状態は その値は100です
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific description：If you use 100 threads to make a concurrent call to an Actor, let the Actor`Int` variable to perform`++` operation.The final value for this state must be 100.
 
-![同時並行起動Actor](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
-ただし単ブロックスレッドは問題なく並列処理がないので、並列処理にすることができます。たとえば、Acorのステータスを読み取る場合、並行性に問題があるため合併操作が可能になる。
+However, single threads are not absolute, allowing concurrent processing in the absence of concurrent requests.For example, reading the state in the Actor, which usually does not have concurrency issues, allows concurrent operations at this time.
 
-![同時読み込みActor](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
