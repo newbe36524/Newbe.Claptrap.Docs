@@ -1,26 +1,26 @@
 ---
-title: '序列化(Serialization)'
-description: '序列化(Serialization)'
+title: 'Serialization'
+description: 'Serialization'
 ---
 
 
-由於在 Claptrap 系統中需要對事件和狀態進行傳輸與存儲，因此需要對事件和狀態進行序列化，這樣才能夠應對種類繁多的傳輸和存儲方案。
+Due to the need for transmission and storage of events and states in the Claptrap system, it is necessary to serialize events and states so that they can cope with a wide variety of transport and storage scenarios.
 
-## 如何選擇序列化方案
+## How to select a serialization method.
 
-可選的序列化方式多種多樣，典型的就如：JSON、MessagePack、Protobuf 等等。實際專案中序列化的方案可以基於以下幾點進行考慮：
+Optional serialization methods are available in a variety of ways, typically: JSON, MessagePack, Protobuf, etc.Serialization methods in actual projects can be considered on the following points:
 
-1. 可讀性。如果對可讀性有越高的要求，則越應該考慮以文本為主的序列化方案。
-2. 傳輸效率、存儲空間利用率。如果對於傳輸效率和存儲空間有越高的要求，則越應該考慮以二進位為主的序列化方案。
+1. Readability.If there is a higher requirement for readability, the more you should consider a text-focused serialization method.
+2. Transfer efficiency, storage space utilization.If there are higher requirements for transfer efficiency and storage space, the more binary-based serialization methods should be considered.
 
-在 Claptrap 系統中，由於每個 Claptrap 都有完全獨立的可定制性，因而開發者可以為不同的 Claptrap 選擇不同的序列化方案。但唯一需要注意的就是，序列化方案一旦選定就很難變更，故需在設計階段就慎重考慮。
+In the Claptrap system, because each Claptrap has completely independent customization, developers can choose different serialization method for different Claptraps.However, the only thing to note is that once the serialization method is selected, it is difficult to change, so it needs to be carefully considered at the design stage.
 
-## 序列化與載體的獨立性
+## Serialization and carrier independence.
 
-在 Claptrap 框架中，儲存、傳輸和序列化是相互獨立。換言之，可以在傳輸時使用更利於閱讀的 JSON 序列化，在存儲時選擇更有利於存儲利用率的二進位序列化，反之亦然。
+In the Claptrap framework, storage, transport, and serialization are independent of each other.In other words, a more readable JSON serialization can be used at the time of transmission, the binary serialization that is more conducive to the storage utilization at the time of storage, and vice versa.
 
-## 序列化與載體的制約性
+## Serialization and the constraint of the carrier.
 
-在面對特定的存儲或者傳輸的載體時，序列化的方式也將受到限制。例如：當前正在使用一種不支援二進位直接儲存的資料庫來作為事件的持久層，那麼選擇想要通過二進位序列化來保存事件就將變得不可行。故而，在選擇序列化方案之前，需要優先確定傳輸和存儲方案。
+The manner in which serialization is also limited in the face of a particular storage or transport editing vector.For example, currently is using a database that does not support binary direct storage as a persistent layer of events, then it will become unfeasible to choose to want to save events by binary serialization.Therefore, before selecting a serialization method, priority needs to be given to the transport and storage scenario.
 
-目前,所有支援的序列化方案均以"Newbe.Claptrap.DataSerializer.\*"的名稱發佈在 nuget 上。
+Currently, all the supported serialization method are published on nuget with the name " Newbe.Clatrap.DataSerializer. \*".
