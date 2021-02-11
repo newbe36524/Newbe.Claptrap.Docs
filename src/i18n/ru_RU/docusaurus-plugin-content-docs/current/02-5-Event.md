@@ -1,32 +1,32 @@
 ---
-title: 'События (Event)'
-description: 'События (Event)'
+title: 'Event'
+description: 'Event'
 ---
 
-Claptrap — это шаблон Actor, основанный на источнике событий.События, естественно, играют решающую роль.
+Claptrap is an event-sourcing based Actor pattern.Events naturally play a crucial role.
 
-Если вы хотите управлять Claptrap, вам нужно передать событие на него.Событие также является единственным параметром для изменения Claptrap State.Таким образом, при построении системы с помощью Claptrap все системные операции преобразуются в события и передается в Claptrap.События имеют следующие характеристики：
+You need to pass events on if you want to operate Claptrap.Events are also the only parameters that change Claptrap State.Therefore, when you build a system with Claptrap, all system operations are converted to events and passed into Claptrap.Events have these characteristics:
 
-## События в порядке
+## The events are orderly.
 
-Каждое событие содержит уникальный серийный номер.В этом фреймворку серийный номер называется номером версии ( Version ).Номер версии события — это последовательность, которая увеличивается от 1 до 1.Упорядоченность событий гарантирует, что вычисления состояния не имеют проблем с вхожестью.Это важная гарантия надежности данных о состоянии.
+Each event contains a unique serial number.In this framework, this serial number is called version number.The version number of the event is a sequence that is incremented by 1 from 1.The orderonfness of the event ensures that the calculation of the state does not have concurrent problems.This is an important guarantee of state data reliability.
 
-Упорядоченность событий непосредственно влияет на последовательность событий выполнения Claptrap.Поскольку необходимо обеспечить такой порядок, Claptrap должен обрабатывать события по каждому при выполнении событий.Это, случается, естественно, соответствует однопоточным свойствам шаблона Actor.
+The order of events directly reflects the sequence in which Claptrap executes events.And because of the need to ensure this order, Claptrap has to process events on a case-by-case basis when performing events.This happens to have a natural fit with the single-threaded nature of the Actor pattern.
 
-## События неизменяемы
+## Events are immutable.
 
-Как только событие возникает, оно неизменяемо.Отслеживание событий делает данные надежными из-за неизменяемости событий.Поскольку состояние после выполнения любого события может быть восстановлено до тех пор, пока событие считывается.Но неизменяемость не является физическим ограничением.По-прежнему можно изменять данные событий в физическом хранилище.Но имейте в виду, что это опасное и крайне не рекомендуется поведение.Давайте свяжемся с "принципом открытия и закрытия" в шаблоне проектирования, классический можно резюмировать как "открытый для расширения, закрытый для модификации".Почему акцент делается на "закрытии изменений"?По мнению автора, причина закрытия изменений на самом деле из-за неизвестности, вызванной изменениями.Данные, полученные из-за кода, выполненного в прошлом.Все они сформировали определенную закрытость.Они были проверены существующими тестами.Если вы попытаетесь изменить их, вам обязательно нужно будет настроить соответствующие тесты, что еще больше усугубит изменения, что не является хорошей вещью.Неизменяемость событий является своего рода природой, а также требованием.
+Once an event is produced, it is immutable.Just because of the immutability of events, event sourcing makes the data reliable.Because as long as the event is read, it is possible to restore the state after any one event is executed.But immutability is not a physical limitation.You can still modify event data in physical storage.Please note, however, that this is dangerous and extremely unrecommended behavior.Let's relate to the "open and close principle" in design pattern, which can be summed up as "open to expansion, closed to modification".Why should there be an emphasis on "closed to modification"?In the author's opinion, the reason for the closure of the modification is actually due to the unknown nature brought about by the modification.Because of the code executed in the past, the data generated.They have all formed a certain degree of closure.They have been validated by existing tests.If you try to modify them, it is bound to be necessary to adjust the corresponding test, and this further aggrafies the modification, which is not a good thing.The immutable of the event is of a nature and more of a requirement.
 
-Что делать, если прошлые данные о событиях были неверными из-за ошибки, и теперь необходимо исправить ошибку?Советую автору не пытаться изменить существующее событие.Для исправления текущего состояния следует добавить новые события и алгоритмы.Не корректируйте старое содержимое.Автор считает, что это больше в соответствии с принципом открытия и закрытия.Разработчики могут по своему усмотрению.
+Then if due to the fact that a BUG has resulted in incorrect data production in the past, it is now necessary to amend this BUG, what should be done?The writer's advice, do not try to revise the already existing events.New events and algorithms should be appended to fix the current state.Don't adjust old content.The author thinks that this is more in line with the principle of opening and closing.Developers are at their discretion.
 
-## События являются постоянными
+## The event is permanent.
 
-События являются важными параметрами для обеспечения правильности Claptrap State.Поэтому необходимо убедиться, что события сохраняются навсегда.Однако это не абсолютный случай, когда события допускаются к потере, если удовлетворяются следующие：
+Events are an important parameter for ensuring the correctness of Claptrap State.Therefore, you need to ensure that the event is saved permanently.However, this is not an absolute case, and if the following conditions are met, the event is allowed to be lost:
 
-1. Существует постоянный моментальный снимок State перед потерянным событием
-2. Соответствующий Claptrap закончил свою жизнь и никогда больше не активируется
+1. There is a permanent State snapshot before the event is lost.
+2. The corresponding Claptrap is dead and will never be activated again.
 
-И наоборот, если вышеуказанные условия не выполнены, необходимо убедиться, что события в производственной среде правильно хранятся на уровне сохраняемого использования и что существуют соответствующие средства предотвращения стихийных бедствий.
+Conversely, if the above conditions are not met, then it is important to ensure that events in the production environment are properly preserved in the persistence layer and that there are appropriate disaster tolerance scans.
 
 ## ICON
 
