@@ -49,7 +49,7 @@ Ajoutez EventCode pour les événements empty shopping cart.
 
 L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
 
-Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models .
+Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models.
 
 Ajouter les éléments code：
 
@@ -72,7 +72,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
-Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
+Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actors.
 
 Ajouter les éléments code：
 
@@ -150,7 +150,7 @@ Après l’association, si l’événement correspondant à EventCode se produit
 
 Modifier la définition de l’interface Grain pour assurer l’interopérabilité externe avec Claptrap.
 
-Ouvrez`interface ICartGrain pour`HelloClaptrap.IActors`projet`projet.
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 Ajoutez des interfaces ainsi qu’Attribut.
 
