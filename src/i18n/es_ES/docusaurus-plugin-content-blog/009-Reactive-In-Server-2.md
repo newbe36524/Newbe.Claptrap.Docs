@@ -17,7 +17,7 @@ También es una manera de combinar operaciones de upsert individuales en masa ut
 
 ## El escenario empresarial
 
-En un article[100.000 usuarios en línea simultáneos, ¿cuánta memoria necesita? - Newbe.Claptrap Framework Horizontal Extension Experiment es](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)experimento.Verificamos rápidamente la corrección de JWT activando múltiples Claptrap residentes en memoria.
+在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap 框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。Verificamos rápidamente la corrección de JWT activando múltiples Claptrap residentes en memoria.
 
 Sin embargo, hay un problema técnico que no es resolved：
 
@@ -87,17 +87,18 @@ Así que sólo las instrucciones de puntada y las llamadas de parámetros direct
 
 ### Postgresql
 
-Se sabe que PostgreSQL utiliza instrucciones</code>COPY eficientes`para la importación de datos a alta velocidad cuando se escriben de forma masiva, mucho más rápido que<code>instrucciones INSERT`.Desafortunadamente,``COPY no`la cláusula ON CONFLICT DO UPDATE`.Por lo tanto, la copia``para completar los requisitos de upsert.
+众所周知，PostgreSQL 在进行批量写入时，可以使用高效的 COPY 语句来完成数据的高速导入，这远远快于 INSERT 语句。但可惜的是 COPY 并不能支持 ON CONFLICT DO UPDATE 子句。因此，无法使用 COPY 来完成 upsert 需求。
 
-Por lo tanto, estamos retrocediendo la necesidad de usar``INSERT junto con la cláusula`de`ON CONFLICT DO UPDATE, así como la función</code>`unnest para completar el upsert de bulk.</p>
+因此，我们还是回归使用 INSERT 配合 ON CONFLICT DO UPDATE 子句，以及 unnest 函数来完成批量 upsert 的需求。
 
-<p spaces-before="0">Las instrucciones específicas tienen el formato de follows：</p>
+Las instrucciones específicas tienen el formato de follows：
 
-<pre><code class="SQL">INSERT INTO TestTable (id, value)
+```SQL
+INSERT INTO TestTable (id, value)
 VALUES (unnest(@ids), unnest(@values))
 ON CONFLICT ON CONSTRAINT TestTable_pkey
 DO UPDATE SET value-excluded.value;
-`</pre>
+```
 
 Donde los identificadores y los valores son dos objetos de matriz igualmente largos, la función unnest convierte los objetos de matriz en datos de fila.
 
