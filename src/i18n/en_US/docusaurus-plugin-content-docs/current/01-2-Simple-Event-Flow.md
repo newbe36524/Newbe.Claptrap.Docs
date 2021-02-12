@@ -1,6 +1,6 @@
 ---
-title: 'Step two - Simple business, empty shopping cart.'
-description: 'Step two - Simple business, empty shopping cart.'
+title: "Step two - Simple business, empty shopping cart."
+description: "Step two - Simple business, empty shopping cart."
 ---
 
 With this reading, you're ready to try using Claptrap to implement your business.
@@ -70,7 +70,7 @@ The `IEventData`interface is an empty interface that represents an event in the 
 
 ## Implement EventHandler.
 
-EventHandler is used to update events to the State of Claptrap.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
 
 Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
 
@@ -142,7 +142,7 @@ Mark with Attribute.
           ....
 ```
 
-`Claptrap Event Handler Handler.`Is an attribute defined by the framework that can be marked on grain's implementation class to achieve the association between EventHandler, EventCode, and ClaptrapGrain.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 After the association, if the event for EventCode is generated in this grain, the event is handled by the specified EventHandler.
 

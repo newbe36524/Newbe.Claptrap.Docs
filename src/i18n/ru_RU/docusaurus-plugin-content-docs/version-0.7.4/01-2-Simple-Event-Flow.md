@@ -142,7 +142,7 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。Например,
           ....
 ```
 
-`ClaptrapEvent Handler Attribute`— это attribute, определенный платформой, который может быть помечен на классе реализации Grain для достижения связи между EventHandler, EventCode и ClaptrapGrain.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 После ассоциации события, соответствующие EventCode, созданные в этом Grain, обрабатываются указанным EventHandler.
 

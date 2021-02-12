@@ -142,7 +142,7 @@ Marquez avec attribut.
           ....
 ```
 
-`ClaptrapEventHandler Attribute`est un attribut défini par framework qui peut être marqué sur la classe de mise en œuvre de Grain pour implémenter l’association entre EventHandler, EventCode et ClaptrapGrain.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 Après l’association, si l’événement correspondant à EventCode se produit dans ce grain, il sera géré par le EventHandler spécifié.
 

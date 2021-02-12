@@ -141,7 +141,7 @@ Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
           ....
 `</pre>
 
-`atributo ClaptrapEventHandler`es un atributo definido por el marco de trabajo que se puede etiquetar en la clase de implementación de Grain para implementar la asociación entre EventHandler, EventCode y ClaptrapGrain.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 Después de la asociación, si el evento correspondiente a EventCode se produce en este Grano, será controlado por el EventHandler especificado.
 

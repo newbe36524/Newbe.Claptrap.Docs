@@ -142,7 +142,7 @@ EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡�
           ....
 ```
 
-`ClaptrapEventHandlerAttribute`是框架定義的一個 Attribute，可以標記在 Grain 的實現類上，以實現 EventHandler 、 EventCode 和 ClaptrapGrain 三者之間的關聯。
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 關聯之後，如果在此 Grain 中產生的對應 EventCode 的事件將會由指定的 EventHandler 進行處理。
 

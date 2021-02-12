@@ -1,6 +1,6 @@
 ---
-title: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
-description: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
+title: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
+description: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
 ---
 
 この記事では、Claptrap を使用してビジネスを開始できます。
@@ -142,7 +142,7 @@ EventHandler を実装してテストしたら、EventCode と Claptrap に関�
           ....
 ```
 
-`ClaptrapEventHandlerAttribute`は、EventHandler 、 EventCode 、および ClaptrapGrain の 3 つの関連付けを実現するために Grain の実装クラスにタグ付けできるフレームワーク定義の Attribute です。
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 関連付け後、この Grain で発生した EventCode に対応するイベントは、指定された EventHandler によって処理されます。
 
