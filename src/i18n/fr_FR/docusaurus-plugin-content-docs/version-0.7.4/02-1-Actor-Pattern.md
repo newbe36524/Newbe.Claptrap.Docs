@@ -1,32 +1,32 @@
 ---
-title: "Actor 模式"
-description: "Actor 模式"
+title: "Mode acteur"
+description: "Mode acteur"
 ---
 
-Actor 模式是一种并发编程模型。通过这种编程模型的应用可以很好的解决一些系统的并发问题。这里所提到的并发问题是指计算机对同一数据进行逻辑处理时，可能由于存在多个同时发起的请求可能导致数据出现不正确的问题。这个问题在进行多线程编程时一定会遇到的问题。举个简单的例子，假如在不加同步锁的情况下，使用 100 个线程并发对内存中的一个 int 变量执行 ++ 操作。那么最终这个变量的结果往往小于 100。此处 Actor 模式是如何避免此问题的。
+Le modèle Actor est un modèle de programmation standard.Grâce à l’application de ce modèle de programmation, certains systèmes peuvent résoudre le problème de la complexité.Le problème avec le syndicat mentionné ici est que lorsqu’un ordinateur traite logiquement les mêmes données, il peut causer des données incorrectes en raison de multiples demandes simultanées.Il s’agit d’un problème que vous devez rencontrer lorsque vous êtes une programmation multicœur.Pour donner un exemple simple, si vous utilisez 100 threads dans un verrou non synchrone pour effectuer une opération s. . . sur une variable int dans la mémoire.Ensuite, le résultat de cette variable est souvent inférieur à 100.Voici comment le modèle Actor évite ce problème.
 
-首先，为了便于理解，读者在此处可以将 Actor 认为是一个对象。在面向对象的语言（Java、C#等）当中，可以认为 Actor 就是通过 new 关键词创建出来的对象。不过这个对象有一些特别的特性：
+Tout d’abord, pour la facilité de compréhension, le lecteur peut penser à l’acteur comme un objet ici.在面向对象的语言（Java、C#等）当中，可以认为 Actor 就是通过 new 关键词创建出来的对象。Mais cet objet a quelques particularités characteristics：
 
-**拥有属于自身的状态**。对象都可以拥有自身的属性，这是面向对象语言基本都具备的功能。在 Actor 模式中，这些属性都被统称为 Actor 的状态（State） 。Actor 的状态由 Actor 自身进行维护。
+**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State） 。L’état de l’acteur est maintenu par l’acteur lui-même.
 
-这就强调了两点：
+Cela met en évidence deux points：
 
-第一、Actor 的状态只能由自身进行改变，若要从外部改变 Actor 的状态，只能通过调用 Actor 才能改变。
+Tout d’abord, l’état de l’acteur ne peut être changé par lui-même, et pour changer l’état de l’acteur de l’extérieur, il ne peut être changé en appelant acteur.
 
-![更新Actor状态](/images/20190226-001.gif)
+![Mettre à jour le statut d’acteur](/images/20190226-001.gif)
 
-第二、Actor 的状态只在 Actor 内部进行维护，不与当前 Actor 之外的任何对象共享。这里说的不共享也是强调其不能通过外部某个属性的改变而导致 Actor 内部状态的变化。这点主要是为了区别于一些具备“对象引用”语言特性的编程语言而言的。例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。但是这在 Actor 模式当中是不被允许的。
+Deuxièmement, l’état de l’acteur n’est maintenu qu’au sein de l’acteur et n’est partagé avec aucun objet autre que l’acteur actuel.Le non-partage ici souligne également qu’il ne peut pas changer l’état interne de l’acteur par un changement dans une propriété extérieure.Il s’agit principalement de le distinguer des langages de programmation avec des caractéristiques linguistiques de « référence d’objet ».例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。Mais ce n’est pas autorisé en mode Acteur.
 
-![共享Actor状态](/images/20190226-003.gif)
+![Partager le statut d’acteur](/images/20190226-003.gif)
 
-不过从 Actor 内部读取数据到外部，这仍然是允许的。
+Toutefois, la lecture des données de l’intérieur acteur à l’extérieur est toujours autorisé.
 
-![读取Actor状态](/images/20190226-002.gif)
+![Lire le statut d’acteur](/images/20190226-002.gif)
 
-**单线程**。Actor 通常同一时间只能接受一个调用。这里所述的线程不完全是指计算机中的线程，是为了凸显“Actor 同一时间只能处理一个请求的特性”而使用的词语。假如当前 Actor 正在接受一个调用，那么剩余的调用都会阻塞，直到调用结束，下一个请求才允许被进入。这其实类似于一个同步锁的机制。通过这种机制就避免了对 Actor 内部状态进行修改时，存在并发问题的可能。具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。最终这个状态的数值一定是 100。
+**un seul filet**.L’acteur n’accepte généralement qu’un seul appel à la fois.Les threads décrits ici ne sont pas exactement des threads dans l’ordinateur et sont utilisés pour mettre en évidence les « attributs que l’acteur ne peut gérer qu’une seule demande à la fois. »Si Actor accepte actuellement un appel, les appels restants sont bloqués jusqu’à ce que l’appel se termine et que la prochaine demande soit autorisée.Ceci est en fait similaire à un mécanisme de synchronisation des verrous.Ce mécanisme évite la possibilité d’un problème avec la présence d’un problème lors de la modification de l’état interne de l’acteur.具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。La valeur finale pour cet état doit être de 100.
 
-![并发调用Actor](/images/20190226-004.gif)
+![L’acteur est appelé dans un synthé](/images/20190226-004.gif)
 
-不过单线程也不是绝对的，在不存在并发问题的请求情况下，允许并发处理。例如读取 Actor 中的状态，这通常不会有并发问题，那么此时就允许进行并发操作。
+Toutefois, le threading unique n’est pas absolu, permettant le traitement 2000 en l’absence d’une demande de problème.Par exemple, lisez l’état dans Actor, qui n’a généralement pas de problème avec le symp, de sorte que la même opération est autorisée en ce moment.
 
-![并发读取Actor](/images/20190226-005.gif)
+![Lire Acteur en même temps](/images/20190226-005.gif)
