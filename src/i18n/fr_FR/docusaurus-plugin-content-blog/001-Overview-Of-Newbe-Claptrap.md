@@ -46,7 +46,7 @@ Le modèle Actor est un modèle de programmation standard.Grâce à l’applicat
 
 Tout d’abord, pour la facilité de compréhension, le lecteur peut penser à l’acteur comme un objet ici.Dans les langues orientées objet (Java, C#, et ainsi de suite), l’acteur peut être considéré comme un objet créé``le nouveau mot clé.Mais cet objet a quelques particularités characteristics：
 
-**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State）。L’état de l’acteur est maintenu par l’acteur lui-même.
+**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.En mode Acteur, ces propriétés sont collectivement appelées l’État d’acteur.L’état de l’acteur est maintenu par l’acteur lui-même.
 
 Cela met en évidence deux points：
 
