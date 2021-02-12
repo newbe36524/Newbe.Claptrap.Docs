@@ -46,7 +46,7 @@ El patrón Actor es un modelo de programación estándar.A través de la aplicac
 
 En primer lugar, para facilitar la comprensión, el lector puede pensar en Actor como un objeto aquí.En los lenguajes orientados a objetos (Java, C, etc.), el actor puede considerarse como un objeto creado``la nueva palabra clave.Pero este objeto tiene un characteristics：especial
 
-**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State）。El estado del actor es mantenido por el propio actor.
+**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.En el modo Actor, estas propiedades se conocen colectivamente como el estado del actor.El estado del actor es mantenido por el propio actor.
 
 Esto pone de relieve dos points：
 
