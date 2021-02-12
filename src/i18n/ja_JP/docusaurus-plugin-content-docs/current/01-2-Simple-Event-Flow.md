@@ -49,7 +49,7 @@ EventCode は、Claptrap システムの各イベントの一意のエンコー�
 
 Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-`RemoveAllItemsFromCartEvent`クラスは、`HelloClaptrap.Models  プロジェクトの<code>Cart/Events`フォルダの下に</code>します。
+`RemoveAllItemsFromCartEvent`クラスは、`HelloClaptrap.Models  プロジェクトの Cart/Events`フォルダの下に します。
 
 次のようなコードを追加します：
 
