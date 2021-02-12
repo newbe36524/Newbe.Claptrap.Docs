@@ -1,19 +1,19 @@
 ---
 date: 2021-01-30
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（一）
+title: Developing k8s applications with Tye Aid is as simple as that (I)
 ---
 
-最近正巧在进行 Newbe.Claptrap 新版本的开发，其中使用到了 Tye 来辅助 k8s 应用的开发。该系列我们就来简单了解一下其用法。
+A new version of Newbe.Claptrap has recently been developed, using Tye to aid the development of k8s applications.Let's take a brief look at how it's used in this series.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 安装 Tye
+## Install Tye
 
-首先，确保已经正确安装了 netcore 2.1 或以上版本的 dotnet SDK。
+First, make sure that the netcore 2.1 or above version of the dotnet SDK is installed correctly.
 
-Tye 目前还处于开发阶段，因此，目前只能安装预览版本进行使用。通过以下链接可以搜索到当前最新的版本，并复制界面上的 CLI 安装。
+Tye is currently in development, so only the preview version can be installed for use at this time.The link below allows you to search for the latest version and copy the CLI installation on the interface.
 
 <https://www.nuget.org/packages/Microsoft.Tye/>
 
@@ -21,7 +21,7 @@ Tye 目前还处于开发阶段，因此，目前只能安装预览版本进行�
 dotnet tool install --global Microsoft.Tye --version 0.6.0-alpha.21070.5
 ```
 
-安装完毕后，在控制台中运行 tye，便可以查看到如下结果：
+Once installed, run tye in the console and you can see the following results：
 
 ```bash
 PS C:\tools\Cmder> tye
@@ -45,9 +45,9 @@ Commands:
   undeploy <path>    delete deployed application
 ```
 
-## 创建并运行一个测试项目
+## Create and run a test project
 
-接下来我们创建一个 netcore 应用来测试该部署方案。选择一个合适的位置运行以下命令来创建测试项目：
+Next we create a netcore app to test the deployment scenario.Choose a suitable location to run the following commands to create a test project：
 
 ```bash
 dotnet new sln -n TyeTest
@@ -55,25 +55,25 @@ dotnet new webapi -n TyeTest
 dotnet sln .\TyeTest.sln add .\TyeTest\TyeTest.csproj
 ```
 
-这样，我们就得到了一个测试的解决方案和 WebApi 项目。我们可以运行以下命令在本地启动这个服务：
+That way, we get a test solution and a WebApi project.We can run the following command to start this service locally：
 
 ```bash
 dotnet run --project .\TyeTest\TyeTest.csproj
 ```
 
-启动后，可以在浏览器中打开<https://localhost:5001/swagger/index.html>来查看启动好的 swagger 界面。
+After launch, you can open the<https://localhost:5001/swagger/index.html>browser to see the startup swagger interface.
 
-## 使用 tye 在本地运行应用
+## Use tye to run the app locally
 
-接下来，我们关闭前面正在运行的应用，改为使用 tye 在本地启动测试应用。
+Next, let's close the previously running app and use tye instead to launch the test app locally.
 
-在解决方案目录下，使用控制台运行以下命令：
+In the solution directory, use the console to run the following commands：
 
 ```bash
 tye run
 ```
 
-运行之后，可能会得到如下的结果：
+After running, you may get the following results：
 
 ```bash
 PS C:\Repos\TyeTest> tye run
@@ -86,55 +86,55 @@ Launching Tye Host...
 [12:11:32 INF] Launching service tyetest_9dd91ae4-f: C:\Repos\TyeTest\TyeTest\bin\Debug\net5.0\TyeTest.exe
 [12:11:32 INF] tyetest_9dd91ae4-f running on process id 24552 bound to http://localhost:14099, https://localhost:14100
 [12:11:32 INF] Replica tyetest_9dd91ae4-f is moving to a ready state
-[12:11:32 INF] Selected process 24552.
+[ 12:11:32 INF] Selected process 24552.
 [12:11:33 INF] Listening for event pipe events for tyetest_9dd91ae4-f on process id 24552
 ```
 
-按照以上的提示，在 <http://127.0.0.1:8000> 成功启动的 tye dashboard。使用浏览器打开 dashboard 便可以查看到已经部署起来的应用列表。如下图所示：
+Follow the tips above to <http://127.0.0.1:8000> the tye dashboard that started successfully on the computer.Open the dashboard using your browser to see a list of apps that have been deployed.As shown in the figure below：
 
 ![tye dashboard](/images/20210131-001.png)
 
-通过 dashboard ，可以看到测试程序已经启动，并且绑定了 <http://localhost:14099> 和 <https://localhost:14100>。实际在自行测试中，这两个端口是随机选择的，因此会有不同。
+Dashboard shows that the tester has started and is bound to <http://localhost:14099> and <https://localhost:14100>.In practice, in self-testing, the two ports are randomly selected, so there will be differences.
 
-我们通过上面公开的 https 绑定打开 swagger 就能看到和前面使用`dotnet run`一样的效果：<https://localhost:14100/swagger>
+By opening swagger with the https bindings exposed above, we can see the same effect as`dotnet run`previously：<https://localhost:14100/swagger>
 
-## 本地部署一个 k8s
+## Deploy a k8s on-premises
 
-接下来，我们将使用 Tye 将应用部署到 k8s 当中。那么为了实现这个效果，首先需要准备一个 k8s 。
+Next, we'll use Tye to deploy the app to k8s.So in order to achieve this effect, you first need to prepare a k8s.
 
-在开发机器上部署 k8s 的方式多种多样，本次实验采用的是 Docker Desktop + k8s 的方案，原因不是别的，就是因为使用其他方案在过程中遇到了或多或少的问题。具体的开发者可以自行选择。
+There are a variety of ways to deploy k8s on a development machine, and this experiment uses a Docker Desktop plus k8s scenario, either because of something else or because there are more or less problems with using other scenarios.Specific developers can choose.
 
-Docker Desktop + k8s 的方案在以下链接中讲述的非常清楚，建议开发者可以参考：
+The Docker Desktop s k8s scenario is well covered in the links below and is recommended for developers to refer to：
 
-《Docker Desktop 启动 Kubernetes》<https://www.cnblogs.com/weschen/p/12658839.html>
+Docker Desktop Launches Kubernetes<https://www.cnblogs.com/weschen/p/12658839.html>
 
-本次实验除了 k8s 本体之外，还需要安装 nginx ingress 和 helm ，也可以参考以上文章中的内容进行安装。
+In addition to the k8s ontogene, this lab also requires the installation of nginx ingress and helm, which can also be installed with reference to the above article.
 
-## 将应用部署到 k8s 中
+## Deploy the app to k8s
 
-但 k8s 配置完毕之后，我们就可以使用 tye 将应用快速发布到 k8s 中进行查看。
+But when k8s is configured, we can use tye to quickly publish the app to k8s for viewing.
 
-### 登录 docker registry
+### Sign in to docker registry
 
-首先，需要为本地的 docker 配置 docker registry。因为在使用 tye 发布的过程中将会将项目打包的 docker image 并且推送到一个 docker registry 中。
+First, you need to configure docker registry for the local docker.Because the docker image of the project is packaged and pushed to a docker registry during the process of publishing with tye.
 
-开发者可以选择多种方式获得一个自己的 docker registry：
+Developers can choose from a variety of ways to get their own docker registry：
 
 - Nexus OSS Repository
-- 阿里云、腾讯云、DaoCloud 等等都有免费额度的 docker registry
-- docker hub，如果网络都好的话
+- Alibaba Cloud, Tencent Cloud, DaoCloud, and more all have free docker registry
+- Docker hub, if the network is good
 
-使用`docker login`登录你的 docker registry。
+Use`docker login`to sign in to your docker registry.
 
-### tye init 创建 tye.yml
+### tye init creates tye.yml
 
-在解决方案目录中，运行以下命令来创建 tye.yml 配置文件:
+In the solution catalog, run the following command to create a tye.yml profile:
 
 ```bash
 tye init
 ```
 
-运行之后，将会在解决方案文件夹得到如下文件：
+After running, the following files will be created in the solution：
 
 ```yml
 name: tyetest
@@ -143,11 +143,11 @@ services:
     project: TyeTest/TyeTest.csproj
 ```
 
-这就是一个最简单的 tye.yml 文件。
+This is the simplest tye.yml file.
 
-### 修改 tye.yml
+### Modify tye.yml
 
-我们在 tye.yml 中加入一行关于 docker registry 的配置，以指定构建出来的镜像将推送到何处：
+We add a line of configurations about docker registry in tye.yml to specify where the built-in image will be pushed：
 
 ```yml
 name: tyetest
@@ -157,31 +157,31 @@ services:
     project: TyeTest/TyeTest.csproj
 ```
 
-例如，此处笔者使用的是阿里云杭州节点的 docker registry，名称空间为 newbe36524。因此增加了一行`registry: registry.cn-hangzhou.aliyuncs.com/newbe36524`。
+For example, here the author is using the docker registry of the Hangzhou node of Alibaba Cloud, the namespace is newbe36524.So add a line`registry: registry.cn-hangzhou.aliyuncs.com/newbe36524`.
 
-这就相当于，如果进行构建，将会构建一个 tag 为`registry.cn-hangzhou.aliyuncs.com/newbe36524/tyetest:1.0.0`的镜像并推送到阿里云中。
+This is equivalent to, if built, a tag image of`registry.cn-hangzhou.aliyuncs.com/newbe36524/tyetest:1.0.0`and pushed into the Alibaba Cloud.
 
-### 提前下载 netcore 基础镜像
+### Download the netcore base image in advance
 
-因为此次我们发布的是 netcore 程序，他们将会被构建的 netcore 镜像，因此，为了更加顺利的进行构建，建议先使用加速工具在本地提前下载好基础镜像。
+Because this time we're releasing a netcore program, they're going to be built with netcore images, so for a smoother build, it's recommended that you use the acceleration tool to download the underlying image locally in advance.
 
-例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好`mcr.microsoft.com/dotnet/aspnet:5.0`作为基础镜像。
+For example, the net5 TFM application used by the author in this use, therefore, you need to pull the`mcr.microsoft.com/dotnet/aspnet:5.0`as the underlying mirror.
 
-由于现在 netcore 基础镜像的源已经从 docker hub 迁移到 mcr.microsoft.com。故而，建议使用`Newbe.McrMirror`进行加速下载。
+Since the source of the netcore underlying mirror has now been migrated from docker hub to mcr.microsoft.com.Therefore, it is recommended`the Newbe.McRiror`to speed up downloads.
 
-详细的使用方法可以参考：<https://github.com/newbe36524/Newbe.McrMirror>
+Detailed usage methods can be referred to：<https://github.com/newbe36524/Newbe.McrMirror>
 
-如果开发者不知道自己当前需要拉取的基础镜像是什么，也可以先尝试下面一个步骤直接发布，查看过程中使用的基础镜像内容，再来拉取。
+If the developer doesn't know what the underlying image they currently need to pull is, they can also try the following step to publish directly, view the underlying image content used in the process, and then pull.
 
-### 使用 tye deploy
+### Use tye deploy
 
-一切已经准备就绪，现在，继续在解决方案目录运行以下命令，便可以进行发布:
+Now that everything is ready, you can publish by continuing to run the following commands in the solution catalog:
 
 ```bash
 tye deploy
 ```
 
-可能会得到如下结果:
+You may get the following results:
 
 ```bash
 PS C:\Repos\TyeTest> tye deploy
@@ -199,7 +199,7 @@ Processing Service 'tyetest'...
             #1 DONE 0.0s
 
             #2 [internal] load .dockerignore
-            #2 sha256:9e3b70115b86134ab4be5a3ce629a55cd6060936130c89b906677d1958215910
+            #2 sha256:9e3b70115b86134ab4be5a3ce629a55cd6060936130c89 b906677d1958215910
             #2 transferring context: 2B done
             #2 DONE 0.0s
 
@@ -216,7 +216,7 @@ Processing Service 'tyetest'...
             #5 transferring context: 3.87MB 0.0s done
             #5 DONE 0.1s
 
-            #4 [2/3] WORKDIR /app
+            #4 [2/3] WO RKDIR /app
             #4 sha256:56abde746b4f39a24525b2b730b2dfb6d9688bcf704d367c86a4753aefff33f6
             #4 CACHED
 
@@ -227,7 +227,7 @@ Processing Service 'tyetest'...
             #8 exporting to image
             #8 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
             #8 exporting layers 0.0s done
-            #8 writing image sha256:8867f4e2ed6ccddb509e9c39e86c736188a78f348d6487d6d2e7a1b5919c1fdb
+            #8 writing image sha256:8867f4e2ed6ccddb509e9c39e86c736188a7 8f348d6487d6d2e7a1b5919c1fdb
             #8 writing image sha256:8867f4e2ed6ccddb509e9c39e86c736188a78f348d6487d6d2e7a1b5919c1fdb done
             #8 naming to registry.cn-hangzhou.aliyuncs.com/newbe36524/tyetest:1.0.0 done
             #8 DONE 0.1s
@@ -246,23 +246,23 @@ Deploying Application Manifests...
 Time Elapsed: 00:00:12:99
 ```
 
-从输出的日志，我们可以看出，应用已经发布成功。并且使用 k8s dashboard 或者 k9s，我们都可以查看到应用已经成功部署，并且启动完成。
+From the log of the output, we can see that the app has been published successfully.And with k8s dashboard or k9s, we can all see that the app has been successfully deployed and started.
 
 ```bash
-tyetest-674865dcc4-mxkd5    ●●  1/1   Δ            0 Running   Δ 10.1.0.73     docker-desktop     3m46s
+tyetest-674865dcc4-mxkd5 ●● 1/1 Δ 0 Running Δ 10.1.0.73 docker-desktop 3m46s
 ```
 
-值得注意的是，确保这一步正常运行有几个前提：
+It is worth noting that there are several prerequisites for ensuring that this step：
 
-- 需要确保本地的 kubectl 已经正确配置。一般来说，如果是使用 docker desktop，那么已经配置好了
-- 需要确保 docker login 已经成功。开发者可以在运行部署前，测试以下是否可以手动推送镜像
-- MCR 镜像的下载速度不是很理想的话，记得用 Newbe.McrMirror 进行加速
+- You need to make sure that your local kubectl is configured correctly.In general, if you are using docker desktop, it is already configured
+- You need to make sure that the docker login has succeeded.Developers can test whether the following images can be pushed manually before running the deployment
+- If the download speed of the MCR image is not ideal, remember to speed it up with Newbe.McRMirror
 
-## 创建并使用 ingress
+## Create and use ingress
 
-到这一步，我们已经完成了应用的发布。但是，由于没有配置 nginx ingress，服务虽然已经可以在 k8s 内部运行了，但是没有在外部进行访问。也就是说，在电脑上使用浏览器现在依然处于打不开的状态。故而，我们还需要为服务配置 ingress。还没有为 k8s 安装 ingress 的朋友，建议查看前面安装 k8s 的相关章节。
+By this point, we've finished publishing the app.However, because nginx ingress is not configured, the service can already run inside k8s, but is not accessed externally.That is, using a browser on your computer is still not open.So we also need to configure ingress for the service.Friends who haven't installed ingress for k8s, it's recommended to review the previous sections on installing k8s.
 
-这里，我们打开 tye.yml 添加 ingress 相关配置：
+Here, we turn on tye.yml to add ingress-related configuration：
 
 ```yml
 name: tyetest
@@ -280,48 +280,48 @@ ingress:
         service: tyetest
 ```
 
-我们增加了一个 ingress 配置，使得当流量从 ingress 进入，并且域名为`www.yueluo.pro`的时候，将会转发到 tyetest 服务。这样就实现了从外部访问 k8s 内部服务的目的。
+We've added an ingress configuration so that when traffic comes in from ingress and the domain name is`www.yueluo.pro`, it's forwarded to the tyetest service.This enables external access to the k8s internal services.
 
-首先，使用`tye run` 命令可以在本地查看一下这个效果。运行命令之后可能在 dashboard 中查看到以下情况：
+First, use`tye run` command to see the effect locally.After you run the command, you may see the following in the dashboard：
 
 ![tye dashboard2](/images/20210131-002.png)
 
-其中，https://localhost:8310 就是 ingress 的入口地址。由于我们采用的是域名绑定，因此可以采用两种方式进行访问以验证效果：
+Where, https://localhost:8310 is the entry address of ingress.Because we're using domain name binding, there are two ways to access it to verify the：
 
-- 在 hosts 中加入 www.yueluo.pro -> 127.0.0.1 的映射关系
-- 使用 http 请求文件直接访问。
+- Add a mapping relationship www.yueluo.pro> 127.0.0.1 in hosts
+- Use http to request direct access to the file.
 
-这里我们采用 http 请求文件直接访问：
+Here we use the http request file to access the：
 
 ```http
 GET https://localhost:8310/WeatherForecast
 Host: www.yueluo.pro
 ```
 
-这样，我们就成功验证了绑定的结果。
+In this way, we successfully validate the results of the binding.
 
-注意，其中的端口由于笔者没有配置为固定端口，因此每次运行开发者都要注意发生的变化。
+Note that the ports in it are not configured as fixed ports, so each time the developer should pay attention to the changes that occur.
 
-## 将 ingress 部署到 k8s 中
+## Deploy ingress to k8s
 
-接下来，停止`tye run`,运行`tye deploy`将 ingress 和应用程序发布到 k8s 中。
+Next, stop`tye run`, run`tye deploy`and publish ingress and applications to k8s.
 
-注意，ingress 的部署可能会花费数十秒的时间，因此需要进行一下等待。
+Note that the deployment of ingress can take tens of seconds, so you need to wait.
 
-部署完成之后，便可以通过 k8s dashboard 或者 k9s 查看部署的结果。
+Once the deployment is complete, you can view the results of the deployment through k8s dashboards or k9s.
 
-并且，可以使用以下 http 请求来验证部署的结果：
+Also, you can use the following http request to verify the results of your deployment：
 
 ```http
 GET https://localhost/WeatherForecast
 Host: www.yueluo.pro
 ```
 
-其得到的结果与先前自然是一样的。
+The result is the same as it was before.
 
-## 从 k8s 中卸载应用
+## Uninstall the app from k8s
 
-卸载应用，非常简单，`tye undeploy`。
+Uninstall the app,`simple, tye undeploy`.
 
 ```bash
 PS C:\Repos\TyeTest> tye undeploy
@@ -333,10 +333,10 @@ Deleting 'Ingress' 'tyetest-ingress' ...
 Time Elapsed: 00:00:02:87
 ```
 
-## 小结
+## Summary
 
-本篇，我们简单介绍了如何使用 tye 运行或者部署应用的简单步骤。实际过程中还有很多可以扩展和自定义的选项。感兴趣的朋友可以查看 https://github.com/dotnet/tye 中的内容进行学习。
+In this article, we briefly described the simple steps of how to run or deploy an app using tye.There are many options that can be extended and customized in practice.Interested friends can https://github.com/dotnet/tye in the content.
 
-下一篇，我们将来部署一些稍微复杂一点的多实例应用。
+Next, we'll deploy some slightly more complex multi-instance applications.
 
 <!-- md Footer-Newbe-Claptrap.md -->
