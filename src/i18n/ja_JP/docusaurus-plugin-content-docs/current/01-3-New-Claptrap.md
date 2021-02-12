@@ -68,7 +68,7 @@ Claptrap はイベント トレーサビリティ モードに基づくアクタ
 
 この例では、現在の SKU のインベントリを記録するだけで済むため、State の設計は非常に単純です。
 
-`HelloClaptrap.Models`プロジェクトに`Sku`フォルダを追加し、そのフォルダの下に`SkuState`します。
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
 次のようなコードを追加します：
 
@@ -92,7 +92,7 @@ Inventory は、現在の SKU のインベントリを表します。
 
 外部と Claptrap の相互運用性を提供するために、Grain インターフェイスの定義を定義します。
 
-`HelloClaptrap.IActors`プロジェクトに`ISkuGrain`します。
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 インターフェイスと Attribute を追加します。
 
@@ -136,7 +136,7 @@ Inventory は、現在の SKU のインベントリを表します。
 
 ISkuGrain を定義したら、実装用のコードを追加できます。
 
-`HelloClaptrap.Actors`プロジェクトの新しい`Sku`フォルダを作成し、そのフォルダに`SkuGrain`します。
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -253,7 +253,7 @@ ISkuGrain と SkuGrain はそれぞれ ICartGrain と CartGrain で同じアセ�
 
 EventCode は、Claptrap システムの各イベントの一意のエンコーディングです。これは、イベントの識別、シリアル化などにおいて重要な役割を果たします。
 
-`HelloClaptrap.Models`プロジェクトの`ClaptrapCodes`します。
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 [インベントリの更新] の EventCode を追加します。
 
@@ -287,7 +287,7 @@ EventCode は、Claptrap システムの各イベントの一意のエンコー�
 
 Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-`HelloClaptrap.Models`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEvent`します。
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 次のようなコードを追加します：
 
@@ -311,7 +311,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 `EventHandler`Claptrap の`State にイベントを更新`します。
 
-`HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
+在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 
 次のようなコードを追加します：
 
