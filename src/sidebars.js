@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    项目简介: ["00-0-Docs"],
+    项目简介: ["00-0-Docs", "00-1-Why-Newbe-Claptrap"],
     快速入门: [
       "01-0-Quick-Start",
       "01-1-Create-Project",

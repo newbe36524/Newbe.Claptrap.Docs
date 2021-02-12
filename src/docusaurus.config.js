@@ -51,6 +51,11 @@ module.exports = {
         { to: "blog", label: "博客", position: "left" },
         // right
         {
+          href: "https://jq.qq.com/?_wv=1027&k=vRi0usiG",
+          label: "QQ 群(610394020)",
+          position: "right",
+        },
+        {
           href: "https://github.com/newbe36524/Newbe.Claptrap",
           label: "GitHub",
           position: "right",
@@ -98,7 +103,7 @@ module.exports = {
           title: "参与讨论",
           items: [
             {
-              label: "QQ 群",
+              label: "QQ 群(610394020)",
               href: "https://jq.qq.com/?_wv=1027&k=vRi0usiG",
             },
           ],

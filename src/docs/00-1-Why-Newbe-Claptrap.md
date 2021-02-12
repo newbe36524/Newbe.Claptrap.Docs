@@ -1,6 +1,6 @@
 ---
-date: 2019-02-28
-title: Newbe.Claptrap-一套以“事件溯源”和“Actor模式”作为基本理论的服务端开发框架
+title: 为何选择 Newbe.Claptrap
+description: Newbe.Claptrap-一套以“事件溯源”和“Actor模式”作为基本理论的服务端开发框架
 ---
 
 本文是关于 Newbe.Claptrap 项目主体内容的介绍，读者可以通过这篇文章，大体了解项目内容。
@@ -135,17 +135,12 @@ Minion 是本框架定义的一种特殊 Actor。是在 Claptrap 基础上做出
 
 ### 业务容量
 
-前文提到本框架需要建设的是一个可以水平扩展的系统架构，只有如此才能应对业务容量的持续增长。在这点上，本框架现阶段采用的是微软开源的[Orleans](https://github.com/dotnet/orleans)实现应用程序和物理设备的放缩。当然，涉及数据存储部分时势必也涉及到数据库集群等一系列问题。这些属于技术应用的细节，而非框架理论设计的内容。因此，此处只表明本框架可以基于以上的开源架构进行容量放缩。应用过程中的实际问题，读者可以在后续的项目内容中寻求解答。
+前文提到本框架需要建设的是一个可以水平扩展的系统架构，只有如此才能应对业务容量的持续增长。在这点上，本框架现阶段采用的是开源的[Dapr](https://dapr.io/)实现应用程序和物理设备的放缩。
 
-## 延伸阅读
+当然，涉及数据存储部分时势必也涉及到数据库集群等一系列问题。这些属于技术应用的细节，而非框架理论设计的内容。因此，此处只表明本框架可以基于以上的开源架构进行容量放缩。
 
-以下这些内容都对本框架产生了深远的影响。读者可以通过阅读以下这些内容，增加对本框架的理解。
+应用过程中的实际问题，读者可以在后续的项目内容中寻求解答。
 
-- [基于 Actor 框架 Orleans 构建的分布式、事件溯源、事件驱动、最终一致性的高性能框架——Ray](https://github.com/RayTale/Ray)
-- [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
-- [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [Service Fabric](https://docs.microsoft.com/zh-cn/azure/service-fabric/)
-- [ENode 1.0 - Saga 的思想与实现](http://www.cnblogs.com/netfocus/p/3149156.html)
+## 一切已经准备就绪
 
-<!-- md Footer-Newbe-Claptrap.md -->
+相信你已经对该框架有了初步的了解。现在，进入[第一步——创建项目，实现简易购物车](01-1-Create-Project) 开始尝试该项目吧。
