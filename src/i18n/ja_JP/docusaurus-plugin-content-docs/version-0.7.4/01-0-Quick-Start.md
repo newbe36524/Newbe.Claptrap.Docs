@@ -1,6 +1,6 @@
 ---
-title: 'クイック スタート'
-description: 'Newbe.Class ptrap クイックスタート'
+title: 'クイックスタート'
+description: 'Newbe.Claptrap クイックスタート'
 ---
 
-このシリーズは、Newbe.Claptrapを使用してサーバーシステムを構築するためのより簡略化された商用化されたアプリケーションの開発を進めます。
+このシリーズでは、Newbe.Claptrap を使用してサービス側システムを開発するなどの簡略化された電子ビジネス アプリケーションについて説明します。
