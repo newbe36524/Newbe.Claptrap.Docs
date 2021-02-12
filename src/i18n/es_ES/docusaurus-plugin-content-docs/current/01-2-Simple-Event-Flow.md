@@ -49,7 +49,7 @@ Agregue EventCode para eventos vacíos del carro de la compra.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree`RemoveAllItems` FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 Agregue los siguientes code：
 
@@ -70,9 +70,9 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 ## Implementar EventHandler
 
-`EventHandler`actualizar eventos al</code>de estado``de Claptrap.Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.</p>
+`EventHandler`actualizar eventos al</code>de estado`de Claptrap.Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.</p>
 
-<p spaces-before="0">Cree clase RemoveAllItems FromCartEventHandler en la carpetaCart/Events`del proyecto HelloClaptrap. Actors.</p>
+<p spaces-before="0">在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。</p>
 
 <p spaces-before="0">Agregue los siguientes code：</p>
 
@@ -95,7 +95,7 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 +         }
 +     }
 + }
-``</pre>
+`</pre>
 
 Estas son algunas questions：comunes
 
@@ -117,11 +117,12 @@ Una vez completada la implementación de EventHandler, no olvide probarla unitar
 
 Después de implementar y probar EventHandler, puede registrar eventHandler para asociarlo con EventCode y Claptrap.
 
-Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
+打开 HelloClaptrap.Actors 项目的 CartGrain 类。
 
-<p spaces-before="0">Marcar con atributo.</p>
+Marcar con atributo.
 
-<pre><code class="cs">  using Newbe.Claptrap;
+```cs
+  using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
   namespace HelloClaptrap.Actors.Cart
@@ -138,7 +139,7 @@ Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
           }
 
           ....
-`</pre>
+```
 
 `atributo ClaptrapEventHandler`es un atributo definido por el marco de trabajo que se puede etiquetar en la clase de implementación de Grain para implementar la asociación entre EventHandler, EventCode y ClaptrapGrain.
 
@@ -185,7 +186,7 @@ Se han added：dos partes
 
 A continuación, siga las modificaciones de interfaz del paso siguiente para modificar la clase de implementación correspondiente.
 
-Abra la clase`CartGrain`el`Cart en el proyecto de`HelloClaptrap.actors.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 Agregue la implementación correspondiente.
 
@@ -246,7 +247,7 @@ Se ha agregado la implementación correspondiente del método de interfaz.Hay lo
 
 Para cuando se completen todos los pasos anteriores, se han completado todas las partes de Claptrap.Sin embargo, Claptrap no puede proporcionar directamente interoperabilidad con programas externos.Por lo tanto, también debe agregar una API en la capa Controller para "vaciar el carro de la compra" externamente.
 
-Abra la CartController`en la carpeta Controllers``para el proyecto helloClaptrap.web`.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;
