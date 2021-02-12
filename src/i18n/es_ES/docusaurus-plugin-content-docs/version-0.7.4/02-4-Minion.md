@@ -1,49 +1,49 @@
 ---
-title: 'Minion'
-description: 'Minion'
+title: 'Súbdito'
+description: 'Súbdito'
 ---
 
-![Minion](/images/20190228-002.gif)
+![Súbdito](/images/20190228-002.gif)
 
-Minion 是本框架定义的一种特殊 Claptrap 。是在 Claptrap 基础上做出的调整。其具备以下特性：
+Minion es un Claptrap especial como se define en este marco.es un ajuste realizado sobre la base de Claptrap.Tiene los siguientes characteristics：
 
-**从对应的 Claptrap 读取事件**。与 Claptrap 相同，Minion 的状态也由事件进行控制。不同的是，Minion 就像其字面意思一样，总是从对应的 Claptrap 处获取事件，从而改变自身的状态。因此，其可以异步的处理 Claptrap 产生事件之后的后续操作。
+**puede leer el evento desde la**Claptrap correspondiente.Al igual que Claptrap, el estado del súbdito está controlado por eventos.La diferencia es que Minion, como literalmente lo hace, siempre obtiene eventos de la Claptrap correspondiente, cambiando su propio estado.Por lo tanto, puede controlar Claptrap de forma asincrónica después de generar el evento.
 
-> Minion 一词出自 newbe36524 玩的一款运气游戏[《炉石传说》](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4)，其中“随从”在英文版中的描述即为“minion”。
+> Minion se deriva de un juego de la suerte jugado por newbe36524[The Legend of furnace stone](https://zh.moegirl.org/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4), en el que "entourage" se describe como "minion" en la versión en inglés.
 
 ---
 
-以下是关于 Minion 的故事化描述，用于辅助理解。不必太过在意。
+La siguiente es una descripción historiada de Minion para ayudar a la comprensión.No te preocupes demasiado.
 
-对于较为复杂的任务来说单个 Claptrap 完成起来会比较困难。因此，在设计此类 Claptrap 的时候会按照需求给这个 Claptrap 追加几个小弟来协助它完成手头的任务。这些小弟被称为 Minion 。Minion 的本质也是一台 Claptrap 机器人，但是它们相对于完整版的 Claptrap 来说，减少了手持型备忘录这个设备。这是源于其工作方式和 Claptrap 略有不同的原因。
+Un solo Claptrap puede ser difícil de lograr para tareas más complejas.Por lo tanto, al diseñar tal Claptrap, algunos hermanos más jóvenes se añaden a la Claptrap según sea necesario para ayudarla en la tarea en cuestión.Estos hermanitos se llaman Minion.Minion también es esencialmente un robot Claptrap, pero reducen el dispositivo de memoria de mano en comparación con la versión completa de Claptrap.Esto se debe a la forma ligeramente diferente en que funciona y Claptrap.
 
-Minion 只能通过协同 Claptrap 来完成任务，它们不能决定是否要做某个任务。所以记录任务详细信息的手持型备忘录只要有 Claptrap 持有就可以了。当 Claptrap 完成一件任务时，它会通知他的 Minion 们关于此次任务的细节。这样 Minion 便可以同步的获得任务内容，并借此来更新自己的记忆。以下我们来通过一个例子来解释这种工作模式。
+Minion solo puede realizar tareas trabajando con Claptrap, y no pueden decidir si hacer una tarea.Por lo tanto, una nota de mano que registra los detalles de la tarea está disponible siempre y cuando Claptrap la mantenga.Cuando Claptrap completa una tarea, informa a sus esbirros de los detalles de la tarea.Esto permite a Minion sincronizar el contenido de la tarea y actualizar su propia memoria.Vamos a explicar este patrón de trabajo con un ejemplo.
 
-假设我们现在在某个小区投放了一台 Claptrap 机器人来作为门卫机器人。它的工作职责包括有以下这些：
+Digamos que ahora hemos puesto un robot Claptrap en un vecindario como robot portero.Sus responsabilidades laborales incluyen las siguientes：
 
-1. 负责对门房的车辆进行检查和放行
-2. 负责对付来自路人的各种询问
+1. Responsable de la inspección y liberación del vehículo en el portero
+2. Responsable de tratar con todo tipo de consultas de los transeúntes
 
-我们现在知道，Claptrap 机器人在工作的时候只能同时处理一件事情。也就是说，假如它正在为某台车辆进行检查和放行，那么它就无法处理路人的询问。同样地，假如它正在接受路人的询问，那么它就无法处理车辆的检查和放行。这么做效率并不高。因此，我们为这台 Claptrap 增加一台 Minion 来协助其完成接受路人询问的任务。
+Ahora sabemos que los robots Claptrap sólo pueden manejar una cosa a la vez cuando están trabajando.Es decir, si está inspeccionando y liberando un vehículo, no puede manejar las consultas de los transeúntes.Del mismo modo, si está siendo cuestionado por los transeúntes, no podrá manejar la inspección y liberación de vehículos.Esto no es eficiente.Así que añadimos un esbirro a esta Claptrap para ayudarle con la tarea de ser interrogado por los transeúntes.
 
-具体的工作方式是这样的：每天，Claptrap 都会对小区周围的情况进行检查并且将具体的信息全部都记录在手持型备忘录当中。并且它会将这些任务的细节通知给它的 Minion 。于是 Minion 就也知道了关于这个小区的所有细节，因此它就能够轻松的应付路人的询问了。
+La forma específica de trabajar es：Todos los días, Claptrap comprueba la situación alrededor del vecindario y registra toda la información específica en una nota de mano.Y notifica a su Esbirro de los detalles de estas tareas.Así que Minion conocía todos los detalles sobre el vecindario, así que podía manejar fácilmente las consultas de los transeúntes.
 
-通过这样的合作，就能使得 Claptrap 更加高效的专注于车辆的检查和放行，而路人的询问则交给 Minion 来处理就可以了。
+Con esta colaboración, Claptrap puede centrarse de manera más eficiente en la inspección y liberación del vehículo, mientras que las consultas de los transeúntes se dejan en manos de Minion.
 
-不过，对于一些细节还需要进行补充解释以便读者理解：
+Sin embargo, algunos detalles deben explicarse adicionalmente para que el lector pueda entender：
 
-为什么不直接增加一台新的 Claptrap 来直接处理路人的询问呢？一台新的 Claptrap 意味着一个新的主体，它能够独立的完成任务，这样会增加管理的成本。但是如果只是新增一台 Minion ，它则可以由它所属的 Claptrap 来负责管理，相较而言更容易管理。当然为了增加一点代入感，还可以这么理解：Minion 相比于常规的 Claptrap 缺少了手持型备忘录这个设备。这个设备的成本占总硬件成本的 99%。减少成本来完成相同的任务，何乐不为呢？
+¿Por qué no añadir un nuevo Claptrap para hacer frente directamente a las preguntas de los transeúntes?Un nuevo Claptrap significa un nuevo principal que puede completar tareas de forma independiente, lo que aumenta el costo de la administración.Pero si solo agregas un Minion, puede ser administrado por Claptrap, al que pertenece, y es más fácil de manejar que eso.Por supuesto, para añadir un poco de sentido de generación, también se entiende que：Minion carece del dispositivo de notas de mano en comparación con el Claptrap regular.El costo de este dispositivo representa el 99% del costo total del hardware.¿Por qué no reducir los costos para realizar la misma tarea?
 
-Claptrap 将任务细节通知给 Minion 的成本会不会很高？不会的。Claptrap 和 Minion 一般都是团伙作业，随着现在无线网络技术的不断改善，这种成本将会越来越小。5G 赋能，未来可期。
+¿Sería caro para Claptrap notificar a Minion los detalles de la tarea?No, no lo hará.Claptrap y Minion son generalmente operaciones basadas en pandillas, y a medida que la tecnología de red inalámbrica continúa mejorando, el costo se hará cada vez más pequeño.Empoderamiento 5G, el futuro se puede esperar.
 
-现在，我们在额外考虑一个场景：假如物业经理希望 Claptrap 每天定时汇报小区的车辆出入情况。同样，为了增加代入感，我们不妨假设这个小区非常忙碌，一天 24 小时都有车辆进进出出。因此如果让它拿出时间来汇报车辆出入情况的话，由于 Claptrap 的单线程特性，那么很可能小区门口就堵成长安街了。
+Ahora, estamos considerando un scenario：adicional si el administrador de la propiedad desea Claptrap para informar sobre el acceso de vehículos a la comunidad en un día programado todos los días.Del mismo modo, con el fin de aumentar la sensación de insecoming, también podríamos asumir que la comunidad está muy ocupada, con vehículos que entran y salen las 24 horas del día.Así que si dejas que tome tiempo para informar el acceso del vehículo, debido a la naturaleza de clatrap de un solo hilo, es probable que la puerta del vecindario se bloquee.
 
-有了前面的经验，我们同样可以为这台 Claptrap 配备一台新的 Minion 来处理向物业经理汇报的这个任务。因为 Claptrap 在进行车辆出去检查的时候会将相关的细节通知给 Minion。所以 Minion 也就知道了关于今日车辆出入情况的所有细节，做出报表，那就是分分钟的事情。
+Con experiencia previa, también podemos equipar este Claptrap con un nuevo Minion para manejar esta tarea de informar al administrador de la propiedad.Porque Claptrap notifica a Minion los detalles cuando el vehículo sale para la inspección.Así que Minion conoce todos los detalles sobre el acceso al vehículo de hoy y hace una declaración, que es minuto a minuto.
 
-我们再来增加一个场景：我们需要普查一下人口数量。那么只需要在小区门卫 Claptrap 检查出入人员时，对人员的信息进行记录。同样的，我们添加一台 Minion 来专门汇总那些核的数据，并且将上级部门。正巧，上级部门也是通过一台 Claptrap 机器人来接收下级的数据汇报，并且正好其也有一台 Minion 用来汇总下级汇报上来的数据，并且汇报给它的上级。就这样 Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… 一层一层的向上。于是我们就完成了全国乃至全球的数据汇总。
+Vamos a añadir otra scenario：necesitamos echar un vistazo a la población.Entonces sólo tiene que registrar la información de la persona cuando el portero de la celda Claptrap comprueba el personal de acceso.Del mismo modo, agregamos un minion para agregar específicamente esos datos principales y poner el departamento principal.Coincidentemente, el departamento matriz también recibe el informe de sub-datos a través de un robot Claptrap, y también tiene un Minion para resumir los datos del sub-informe e informar a su supervisor.Así que Claptrap1 -> Minion1 -> Claptrap2 -> Minion2 -> Claptrap3 …… capa hacia arriba.Así que completamos el resumen de datos nacional y global.
 
-因此，我们可以总结一下。有了 Minion 的加持，可以为 Claptrap 更好的完成至少三类事情：
+Así que vamos a resumir.Con la adición de Minion, puedes hacer al menos tres cosas mejor para Claptrap：
 
-1. 协助分担原有的查询类任务
-2. 协助完成一些统计、通知等等可以异步处理的任务
-3. 协助完成和其他 Claptrap 的协同来完成规模更大的任务
+1. Ayudar a compartir las tareas originales de la clase de consulta
+2. Ayudar con las tareas que las estadísticas, las notificaciones, etc. pueden manejar de forma asincrónica
+3. Ayuda con otras colaboraciones de Claptrap para realizar tareas más grandes
