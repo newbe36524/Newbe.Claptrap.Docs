@@ -1,6 +1,6 @@
 ---
-title: "第三步——定義Claptrap，管理商品庫存"
-description: "第三步——定義Claptrap，管理商品庫存"
+title: '第三步——定義Claptrap，管理商品庫存'
+description: '第三步——定義Claptrap，管理商品庫存'
 ---
 
 通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
@@ -309,7 +309,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 ## 實現 EventHandler
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。
+`EventHandler`用於將事件更新到 Claptrap 的`State`上。
 
 在`HelloClaptrap.Actors`專案的`Sku/Events`資料夾下創建`InventoryUpdateEventHandler`類。
 
