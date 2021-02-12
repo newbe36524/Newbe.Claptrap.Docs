@@ -207,7 +207,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-這段代碼中，包含有兩個重要參數，分別是表示當前購物車狀態的`CartState`與需要處理的事件`AddItemToCartEvent`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 我們按照業務需求，判斷狀態中的字典是否包含 SkuId，並對其數量進行更新。
 
