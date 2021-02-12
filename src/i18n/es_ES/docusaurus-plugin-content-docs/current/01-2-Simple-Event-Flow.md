@@ -49,7 +49,7 @@ Agregue EventCode para eventos vacíos del carro de la compra.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree```RemoveAllItems FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
+Cree`RemoveAllItems` FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
 
 Agregue los siguientes code：
 
@@ -72,7 +72,7 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.
 
-Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.
+Cree clase RemoveAllItems FromCartEventHandler en la carpetaCart/Events`del proyecto HelloClaptrap. Actors.
 
 Agregue los siguientes code：
 
@@ -187,7 +187,7 @@ Se han added：dos partes
 
 A continuación, siga las modificaciones de interfaz del paso siguiente para modificar la clase de implementación correspondiente.
 
-Abra la clase`CartGrain`el `Cart en el proyecto de`HelloClaptrap.actors.
+Abra la clase`CartGrain`el`Cart en el proyecto de`HelloClaptrap.actors.
 
 Agregue la implementación correspondiente.
 
