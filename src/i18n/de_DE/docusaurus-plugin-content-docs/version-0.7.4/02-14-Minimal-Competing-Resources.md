@@ -1,27 +1,27 @@
 ---
-title: 'Minimale wettbewerbsfähige Ressourcen'
-description: 'Minimale wettbewerbsfähige Ressourcen'
+title: '最小竞争资源 (Minimal Competing Resources)'
+description: '最小竞争资源 (Minimal Competing Resources)'
 ---
 
 
-Ein Konzept, das bei der Verwendung des Claptrap-Frameworks für minimale Wettbewerbsressourcen wichtig ist.Das Verständnis dieses Konzepts kann Entwicklern helfen, den Status von Claptrap besser zu entwerfen und das falsche Design zu vermeiden.
+最小竞争资源在使用 Claptrap 框架时重要的一个概念。理解此概念有助于开发者更好的设计 Claptrap 的 State ，避免错误的设计。
 
-## Was ist die minimale wettbewerbsorientierte Ressource
+## 什么是最小竞争资源
 
-Das Konzept des "Ressourcenwettbewerbs" in der Multithread-Programmierung wird hier als das Konzept der "minimalen wettbewerbsorientierten Ressource" in Unternehmenssystemen vorgestellt.Dieses Konzept macht es einfach, Designpunkte für die Anwendung von Newbe.Claptrap zu finden.
+类比多线程编程中 “资源竞争” 的概念，这里提出在业务系统中的 “最小竞争资源” 概念。借助这个概念可以很简单的找到如何应用 Newbe.Claptrap 的设计点。
 
-Im Fall des elektronischen Geschäftsverkehrs ist z. B. jeder Artikel eine "minimale wettbewerbsorientierte Ressource".Beachten Sie, dass dies nicht bedeutet, dass alle Waren eine "minimale wettbewerbsfähige Ressource" sind.Denn wenn Sie 10.000 Artikel nummerieren, dann die Eile, die erste und zweite Ware zu kaufen, gibt es keine Konkurrenz an sich.Daher ist jede Ware eine minimale wettbewerbsfähige Ressource.
+例如在电商抢购的例子中，每个商品都是一个 “最小竞争资源”。注意，这里不是说，所有商品是一个 “最小竞争资源”。因为，如果对一万个商品进行编号，那么抢购一号商品和二号商品，本身其实不存在竞争关系。因此，每个商品都是一个最小竞争资源。
 
-Hier sind einige Beispiele available：
+这里还有一些可用的例子：
 
-- In einem Geschäftssystem, das nur Single-End-Anmeldungen zulässt, ist das Anmeldeticket eines Benutzers die am wenigsten wettbewerbsfähige Ressource.
-- In einem Konfigurationssystem ist jedes Konfigurationselement die am wenigsten wettbewerbsfähige Ressource
-- An einer Börse ist jede Kauf- oder Verkaufsorder die am wenigsten wettbewerbsfähige Ressource
+- 在一个只允许单端登录的业务系统中，一个用户的登录票据就是最小竞争资源
+- 在一个配置系统中，每个配置项都是最小竞争资源
+- 在一个股票交易市场中，每个买单或者卖单都是最小竞争资源
 
-In einigen Szenarien wird die kleinste wettbewerbsorientierte Ressource auch als Minimale gleichzeitige Einheit bezeichnet.
+在有的场景中，最小竞争资源也被称为“最小并发单元（Minimal Concurrent Unit）”
 
-## Der Staat von Claptrap sollte mindestens größer oder gleich dem Umfang der "minimalen wettbewerbsorientierten Ressourcen" sein.
+## Claptrap 的 State 至少应该大于等于 “最小竞争资源” 的范围
 
-Kombiniert mit E-Commerce-Snap-up-Beispielen, wenn alle Artikel im gleichen Claptrap-Status (größer als die minimale Wettbewerbsressource) entworfen sind.Anschließend kaufen verschiedene Benutzer Artikel, die sich gegenseitig beeinflussen, da Claptrap auf dem Actor-Muster basiert, das für die Verarbeitung von Anforderungen in die Warteschlange gestellt wird.Das heißt, vorausgesetzt, dass jeder Artikel 10 ms verarbeiten muss, dann ist es bis zu 10000, um alle Kaufanfragen zu verarbeiten.Wenn jedoch jedes Element nummeriert ist, wird jedes Element als separater Claptrap-Status entworfen.Also, weil sie nicht miteinander verwandt sind.Der Verkauf aller Waren würde theoretisch nur 10ms erfordern.
+结合电商抢购的例子，如果所有商品设计在同一个 Claptrap 的 State 中（大于最小竞争资源）。那么，不同用户购买商品就会相互影响，因为，Claptrap 基于的 Actor 模式是排队处理请求的。也就是说，假设每个商品需要处理 10ms，那么最快也需要 10000 \* 10 ms 来处理所有的购买请求。但如果每个商品都进行编号，每个商品设计为单独的 Claptrap 的 State。那么由于他们是互不相关的。卖掉所有商品，理论上就只需要 10ms。
 
-Es ist daher leicht zu schlussfolgern, dass, wenn Claptraps Zustand größer als die minimale wettbewerbsfähige Ressourcenreichweite ist, das System kein Problem mit der Korrektheit haben wird, aber es kann einige Leistungsverluste geben. Wenn der Zustand von Claptrap unter dem minimalen Ressourcenbereich liegt, wird die Beziehung zwischen Claptrap schwierig zu handhaben und riskant.Da dies einer Aufteilung einer minimalen wettbewerbsorientierten Ressource in Teile entspricht und die minimale wettbewerbsorientierte Ressource in der Regel in einer Transaktion behandelt werden muss, kehrt dies zu dem Problem verteilter Transaktionen zurück, das bei verteilten, schwierigen Aufgaben häufig ist.
+故而容易得出，如果 Claptrap 的 State 大于最小竞争资源的范围，系统不会有正确性的问题，但可能有一些性能损失。 另外，如果 Claptrap 的 State 小于最小竞争资源的范围，Claptrap 间的关系将会变得难以处理，存在风险。因为这就相当于将一个最小竞争资源拆分为多个部分，而最小竞争资源通常来说需要在一个事务中一并处理，这也就又回到了分布式中非常常见的分布式事务的问题，难以处理。
