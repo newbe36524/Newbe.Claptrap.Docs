@@ -3,7 +3,7 @@ title: "Actor Pattern"
 description: "Actor Pattern"
 ---
 
-Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.To give a simple example, if you use 100 threads to run a ++ operation on one of the int variables in memory without syncing with a lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.To give a simple example, if you use 100 threads in a non-synchronous lock to perform a s. . . operation on an int variable in memory.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
 First of all, you can consider an Actor as an normal object here.In an object-oriented language (Java, C#, etc.), Actor can be considered an object created through a new keyword.And it includes some special features:
 
