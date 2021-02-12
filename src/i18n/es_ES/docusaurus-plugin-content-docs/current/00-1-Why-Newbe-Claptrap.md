@@ -62,7 +62,7 @@ Sin embargo, la lectura de datos desde el interior de Actor al exterior todavía
 
 ![Leer el estado del actor](/images/20190226-002.gif)
 
-****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de</code>int`, déjele hacer<code>`.El valor final para este estado debe ser 100.
+****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。El valor final para este estado debe ser 100.
 
 ![El actor se llama en un sintetizador](/images/20190226-004.gif)
 
