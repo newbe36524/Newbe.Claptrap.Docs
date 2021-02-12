@@ -1,6 +1,6 @@
 ---
-title: '第三步——定义Claptrap，管理商品库存'
-description: '第三步——定义Claptrap，管理商品库存'
+title: "第三步——定义Claptrap，管理商品库存"
+description: "第三步——定义Claptrap，管理商品库存"
 ---
 
 通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
@@ -309,7 +309,7 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 
 ## 实现 EventHandler
 
-`EventHandler`用于将事件更新到 Claptrap 的`State`上。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 

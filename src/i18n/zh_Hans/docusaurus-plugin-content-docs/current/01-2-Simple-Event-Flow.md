@@ -70,7 +70,7 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 
 ## 实现 EventHandler
 
-`EventHandler`用于将事件更新到 Claptrap 的`State`上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
 
 在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
