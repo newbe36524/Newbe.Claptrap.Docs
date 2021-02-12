@@ -120,7 +120,7 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
 
-打开 HelloClaptrap.Actors 项目的 CartGrain 类。
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 使用 Attribute 进行标记。
 
