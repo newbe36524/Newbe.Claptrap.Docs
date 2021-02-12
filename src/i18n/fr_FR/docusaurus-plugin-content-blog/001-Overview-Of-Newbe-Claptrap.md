@@ -54,7 +54,7 @@ Tout d’abord, l’état de l’acteur ne peut être changé par lui-même, et 
 
 ![Mettre à jour le statut d’acteur](/images/20190226-001.gif)
 
-Deuxièmement, l’état de l’acteur n’est maintenu qu’au sein de l’acteur et n’est partagé avec aucun objet autre que l’acteur actuel.Le non-partage ici souligne également qu’il ne peut pas changer l’état interne de l’acteur par un changement dans une propriété extérieure.Il s’agit principalement de le distinguer des langages de programmation avec des caractéristiques linguistiques de « référence d’objet ».Pour example：la propriété``publique dans`une classe`de C# peut modifier la propriété`dans une<code>classe`</code>après qu’il s’agit d’un type de référence, s’il s’agit d’un type de référence.Mais ce n’est pas autorisé en mode Acteur.
+Deuxièmement, l’état de l’acteur n’est maintenu qu’au sein de l’acteur et n’est partagé avec aucun objet autre que l’acteur actuel.Le non-partage ici souligne également qu’il ne peut pas changer l’état interne de l’acteur par un changement dans une propriété extérieure.Il s’agit principalement de le distinguer des langages de programmation avec des caractéristiques linguistiques de « référence d’objet ».例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。Mais ce n’est pas autorisé en mode Acteur.
 
 ![Partager le statut d’acteur](/images/20190226-003.gif)
 
