@@ -1,339 +1,339 @@
 ---
 date: 2020-10-13
-title: 只要十步，你就可以应用表达式树来优化动态调用
+title: En seulement dix étapes, vous pouvez appliquer un arbre d’expression pour optimiser les appels dynamiques
 ---
 
-表达式树是 .net 中一系列非常好用的类型。在一些场景中使用表达式树可以获得更好的性能和更佳的扩展性。本篇我们将通过构建一个“模型验证器”来理解和应用表达式树在构建动态调用方面的优势。
+Les arbres d’expression sont une série de types très utiles dans .net.L’utilisation d’arbres d’expression dans certains scénarios peut se traduire par de meilleures performances et une meilleure évolutivité.Dans cet article, nous allons comprendre et appliquer les avantages des arbres d’expression dans la construction d’appels dynamiques en construisant un « validateur modèle ».
 
 <!-- more -->
 
-## 开篇摘要
+## Un résumé d’ouverture
 
-前不久，我们发布了[《如何使用 dotTrace 来诊断 netcore 应用的性能问题》](005-How-to-Use-DotTrace)，经过网友投票之后，网友们表示对其中表达式树的内容很感兴趣，因此本篇我们将展开讲讲。
+Il n’y a pas si longtemps, nous avons publié[Comment utiliser dotTrace pour diagnostiquer les problèmes de performances avec les applications netcore](005-How-to-Use-DotTrace), et après un vote net-citoyens, les net-citoyens ont exprimé leur intérêt pour le contenu de l’arbre d’expression, donc nous allons en parler dans cet article.
 
-动态调用是在 .net 开发是时常遇到的一种需求，即在只知道方法名或者属性名等情况下动态的调用方法或者属性。最广为人知的一种实现方式就是使用“反射”来实现这样的需求。当然也有一些高性能场景会使用 Emit 来完成这个需求。
+L’appel dynamique est une exigence qui est souvent rencontrée dans le développement .net, c’est-à-dire les méthodes d’appel dynamiques ou les propriétés lorsque seuls les noms de méthode ou les noms de propriété sont connus.L’une des implémentations les plus connues est l’utilisation de la « réflexion » pour atteindre une telle exigence.Bien sûr, il existe certains scénarios de haute performance qui utilisent Emit pour répondre à cette exigence.
 
-本文将介绍“使用表达式树”来实现这种场景，因为这个方法相较于“反射”将拥有更好的性能和扩展性，相较于 Emit 又更容易掌握。
+Cet article décrit « l’utilisation d’arbres d’expression » pour mettre en œuvre ce scénario, parce que cette approche aura de meilleures performances et évolutivité que la « réflexion » et est plus facile à maîtriser que Emit.
 
-我们将使用一个具体的场景来逐步使用表达式来实现动态调用。
+Nous utiliserons un scénario spécifique pour implémenter des appels dynamiques étape par étape avec des expressions.
 
-在该场景中，我们将构建一个模型验证器，这非常类似于 aspnet mvc 中 ModelState 的需求场景。
+Dans ce scénario, nous allons construire un validateur de modèle, qui est très similaire au scénario d’exigences pour ModelState en mvc aspnet.
 
-这**不是**一篇简单的入门文章，初次涉足该内容的读者，建议在空闲时，在手边有 IDE 可以顺便操作时边看边做。同时，也不必在意样例中出现的细节方法，只需要了解其中的大意，能够依样画瓢即可，掌握大意之后再深入了解也不迟。
+Cela****un simple article d’introduction pour les lecteurs pour la première fois, et il est recommandé que vous regardez pendant que vous êtes libre et ont un IDE à portée de main à faire par la voie.Dans le même temps, aussi ne pas avoir à se soucier des détails de l’exemple de la méthode, juste besoin de comprendre l’idée générale, peut être peint selon le style peut être, maîtriser la grande idée et puis la compréhension approfondie n’est pas trop tard.
 
-为了缩短篇幅，文章中的样例代码会将没有修改的部分隐去，想要获取完整的测试代码，请打开文章末尾的代码仓库进行拉取。
+Pour raccourcir l’espace, l’exemple de code dans l’article cachera la partie non mobile, et si vous voulez obtenir le code de test complet, ouvrez le référentiel de code à la fin de l’article pour tirer.
 
-## 居然还有视频
+## Il y a toujours une vidé o
 
-本系列文章配套一个十几个小时的长篇视频。记得一键三连哟！ <iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameBorder="no" frameSpacing="0" allowFullScreen="true" mark="crwd-mark"> </iframe>
+Cette série d’articles est emballée avec une vidéo de dix heures.Rappelez-vous un clic, trois entreprises! <iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameBorder="no" frameSpacing="0" allowFullScreen="true" mark="crwd-mark"> </iframe>
 
-原视频地址：<https://www.bilibili.com/video/BV15y4y1r7pK>
+Vidéo originale address：<https://www.bilibili.com/video/BV15y4y1r7pK>
 
-## 为什么要用表达式树，为什么可以用表达式树？
+## Pourquoi utiliser des arbres d’expression, pourquoi puis-je utiliser des arbres d’expression?
 
-首先需要确认的事情有两个：
+La première chose à confirmer est qu’il y a deux：
 
-1. 使用表达式树取代反射是否有更好的性能？
-2. 使用表达式树进行动态调用是否有很大的性能损失？
+1. Est-il préférable de remplacer la réflexion par des arbres d’expression?
+2. Y a-t-il une perte de performance significative à l’aide d’arbres d’expression pour les appels dynamiques ?
 
-有问题，做实验。我们采用两个单元测试来验证以上两个问题。
+Il y a un problème, faites l’expérience.Nous avons utilisé deux tests unitaires pour valider ces deux questions.
 
-调用一个对象的方法：
+Appelez la méthode d’un object：
 
 ```cs
-using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
-using FluentAssertions;
-using NUnit.Framework;
+en utilisant le système;
+utilisant System.Diagnostics;
+utilisant System.Linq.Expressions;
+utilisant System.Reflection;
+utilisant FluentAssertions;
+'utilisation de NUnit.Framework;
 
-namespace Newbe.ExpressionsTests
+'espace nominatif Newbe.ExpressionsTests
 {
-    public class X01CallMethodTest
+    classe publique X01CallMethodTest
     {
-        private const int Count = 1_000_000;
-        private const int Diff = 100;
+        const int Count privé = 1_000_000;
+        const privé int Diff = 100;
 
         [SetUp]
-        public void Init()
+        vide public Init ()
         {
-            _methodInfo = typeof(Claptrap).GetMethod(nameof(Claptrap.LevelUp));
-            Debug.Assert(_methodInfo != null, nameof(_methodInfo) + " != null");
+            _methodInfo = type de (Claptrap). GetMethod (nom de (Claptrap.LevelUp));
+            Debug.Assert (_methodInfo != null, nameof(_methodInfo) + " != null « );
 
-            var instance = Expression.Parameter(typeof(Claptrap), "c");
-            var levelP = Expression.Parameter(typeof(int), "l");
-            var callExpression = Expression.Call(instance, _methodInfo, levelP);
+            instance var = Expression.Parameter(typeof(Claptrap), « c »);
+            var levelP = Expression.Parameter(typeof(int), « l »);
+            var callExpression = Expression.Call (instance, _methodInfo, levelP);
             var lambdaExpression = Expression.Lambda<Action<Claptrap, int>>(callExpression, instance, levelP);
-            // lambdaExpression should be as (Claptrap c,int l) =>  { c.LevelUp(l); }
+            // lambdaExpression devrait être aussi (Claptrap c,int l) =>  { c.LevelUp(l); }
             _func = lambdaExpression.Compile();
         }
 
         [Test]
-        public void RunReflection()
+        vide public RunReflection ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                _methodInfo.Invoke(claptrap, new[] {(object) Diff});
+                _methodInfo.Invoke (claptrap, nouveau[] {(objet) Diff});
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
         [Test]
-        public void RunExpression()
+        public vide RunExpression ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                _func.Invoke(claptrap, Diff);
+                _func. Invoquer (claptrap, Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
         [Test]
-        public void Directly()
+        vide public Directement ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                claptrap.LevelUp(Diff);
+                claptrap. LevelUp (Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
-        private MethodInfo _methodInfo;
-        private Action<Claptrap, int> _func;
+        méthode privéeInfo _methodInfo;
+        d’action<Claptrap, int> _func;
 
-        public class Claptrap
+        classe publique Claptrap
         {
-            public int Level { get; set; }
+            public int Niveau { get; ensemble; }
 
-            public void LevelUp(int diff)
+            public vide LevelUp (int diff)
             {
-                Level += diff;
+                Niveau += diff;
             }
         }
     }
 }
 ```
 
-以上测试中，我们对第三种调用方式一百万次调用，并记录每个测试所花费的时间。可以得到类似以下的结果：
+Dans les tests ci-dessus, nous avons appelé un million de fois pour le troisième appel et enregistré le temps passé sur chaque test.Vous pouvez obtenir des résultats similaires à ceux following：
 
-| Method        | Time  |
-| ------------- | ----- |
-| RunReflection | 217ms |
-| RunExpression | 20ms  |
-| Directly      | 19ms  |
+| Méthode                       | Heure |
+| ----------------------------- | ----- |
+| RunRéflexion                  | 217ms |
+| RunExpression (RunExpression) | 20ms  |
+| Directement                   | 19ms  |
 
-可以得出以下结论：
+Les conclusions suivantes peuvent être drawn：
 
-1. 使用表达式树创建委托进行动态调用可以得到和直接调用近乎相同的性能。
-2. 使用表达式树创建委托进行动态调用所消耗的时间约为十分之一。
+1. La création d’un délégué avec un arbre d’expression pour les appels dynamiques peut obtenir presque la même performance que les appels directs.
+2. La création d’un délégué avec un arbre d’expression prend environ un dixième du temps pour faire un appel dynamique.
 
-所以如果仅仅从性能上考虑，应该使用表达式树，也可以是用表达式树。
+Donc, si vous pensez simplement à la performance, vous devez utiliser un arbre d’expression, ou vous pouvez utiliser un arbre d’expression.
 
-不过这是在一百万调用下体现出现的时间，对于单次调用而言其实就是纳秒级别的区别，其实无足轻重。
+Toutefois, cela se reflète dans un million d’appels à apparaître dans le temps, car un seul appel est en fait la différence entre le niveau nanecond, en fait, l’insignifiance.
 
-但其实表达式树不仅仅在性能上相较于反射更优，其更强大的扩展性其实采用最为重要的特性。
+Mais en fait, les arbres d’expression ne sont pas seulement mieux dans la performance que la réflexion, leur évolutivité plus puissante utilise en fait les caractéristiques les plus importantes.
 
-此处还有一个对属性进行操作的测试，此处将测试代码和结果罗列如下：
+Il ya aussi un test pour fonctionner sur les propriétés, où le code de test et les résultats sont répertoriés：
 
 ```cs
-using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
-using FluentAssertions;
-using NUnit.Framework;
+en utilisant le système;
+utilisant System.Diagnostics;
+utilisant System.Linq.Expressions;
+utilisant System.Reflection;
+utilisant FluentAssertions;
+'utilisation de NUnit.Framework;
 
-namespace Newbe.ExpressionsTests
+'espace nominatif Newbe.ExpressionsTests
 {
-    public class X02PropertyTest
+    classe publique X02PropertyTest
     {
-        private const int Count = 1_000_000;
-        private const int Diff = 100;
+        const int Count privé = 1_000_000;
+        const privé int Diff = 100;
 
         [SetUp]
-        public void Init()
+        vide public Init ()
         {
-            _propertyInfo = typeof(Claptrap).GetProperty(nameof(Claptrap.Level));
-            Debug.Assert(_propertyInfo != null, nameof(_propertyInfo) + " != null");
+            _propertyInfo = type de (Claptrap). GetProperty (nom de (Claptrap.Level));
+            Debug.Assert (_propertyInfo != null, nameof(_propertyInfo) + " != null « );
 
-            var instance = Expression.Parameter(typeof(Claptrap), "c");
-            var levelProperty = Expression.Property(instance, _propertyInfo);
-            var levelP = Expression.Parameter(typeof(int), "l");
-            var addAssignExpression = Expression.AddAssign(levelProperty, levelP);
+            instance var = Expression.Parameter(typeof(Claptrap), « c »);
+            var levelProperty = Expression.Property (instance, _propertyInfo);
+            var levelP = Expression.Parameter(typeof(int), « l »);
+            var addAssignExpression = Expression.AddAssign (levelProperty, levelP);
             var lambdaExpression = Expression.Lambda<Action<Claptrap, int>>(addAssignExpression, instance, levelP);
-            // lambdaExpression should be as (Claptrap c,int l) =>  { c.Level += l; }
+            // lambdaExpression devrait être aussi (Claptrap c,int l) =>  { c.Level += l; }
             _func = lambdaExpression.Compile();
         }
 
         [Test]
-        public void RunReflection()
+        vide public RunReflection ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                var value = (int) _propertyInfo.GetValue(claptrap);
-                _propertyInfo.SetValue(claptrap, value + Diff);
+                valeur var = (int) _propertyInfo.GetValue (claptrap);
+                _propertyInfo.SetValue (claptrap, valeur + Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
         [Test]
-        public void RunExpression()
+        public vide RunExpression ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                _func.Invoke(claptrap, Diff);
+                _func. Invoquer (claptrap, Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
         [Test]
-        public void Directly()
+        vide public Directement ()
         {
-            var claptrap = new Claptrap();
-            for (int i = 0; i < Count; i++)
+            var claptrap = nouveau Claptrap();
+            pour (int i = 0; je < comte; i++)
             {
-                claptrap.Level += Diff;
+                claptrap. Niveau += Diff;
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be (Comte * Diff);
         }
 
-        private PropertyInfo _propertyInfo;
-        private Action<Claptrap, int> _func;
+        propriété privéeInfo _propertyInfo;
+        d’action<Claptrap, int> _func;
 
-        public class Claptrap
+        classe publique Claptrap
         {
-            public int Level { get; set; }
+            public int Niveau { get; ensemble; }
         }
     }
 }
 ```
 
-耗时情况：
+Time-consuming：
 
-| Method        | Time  |
-| ------------- | ----- |
-| RunReflection | 373ms |
-| RunExpression | 19ms  |
-| Directly      | 18ms  |
+| Méthode                       | Heure       |
+| ----------------------------- | ----------- |
+| RunRéflexion                  | 373ms       |
+| RunExpression (RunExpression) | 19ms        |
+| Directement                   | 18ms (18ms) |
 
-由于反射多了一份装拆箱的消耗，所以比起前一个测试样例显得更慢了，使用委托是没有这种消耗的。
+Parce que la réflexion est plus d’une consommation de déballage, il est plus lent que l’échantillon de test précédent, et l’utilisation des délégués n’est pas une telle consommation.
 
-## 第〇步，需求演示
+## Étape 10, démonstration des exigences
 
-先通过一个测试来了解我们要创建的“模型验证器”究竟是一个什么样的需求。
+Commençons par un test pour voir quel type d’exigences nous allons créer pour le valideur modèle.
 
 ```cs
-using System.ComponentModel.DataAnnotations;
-using FluentAssertions;
-using NUnit.Framework;
+en utilisant System.ComponentModel.DataAnnotations;
+utilisant FluentAssertions;
+'utilisation de NUnit.Framework;
 
-namespace Newbe.ExpressionsTests
+'espace nominatif Newbe.ExpressionsTests
 {
     /// <summary>
-    /// Validate data by static method
+    /// Valider les données par méthode statique
     /// </summary>
-    public class X03PropertyValidationTest00
+    classe publique X03PropertyValidationTest00
     {
-        private const int Count = 10_000;
+        const privé int Count = 10_000;
 
         [Test]
-        public void Run()
+        public void Run ()
         {
-            for (int i = 0; i < Count; i++)
+            pour (int i = 0; je < comte; i++)
             {
                 // test 1
                 {
-                    var input = new CreateClaptrapInput();
-                    var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeFalse();
-                    errorMessage.Should().Be("missing Name");
+                    entrée var = nouvelle CreateClaptrapInput();
+                    var (isOk, errorMessage) = Validate (entrée);
+                    isOk.Should(). BeFalse();
+                    erreurMessage.Should(). Be (« nom manquant »);
                 }
 
                 // test 2
-                {
-                    var input = new CreateClaptrapInput
-                    {
-                        Name = "1"
+                { entrée var
+                    = nouvelle
+                    CreateClaptrapInput {
+                        Nom = « 1 »
                     };
-                    var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeFalse();
-                    errorMessage.Should().Be("Length of Name should be great than 3");
+                    var (isOk, errorMessage) = Validate (entrée);
+                    isOk.Should(). BeFalse();
+                    erreurMessage.Should(). Be (« La longueur du nom doit être grande que 3 »);
                 }
 
                 // test 3
-                {
-                    var input = new CreateClaptrapInput
+                { entrée var
+                    = nouveau CreateClaptrapInput
                     {
-                        Name = "yueluo is the only one dalao"
+                        Nom = « yueluo est le seul dalao »
                     };
-                    var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeTrue();
-                    errorMessage.Should().BeNullOrEmpty();
+                    var (isOk, errorMessage) = Validate (entrée);
+                    isOk.Should(). BeTrue();
+                    erreurMessage.Should(). BeNullOrEmpty();
                 }
             }
         }
 
-        public static ValidateResult Validate(CreateClaptrapInput input)
+        validation statique publique ValidateResult Validate (CreateClaptrapInput input)
         {
-            return ValidateCore(input, 3);
+            return ValidateCore (entrée, 3);
         }
 
-        public static ValidateResult ValidateCore(CreateClaptrapInput input, int minLength)
+        validation statique publique ValidateResult ValidateCore (Entrée CreateClaptrapInput, int minLength)
         {
-            if (string.IsNullOrEmpty(input.Name))
+            si (chaîne. IsNullOrEmpty(entrée. Nom))
             {
-                return ValidateResult.Error("missing Name");
+                retour ValidateResult.Error (« nom manquant »);
             }
 
-            if (input.Name.Length < minLength)
+            si (entrée. Name.Length < minLength)
             {
-                return ValidateResult.Error($"Length of Name should be great than {minLength}");
+                retour ValidateResult.Error ($"Longueur de nom devrait être grande que {minLength}« );
             }
 
-            return ValidateResult.Ok();
+            retour ValidateResult.Ok ();
         }
 
-        public class CreateClaptrapInput
+        classe publique CreateClaptrapInput
         {
-            [Required] [MinLength(3)] public string Name { get; set; }
+            [Required] [MinLength(3)] nom de chaîne publique { get; ensemble; }
         }
 
-        public struct ValidateResult
+        struct public ValidateResult
         {
-            public bool IsOk { get; set; }
-            public string ErrorMessage { get; set; }
+            bool public IsOk { get; ensemble; }
+            chaîne publique ErrorMessage { get; ensemble; }
 
-            public void Deconstruct(out bool isOk, out string errorMessage)
+            public vide Deconstruct (out bool isOk, out string errorMessage)
             {
                 isOk = IsOk;
-                errorMessage = ErrorMessage;
+                erreurMessage = ErrorMessage;
             }
 
-            public static ValidateResult Ok()
+            validation statique publique ValidateResult Ok ()
             {
-                return new ValidateResult
+                retour nouveau ValidateResult
                 {
                     IsOk = true
                 };
             }
 
-            public static ValidateResult Error(string errorMessage)
-            {
-                return new ValidateResult
+            validation statique publique Erreurresult (erreur de chaîneMessage)
+            { retour
+                nouveau ValidateResult
                 {
-                    IsOk = false,
+                    IsOk = faux,
                     ErrorMessage = errorMessage
                 };
             }
@@ -342,47 +342,47 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-从上而下，以上代码的要点：
+De haut en bas, les principaux points du code ci-dessus：
 
-1. 主测试方法中，包含有三个基本的测试用例，并且每个都将执行一万次。后续所有的步骤都将会使用这样的测试用例。
-2. Validate 方法是被测试的包装方法，后续将会调用该方法的实现以验证效果。
-3. ValidateCore 是“模型验证器”的一个演示实现。从代码中可以看出该方法对 CreateClaptrapInput 对象进行的验证，并且得到验证结果。但是该方法的缺点也非常明显，这是一种典型的“写死”。后续我们将通过一系列改造。使得我们的“模型验证器”更加的通用，并且，很重要的，保持和这个“写死”的方法一样的高效！
-4. ValidateResult 是验证器输出的结果。后续将不断重复的用到该结果。
+1. La méthode de test principale contient trois cas de test de base, dont chacun sera exécuté 10 000 fois.Toutes les étapes ultérieures utiliseront de tels cas de test.
+2. La méthode Validate est la méthode wrapper testée, et la mise en œuvre de la méthode est ensuite appelée pour vérifier l’effet.
+3. ValidityCore est une implémentation de démonstration de validateurs de modèles.Comme vous pouvez le voir sur le code, la méthode valide l’objet CreateClaptrapInput et obtient les résultats.Mais les inconvénients de cette méthode sont également très évidents, qui est un typique « écrire mort ».Nous ferons le suivi d’une série de rénovations.Rendez notre Model Validator plus polyvalent et, surtout, aussi efficace que cette approche « écrire mort » !
+4. ValidateResult est le résultat de la sortie validateur.Le résultat sera répété encore et encore.
 
-## 第一步，调用静态方法
+## La première étape consiste à appeler la méthode statique
 
-首先我们构建第一个表达式树，该表达式树将直接使用上一节中的静态方法 ValidateCore。
+Tout d’abord, nous construisons le premier arbre d’expression, qui utilisera validateCore directement en utilisant la méthode statique dans la dernière section.
 
 ```cs
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using FluentAssertions;
-using NUnit.Framework;
+en utilisant le système;
+utilisant System.ComponentModel.DataAnnotations;
+utilisant System.Diagnostics;
+utilisant System.Linq.Expressions;
+utilisant FluentAssertions;
+'utilisation de NUnit.Framework;
 
-namespace Newbe.ExpressionsTests
+'espace nominatif Newbe.ExpressionsTests
 {
     /// <summary>
-    /// Validate date by func created with Expression
+    /// Validation de la date par func créé avec Expression
     /// </summary>
-    public class X03PropertyValidationTest01
+    classe publique X03PropertyValidationTest01
     {
-        private const int Count = 10_000;
+        const privé int Count = 10_000;
 
-        private static Func<CreateClaptrapInput, int, ValidateResult> _func;
+        func statique privé<CreateClaptrapInput, int, ValidateResult> _func;
 
         [SetUp]
-        public void Init()
+        vide public Init ()
         {
-            try
+            essayez
             {
-                var method = typeof(X03PropertyValidationTest01).GetMethod(nameof(ValidateCore));
-                Debug.Assert(method != null, nameof(method) + " != null");
+                méthode var = type de (X03PropertyValidationTest01). GetMethod (nom de (ValidateCore));
+                Debug.Assert (méthode != null, nameof(method) + " != null « );
                 var pExp = Expression.Parameter(typeof(CreateClaptrapInput));
                 var minLengthPExp = Expression.Parameter(typeof(int));
-                var body = Expression.Call(method, pExp, minLengthPExp);
-                var expression = Expression.Lambda<Func<CreateClaptrapInput, int, ValidateResult>>(body,
+                corps var = Expression.Call (méthode, pExp, minLengthPExp);
+                expression var = Expression.Lambda<Func<CreateClaptrapInput, int, ValidateResult>>(corps,
                     pExp,
                     minLengthPExp);
                 _func = expression.Compile();
@@ -390,57 +390,57 @@ namespace Newbe.ExpressionsTests
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                lancer;
             }
         }
 
         [Test]
-        public void Run()
+        public void Run ()
         {
-           // see code in demo repo
+           // voir le code dans la démo repo
         }
 
-        public static ValidateResult Validate(CreateClaptrapInput input)
+        validation statique publique validate (entrée CreateClaptrapInput)
         {
-            return _func.Invoke(input, 3);
+            retour _func. Invoquer (entrée, 3);
         }
 
-        public static ValidateResult ValidateCore(CreateClaptrapInput input, int minLength)
+        validation statique publique ValidateResult ValidateCore (entrée CreateClaptrapInput, int minLength)
         {
-            if (string.IsNullOrEmpty(input.Name))
+            si (chaîne. IsNullOrEmpty(entrée. Nom))
             {
-                return ValidateResult.Error("missing Name");
+                retour ValidateResult.Error (« nom manquant »);
             }
 
-            if (input.Name.Length < minLength)
+            si (entrée. Name.Length < minLength)
             {
-                return ValidateResult.Error($"Length of Name should be great than {minLength}");
+                retour ValidateResult.Error ($"Longueur de nom devrait être grande que {minLength}« );
             }
 
-            return ValidateResult.Ok();
+            retour ValidateResult.Ok ();
         }
     }
 }
 ```
 
-从上而下，以上代码的要点：
+De haut en bas, les principaux points du code ci-dessus：
 
-1. 增加了一个单元测试的初始化方法，在单元测试启动时创建的一个表达式树将其编译为委托保存在静态字段 \_func 中。
-2. 省略了主测试方法 Run 中的代码，以便读者阅读时减少篇幅。实际代码没有变化，后续将不再重复说明。可以在代码演示仓库中查看。
-3. 修改了 Validate 方法的实现，不再直接调用 ValidateCore ，而调用 \_func 来进行验证。
-4. 运行该测试，开发者可以发现，其消耗的时间和上一步直接调用的耗时，几乎一样，没有额外消耗。
-5. 这里提供了一种最为简单的使用表达式进行动态调用的思路，如果可以写出一个静态方法（例如:ValidateCore）来表示动态调用的过程。那么我们只要使用类似于 Init 中的构建过程来构建表达式和委托即可。
-6. 开发者可以试着为 ValidateCore 增加第三个参数 name 以便拼接在错误信息中，从而了解如果构建这种简单的表达式。
+1. Une méthode d’initialisation pour les tests unitaires a été ajoutée, et un arbre d’expression créé au début du test unitaire le compile en tant que délégué pour enregistrer dans le champ statique _func.
+2. Le code de la méthode de test principale Exécuter est omis afin que le lecteur puisse lire moins d’espace.Le code réel n’a pas changé et la description ne sera pas répétée à l’avenir.Vous pouvez le visualiser dans le référentiel de démonstration de code.
+3. La mise en œuvre de la méthode Validate a été modifiée afin que validateCore ne soit plus appelé directement, _func à valider.
+4. En exécutant le test, les développeurs peuvent voir qu’il faut presque autant de temps que le prochain appel direct, sans consommation supplémentaire.
+5. Cela fournit la façon la plus simple d’utiliser des expressions pour les appels dynamiques, si vous pouvez écrire une méthode statique (par exemple, ValidateCore) pour représenter la procédure pour les appels dynamiques.Utilisons donc un processus de construction similaire à celui d’Init pour créer des expressions et des délégués.
+6. Les développeurs peuvent essayer d’ajouter un troisième nom de paramètre à ValidateCore afin qu’ils puissent coudre dans le message d’erreur pour comprendre si vous construisez une expression aussi simple.
 
-## 第二步，组合表达式
+## La deuxième étape consiste à combiner les expressions
 
-虽然前一步，我们将直接调用转变了动态调用，但由于 ValidateCore 还是写死的，因此还需要进一步修改。
+Bien que dans l’étape précédente, nous allons convertir l’appel dynamique directement, mais parce que ValidateCore est toujours mort, il doit être modifié.
 
-本步骤，我们将会把 ValidateCore 中写死的三个 return 路径拆分为不同的方法，然后再采用表达式拼接在一起。
+Dans cette étape, nous allons diviser les trois chemins de retour écrits morts dans ValidateCore en différentes méthodes, puis les coudre avec des expressions.
 
-如果我们实现了，那么我们就有条件将更多的方法拼接在一起，实现一定程度的扩展。
+Si nous le faisons, alors nous sommes dans un bon endroit pour coudre plus de méthodes ensemble pour atteindre un degré d’expansion.
 
-注意：演示代码将瞬间边长，不必感受太大压力，可以辅助后面的代码要点说明进行查看。
+Note：le code de démonstration sera instantanément long et n’a pas à ressentir trop de pression, qui peut être consulté avec une description de point de code de suivi.
 
 ```cs
 using System;
@@ -607,24 +607,24 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. ValidateCore 方法被拆分为了 ValidateNameRequired 和 ValidateNameMinLength 两个方法，分别验证 Name 的 Required 和 MinLength。
-2. Init 方法中使用了 local function 从而实现了方法“先使用后定义”的效果。读者可以自上而下阅读，从顶层开始了解整个方法的逻辑。
-3. Init 整体的逻辑就是通过表达式将 ValidateNameRequired 和 ValidateNameMinLength 重新组合成一个形如 ValidateCore 的委托 `Func<CreateClaptrapInput, int, ValidateResult>`。
-4. Expression.Parameter 用于标明委托表达式的参数部分。
-5. Expression.Variable 用于标明一个变量，就是一个普通的变量。类似于代码中的`var a`。
-6. Expression.Label 用于标明一个特定的位置。在该样例中，主要用于标定 return 语句的位置。熟悉 goto 语法的开发者知道， goto 的时候需要使用 label 来标记想要 goto 的地方。而实际上，return 就是一种特殊的 goto。所以想要在多个语句块中 return 也同样需要标记后才能 return。
-7. Expression.Block 可以将多个表达式顺序组合在一起。可以理解为按顺序写代码。这里我们将 CreateDefaultResult、CreateValidateNameRequiredExpression、CreateValidateNameMinLengthExpression 和 Label 表达式组合在一起。效果就类似于把这些代码按顺序拼接在一起。
-8. CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression 的结构非常类似，因为想要生成的结果表达式非常类似。
-9. 不必太在意 CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression 当中的细节。可以在本样例全部阅读完之后再尝试了解更多的 Expression.XXX 方法。
-10. 经过这样的修改之后，我们就实现了扩展。假设现在需要对 Name 增加一个 MaxLength 不得超过 16 的验证。只需要增加一个 ValidateNameMaxLength 的静态方法，添加一个 CreateValidateNameMaxLengthExpression 的方法，并且加入到 Block 中即可。读者可以尝试动手操作一波实现这个效果。
+1. La méthode ValidateCore est divisée en méthodes validateNameRequired et ValidateNameMinLength pour valider respectivement name’s Required et MinLength.
+2. La fonction locale est utilisée dans la méthode Init pour obtenir l’effet de la méthode « utiliser d’abord, définir plus tard ».Les lecteurs peuvent lire de haut en bas et apprendre la logique de toute l’approche par le haut.
+3. La logique de l’Init dans son ensemble est de remonter ValidateNameRequired et ValidateNameMinLength à travers des expressions dans un `de<CreateClaptrapInput, int, ValidateResult>`.
+4. Expression.Parameter est utilisé pour indiquer la partie paramètre de l’expression déléguée.
+5. Expression.Variable est utilisé pour indiquer une variable, qui est une variable normale.Semblable à la`var un`.
+6. Expression.Label est utilisé pour indiquer un emplacement spécifique.Dans cet exemple, il est principalement utilisé pour positionner l’instruction de retour.Les développeurs familiers avec la syntaxe goto savent que goto doit utiliser des étiquettes pour marquer où ils veulent goto.En fait, le retour est un type spécial de goto.Donc, si vous souhaitez revenir dans plus d’un bloc d’instructions, vous devez également le marquer avant de pouvoir revenir.
+7. Expression.Block peut regrouper plusieurs expressions ensemble dans l’ordre.Il peut être compris comme l’écriture de code séquentiellement.Ici, nous combinons CreateDefaultResult, CreateValidateNameRequired Expression, CreateValidateNameMinLengthExpression, et les expressions label.L’effet est similaire à la couture du code ensemble séquentiellement.
+8. CreateValidateNameRequiredExpression et CreateValidateNameMinLengthExpression ont des structures très similaires parce que les expressions résultantes que vous souhaitez générer sont très similaires.
+9. Ne vous inquiétez pas trop sur les détails dans CreateValidateNameRequired Expression et CreateValidateNameMinLengthExpression.Vous pouvez essayer d’en savoir plus sur cette méthode après avoir lu Expression.XXX échantillon.
+10. Avec cette modification, nous avons implémenté l’extension.Supposons que vous devez maintenant ajouter une validation MaxLength au nom qui ne dépasse pas 16.Il suffit d’ajouter une méthode statique de ValidateNameMaxLength, ajouter une méthode CreateValidateNameMaxLengthExpression, et l’ajouter à Bloc.Les lecteurs peuvent essayer de faire une vague pour atteindre cet effet.
 
-## 第三步，读取属性
+## La troisième étape consiste à lire les propriétés
 
-我们来改造 ValidateNameRequired 和 ValidateNameMinLength 两个方法。因为现在这两个方法接收的是 CreateClaptrapInput 作为参数，内部的逻辑也被写死为验证 Name，这很不优秀。
+Rénovons validateNameRequired et ValidateNameMinLength.Puisque les deux méthodes reçoivent maintenant CreateClaptrapInput comme argument, la logique interne est également écrite pour valider le nom, ce qui n’est pas très bon.
 
-我们将改造这两个方法，使其传入 string name 表示验证的属性名称，string value 表示验证的属性值。这样我们就可以将这两个验证方法用于不限于 Name 的更多属性。
+Nous allons moderniser les deux méthodes afin que le nom de la chaîne soit transmis pour représenter le nom de propriété vérifié, et la valeur de la chaîne représente la valeur de propriété vérifiée.De cette façon, nous pouvons utiliser ces deux méthodes de validation pour plus de propriétés qui ne sont pas limitées au nom.
 
 ```cs
 using System;
@@ -797,15 +797,15 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. 正如前文所述，我们修改了 ValidateNameRequired ，并重命名为 ValidateStringRequired。 ValidateNameMinLength -> ValidateStringMinLength。
-2. 修改了 CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression，因为静态方法的参数发生了变化。
-3. 通过这样的改造，我们便可以将两个静态方法用于更多的属性验证。读者可以尝试增加一个 NickName 属性。并且进行相同的验证。
+1. Comme mentionné précédemment, nous avons modifié ValidateNameRequired et l’avons rebaptisé ValidateStringRequired. ValidateNameMinLength -> ValidateStringMinLength
+2. CreateValidateNameRequired Expression et CreateValidateNameMinLengthExpression ont été modifiés parce que les paramètres de la méthode statique ont changé.
+3. Avec cette modification, nous pouvons utiliser deux méthodes statiques pour plus de validation des attributs.Les lecteurs peuvent essayer d’ajouter une propriété NickName.et effectuer la même validation.
 
-## 第四步，支持多个属性验证
+## La quatrième étape consiste à prendre en charge plusieurs validations de propriétés
 
-接下来，我们通过将验证 CreateClaptrapInput 所有的 string 属性。
+Ensuite, nous vérifierons toutes les propriétés des cordes de CreateClaptrapInput.
 
 ```cs
 using System;
@@ -985,16 +985,16 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. 在 CreateClaptrapInput 中增加了一个属性 NickName ，测试用例也将验证该属性。
-2. 通过`List<Expression>`我们将更多动态生成的表达式加入到了 Block 中。因此，我们可以对 Name 和 NickName 都生成验证表达式。
+1. Une propriété, NickName, a été ajoutée à CreateClaptrapInput, et le cas de test validera la propriété.
+2. Par`Liste<Expression>`avons ajouté des expressions générées plus dynamiquement à bloquer.Par conséquent, nous pouvons générer des expressions de validation pour Name et NickName.
 
-## 第五步，通过 Attribute 决定验证内容
+## La cinquième étape consiste à vérifier le contenu par le biais de la décision Attribut
 
-尽管前面我们已经支持验证多种属性了，但是关于是否进行验证以及验证的参数依然是写死的（例如：MinLength 的长度）。
+Bien que nous ayons pris en charge la validation d’un certain nombre de propriétés en premier lieu, les paramètres de validation et de validation sont toujours écrits morts (par exemple, la durée de：MinLength).
 
-本节，我们将通过 Attribute 来决定验证的细节。例如被标记为 Required 是属性才会进行必填验证。
+Dans cette section, nous utiliserons Attribut pour déterminer les détails de la validation.Par exemple, être marqué Requis est une propriété pour validation requise.
 
 ```cs
 using System;
@@ -1162,15 +1162,15 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. 在构建`List<Expression>`时通过属性上的 Attribute 上的决定是否加入特定的表达式。
+1. Lors de la création`liste<Expression>`une expression spécifique est faite en décidant d’inclure ou non une expression spécifique sur l’attribut sur la propriété.
 
-## 第六步，将静态方法换为表达式
+## Dans la sixième étape, remplacer la méthode statique par une expression
 
-ValidateStringRequired 和 ValidateStringMinLength 两个静态方法的内部实际上只包含一个判断三目表达式，而且在 C# 中，可以将 Lambda 方法赋值个一个表达式。
+L’intérieur des deux méthodes statiques, ValidateStringRequired et ValidateStringMinLength, ne contient en fait qu’une seule expression trilatérale de jugement, et en C# vous pouvez assigner une expression à la méthode Lambda.
 
-因此，我们可以直接将 ValidateStringRequired 和 ValidateStringMinLength 改换为表达式，这样就不需要反射来获取静态方法再去构建表达式了。
+Par conséquent, nous pouvons modifier validateStringRequired et ValidateStringMinLength directement aux expressions, de sorte que nous n’avons pas besoin de réflexion pour obtenir des méthodes statiques pour construire des expressions.
 
 ```cs
 using System;
@@ -1340,24 +1340,24 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. 将静态方法换成了表达式。因此 CreateXXXExpression 相应的位置也进行了修改，代码就更短了。
+1. Remplacez la méthode statique par une expression.Ainsi, l’emplacement de createXXExpression a été modifié, et le code est plus court.
 
-## 第七步，柯里化
+## Septième étape, Curry
 
-柯理化，也称为函数柯理化，是函数式编程当中的一种方法。简单的可以表述为：通过固定一个多参数函数的一个或几个参数，从而得到一个参数更少的函数。术语化一些，也可以表述为将高阶函数（函数的阶其实就是说参数的个数）转换为低阶函数的方法。
+La chimie de coli, également connue sous le nom de science fonctionnelle et de physication, est une méthode dans la programmation fonctionnelle.Simple peut être exprimé comme：en fixant un ou plusieurs arguments d’une fonction multi-argument, résultant en une fonction avec moins d’arguments.Une certaine terminologie peut également être exprimée comme un moyen de convertir une fonction d’ordre supérieur (l’ordre d’une fonction est en fait le nombre d’arguments) en une fonction de faible ordre.
 
-例如，现在有一个 add(int,int) 的函数，它实现了将两个数相加的功能。假如我们固定集中第一个参数为 5 ，则我们会得到一个 add(5,int) 的函数，它实现的是将一个数加 5 的功能。
+Par exemple, il y a maintenant une fonction ajouter (int, int) qui implémente la fonction d’ajout de deux nombres.Si nous épinglons le premier argument dans l’ensemble à 5, nous obtenons une fonction ajouter (5,int) qui implémente la fonction de plus un nombre plus 5.
 
-这有什么意义？
+À quoi bon?
 
-函数降阶可以使得函数变得一致，得到了一致的函数之后可以做一些代码上的统一以便优化。例如上面使用到的两个表达式：
+La fonction descendante peut rendre les fonctions cohérentes, et une fois que les fonctions cohérentes ont été obtenues, une certaine unification du code peut être faite pour l’optimisation.Par exemple, les deux expressions utilisées ci-dessus：
 
 1. `Expression<Func<string, string, ValidateResult>> ValidateStringRequiredExp`
 2. `Expression<Func<string, string, int, ValidateResult>> ValidateStringMinLengthExp`
 
-这两个表达式中第二个表达式和第一个表达式之间仅仅区别在第三参数上。如果我们使用柯理化固定第三个 int 参数，则可以使得两个表达式的签名完全一样。这其实和面向对象中的抽象非常类似。
+La différence entre la deuxième expression et la première expression dans les deux expressions n’est que sur le troisième argument.Si nous épinglons le troisième paramètre int avec Corredic, nous pouvons faire les signatures des deux expressions exactement la même chose.Ceci est très similaire à l’abstraction dans l’objet orienté.
 
 ```cs
 using System;
@@ -1533,17 +1533,17 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. CreateValidateStringMinLengthExp 静态方法，传入一个参数创建得到一个和 CreateValidateStringRequiredExp 返回值一样的表达式。对比上一节中的 ValidateStringMinLengthExp ，实现了固定 int 参数而得到一个新表达式的操作。这就是一种柯理化的体现。
-2. 为了统一都采用静态方法，我们将上一节中的 ValidateStringRequiredExp 也改为 CreateValidateStringRequiredExp 静态方法，这仅仅只是为了看起来一致（但实际上增加了一点点开销，因为没必要重复创建一个不变的表达式）。
-3. 相应的调整一下 `List<Expression>` 组装过程的代码。
+1. CreateValidateStringMinLengthExp méthode statique, passer dans un argument pour créer une expression qui est la même que la valeur retournée par CreateValidateStringRequiredExp.Par rapport au ValidateStringMinLengthExp dans la dernière section, le fonctionnement de la fixation du paramètre int pour obtenir une nouvelle expression est implémenté.C’est l’incarnation d’un corrédique.
+2. Pour unifier les méthodes statiques, nous avons modifié le ValidateStringRequiredExp dans la dernière section pour créervalidateStringRequiredExp méthodes statiques, juste pour regarder cohérente (mais effectivement ajouter un peu de frais généraux parce qu’il n’est pas nécessaire de créer une expression inchangée à plusieurs reprises).
+3. Ajustez le code pour l' `'<Expression>` le code de liste en conséquence.
 
-## 第八步，合并重复代码
+## Étape 8, fusionner le code en double
 
-本节，我们将合并 CreateValidateStringRequiredExpression 和 CreateValidateStringMinLengthExpression 中重复的代码。
+Dans cette section, nous combinerons le code en double de CreateValidateStrationRequired Expression et CreateValidateStringMinLengthExpression.
 
-其中只有 requiredMethodExp 的创建方式不同。因此，只要将这个参数从方法外面传入就可以抽离出公共部分。
+Seul RequiredMethodExp est créé différemment.Par conséquent, vous pouvez sortir de la partie commune en passant simplement ce paramètre de l’extérieur de la méthode.
 
 ```cs
 using System;
@@ -1687,17 +1687,17 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. CreateValidateExpression 就是被抽离出来的公共方法。
-2. 如果没有前一步柯理化，CreateValidateExpression 的第二个参数 validateFuncExpression 将很难确定。
-3. CreateValidateStringRequiredExpression 和 CreateValidateStringMinLengthExpression 内部调用了 CreateValidateExpression，但是固定了几个参数。这其实也可以被认为是一种柯理化，因为返回值是表达式其实可以被认为是一种函数的表现形式，当然理解为重载也没有问题，不必太过纠结。
+1. CreateValidate Expression est un moyen commun de se faire sortir.
+2. Sans l’étape précédente, le deuxième paramètre de CreateValidate Expression, validateFuncExpression, serait difficile à déterminer.
+3. CreateValidateStringRequired Expression et CreateValidateStringMinLengthExpression appelée CreateValidate Expression en interne, mais fixe plusieurs paramètres.Cela peut également être considéré comme un corrédique, parce que la valeur de retour est que l’expression peut effectivement être considérée comme une fonction de la forme, bien sûr, compris que la surcharge n’est pas un problème, ne doivent pas être trop emmêlés.
 
-## 第九步，支持更多模型
+## Étape 9 pour prendre en charge plus de modèles
 
-到现在，我们已经得到了一个支持验证 CreateClaptrapInput 多个 string 字段的验证器。并且，即使要扩展多更多类型也不是太难，只要增加表达式即可。
+Jusqu’à présent, nous avons un validateur qui prend en charge la vérification de plusieurs champs de cordes dans CreateClaptrapInput.Et même si vous voulez étendre plus de types, ce n’est pas trop difficile, il suffit d’ajouter une expression.
 
-本节，我们将 CreateClaptrapInput 抽象为更抽象的类型，毕竟没有模型验证器是专门只能验证一个 class 的。
+Dans cette section, nous abstract CreateClaptrapInput dans un type plus abstrait, après tout, aucun validateur de modèle n’est dédié à la validation d’une seule classe.
 
 ```cs
 using System;
@@ -1849,14 +1849,14 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. 将 `Func<CreateClaptrapInput, ValidateResult>` 替换为了 `Func<object, ValidateResult>`，并且将写死的 typeof(CreateClaptrapInput) 都替换为了 type。
-2. 将对应类型的验证器创建好之后保存在 ValidateFunc 中。这样就不需要每次都重建整个 Func。
+1. Remplacez `Func<CreateClaptrapInput, ValidateResult>` par `Func<object, ValidateResult>`, et remplacez le type mort (CreateClaptrapInput) par le type.
+2. Enregistrez le validateur du type correspondant dans ValidatedFunc après sa création.Cela ne nécessite pas de reconstruire l’ensemble func à chaque fois.
 
-## 第十步，加入一些细节
+## Étape 10, ajouter quelques détails
 
-最后的最后，我们又到了令人愉快的“加入一些细节”阶段：按照业务特性对抽象接口和实现进行调整。于是我们就得到了本示例最终的版本。
+Enfin, nous sommes dans l’agréable « ajouter quelques détails » pour phase：interfaces abstraites et les implémentations aux caractéristiques de l’entreprise.Nous avons donc obtenu la version finale de cet exemple.
 
 ```cs
 using System;
@@ -2194,156 +2194,156 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+Code Essentials：
 
-1. IValidatorFactory 模型验证器工厂，表示创建特定类型的验证器委托
-2. IPropertyValidatorFactory 具体属性的验证表达式创建工厂，可以根据规则的增加，追加新的实现。
-3. 使用 Autofac 进行模块管理。
+1. L’usine de valideurs de modèles IValidatorFactory, qui représente la création d’un type spécifique de délégué validateur
+2. L’expression de validation pour les propriétés spécifiques d’IPropertyValidatorFactory crée une usine qui peut annexer une nouvelle implémentation à mesure que les règles augmentent.
+3. Utilisez Autofac pour la gestion du module.
 
-## 随堂小练
+## Pratique avec la salle
 
-别走！您还有作业。
+Ne partez pas !Tu as toujours du travail.
 
-以下有一个按照难度分级的需求，开发者可以尝试完成这些任务，进一步理解和使用本样例中的代码。
+Voici une exigence de noter par difficulté que les développeurs peuvent essayer d’accomplir pour mieux comprendre et utiliser le code dans cet exemple.
 
-### 增加一个验证 string max length 的规则
+### Ajouter une règle qui valide la longueur maximale de la chaîne
 
-难度：D
+Difficulté：D
 
-思路：
+Ideas：
 
-和 min length 类似，别忘记注册就行。
+Semblable à la longueur min, n’oubliez pas de vous inscrire.
 
-### 增加一个验证 int 必须大于等于 0 的规则
+### Ajouter une règle qui vérifie que l’int doit être supérieur ou égal à 0
 
-难度：D
+Difficulté：D
 
-思路：
+Ideas：
 
-只是多了一个新的属性类型，别忘记注册就行。
+Il suffit d’ajouter un nouveau type de propriété et n’oubliez pas de vous inscrire.
 
-### 增加一个`IEnumerable<T>`对象必须包含至少一个元素的规则
+### Ajouter une règle`'objet<T>`iEnumérable doit contenir au moins un élément
 
-难度：C
+Difficulté：C
 
-思路：
+Ideas：
 
-可以用 Linq 中的 Any 方法来验证
+Vous pouvez vérifier cela en utilisant n’importe quelle méthode dans Linq
 
-### 增加一个`IEnumerable<T>`必须已经 ToList 或者 ToArray，类比 mvc 中的规则
+### Ajout d`un<T>`IEnumerable déjà ToList ou ToArray, analogie avec la règle en mvc
 
-难度：C
+Difficulté：C
 
-思路：
+Ideas：
 
-其实只要验证是否已经是 ICollection 就可以了。
+En fait, il suffit de vérifier que c’est déjà ICollection.
 
-### 支持空对象也输出验证结果
+### La prise en charge des objets vides permet également de valider les résultats
 
-难度：C
+Difficulté：C
 
-思路：
+Ideas：
 
-如果 input 为空。则也要能够输出第一条不满足条件的规则。例如 Name Required。
+Si l’entrée est vide.vous devriez également être en mesure de donner la première règle qui ne répond pas aux critères.Par exemple, nom requis.
 
-### 增加一个验证 int? 必须有值的规则
+### Ajouter une int validation? Il doit y avoir une règle de valeur
 
-难度：B
+Difficulté：B
 
-思路：
+Ideas：
 
-int? 其实是语法糖，实际类型是 `Nullable<int>`。
+Int? C’est en fait du sucre syntaxe, `type est<int>`.
 
-### 增加一个验证枚举必须符合给定的范围
+### L’ajout d’une validation énumérée doit être conforme à une plage donnée
 
-难度：B
+Difficulté：B
 
-思路：
+Ideas：
 
-枚举是可以被赋值以任意数值范围的，例如定义了 Enum TestEnum { None = 0;} 但是，强行赋值 233 给这样的属性并不会报错。该验证需要验证属性值只能是定义的值。
+Les énumérations peuvent être attribuées à n’importe quelle gamme de valeurs, par exemple, enum TestEnum s None s 0; Toutefois, forcer un 233 à donner une telle propriété ne fait pas état d’une erreur.Cette validation nécessite la validation que la valeur de la propriété ne peut être définie.
 
-也可以增加自己的难度，例如支持验证标记为 Flags 的枚举的混合值范围。
+Vous pouvez également rendre les choses plus difficiles, par exemple en soutenant la validation de la gamme de valeurs mixtesumées sous forme de drapeaux.
 
-### 添加一个验证 int A 属性必须和 int B 属性大
+### L’ajout d’une propriété de validation int A doit être grand et la propriété int B
 
-难度：A
+Difficulté：A
 
-思路：
+Ideas：
 
-需要有两个属性参与。啥都别管，先写一个静态函数来比较两个数值的大小。然后在考虑如何表达式化，如何柯理化。可以参考前面思路。
+Deux propriétés sont nécessaires pour participer.Ne vous souciez jamais, écrivez d’abord une fonction statique pour comparer la taille des deux valeurs.Ensuite, réfléchissez à la façon d’expressionner, comment corrification.Vous pouvez vous référer aux idées précédentes.
 
-额外限定条件，不能修改现在接口定义。
+Conditions de qualification supplémentaires, ne peut pas modifier la définition actuelle de l’interface.
 
-### 添加一个验证 string A 属性必须和 string B 属性相等，忽略大小写
+### Ajout d’une chaîne de validation Une propriété doit être égale à la propriété de la chaîne B, ignorant le cas
 
-难度：A
+Difficulté：A
 
-思路：
+Ideas：
 
-和前一个类似。但是，string 的比较比 int 特殊，并且需要忽略大小写。
+Semblable à la précédente.Toutefois, les comparaisons de cordes sont plus spéciales qu’int et le cas doit être ignoré.
 
-### 支持返回全部的验证结果
+### Prend en charge le retour de tous les résultats de validation
 
-难度：S
+Difficulté：S
 
-思路：
+Ideas：
 
-调整验证结果返回值，从返回第一个不满足的规则，修改为返回所有不满足的规则，类比 mvc model state 的效果。
+Ajustez les résultats de validation pour retourner une valeur, du retour de la première règle non satisfaite au retour de toutes les règles non satisfaites, analogie avec l’effet de l’état du modèle mvc.
 
-需要修改组合结果的表达式，可以有两种办法，一种是内部创建 List 然后将结果放入，更为简单的一种是使用 yield return 的方法进行返回。
+Les expressions qui doivent modifier les résultats combinés peuvent être créées de deux façons, l’une est de créer la Liste en interne, puis de mettre les résultats, et le plus simple est de revenir en utilisant la méthode de rendement.
 
-需要而外注意的是，由于所有规则都运行，一些判断就需要进行防御性判断。例如在 string 长度判断时，需要先判断其是否为空。至于 string 为空是否属于满足最小长度要求，开发者可以自由决定，不是重点。
+Il est important de noter que puisque toutes les règles sont en vigueur, certains jugements exigent des jugements défensifs.Par exemple, lorsque vous jugez la longueur des cordes, vous devez d’abord déterminer si elle est vide.Quant à savoir si la chaîne vide est une exigence de longueur minimale, les développeurs sont libres de décider, pas le point.
 
-### 支持对象的递归验证
+### Prend en charge la validation récursive des objets
 
-难度：SS
+Difficulté：SS
 
-思路：
+Ideas：
 
-即如果对象包含一个属性又是一个对象，则子对象也需要被验证。
+C’est-à-dire que si un objet contient une propriété et un objet, l’objet enfant doit également être validé.
 
-有两种思路：
+Il y a deux ideas：
 
-一是修改 ValidatorFactory 使其支持从 ValidateFunc 中获取验证器作为表达式的一部分。该思路需要解决的主要问题是，ValidateFunc 集合中可能提前不存在子模型的验证器。可以使用 Lazy 来解决这个问题。
+La première est de modifier ValidatorFactory pour prendre en charge l’obtention du validateur de ValideFunc dans le cadre de l’expression.Le principal problème que cette idée doit résoudre est que le validateur du sous-modèle peut ne pas exister dans la collection ValidityFunc à l’avance.Vous pouvez utiliser Lazy pour résoudre ce problème.
 
-二是创建一个 IPropertyValidatorFactory 实现，使其能够从 ValidatorFactory 中获取 ValidateFunc 来验证子模型。该思路主要要解决的问题是，直接实现可能会产生循环依赖。可以保存和生成 ValidateFunc 划分在两个接口中，解除这种循环依赖。该方案较为简单。
+La seconde est de créer une implémentation IPropertyValidatorFactory qui lui permet d’obtenir ValidateFunc de ValidatorFactory pour valider le sous-modèle.Le principal problème avec cette idée est qu’une mise en œuvre directe peut produire des dépendances circulaires.ValidateFunc peut être enregistré et généré divisé en deux interfaces pour soulager cette dépendance circulaire.Le schéma est plus simple.
 
-另外，晋级难度为 SSS，验证 `IEnumerable<>` 中所有的元素。开发者可以尝试。
+En outre, la difficulté de se qualifier est SSS, `tous les éléments<>` le système IEnumerable.Les développeurs peuvent essayer.
 
-### 支持链式 API
+### Les API enchaînées sont prises en charge
 
-难度：SSS
+Difficulté：SSS
 
-思路：
+Ideas：
 
-形如 EntityFramework 中同时支持 Attribute 和链式 API 一样，添加链式设置验证的特性。
+Comme les API d’attribut et de chaîne dans EnterpriseFramework, ajoutez les caractéristiques de validation du réglage de la chaîne.
 
-这需要增加新的接口以便进行链式注册，并且原来使用 Attribute 直接生成表达式的方法也应该调整为 Attribute -> 注册数据 -> 生成表达式。
+Cela nécessite l’ajout d’une nouvelle interface pour l’enregistrement de la chaîne, et la méthode qui utilisait à l’origine Attribut pour générer des expressions directement doit également être ajustée pour attribuer -> données d’enregistrement -> générer des expressions.
 
-### 实现一个属性修改器
+### Implémenter un modificateur de propriété
 
-难度：SSS
+Difficulté：SSS
 
-思路：
+Ideas：
 
-实现一条规则，手机号码加密，当对象的某个属性是满足长度为 11 的字符串，并且开头是 1。则除了前三位和后四位之外的字符全部替换为`*`。
+Implémentez une règle selon que le numéro de téléphone est crypté lorsque la propriété d’un objet est une chaîne qui rencontre une longueur de 11 et commence par 1.Tous les personnages sauf les trois premiers et les quatre derniers sont remplacés par``.
 
-建议从头开始实现属性修改器，不要在上面的代码上做变更。因为验证和替换通常来说是两个不同的业务，一个是为了输入，一个是为了输出。
+Il est recommandé d’implémenter le modificateur de propriété à partir de zéro, sans apporter de modifications au code ci-dessus.Parce que la validation et le remplacement sont généralement deux entreprises différentes, l’une pour l’entrée et l’autre pour la sortie.
 
-这里有一些额外的要求：
+Voici quelques informations requirements：
 
-1. 在替换完成后，将此次被替换的所有值的前后情况输出在日志中。
-2. 注意，测试的性能要与直接调用方法相当，否则肯定是代码实现存在问题。
+1. Une fois le remplacement terminé, les conditions avant et après de toutes les valeurs qui ont été remplacées sont la sortie dans le journal.
+2. Notez que le test doit fonctionner ainsi que les méthodes d’appel directement, sinon il doit y avoir un problème avec la mise en œuvre du code.
 
-## 本文总结
+## Cet article résume
 
-在.net 中，表达式树可以用于两种主要的场景。一种是用于解析结果，典型的就是 EntityFramework，而另外一种就是用于构建委托。
+Dans .net, les arbres d’expression peuvent être utilisés dans deux scénarios principaux.L’un est utilisé pour parse les résultats, généralement EnterpriseFramework, et l’autre est utilisé pour construire des délégués.
 
-本文通过构建委托的方式实现了一个模型验证器的需求。生产实际中还可以用于很多动态调用的地方。
+Cet article met en œuvre les exigences d’un validateur modèle en construisant des délégués.La production peut également être utilisée dans de nombreux appels dynamiques dans la pratique.
 
-掌握表达式树，就掌握了一种可以取代反射进行动态调用的方法，这种方法不仅扩展性更好，而且性能也不错。
+Maîtriser l’arbre d’expression vous donne un moyen de faire des appels dynamiques au lieu de la réflexion, qui est non seulement plus évolutive, mais fonctionne également bien.
 
-本篇内容中的示例代码，均可以在以下链接仓库中找到：
+Le code d’exemple de cet article se trouve dans le référentiel de lien below：
 
 - <https://github.com/newbe36524/Newbe.Demo>
 - <https://gitee.com/yks/Newbe.Demo>
