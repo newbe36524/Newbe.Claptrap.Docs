@@ -17,7 +17,7 @@ title: 談反應式程式設計在服務端中的應用，資料庫操作優化�
 
 ## 業務場景
 
-在最近的一篇文章[《十萬同時在線使用者，需要多少記憶體？ ——Newbe.Claptrap框架水平擴展實驗》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。我們通過啟動多個常駐於記憶體當中的 Claptrap 來實現快速驗證 JWT 正確性的目的。
+在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap 框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。我們通過啟動多個常駐於記憶體當中的 Claptrap 來實現快速驗證 JWT 正確性的目的。
 
 但，當時有一個技術問題沒有得到解決：
 
@@ -87,9 +87,9 @@ VALUES
 
 ### PostgreSQL
 
-眾所周知，PostgreSQL 在進行批量寫入時，可以使用高效的`COPY`語句來完成數據的高速導入，這遠遠快於`INSERT`語句。但可惜的是`COPY`並不能支援`ON CONFLICT DO UPDATE`子句。因此，無法使用`COPY`來完成 upsert 需求。
+众所周知，PostgreSQL 在进行批量写入时，可以使用高效的 COPY 语句来完成数据的高速导入，这远远快于 INSERT 语句。但可惜的是 COPY 并不能支持 ON CONFLICT DO UPDATE 子句。因此，无法使用 COPY 来完成 upsert 需求。
 
-因此，我們還是回歸使用`INSERT`配合`ON CONFLICT DO UPDATE`子句，以及`unnest`函數來完成批量 upsert 的需求。
+因此，我们还是回归使用 INSERT 配合 ON CONFLICT DO UPDATE 子句，以及 unnest 函数来完成批量 upsert 的需求。
 
 具體的敘述格式形如以下：
 

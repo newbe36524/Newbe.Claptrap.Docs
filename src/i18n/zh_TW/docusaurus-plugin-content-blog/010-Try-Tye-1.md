@@ -165,9 +165,9 @@ services:
 
 因為此次我們發佈的是 netcore 程式，他們將會被構建的 netcore 鏡像，因此，為了更加順利的進行構建，建議先使用加速工具在本地提前下載好基礎鏡像。
 
-例如，筆者在此次的使用中使用的 net5 TFM 的應用程式，因此，就需要在本地先拉好`mcr.microsoft.com/dotnet/aspnet:5.0`作為基礎鏡像。
+例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
 
-由於現在 netcore 基礎鏡像的源已經從 docker hub 遷移到 mcr.microsoft.com。故而，建議使用`Newbe.McrMirror`進行加速下載。
+由於現在 netcore 基礎鏡像的源已經從 docker hub 遷移到 mcr.microsoft.com。故而，建议使用 Newbe.McrMirror 进行加速下载。
 
 詳細的使用方法可以參考：<https://github.com/newbe36524/Newbe.McrMirror>
 

@@ -1,6 +1,6 @@
 ---
-title: 'Paso 2 - Simple negocio, vacíe su carrito de compras'
-description: 'Paso 2 - Simple negocio, vacíe su carrito de compras'
+title: "Paso 2 - Simple negocio, vacíe su carrito de compras"
+description: "Paso 2 - Simple negocio, vacíe su carrito de compras"
 ---
 
 Con esta lectura, puedes empezar a hacer negocios con Claptrap.
@@ -70,13 +70,14 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 ## Implementar EventHandler
 
-`EventHandler`actualizar eventos al</code>de estado``de Claptrap.Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.</p>
+EventHandler 用于将事件更新到 Claptrap 的 State 上。Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.
 
-<p spaces-before="0">Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.</p>
+Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.
 
-<p spaces-before="0">Agregue los siguientes code：</p>
+Agregue los siguientes code：
 
-<pre><code class="cs">+ using System.Threading.Tasks;
+```cs
++ using System.Threading.Tasks;
 + using HelloClaptrap.Models.Cart;
 + using HelloClaptrap.Models.Cart.Events;
 + using Newbe.Claptrap;
@@ -95,7 +96,7 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 +         }
 +     }
 + }
-``</pre>
+```
 
 Estas son algunas questions：comunes
 

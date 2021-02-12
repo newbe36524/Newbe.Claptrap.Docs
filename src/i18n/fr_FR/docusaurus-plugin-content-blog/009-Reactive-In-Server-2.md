@@ -17,7 +17,7 @@ C’est aussi un moyen de combiner les opérations upsert individuelles en vrac 
 
 ## Le scénario d’affaires
 
-Dans un récent article[100.000 utilisateurs en ligne simultanés, combien de mémoire avez-vous besoin? - Newbe.Claptrap Framework Horizontal Extension Experiment est](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)expérience.Nous vérifions rapidement la justesse de JWT en activant claptrap, un résident de mémoire multiple.
+在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap 框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。Nous vérifions rapidement la justesse de JWT en activant claptrap, un résident de mémoire multiple.
 
 Cependant, il y avait un problème technique qui n’était pas resolved：
 
@@ -87,9 +87,9 @@ Il suffit donc de coudre les instructions et les appels de paramètres directeme
 
 ### Postgresql
 
-PostgreSQL est connu pour utiliser des instructions`COPY`efficaces pour l’importation à grande vitesse de données lors de l’écriture en vrac, beaucoup plus rapide que les instructions`INSERT`.Malheureusement,`COPY`'est`la clause ON CONFLICT DO UPDATE`.Par conséquent,`copie`pour remplir les exigences upsert.
+众所周知，PostgreSQL 在进行批量写入时，可以使用高效的 COPY 语句来完成数据的高速导入，这远远快于 INSERT 语句。但可惜的是 COPY 并不能支持 ON CONFLICT DO UPDATE 子句。因此，无法使用 COPY 来完成 upsert 需求。
 
-Par conséquent, nous régressons la nécessité d’utiliser`INSERT`en conjonction avec la clause`ON CONFLICT DO UPDATE`, ainsi que la fonction``nonnest pour compléter le upsert en vrac.
+因此，我们还是回归使用 INSERT 配合 ON CONFLICT DO UPDATE 子句，以及 unnest 函数来完成批量 upsert 的需求。
 
 Les instructions spécifiques sont formatées comme follows：
 

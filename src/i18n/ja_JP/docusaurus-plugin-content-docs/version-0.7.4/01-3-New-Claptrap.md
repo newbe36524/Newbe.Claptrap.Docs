@@ -1,6 +1,6 @@
 ---
-title: 'ステップ 3 - Claptrap を定義し、商品在庫を管理します'
-description: 'ステップ 3 - Claptrap を定義し、商品在庫を管理します'
+title: "ステップ 3 - Claptrap を定義し、商品在庫を管理します"
+description: "ステップ 3 - Claptrap を定義し、商品在庫を管理します"
 ---
 
 この記事では、Claptrap を使用してビジネスを開始できます。
@@ -309,7 +309,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-`EventHandler`Claptrap の`State にイベントを更新`します。
+EventHandlerはイベントを Claptrap の state への更新に使用します。
 
 `HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
 
@@ -404,7 +404,7 @@ Attribute でタグ付けし、UpdateInventoryAsync 実行イベントを変更�
 
 在庫の照会と更新は、前に完了しました。ただし、通常、在庫には初期金額があり、このセクションではロジックのこの部分を補足します。
 
-`HelloClaptrap.Actors`プロジェクトの`Sku`フォルダの下に`SkuStateInitHandler`します。
+HelloClaptrap.Actors プロジェクトの Sku フォルダに SkuStateInitHandler クラスを作成します。
 
 ```cs
 + using System.Threading.Tasks;
@@ -502,7 +502,7 @@ HelloClaptrap.Actors`プロジェクトの``SkuGrain  クラスを`開きます�
 
 前のすべての手順が完了すると、Claptrap のすべての部分が完了します。ただし、Claptrap は外部プログラムとの相互運用性を直接提供できません。したがって、Controller 層に API を追加して、外部で "インベントリの読み取り" 操作を行う必要があります。
 
-`HelloClaptrap.Web`プロジェクトの`Controllers`フォルダの下に、新しい`SkuController`します。
+HelloClaptrap.Web プロジェクトの Controllers フォルダに SkuController を作成します。
 
 ```cs
 + using System.Threading.Tasks;

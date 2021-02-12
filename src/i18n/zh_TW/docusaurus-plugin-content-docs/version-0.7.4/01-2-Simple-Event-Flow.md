@@ -1,6 +1,6 @@
 ---
-title: '第二步——簡單業務，清空購物車。'
-description: '第二步——簡單業務，清空購物車。'
+title: "第二步——簡單業務，清空購物車。"
+description: "第二步——簡單業務，清空購物車。"
 ---
 
 通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
@@ -70,7 +70,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 ## 實現 EventHandler
 
-`EventHandler`用於將事件更新到 Claptrap 的`State`上。例如此次的業務場景，那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的業務場景，那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
 
 在`HelloClaptrap.Actors`專案的`Cart/Events`資料夾下創建。 `RemoveAllItemsFromCartEventHandler`類。
 

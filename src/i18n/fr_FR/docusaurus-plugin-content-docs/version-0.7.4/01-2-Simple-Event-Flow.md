@@ -1,6 +1,6 @@
 ---
-title: 'Étape 2 - Affaires simples, videz votre panier'
-description: 'Étape 2 - Affaires simples, videz votre panier'
+title: "Étape 2 - Affaires simples, videz votre panier"
+description: "Étape 2 - Affaires simples, videz votre panier"
 ---
 
 Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec Claptrap.
@@ -70,7 +70,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 ## Implémenter EventHandler
 
-`EventHandler`mettre à jour les événements à claptrap’s`State`.Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
 Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
 

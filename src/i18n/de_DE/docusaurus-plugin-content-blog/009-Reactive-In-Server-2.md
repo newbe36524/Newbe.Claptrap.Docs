@@ -17,7 +17,7 @@ Es ist auch eine Möglichkeit, einzelne Upsert-Operationen in loser Schüttung m
 
 ## Das Geschäftsszenario
 
-Wie viel Arbeitsspeicher benötigen Sie in einer kürzlich enzimultanen article[100.000 online-Nutzern? - Newbe.Claptrap Framework Horizontal Extension Experiment ist](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)Experiment.Wir überprüfen schnell die JWT-Korrektheit, indem wir mehrere speicherresidente Claptrap aktivieren.
+在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap 框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。Wir überprüfen schnell die JWT-Korrektheit, indem wir mehrere speicherresidente Claptrap aktivieren.
 
 Es gab jedoch ein technisches Problem, das nicht resolved：
 
@@ -87,9 +87,9 @@ Also nur stich Anweisungen und Parameteraufrufe direkt.Es ist wichtig zu beachte
 
 ### Postgresql
 
-PostgreSQL ist dafür bekannt, effiziente`COPY-`-Anweisungen für den Hochgeschwindigkeitsimport von Daten beim Schreiben in großen Mengen zu verwenden, viel schneller als`INSERT-`-Anweisungen.Leider`<code>COPY`nicht die ON CONFLICT DO UPDATE</code>-Klausel.Daher</code>die`Kopie, um upsert-Anforderungen zu erfüllen.</p>
+众所周知，PostgreSQL 在进行批量写入时，可以使用高效的 COPY 语句来完成数据的高速导入，这远远快于 INSERT 语句。但可惜的是 COPY 并不能支持 ON CONFLICT DO UPDATE 子句。因此，无法使用 COPY 来完成 upsert 需求。
 
-<p spaces-before="0">Daher wird die Notwendigkeit,<code>INSERT-`in Verbindung mit der`ON CONFLICT DO UPDATE-`-Klausel sowie der`unnest`-Funktion zu verwenden, um den Bulk-Upsert abzuschließen, zurückgehen.
+因此，我们还是回归使用 INSERT 配合 ON CONFLICT DO UPDATE 子句，以及 unnest 函数来完成批量 upsert 的需求。
 
 Bestimmte Anweisungen werden als follows：
 

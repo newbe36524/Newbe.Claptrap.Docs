@@ -17,7 +17,7 @@ It is also a way to combine individual upsert operations in bulk using the idea 
 
 ## The business scenario
 
-In a recent article[100,000 simultaneous online users, how much memory do you need? - Newbe.Claptrap Framework Horizontal Extension Experiment is](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)experiment.We quickly verify JWT correctness by activating multiple memory-resident Claptrap.
+In a recent article[How much memory is needed — Newbe.Clapp Framework Horizontal Experiment](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online).We quickly verify JWT correctness by activating multiple memory-resident Claptrap.
 
 However, there was a technical problem that was not resolved：
 
@@ -87,9 +87,9 @@ So just stitch statements and parameter calls directly.It is important to note t
 
 ### PostgreSQL
 
-PostgreSQL is known to use efficient`COPY`statements for high-speed import of data when writing in bulk, much faster than`INSERT`statements.Unfortunately,`COPY`does not`the ON CONFLICT DO UPDATE`clause.Therefore, the`copy`to complete upsert requirements.
+It is well known that PostgreSQL can use efficient COPY statements to complete the fast import of data, far faster than INSERT statements.Unfortunately, however, COPY does not support ON CONFLICT DO UPDATE sentences.Therefore, it is not possible to use COPY to complete upsert requirements.
 
-Therefore, we're regressing the need to use`INSERT`in conjunction with the`ON CONFLICT DO UPDATE`clause, as well as the`unnest`function to complete the bulk upsert.
+We therefore return to the need to use INSERT with ON CONFLICT DO UPDATE subsentences, and the unnest function to complete the batch
 
 Specific statements are formatted as follows：
 

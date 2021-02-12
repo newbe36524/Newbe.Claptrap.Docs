@@ -1,6 +1,6 @@
 ---
-title: '第三步——定義Claptrap，管理商品庫存'
-description: '第三步——定義Claptrap，管理商品庫存'
+title: "第三步——定義Claptrap，管理商品庫存"
+description: "第三步——定義Claptrap，管理商品庫存"
 ---
 
 通過本篇閱讀，您便可以開始嘗試使用 Claptrap 實現業務了。
@@ -309,7 +309,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 ## 實現 EventHandler
 
-`EventHandler`用於將事件更新到 Claptrap 的`State`上。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 在`HelloClaptrap.Actors`專案的`Sku/Events`資料夾下創建`InventoryUpdateEventHandler`類。
 
@@ -404,7 +404,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 前面我們已經完成了庫存的查詢和更新。不過通常來說庫存有一個初始數額，我們本節在補充這部分邏輯。
 
-在`HelloClaptrap.Actors`專案的`Sku`資料夾下創建`SkuStateInitHandler`類。
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
@@ -502,7 +502,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「讀取庫存」 的操作。
 
-在`HelloClaptrap.Web`專案的`Controllers`資料夾下新建`SkuController`類。
+在 HelloClaptrap.Web 项目的 Controllers 文件夹下新建 SkuController 类。
 
 ```cs
 + using System.Threading.Tasks;

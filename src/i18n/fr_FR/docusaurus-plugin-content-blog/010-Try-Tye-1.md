@@ -165,9 +165,9 @@ Cela équivaut, s’il est construit, à une image d’étiquette`registry.cn-ha
 
 Parce que cette fois, nous publions un programme netcore, ils vont être construits avec des images netcore, donc pour une construction plus lisse, il est recommandé que vous utilisez l’outil d’accélération pour télécharger l’image sous-jacente localement à l’avance.
 
-Par exemple, l’application net5 TFM utilisée par l’auteur dans cette utilisation, par conséquent, vous devez tirer le`mcr.microsoft.com/dotnet/aspnet:5.0`comme le miroir sous-jacent.
+例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
 
-Depuis la source du miroir sous-jacent netcore a maintenant été migré de docker hub à mcr.microsoft.com.Par conséquent, il est recommandé`le Newbe.McRiror`d’accélérer les téléchargements.
+Depuis la source du miroir sous-jacent netcore a maintenant été migré de docker hub à mcr.microsoft.com.故而，建议使用 Newbe.McrMirror 进行加速下载。
 
 Les méthodes d’utilisation détaillées peuvent être：<https://github.com/newbe36524/Newbe.McrMirror>
 

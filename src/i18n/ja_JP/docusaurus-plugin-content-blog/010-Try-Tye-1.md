@@ -165,9 +165,9 @@ services:
 
 今回はnetcoreプログラムをリリースし,構築したnetcoreミラーを作成するため,よりスムーズに構築するために,まずアクセラレーションツールを用い,ベースミラーをローカルに事前にダウンロードすることをお勧めします.
 
-たとえば,筆者が今回使用したnet5 TFMのアプリケーションは,まずベースミラーとして`mcr.microsoft.com/dotnet/aspnet:5.0`をローカルにプルする必要がある.
+例えば、以下のコードで net5 TFM を使うことを指すため、ローカルではmcr.microsoft.com/dotnet/aspnet:5.0 を基本としたミラーにしてください。
 
-netcore 基になるミラーのソースが docker hub から mcr.microsoft.com。したがって、ダウンロードを高速化するには`Newbe.McrMirror`使用することをお勧めします。
+netcore 基になるミラーのソースが docker hub から mcr.microsoft.com。このアドオンにNewbe.McrMirror を使用してダウンロードアップ・ダウンロードアップを推奨。
 
 詳細な使用方法については、「」を参照してください：<https://github.com/newbe36524/Newbe.McrMirror>
 

@@ -1,6 +1,6 @@
 ---
-title: 'Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren'
-description: 'Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren'
+title: "Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren"
+description: "Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren"
 ---
 
 Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
@@ -309,7 +309,7 @@ Fügen Sie den folgenden Code:
 
 ## Implement EventHandler
 
-`EventHandler`, Ereignisse auf die`State`von Claptrap zu aktualisieren.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 Erstellen Sie`InventoryUpdateEventHandler`-Klasse unter dem Ordner`Sku/Events``dem Projekt HelloClaptrap.Actors`.
 
@@ -404,7 +404,7 @@ Markieren Sie mit Attribut, und ändern Sie updateInventoryAsync, um das Ereigni
 
 Wir haben die Inventarabfrage abgeschlossen und zuvor aktualisiert.Aber in der Regel gibt es einen anfänglichen Betrag im Inventar, und wir ergänzen diesen Teil der Logik in diesem Abschnitt.
 
-Erstellen Sie`SkuStateInitHandler`unter dem `Sku`Ordner`HelloClaptrap.actors`Projekt.
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
@@ -502,7 +502,7 @@ Zusätzlich zur Implementierung des Codes ist eine Registrierung erforderlich, b
 
 Bis alle vorherigen Schritte abgeschlossen sind, sind alle Teile von Claptrap abgeschlossen.Claptrap kann jedoch keine direkte Interoperabilität mit externen Programmen bieten.Daher müssen Sie auch eine API auf controller-Ebene für externe "Leseinventar"-Vorgänge hinzufügen.
 
-Erstellen Sie`neuen SkuController-`unter dem Ordner`Controller``des Projekts HelloClaptrap.web`.
+在 HelloClaptrap.Web 项目的 Controllers 文件夹下新建 SkuController 类。
 
 ```cs
 + using System.Threading.Tasks;
