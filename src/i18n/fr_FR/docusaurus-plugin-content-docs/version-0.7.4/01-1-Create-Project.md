@@ -1,114 +1,114 @@
 ---
-title: 'La première étape consiste à créer un projet et à mettre en œuvre un simple panier'
-description: 'La première étape consiste à créer un projet et à mettre en œuvre un simple panier'
+title: '第一步——创建项目，实现简易购物车'
+description: '第一步——创建项目，实现简易购物车'
 ---
 
-Mettons en œuvre un simple « panier d’achat e-commerce » pour comprendre comment se développer en utilisant Newbe.Claptrap.
+让我们来实现一个简单的“电商购物车”需求来了解一下如何使用 Newbe.Claptrap 进行开发。
 
 <!-- more -->
 
-## Exigences de l’entreprise
+## 业务需求
 
-Réalisez une simple exigence de « panier d’achat de commerce électronique », ici pour réaliser quelques affaires simples：
+实现一个简单的“电商购物车”需求，这里实现几个简单的业务：
 
-- Obtenez les articles et les quantités dans le panier actuel
-- Ajoutez des articles à votre panier
-- Retirez un article spécifique de votre panier
+- 获取当前购物车中的商品和数量
+- 向购物车中添加商品
+- 从购物车中移除特定的商品
 
-## Installer le modèle de projet
+## 安装项目模板
 
-Tout d’abord, vous devez vous assurer que le . NetCore SDK 3,1[pouvez cliquer ici pour la dernière version de l’installation](https://dotnet.microsoft.com/download).
+首先，需要确保已经安装了 .NetCore SDK 3.1 。[可以点击此处来获取最新的版本进行安装](https://dotnet.microsoft.com/download)。
 
-Une fois le SDK installé, ouvrez la console et exécutez les commandes suivantes pour installer le dernier projet template：
+SDK 安装完毕后，打开控制台运行以下命令来安装最新的项目模板：
 
 ```bash
 dotnet new --install Newbe.Claptrap.Template
 ```
 
-Une fois installé, vous pouvez voir les modèles de projet qui ont été installés dans les résultats d’installation.
+安装完毕后，可以在安装结果中查看到已经安装的项目模板。
 
-![newbe.claptrap.template installé](/images/20200709-001.png)
+![newbe.claptrap.template安装完毕](/images/20200709-001.png)
 
-## Créer un projet
+## 创建项目
 
-Sélectionnez un emplacement, créez un dossier, et cet exemple choisit de créer un dossier appelé`HelloClaptrap`sous`D:\Répoque`.Le dossier agira comme le dossier de code pour le nouveau projet.
+选择一个位置，创建一个文件夹，本示例选择在`D:\Repo`下创建一个名为`HelloClaptrap`的文件夹。该文件夹将会作为新项目的代码文件夹。
 
-Ouvrez la console et passez l’annuaire de travail`D:\Repo/HelloClaptrap`.Vous pouvez ensuite créer un environnement de projet en exécutant les éléments suivants commands：
+打开控制台，并且将工作目录切换到`D:\Repo\HelloClaptrap`。然后运行以下命令便可以创建出项目：
 
 ```bash
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> En général, nous vous recommandons`D:\Repo.helloClaptrap`un dossier d’entrepôt Git.Gérez votre code source grâce au contrôle de la version.
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
-## Compilation et démarrage
+## 编译与启动
 
-Une fois le projet créé, vous pouvez ouvrir la solution avec votre IDE préféré pour la compiler.
+项目创建完成之后，您可以用您偏爱的 IDE 打开解决方案进行编译。
 
-Lorsque la compilation est terminée, démarrez les projets web et BackendServer avec la fonction Startup sur l’IDE.(VS doit démarrer le service en tant que console, et si vous utilisez IIS Express, vous avez besoin que le développeur regarde le numéro de port correspondant pour accéder à la page Web)
+编译完成后，通过 IDE 上“启动”功能，同时启动 Web 和 BackendServer 两个项目。（VS 需要以控制台方式启动服务，如果使用 IIS Express，需要开发者看一下对应的端口号来访问 Web 页面）
 
-Une fois démarré, vous pouvez afficher`http://localhost:36525/swagger`description du projet d’échantillon en utilisant l’adresse.Cela inclut trois principaux：
+启动完成后，便可以通过`http://localhost:36525/swagger`地址来查看样例项目的 API 描述。其中包括了三个主要的 API：
 
-- `GET` `/api/Cart/{id}` pour obtenir les articles et les quantités dans un chariot d’identification particulier
-- `post` `/api/cart/{id}` ajouter de nouveaux articles à l’achat de l’id spécifié
-- `supprimer` `/api/cart/{id}` supprimer un élément spécifique du panier de l’id spécifié
+- `GET` `/api/Cart/{id}` 获取特定 id 购物车中的商品和数量
+- `POST` `/api/Cart/{id}` 添加新的商品到指定 id 的购商品
+- `DELETE` `/api/Cart/{id}` 从指定 id 的购物车中移除特定的商品
 
-Vous pouvez essayer de passer plusieurs appels à l’API à l’aide du bouton Try It Out sur l’interface.
+您可以通过界面上的 Try It Out 按钮来尝试对 API 进行几次调用。
 
-> - [Comment démarrer plusieurs projets en même temps dans VS](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Comment démarrer plusieurs projets dans Rider en même temps](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
-> - [Utilisez Huawei Cloud pour accélérer la vitesse de restauration nuget](https://mirrors.huaweicloud.com/)
+> - [如何在 VS 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [如何在 Rider 中同时启动多个项目](https://docs.microsoft.com/zh-cn/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2019)
+> - [使用华为云加速 nuget 还原速度](https://mirrors.huaweicloud.com/)
 
-## La première fois que vous ajoutez un élément, il ne fonctionne pas?
+## 第一次添加商品，没有效果？
 
-Oui, tu as raison.La mise en œuvre de l’entreprise dans le modèle de projet est basée sur les bogues.
+是的，您说的没错。项目模板中的业务实现是存在 BUG 的。
 
-Ouvrons le projet et dépannage et résoudre ces BUGes en ajoutant quelques points de rupture.
+接下来我们来打开项目，通过添加一些断点来排查并解决这些 BUG。
 
-Et en positionnant les BUG, vous pouvez comprendre le processus de flux de code du framework.
+并且通过对 BUG 的定位，您可以了解框架的代码流转过程。
 
-## Ajouter un point de rupture
+## 添加断点
 
-Ce qui suit est basé sur différentes instructions IDE pour augmenter la position du point de rupture, vous pouvez choisir votre IDE habituel à faire.
+以下根据不同的 IDE 说明需要增加断点的位置，您可以选择您习惯的 IDE 进行操作。
 
-Si vous n’avez pas actuellement d’IDE en main, vous pouvez sauter cette section et lire directement ce qui suit.
+如果您当前手头没有 IDE，也可以跳过本节，直接阅读后面的内容。
 
-### Studio visuel
+### Visual Studio
 
-Démarrez les deux projets en même temps, comme mentionné ci-dessus.
+按照上文提到的启动方式，同时启动两个项目。
 
-Import Breakpoint：la fenêtre Breakpoint, cliquez sur le bouton et sélectionnez les points d'`et .xml`élément.L’emplacement correspondant peut être trouvé dans les deux captures d’écran suivantes.
+导入断点：打开“断点”窗口，点击按钮，从项目下选择`breakpoints.xml`文件。可以通过以下两张截图找到对应的操作位置。
 
-![Fenêtre de points d’arrêt ouverts](/images/20200709-002.png)
+![Open Breakpoints Window](/images/20200709-002.png)
 
-![Points d’arrêt d’importation](/images/20200709-003.png)
+![Import Breakpoints](/images/20200709-003.png)
 
-### Coureur
+### Rider
 
-Démarrez les deux projets en même temps, comme mentionné ci-dessus.
+按照上文提到的启动方式，同时启动两个项目。
 
-Rider n’a actuellement pas de fonction d’importation de point de rupture.Par conséquent, vous devez créer manuellement des points de rupture dans les：
+Rider 目前没有断点导入功能。因此需要手动的在以下位置创建断点：
 
-| Fichier                           | Le numéro de ligne |
-| --------------------------------- | ------------------ |
-| CartController ( CartController ) | 30                 |
-| CartController ( CartController ) | 34                 |
-| CartGrain ( CartGrain )           | 24                 |
-| CartGrain ( CartGrain )           | 32                 |
-| AddItemToCartEventHandler         | 14                 |
-| AddItemToCartEventHandler         | 28                 |
+| 文件                        | 行号 |
+| ------------------------- | -- |
+| CartController            | 30 |
+| CartController            | 34 |
+| CartGrain                 | 24 |
+| CartGrain                 | 32 |
+| AddItemToCartEventHandler | 14 |
+| AddItemToCartEventHandler | 28 |
 
-> [Go To File vous aide à localiser rapidement où se trouvent vos fichiers](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
+> [通过 Go To File 可以助您快速定位文件所在](https://www.jetbrains.com/help/rider/Navigation_and_Search__Go_to_File.html?keymap=visual_studio)
 
-## Commencez à débogage
+## 开始调试
 
-Ensuite, jetons un coup d’oeil à l’ensemble du code exécuté par une demande.
+接下来，我们通过一个请求来了解一下整个代码运行的过程。
 
-Tout d’abord, nous allons envoyer une demande POST à travers l’interface fanfaronnade et essayer d’ajouter des éléments au panier.
+首先，我们先通过 swagger 界面来发送一个 POST 请求，尝试为购物车添加商品。
 
-### Démarrage cartcontroller
+### CartController Start
 
-Le premier point de rupture fatal est le code controller de l’API Web：
+首先命中断点是 Web API 层的 Controller 代码：
 
 ```cs
 [HttpPost("{id}")]
@@ -120,17 +120,17 @@ public async Task<IActionResult> AddItemAsync(int id, [FromBody] AddItemInput in
 }
 ```
 
-Dans ce code, nous utilisons le`_grainFactory`pour créer une instance`l’instance ICartGrain`instance.
+在这段代码中，我们通过`_grainFactory`来创建一个`ICartGrain`实例。
 
-Cette instance est essentiellement un proxy qui indique un grain spécifique dans Backend Server.
+这实例本质是一个代理，这个代理将指向 Backend Server 中的一个具体 Grain。
 
-Un id entrant peut être considéré comme localisateur d’une instance à l’aide d’un identificateur unique.Dans ce contexte d’entreprise, il peut être compris comme « id panier » ou « id utilisateur » (si chaque utilisateur n’a qu’un seul panier).
+传入的 id 可以认为是定位实例使用唯一标识符。在这个业务上下文中，可以理解为“购物车 id”或者“用户 id”（如果每个用户只有一个购物车的话）。
 
-En continuant à débogage et en passant à l’étape suivante, jetons un coup d’oeil à la façon dont ICartGrain fonctionne à l’intérieur.
+继续调试，进入下一步，让我们来看看 ICartGrain 内部是如何工作的。
 
-### Démarrage cartgrain
+### CartGrain Start
 
-Vient ensuite le code CartGrain：
+接下来命中断点的是 CartGrain 代码：
 
 ```cs
 public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
@@ -145,28 +145,28 @@ public async Task<Dictionary<string, int>> AddItemAsync(string skuId, int count)
 }
 ```
 
-C’est le cœur de la mise en œuvre du cadre, et les éléments clés indiqués dans les：
+此处便是框架实现的核心，如下图所示的关键内容：
 
 ![Claptrap](/images/20190228-001.gif)
 
-Plus précisément, le code a été exécuté vers un objet de panier spécifique.
+具体说到业务上，代码已经运行到了一个具体的购物车对象。
 
-Vous pouvez voir à travers le debugger que le skuId entrant et le nombre sont des paramètres passés par Controller.
+可以通过调试器看到传入的 skuId 和 count 都是从 Controller 传递过来的参数。
 
-Ici, vous pouvez faire le following：
+在这里您可以完成以下这些操作：
 
-- Les données de Claptrap sont modifiées par un événement
-- Lire les données enregistrées dans Claptrap
+- 通过事件对 Claptrap 中的数据进行修改
+- 读取 Claptrap 中保存的数据
 
-Dans ce code, nous créons une`AddItemToCartEvent`'objet pour représenter une modification du panier.
+这段代码中，我们创建了一个`AddItemToCartEvent`对象来表示一次对购物车的变更。
 
-Il est ensuite passé à Claptrap pour traitement.
+然后将它传递给 Claptrap 进行处理了。
 
-Claptrap met à jour ses données d’état après avoir accepté l’événement.
+Claptrap 接受了事件之后就会更新自身的 State 数据。
 
-Enfin, nous retournons StateData.Items à l’appelant.(StateData.Items est en fait une propriété raccourcie de Claptrap.State.Data.Items.)Donc, il est effectivement lu de Claptrap. ）
+最后我们将 StateData.Items 返回给调用方。（实际上 StateData.Items 是 Claptrap.State.Data.Items 的一个快捷属性。因此实际上还是从 Claptrap 中读取。）
 
-Avec le debugger, vous pouvez voir que le type de données de StateData ressemble à：
+通过调试器，可以看到 StateData 的数据类型如下所示：
 
 ```cs
 public class CartState : IStateData
@@ -175,13 +175,13 @@ public class CartState : IStateData
 }
 ```
 
-C’est l’état du panier conçu dans l’échantillon.Utilisons un dictionnaire`pour`le SkuId dans le panier actuel et le nombre qu’il correspond.
+这就是样例中设计的购物车状态。我们使用一个`Dictionary`来表示当前购物车中的 SkuId 及其对应的数量。
 
-Continuez à débogage et passez à l’étape suivante, et voyons comment Claptrap gère les événements entrants.
+继续调试，进入下一步，让我们看看 Claptrap 是如何处理传入的事件的。
 
-### AddItemToCartEventHandler Démarrer
+### AddItemToCartEventHandler Start
 
-Encore une fois, le code suivant est le：
+再次命中断点的是下面这段代码：
 
 ```cs
 public class AddItemToCartEventHandler
@@ -209,39 +209,39 @@ public class AddItemToCartEventHandler
 
 Ce code contient deux paramètres importants, le`CartState`, qui représente l’état actuel du panier, et l’événement`AddItemToCartEvent`.
 
-Nous déterminons si le dictionnaire dans le statut contient SkuId et mettons à jour sa quantité en fonction de nos besoins commerciaux.
+我们按照业务需求，判断状态中的字典是否包含 SkuId，并对其数量进行更新。
 
-Continuez le débogage et le code s’exécutera jusqu’à la fin du code.
+继续调试，代码将会运行到这段代码的结尾。
 
-À ce stade, avec le debugger, vous pouvez voir que le dictionnaire stateData.Items ajoute un de plus, mais le nombre est de 0.La raison en est en fait à cause du code commenté d’autre snippy ci-dessus, qui est la cause du BUG qui ne parvient toujours pas à ajouter le panier pour la première fois.
+此时，通过调试器，可以发现，stateData.Items 这个字典虽然增加了一项，但是数量却是 0 。原因其实就是因为上面被注释的 else 代码段，这就是第一次添加购物车总是失败的 BUG 成因。
 
-Ici, n’interrompez pas immédiatement le débogage.Passons au débogage et laissons passer le code pour voir comment tout le processus se termine.
+在这里，不要立即中断调试。我们继续调试，让代码走完，来了解整个过程如何结束。
 
-En fait, continuer le débogage, et l’évasion frappera la fin de la méthode pour CartGrain et CartController à son tour.
+实际上，继续调试，断点将会依次命中 CartGrain 和 CartController 对应方法的方法结尾。
 
-## Il s’agit en fait d’une architecture à trois niveaux!
+## 这其实就是三层架构！
 
-La grande majorité des développeurs comprennent l’architecture à trois niveaux.En fait, nous pouvons également dire que Newbe.Claptrap est en fait une architecture à trois niveaux.Comparons les résultats avec un table：
+绝大多数的开发者都了解三层架构。其实，我们也可以说 Newbe.Claptrap 其实就是一个三层架构。下面我们通过一个表格来对比一下：
 
-| Trois étages traditionnels           | Newbe.Claptrap       | Description                                                                                                                                            |
-| ------------------------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Couche de présentation               | Couche de contrôleur | Utilisé pour s’interfacer avec des systèmes externes et fournir une interopérabilité externe                                                           |
-| Couche d’affaires d’affaires         | Couche de grain      | Traitement commercial des paramètres d’entreprise entrants en fonction de l’entreprise (aucun jugement n’est réellement écrit dans l’échantillon, > 0) |
-| Couche de persistance de persistance | Couche EventHandler  | Mettre à jour les résultats de l’entreprise                                                                                                            |
+| 传统三层             | Newbe.Claptrap | 说明                                           |
+| ---------------- | -------------- | -------------------------------------------- |
+| Presentation 展示层 | Controller 层   | 用来与外部的系统进行对接，提供对外的互操作能力                      |
+| Business 业务层     | Grain 层        | 根据业务对传入的业务参数进行业务处理（样例中其实没写判断，需要判断 count > 0） |
+| Persistence 持久化层 | EventHandler 层 | 对业务结果进行更新                                    |
 
-Bien sûr, la similitude ci-dessus est juste une description simple.Dans le processus, il n’est pas nécessaire d’être trop emmêlé, ce n’est qu’une compréhension auxiliaire de la déclaration.
+当然上面的类似只是一种简单的描述。具体过程中，不需要太过于纠结，这只是一个辅助理解的说法。
 
-## Vous avez également un BUG à corriger
+## 您还有一个待修复的 BUG
 
-Ensuite, revenons en arrière et de fixer le précédent « entrée pour la première fois ne prend pas effet » question.
+接下来我们重新回过头来修复前面的“首次加入商品不生效”的问题。
 
-### Il s’agit d’un cadre pour l’examen des tests unitaires
+### 这是一个考虑单元测试的框架
 
-Il ya un projet dans le modèle de projet`HelloClaptrap.Actors.Tests`, qui comprend des tests unitaires du code d’entreprise principal.
+在项目模板中存在一个项目`HelloClaptrap.Actors.Tests`，该项目包含了对主要业务代码的单元测试。
 
-Nous savons maintenant que`commenté dans l’AddItemToCartEventHandler`est la principale cause de bugs.
+我们现在已经知道，`AddItemToCartEventHandler`中注释的代码是导致 BUG 存在的主要原因。
 
-Nous pouvons utiliser les`test dotnet pour`tests unitaires dans un projet de test et obtenir deux erreurs :
+我们可以使用`dotnet test`运行一下测试项目中的单元测试，可以得到如下两个错误:
 
 ```bash
 A total of 1 test files matched the specified pattern.
@@ -291,7 +291,7 @@ Total tests: 7
 
 ```
 
-Jetons un coup d’oeil au code pour l’une des unités d’erreur tests：
+我们看一下其中一个出错的单元测试的代码：
 
 ```cs
 [Test]
@@ -315,20 +315,20 @@ public async Task AddFirstOne()
 }
 ```
 
-`AddItemToCartEventHandler`est le principal élément de test de ce test, et parce que stateData et event sont construits manuellement, les développeurs peuvent facilement construire des scénarios qui doivent être testés sur demande.Vous n’avez pas besoin de construire quelque chose de spécial.
+`AddItemToCartEventHandler`是该测试主要测试的组件，由于 stateData 和 event 都是通过手动构建的，因此开发者可以很容易就按照需求构建出需要测试的场景。不需要构建什么特殊的内容。
 
-Maintenant, il suffit de restaurer`morceau de code commenté à partir de l’addItemToCartEventHandler`et réexéder le test unitaire.Le test unitaire passe.BUG est également une solution naturelle.
+现在，只要将`AddItemToCartEventHandler`中那段被注释的代码还原，重新运行这个单元测试。单元测试便就通过了。BUG 也就自然的修复了。
 
-Bien sûr, il y a un autre test unitaire sur le scénario de suppression qui a échoué.Les développeurs peuvent résoudre ce problème en suivant les idées de « points de rupture » et de « tests unitaires » décrites ci-dessus.
+当然，上面还有另外一个关于删除场景的单元测试也是失败的。开发者可以按照上文中所述的“断点”、“单元测试”的思路，来修复这个问题。
 
-## Les données ont persisté
+## 数据已经持久化了
 
-Vous pouvez essayer de redémarrer Backend Server et le Web, et vous constaterez que les données sur qui vous avez travaillé précédemment ont été persistantes.
+您可以尝试重新启动 Backend Server 和 Web， 您将会发现，您之前操作的数据已经被持久化的保存了。
 
-Nous le couvrirons plus loin dans un chapitre de suivi.
+我们将会在后续的篇章中进一步介绍。
 
-## Résumé
+## 小结
 
-Dans cet article, nous examinons d’abord comment créer un cadre de projet de base pour mettre en œuvre un scénario simple de panier d’achat.
+通过本篇，我们初步了解了一下，如何创建一个基础的项目框架来实现一个简单的购物车场景。
 
-Il y a beaucoup de choses que nous n’avons pas：détails, la structure du projet, le déploiement, la persévérance, et ainsi de suite.Vous pouvez en savoir plus à ce sujet dans les articles suivants.
+这里还有很多内容我们没有详细的说明：项目结构、部署、持久化等等。您可以进一步阅读后续的文章来了解。
