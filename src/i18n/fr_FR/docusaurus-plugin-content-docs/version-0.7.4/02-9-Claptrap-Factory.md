@@ -1,25 +1,25 @@
 ---
-title: 'Usine Claptrap'
-description: 'Usine Claptrap'
+title: 'Claptrap 工厂 （Claptrap Factory）'
+description: 'Claptrap 工厂 （Claptrap Factory）'
 ---
 
 
-## Claptrap Factory assemble Claptrap
+## Claptrap Factory 组装 Claptrap
 
-Claptrap a un haut degré de personnalisation.Les développeurs peuvent spécifier une gamme de composants pour l’objet Claptrap, tels que le chargeur d’événements personnalisé/économiseur d’événements/chargeur d’état/économiseur d’état/ méthode de notification d’événements.Afin de s’adapter à cette personnalisation, il est nécessaire d’utiliser un bon schéma pour réaliser l’assemblage d’objets Claptrap.
+Claptrap 拥有较高的可定制性。开发者可以为 Claptrap 对象指定自定义的 Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method 等等一系列组件。为了适应这种可定制性，故而需要选用良好的方案来实现 Claptrap 对象的装配。
 
-Le cadre actuel est fait avec Autofac comme assembleur.La raison principale est que Autofac prend en charge des fonctionnalités telles que Delegate Factory / Decorator / Generic Type / Module qui sont plus riches que System.DesignEdencyInjection.
+目前框架选用的是 Autofac 作为装配器来完成。主要原因是 Autofac 支持 Delegate Factory / Decorator / Generic Type / Module 等等一些相较于 System.DepenedencyInjection 更丰富的特性。
 
-## Claptrap Factory contrôle le cycle de vie de Claptrap
+## Claptrap Factory 控制 Claptrap 生命周期
 
-Parce que Claptrap Factory est un producteur de Claptrap, il est également généralement responsable des capacités de contrôle du cycle de vie au niveau claptrap.Dans l’usine Claptrap basée à Autofac, ce contrôle du cycle de vie se reflète dans l’utilisation des objets LifetimeScope d’Autofac pour contrôler l’ensemble du processus de chargement, de création et de déchargement.
+由于 Claptrap Factory 是 Claptrap 的生产者，因此一般也负责 Claptrap 级的生命周期控制功能。在基于 Autofac 实现的 Claptrap Factory，这种生命周期控制就体现在使用 Autofac 的 LifetimeScope 对象来控制整个装载、创建和卸载的过程。
 
 ---
 
-Ce qui suit est une description révélatrice pour faciliter la compréhension.Ne t’inquiète pas trop.
+以下是关于故事化描述，用于辅助理解。不必太过在意。
 
-Claptrap Factory est l’emplacement principal pour la production Claptrap.Il effectuera l’assemblage personnalisé de chaque claptrap d’usine selon un design donné de Claptrap, qui a un taux de passage de produit très élevé et la performance.
+Claptrap Factory 是进行 Claptrap 进行生产的主要场所。它将依照给定的 Claptrap Design 对每一个出厂的 Claptrap 执行定制化装配，而它拥有着极高的产品合格率和工作效能。
 
-## Icône
+## ICON
 
-![claptrap claptrap](/images/claptrap_icons/claptrap_factory.svg)
+![claptrap](/images/claptrap_icons/claptrap_factory.svg)
