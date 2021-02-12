@@ -165,9 +165,9 @@ Esto equivale, si se construye, a una imagen de etiqueta de`registry.cn-hangzhou
 
 Debido a que esta vez vamos a lanzar un programa netcore, se van a construir con imágenes netcore, por lo que para una compilación más suave, se recomienda que utilice la herramienta de aceleración para descargar la imagen subyacente localmente de antemano.
 
-Por ejemplo, la aplicación TFM net5 utilizada por el autor en este uso, por lo tanto, debe tirar del`mcr.microsoft.com/dotnet/aspnet:5.0`como el espejo subyacente.
+例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
 
-Dado que el origen del reflejo subyacente netcore se ha migrado de docker hub a mcr.microsoft.com.Por lo tanto, se recomienda`el`Newbe.McRiror para acelerar las descargas.
+Dado que el origen del reflejo subyacente netcore se ha migrado de docker hub a mcr.microsoft.com.故而，建议使用 Newbe.McrMirror 进行加速下载。
 
 Se pueden hacer referencia a métodos de uso detallados：<https://github.com/newbe36524/Newbe.McrMirror>
 
