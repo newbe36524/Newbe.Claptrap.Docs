@@ -1,43 +1,43 @@
 ---
 date: 2020-10-06
-title: 如何使用dotTrace来诊断netcore应用的性能问题
+title: Как использовать dotTrace для диагностики проблем с производительностью приложений netcore
 ---
 
-最近在为 [Newbe.Claptrap](https://claptrap.newbe.pro/) 做性能升级，因此将过程中使用到的 dotTrace 软件的基础用法介绍给各位开发者。
+Недавно было сделано обновление производительности для [Newbe.Claptrap](https://claptrap.newbe.pro/) , поэтому мы представляем разработчикам базовое использование программного обеспечения dotTrace, использованного в процессе.
 
 <!-- more -->
 
-## 开篇摘要
+## Краткое изыску
 
-[dotTrace](https://www.jetbrains.com/profiler/) 是 Jetbrains 公司为 .net 应用提供的一款 profile 软件。有助于对于软件中的耗时函数和内存问题进行诊断分析。
+[dotTrace](https://www.jetbrains.com/profiler/) является profile программное обеспечение, предоставляемое Jetbrains для приложений .net.Помогает диагностировать и анализировать трудоемкие функции и проблемы с памятью в программном обеспечении.
 
-本篇，我们将使用 Jetbrains 公司的 dotTrace 软件对一些已知的性能问题进行分析。从而使读者能够掌握使用该软件的基本技能。
+В этой статье мы проанализируем некоторые известные проблемы с производительностью с помощью программного обеспечения Jetbrains dotTrace.Это позволяет читателю освоить основные навыки использования программного обеспечения.
 
-过程中我们将搭配一些经典的面试问题进行演示，逐步解释该软件的使用。
+В ходе этого процесса мы продемонстрируем некоторые классические вопросы интервью, чтобы объяснить использование программного обеспечения шаг за шагом.
 
-此次示例使用的是 Rider 作为主要演示的 IDE。 开发者也可以使用 VS + Resharper 做出相同的效果。
+В этом примере используется среда IDE Rider в качестве основной демонстрации. Разработчики могут сделать то же самое с VS + Resharper.
 
-## 如何获取 dotTrace
+## Как получить dotTrace
 
-dotTrace 是付费软件。目前只要购买 [dotUltimate](https://www.jetbrains.com/dotnet/) 及以上的许可证便可以直接使用该软件。
+DotTrace - это платное программное обеспечение.Программное обеспечение в [настоящее время можно использовать](https://www.jetbrains.com/dotnet/) , приобретя лицензию dotUltimate и выше.
 
-当然，该软件也包含试用版本，可以免费开启 7 天的试用时间。Jetbrains 的 IDE 购买满一年以上即可获取一个当前最新的永久使用版本。
+Конечно, программное обеспечение также включает в себя пробную версию, которая может быть открыта бесплатно в течение 7 дней.Jetbrains IDE покупается более года, чтобы получить последнюю текущую версию постоянного использования.
 
-或者也可以直接购买 [Jetbrains 全家桶许可证](https://www.jetbrains.com/all/)，一次性全部带走。
+Кроме того, вы можете [Jetbrains для всей семьи баррель лицензии](https://www.jetbrains.com/all/), чтобы забрать все сразу.
 
-## 经典场景再现
+## Классическая сцена воспроизводится
 
-接下来，我们通过一些经典的面试问题，来体验一下如何使用 dotTrace。
+Далее мы испытаем, как использовать dotTrace с некоторыми классическими вопросами интервью.
 
-### 何时要使用 StringBuilder
+### Когда использовать StringBuilder
 
-这是多么经典的面试问题。能够看到这篇文章的朋友，我相信各位都知道 StringBuilder 能够减少 string 直接拼接的碎片，减少内存压力这个道理。
+Какой классический вопрос интервью.Друзья, которые могут видеть эту статью, я уверен, что вы все знаете, что StringBuilder может уменьшить фрагментацию string прямого сшива и уменьшить нагрузку на память.
 
-我们这是真的吗？会不会只是面试官想要刁难我，欺负我信息不对称呢？
+Это правда, что мы?Будет ли это просто интервьюер хочет, чтобы смутить меня, запугивать меня асимметричной информации?
 
-没有关系，接下来，让我们使用 dotTrace 来具体的结合代码来分析一波。看看使用 StringBuilder 究竟有没有减低内存分配的压力。
+Это не имеет значения, давайте использовать dotTrace для конкретного сочетания кода для анализа волны.Посмотрите, если использование StringBuilder на самом деле уменьшить давление на выделение памяти.
 
-首先，我们创建一个单元测试项目，并添加以下这样一个测试类：
+Во-первых, мы создаем модульный тестовый проект и добавляем следующий тестовый класс：
 
 ```cs
 using System.Linq;
@@ -52,9 +52,9 @@ namespace Newbe.DotTrace.Tests
         public void UsingString()
         {
             var source = Enumerable.Range(0, 10)
-                .Select(x => x.ToString())
-                .ToArray();
-            var re = string.Empty;
+                . Select(x => x.ToString())
+                . ToArray();
+            var re = string. Empty;
             for (int i = 0; i < 10_000; i++)
             {
                 re += source[i % 10];
@@ -65,64 +65,64 @@ namespace Newbe.DotTrace.Tests
         public void UsingStringBuilder()
         {
             var source = Enumerable.Range(0, 10)
-                .Select(x => x.ToString())
-                .ToArray();
+                . Select(x => x.ToString())
+                . ToArray();
             var sb = new StringBuilder();
             for (var i = 0; i < 10_000; i++)
             {
-                sb.Append(source[i % 10]);
+                sb. Append(source[i % 10]);
             }
 
-            var _ = sb.ToString();
+            var _ = sb. ToString();
         }
     }
 }
 ```
 
-然后，如下图所示，我们将 Rider 中的 profile 模式设置为 Timeline 。
+Затем, как показано на следующем рисунке, мы устанавливает режим profile в Rider в Timeline.
 
-![设置profile模式](/images/20201006-001.png)
+![Установите режим profile](/images/20201006-001.png)
 
-TimeLine 是多种模式中的一种，相较而言，该模式可以更全面的了解各个线程的工作情况，包括有内存分配、IO 处理、锁、反射等等多维度数据。这将会作为本示例主要使用的一种模式。
+TimeLine является одним из нескольких шаблонов, которые, например, имеют более полное представление о работе отдельных потоков, включая многомерные данные, такие как выделение памяти, обработка ввода-вывода, блокировки, отражения и многое другое.Это будет шаблон, который в основном используется в этом примере.
 
-接着，如下图所示，通过单元测试左侧的小图标启动对应测试的 profile。
+Затем запустите profile для соответствующего теста с помощью небольшого значка слева от модульного теста, как показано на следующем рисунке.
 
-![启动profile](/images/20201006-002.png)
+![Запустите profile](/images/20201006-002.png)
 
-启动 profile 之后，等待一段时间之后，便会出现最新生成的 timeline 报告。查看报告的位置如下所示：
+После запуска profile после ожидания в течение некоторого времени появится последний созданный отчет timeline.Посмотрите, где находится отчет：
 
-![启动profile](/images/20201006-003.png)
+![Запустите profile](/images/20201006-003.png)
 
-右键选择对应的报告，选择"Open in External Viewer"，便可以使用 dotTrace 打开生成好的报告。
+Щелкните правой кнопкой мыши соответствующий отчет и выберите Open in External Viewer, чтобы открыть созданный отчет с помощью dotTrace.
 
-那么首先，让我打开第一个报告，查看 UsingString 方法生成的报告。
+Итак, во-первых, позвольте мне открыть первый отчет и просмотреть отчеты, созданные методом UsingString.
 
-如下图所示，选择 .Net Memory Allocations 以查看该测试运行过程中分配的内存数额。
+Как показано на следующем рисунке, выберите .Net Memory Allocations, чтобы просмотреть объем памяти, выделенной во время тестового запуска.
 
-![启动profile](/images/20201006-004.png)
+![Запустите profile](/images/20201006-004.png)
 
-根据上图我们可以得出以下结论：
+Основываясь на приведенной выше диаграмме, мы можем сделать следующие выводы：
 
-1. 在这测试中，有 102M 的内存被分配给 String 。注意，在 dotTrace 中显示的分配是指整个运行过程中全部分配的内存。即使后续被回收，该数值也不会减少。
-2. 内存的分配只要在 CLR Worker 线程进行。并且非常的密集。
+1. В этом тесте string было выделено 102M памяти.Обратите внимание, что выделение, отображаемое в dotTrace, относится к памяти, выделенной полностью на протяжении всего выполнения.Это значение не уменьшается, даже если оно будет последующе восстановлено.
+2. Выделение памяти до тех пор, пока это делается в потоке CLR Worker.И очень плотный.
 
-> Tip： Timeline 所显示的运行时间比正常运行测试的时间更长，因为在 profile 过程中需要对数据进行记录会有额外的消耗。
+> Tip： Timeline отображает более длительное время выполнения, чем обычные тесты, так как необходимо дополнительное потребление для записи данных во время profile.
 
-因此，我们就得出了第一个结论：使用 string 进行直接拼接，确实会消耗更多的内存分配。
+Таким образом, мы пришли к первому выводу：с помощью string для прямого сшива, это действительно потребляет больше выделения памяти.
 
-接着，我们继续按照上面的步骤，查看一下 UsingStringBuilder 方法的报告，如下所示：
+Далее мы переймем выше, чтобы просмотреть отчет о методе UsingStringBuilder, как показано ниже：
 
-![启动profile](/images/20201006-005.png)
+![Запустите profile](/images/20201006-005.png)
 
-根据上图，我们可以得出第二个结论：使用 StringBuilder 可以明显的减少相较于 string 直接拼接所消耗的内存。
+Основываясь на рисунке выше, мы можем сделать второй вывод：Использование StringBuilder может значительно уменьшить объем памяти, потребляемой по сравнению с прямым сшивом string.
 
-当然，我们得到的最终的结论其实是：看来面试官不是糊弄人。
+Конечно, окончательный вывод, который мы получили, на самом деле：, что интервьюеры не обманы.
 
-### class 和 struct 对内存有什么影响
+### Как класс и struct влияют на память
 
-class 和 struct 的区别有很多，面试题常客了。其中，两者在内存方面就存在区别。
+Класс и struct имеют много различий, интервью вопросы часто.Между ними существуют различия с точки зрения памяти.
 
-那么我们通过一个测试来看看区别。
+Итак, давайте пройсем тест, чтобы увидеть разницу.
 
 ```cs
 using System;
@@ -136,20 +136,20 @@ namespace Newbe.DotTrace.Tests
         [Test]
         public void UsingClass()
         {
-            Console.WriteLine($"memory in bytes before execution: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
+            Console.WriteLine($"memory in bytes before execution: {GC. GetGCMemoryInfo(). TotalAvailableMemoryBytes}");
             const int count = 1_000_000;
             var list = new List<Student>(count);
             for (var i = 0; i < count; i++)
             {
-                list.Add(new Student
+                list. Add(new Student
                 {
-                    Level = int.MinValue
+                    Level = int. MinValue
                 });
             }
 
-            list.Clear();
+            list. Clear();
 
-            var gcMemoryInfo = GC.GetGCMemoryInfo();
+            var gcMemoryInfo = GC. GetGCMemoryInfo();
             Console.WriteLine($"heap size: {gcMemoryInfo.HeapSizeBytes}");
             Console.WriteLine($"memory in bytes end of execution: {gcMemoryInfo.TotalAvailableMemoryBytes}");
         }
@@ -157,20 +157,20 @@ namespace Newbe.DotTrace.Tests
         [Test]
         public void UsingStruct()
         {
-            Console.WriteLine($"memory in bytes before execution: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
+            Console.WriteLine($"memory in bytes before execution: {GC. GetGCMemoryInfo(). TotalAvailableMemoryBytes}");
             const int count = 1_000_000;
             var list = new List<Yueluo>(count);
             for (var i = 0; i < count; i++)
             {
-                list.Add(new Yueluo
+                list. Add(new Yueluo
                 {
-                    Level = int.MinValue
+                    Level = int. MinValue
                 });
             }
 
-            list.Clear();
+            list. Clear();
 
-            var gcMemoryInfo = GC.GetGCMemoryInfo();
+            var gcMemoryInfo = GC. GetGCMemoryInfo();
             Console.WriteLine($"heap size: {gcMemoryInfo.HeapSizeBytes}");
             Console.WriteLine($"memory in bytes end of execution: {gcMemoryInfo.TotalAvailableMemoryBytes}");
         }
@@ -188,12 +188,12 @@ namespace Newbe.DotTrace.Tests
 }
 ```
 
-代码要点：
+Основные моменты кода：
 
-1. 两个测试，分别创建 1,000,000 个 class 和 struct 加入到 List 中。
-2. 运行测试之后，在测试的末尾输出当前堆空间的大小。
+1. Два теста, создав 1 000 000 классов и struct для присоединения к List.
+2. После выполнения теста в конце теста выводится размер текущего пространства кучи.
 
-按照上一节提供的基础步骤，我们对比两个方法生成的报告。
+Следуя базовым шагам, описанным в разделе выше, мы сравниваем отчеты, созданные двумя методами.
 
 UsingClass
 
@@ -203,16 +203,16 @@ UsingStruct
 
 ![UsingClass](/images/20201006-007.png)
 
-对比两个报告，可以得出以下这些结论：
+Сравнивая два доклада, можно сделать следующие выводы：
 
-1. Timeline 报告中的内存分配，只包含分配在堆上的内存情况。
-2. struct 不需要分配在堆上，但是，数组是引用对象，需要分配在堆上。
-3. List 自增的过程本质是扩张数组的特性在报告中也得到了体现。
-4. 另外，没有展示在报告上，而展示在测试打印文本中可以看到，UsingStruct 运行之后的堆大小也证实了 struct 不会被分配在堆上。
+1. Выделение памяти в отчете Timeline, содержащая только память, выделенную в куче.
+2. Struct не нужно назначать в куче, однако массив является ссылочным объектом и должен быть назначен куче.
+3. Суть процесса самоукрепления List заключается в том, что характеристики расширяемого массива также отражены в отчете.
+4. Кроме того, он не отображается в отчете, в то время как дисплей отображается в тестовом печатном тексте, и размер кучи после запуска UsingStruct подтверждает, что struct не назначается куче.
 
-### 装箱和拆箱
+### Упаковка и распаковка
 
-经典面试题 X3，来，上代码，上报告！
+Классический вопрос интервью X3, давай, код, отчет!
 
 ```cs
 using NUnit.Framework;
@@ -252,21 +252,21 @@ namespace Newbe.DotTrace.Tests
 }
 ```
 
-Boxing,发生装箱拆箱
+Boxing, происходит распаковка
 
 ![Boxing](/images/20201006-008.png)
 
-NoBoxing，未发生装箱拆箱
+NoBoxing, распаковка не произошла
 
 ![NoBoxing](/images/20201006-009.png)
 
-对比两个报告，可以得出以下这些结论：
+Сравнивая два доклада, можно сделать следующие выводы：
 
-1. 没有买卖就没有杀害，没有装拆就没有分配消耗。
+1. Нет убийства без купли-продажи, нет распределения потребления без сноса.
 
-### Thread.Sleep 和 Task.Delay 有什么区别
+### В чем разница между Thread.Sleep и Task.Delay
 
-经典面试题 X4，来，上代码，上报告！
+Классический вопрос интервью X4, давай, код, отчет!
 
 ```cs
 using System;
@@ -302,16 +302,16 @@ TaskDelay
 
 ![TaskDelay](/images/20201006-011.png)
 
-对比两个报告，可以得出以下这些结论：
+Сравнивая два доклада, можно сделать следующие выводы：
 
-1. 在 dotTrace 中 Thread.Sleep 会被单独标记，因为这是一种性能不不佳的做法，容易造成线程饥饿。
-2. Thread.Sleep 比起 Task.Delay 会多出一个线程处于 Sleep 状态
+1. Thread.Sleep помечается отдельно в dotTrace, так как это не очень хорошая практика, которая может привести к голоду потоков.
+2. Thread.Sleep имеет один поток в состоянии Sleep больше, чем Task.Delay
 
-### 阻塞大量的 Task 真的会导致应用一动不动吗
+### Действительно ли блокирование большого количества task приводит к тому, что приложение неподвижно?
 
-有了上一步的结论，笔者产生了一个大胆的想法。我们都知道线程的有限的，那如果启动非常多的 Thread.Sleep 或者 Task.Delay 会如何呢？
+С выводами, сделанными на этом шагу, автор пришел к смелой идее.Мы все знаем, что потоки ограничены, так что, если вы запустите очень много Thread.Sleep или Task.Delay?
 
-来，代码：
+Давай, код：
 
 ```cs
 using System;
@@ -338,7 +338,7 @@ namespace Newbe.DotTrace.Tests
                     yield return Task.Run(() =>
                     {
                         Console.WriteLine($"Task {i1}");
-                        Thread.Sleep(int.MaxValue);
+                        Thread.Sleep(int. MaxValue);
                     });
                 }
 
@@ -359,7 +359,7 @@ namespace Newbe.DotTrace.Tests
                     yield return Task.Run(() =>
                     {
                         Console.WriteLine($"Task {i1}");
-                        return Task.Delay(TimeSpan.FromSeconds(int.MaxValue));
+                        return Task.Delay(TimeSpan.FromSeconds(int. MaxValue));
                     });
                 }
 
@@ -370,17 +370,17 @@ namespace Newbe.DotTrace.Tests
 }
 ```
 
-这里就不贴报告了，读者可以试一下这个测试，也可以将报告的内容写在本文的评论中参与讨论~
+Отчеты не будут размещены здесь, читатели могут попробовать этот тест, или они могут написать содержание доклада в комментариях к этой статье для участия в обсуждении
 
-### 反射调用和表达式树编译调用
+### Вызов отражения и вызов компиляции дерева выражений
 
-有时，我们需要动态调用一个方法。最广为人知的方式就是使用反射。
+Иногда нам нужно динамически вызывать метод.Наиболее известным способом является использование отражений.
 
-但是，这也是广为人知的耗时相对较高的方式。
+Тем не менее, это также широко известный и относительно трудоемкий способ.
 
-这里，笔者提供一种使用表达式树创建委托来取代反射提高效率的思路。
+Здесь автор предоставляет идею создания делегатов с помощью дерева выражений для замены отражения для повышения эффективности.
 
-那么，究竟有没有减少时间消耗呢？好报告，自己会说话。
+Так есть ли сокращение потребления времени?Хороший отчет, я могу говорить сам.
 
 ```cs
 using System;
@@ -395,7 +395,7 @@ namespace Newbe.DotTrace.Tests
         [Test]
         public void RunReflection()
         {
-            var methodInfo = GetType().GetMethod(nameof(MoYue));
+            var methodInfo = GetType(). GetMethod(nameof(MoYue));
             Debug.Assert(methodInfo != null, nameof(methodInfo) + " != null");
             for (int i = 0; i < 1_000_000; i++)
             {
@@ -408,14 +408,14 @@ namespace Newbe.DotTrace.Tests
         [Test]
         public void RunExpression()
         {
-            var methodInfo = GetType().GetMethod(nameof(MoYue));
+            var methodInfo = GetType(). GetMethod(nameof(MoYue));
             Debug.Assert(methodInfo != null, nameof(methodInfo) + " != null");
             var methodCallExpression = Expression.Call(methodInfo);
             var lambdaExpression = Expression.Lambda<Action>(methodCallExpression);
             var func = lambdaExpression.Compile();
             for (int i = 0; i < 1_000_000; i++)
             {
-                func.Invoke();
+                func. Invoke();
             }
 
             Console.WriteLine(_count);
@@ -431,19 +431,19 @@ namespace Newbe.DotTrace.Tests
 }
 ```
 
-RunReflection，直接使用反射调用。
+RunReflection, прямой вызов с помощью отражения.
 
 ![RunReflection](/images/20201006-012.png)
 
-RunExpression，使用表达式树编译一个委托。
+RunExpression, компиляция делегата с помощью дерева выражений.
 
 ![RunExpression](/images/20201006-013.png)
 
-## 本篇小结
+## Этот подсеть
 
-使用 dotTrace 可以查看方法的内存和时间消耗。本篇所演示的内容只是其中很小的部分。开发者们可以尝试上手，大有裨益。
+Используйте dotTrace для просмотра потребления памяти и времени метода.То, что показано в этой статье, является лишь небольшой частью этого.Разработчики могут попробовать свои первые попытки, и это может быть большим подспорьем.
 
-本篇内容中的示例代码，均可以在以下链接仓库中找到：
+Пример кода в этой статье можно найти в следующих связанных репозиториях：
 
 - <https://github.com/newbe36524/Newbe.Demo>
 - <https://gitee.com/yks/Newbe.Demo>
