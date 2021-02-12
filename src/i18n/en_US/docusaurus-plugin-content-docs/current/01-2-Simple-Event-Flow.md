@@ -70,7 +70,7 @@ The `IEventData`interface is an empty interface that represents an event in the 
 
 ## Implement EventHandler.
 
-`EventHandler.`Used to update events to Claptrap.`State.`.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
+EventHandler is used to update events to the State of Claptrap.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
 
 Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
 
