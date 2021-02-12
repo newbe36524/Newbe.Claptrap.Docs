@@ -29,18 +29,17 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln hinzufügen .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用 tye init 创建 tye.yml 。
+Verwenden Sie dann`Tye init`, um tye.yml</code>zu`.</p>
 
-Folgendes finden Sie in tye.yml：
+<p spaces-before="0">Folgendes finden Sie in tye.yml：</p>
 
-```yml
-Name: tyetest
+<pre><code class="yml">Name: tyetest
 Services:
   - Name: tyetest
     Projekt: TyeTest/TyeTest.csproj
   - Name: tyetest2
     Projekt: TyeTest2/TyeTest2.csproj
-```
+`</pre>
 
 Auf diese Weise können wir`Dienste lokal mit`-Tye-Run starten.
 
