@@ -1,23 +1,23 @@
 ---
 date: 2020-06-01
-title: 谈反应式编程在服务端中的应用，数据库操作优化，从20秒到0.5秒
+title: サービス側でのリアクション プログラミングの適用、データベース操作の最適化、20 秒から 0.5 秒まで
 ---
 
-反应式编程在客户端编程当中的应用相当广泛，而当前在服务端中的应用相对被提及较少。本篇将介绍如何在服务端编程中应用响应时编程来改进数据库操作的性能。
+リアクティブ プログラミングは、クライアント プログラミングで非常に広く使用されていますが、サービス側での現在のアプリケーションは比較的少ないです。この記事では、サービス側プログラミングで応答を適用するときにプログラミングして、データベース操作のパフォーマンスを改善する方法について説明します。
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 开篇就是结论
+## 始まりは結論です
 
-利用 System.Reactive 配合 TaskCompleteSource ，可以将分散的单次数据库插入请求合并会一个批量插入的请求。在确保正确性的前提下，实现数据库插入性能的优化。
+System.Reactive を TaskCompleteSource と組み合わせて使用すると、分散した単一データベース挿入要求を 1 つの一括挿入要求にマージできます。正確性を確保しながら、データベース挿入のパフォーマンスを最適化します。
 
-如果读者已经了解了如何操作，那么剩下的内容就不需要再看了。
+読者は、すでにその方法を理解している場合、残りはもう見る必要はありません。
 
-## 预设条件
+## プリセット条件
 
-现在，我们假设存在这样一个 Repository 接口来表示一次数据库的插入操作。
+次に、データベースの挿入操作を表す Repository インターフェイスがあるとします。
 
 ```csharp
 namespace Newbe.RxWorld.DatabaseRepository
@@ -34,11 +34,11 @@ namespace Newbe.RxWorld.DatabaseRepository
 }
 ```
 
-接下来，我们在不改变该接口签名的前提下，体验一下不同的实现带来的性能区别。
+次に、インターフェイスのシグネチャを変更せずに、実装によってもたらされるパフォーマンスの違いを体験します。
 
-## 基础版本
+## 基になるバージョン
 
-首先是基础版本，采用的是最为常规的单次数据库`INSERT`操作来完成数据的插入。本示例采用的是`SQLite`作为演示数据库，方便读者自行实验。
+まず、最も一般的な単一データベースを使用して、INSERT`操作を実行して`を完了する基本バージョンです。この例では、`SQLite`をデモ データベースとして使用し、読者が自分で実験できるようにしています。
 
 ```csharp
 namespace Newbe.RxWorld.DatabaseRepository.Impl
@@ -55,61 +55,61 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 
         public Task<int> InsertData(int item)
         {
-            return _database.InsertOne(item);
+            return _database. InsertOne(item);
         }
     }
 }
 ```
 
-常规操作。其中`_database.InsertOne(item)`的具体实现就是调用了一次`INSERT`。
+一般的な操作。そのうち`_database。 InsertOne(item)`の具体的な実装は、 INSERT を呼び`呼び出`。
 
-基础版本在同时插入小于 20 次时基本上可以较快的完成。但是如果数量级增加，例如需要同时插入一万条数据库，将会花费约 20 秒钟，存在很大的优化空间。
+基になるバージョンは、同時に 20 回未満を挿入すると、基本的に高速に実行できます。ただし、10,000 のデータベースを同時に挿入する必要があるなど、大きな増加は、約 20 秒かかる可能性があり、最適化の余地は大きくなります。
 
 ## TaskCompleteSource
 
-TaskCompleteSource 是 TPL 库中一个可以生成一个可操作 Task 的类型。[对于 TaskCompleteSource 不太熟悉的读者可以通过该实例代码了解](https://github.com/newbe36524/Newbe.Demo/tree/feature/reactive/src/BlogDemos/Newbe.Tasks/Newbe.Tasks)。
+TaskCompleteSource は、TPL ライブラリで操作可能な Task を生成できる型です。[TaskCompleteSource にあまり馴染みのない読者は、このインスタンス コードを使用して](https://github.com/newbe36524/Newbe.Demo/tree/feature/reactive/src/BlogDemos/Newbe.Tasks/Newbe.Tasks)。
 
-此处也简单解释一下该对象的作用，以便读者可以继续阅读。
+また、読者が読み続けできるように、オブジェクトの動作について簡単に説明します。
 
-对于熟悉 javascript 的朋友，可以认为 TaskCompleteSource 相当于 Promise 对象。也可以相当于 jQuery 当中的 \$.Deferred 。
+Javascript に詳しい友人にとって、TaskCompleteSource は Promise オブジェクトに相当すると考えることができます。jQuery の \$に相当します。 Deferred 。
 
-如果都不了解的朋友，可以听一下笔者吃麻辣烫时想到的生活化例子。
+友達がわからなかったら、筆者がスパイシーなホットポテトを食べるときに思い浮かぶ生活化の例を聞いてみましょう。
 
-| 吃麻辣烫                      | 技术解释                           |
-| ------------------------- | ------------------------------ |
-| 吃麻辣烫之前，需要先用盘子夹菜。          | 构造参数                           |
-| 夹好菜之后，拿到结账处去结账            | 调用方法                           |
-| 收银员结账完毕之后，会得到一个叫餐牌，会响铃的那种 | 得到一个 Task 返回值                  |
-| 拿着菜牌找了一个位子坐下，玩手机等餐        | 正在 await 这个 Task ，CPU 转而处理其他事情 |
-| 餐牌响了，去取餐，吃起来              | Task 完成，await 节数，继续执行下一行代码     |
+| スパイシーなホットを食べる                     | 技術的な説明                               |
+| --------------------------------- | ------------------------------------ |
+| スパイシーなホットを食べる前に、プレートで皿を挟む必要があります。 | コンストラクション パラメーター                     |
+| 皿を挟んだら、チェックアウトに持って行きます            | メソッドを呼び出します                          |
+| レジ係がチェックアウトすると、カードが鳴ります           | Task 戻り値を取得します                       |
+| 野菜の看板を持って、座って、携帯電話で食事をする席を見つける    | await の Task では、CPU は他の処理に転じています     |
+| 食事の看板が鳴って、食べ物を取りに行き、食べました         | Task 完了、await セクション数、コードの次の行に進んでください |
 
-那么 TaskCompleteSource 在哪儿呢？
+TaskCompleteSource はどこにありますか?
 
-首先，根据上面的例子，在餐牌响的时候，我们才会去取餐。那么餐牌什么时候才会响呢？当然是服务员手动按了一个在柜台的手动开关才触发了这个响铃。
+まず、上記の例によると、食事プレートが鳴ったときにのみ、私たちは食事を取りに行きます。では、プレートはいつ鳴るのでしょうか?もちろん、ウェイターがカウンターで手動スイッチを手動で押すと、ベルが鳴ります。
 
-那么，柜台的这个开关，可以被技术解释为 TaskCompleteSource 。
+さて、カウンターのこのスイッチは、技術的にはTaskCompleteSourceとして解釈することができます。
 
-餐台开关可以控制餐牌的响铃。同样， TaskCompleteSource 就是一种可以控制 Task 的状态的对象。
+ダイニングテーブルスイッチは、プレートのリングを制御することができます。同様に、TaskCompleteSource は Task の状態を制御するオブジェクトです。
 
-## 解决思路
+## アイデアを解決します
 
-有了前面对 TaskCompleteSource 的了解，那么接下来就可以解决文章开头的问题了。思路如下：
+TaskCompleteSource の以前の知識があれば、記事の冒頭で問題を解決できます。考え方は次の通りです：
 
-当调用 InsertData 时，可以创建一个 TaskCompleteSource 以及 item 的元组。为了方便说明，我们将这个元组命名为`BatchItem`。
+InsertData が呼び出されると、TaskCompleteSource と item のタプルを作成できます。説明の便宜上、このタプルに "BatchItem" という`を付`。
 
-将 BatchItem 的 TaskCompleteSource 对应的 Task 返回出去。
+BatchItem の TaskCompleteSource に対応する Task を返します。
 
-调用 InsertData 的代码会 await 返回的 Task，因此只要不操作 TaskCompleteSource ，调用者就一会一直等待。
+InsertData を呼び出すコードは await によって返される Task であるため、TaskCompleteSource を操作しない限り、呼び出し元は待機します。
 
-然后，另外启动一个线程，定时将 BatchItem 队列消费掉。
+その後、別のスレッドが開始され、BatchItem キューが定期的に消費されます。
 
-这样就完成了单次插入变为批量插入的操作。
+これで、1 回の挿入から一括挿入への操作が完了します。
 
-笔者可能解释的不太清楚，不过以下所有版本的代码均基于以上思路。读者可以结合文字和代码进行理解。
+著者は、以下のコードのすべてのバージョンは、上記の考え方に基づいているが、あまり明確に説明していない可能性があります。読者は、テキストとコードを組み合わせて理解することができます。
 
-## ConcurrentQueue 版本
+## ConcurrentQueue のバージョン
 
-基于以上的思路，我们采用 ConcurrentQueue 作为 BatchItem 队列进行实现，代码如下（代码很多，不必纠结，因为下面还有更简单的）：
+以上の考え方に基づいて、BatchItem キューとして ConcurrentQueue を実装し、コードは次のように実装されます (コードが多く、以下の方が単純であるため、もつれする必要はありません)：
 
 ```csharp
 namespace Newbe.RxWorld.DatabaseRepository.Impl
@@ -130,31 +130,31 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
             _testOutputHelper = testOutputHelper;
             _database = database;
             _queue = new ConcurrentQueue<BatchItem>();
-            // 启动一个 Task 消费队列中的 BatchItem
+            // Task コンシューマ キューの BatchItem
             _batchInsertDataTask = Task.Factory.StartNew(RunBatchInsert, TaskCreationOptions.LongRunning);
             _batchInsertDataTask.ConfigureAwait(false);
-        }
+        ]
 
         public Task<int> InsertData(int item)
         {
-            // 生成 BatchItem ，将对象放入队列。返回 Task 出去
+            // を使用して BatchItem を生成し、オブジェクトをキューに入れます。Task に戻る
             var taskCompletionSource = new TaskCompletionSource<int>();
-            _queue.Enqueue(new BatchItem
+            _queue. Enqueue(new BatchItem
             {
                 Item = item,
                 TaskCompletionSource = taskCompletionSource
             });
             return taskCompletionSource.Task;
-        }
+        )
 
-        // 从队列中不断获取 BatchItem ，并且一批一批插入数据库，更新 TaskCompletionSource 的状态
+        // キューから BatchItem を継続的に取得し、TaskCompletionSource の状態を更新するバッチをデータベースに挿入します
         private void RunBatchInsert()
         {
             foreach (var batchItems in GetBatches())
             {
                 try
                 {
-                    BatchInsertData(batchItems).Wait();
+                    BatchInsertData(batchItems))。 Wait();
                 }
                 catch (Exception e)
                 {
@@ -169,8 +169,8 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
                 {
                     const int maxCount = 100;
                     var oneBatchItems = GetWaitingItems()
-                        .Take(maxCount)
-                        .ToList();
+                        . Take(maxCount)
+                        . ToList();
                     if (oneBatchItems.Any())
                     {
                         yield return oneBatchItems;
@@ -183,7 +183,7 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 
                 IEnumerable<BatchItem> GetWaitingItems()
                 {
-                    while (_queue.TryDequeue(out var item))
+                    while (_queue. TryDequeue(out var item))
                     {
                         yield return item;
                     }
@@ -193,11 +193,11 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 
         private async Task BatchInsertData(IEnumerable<BatchItem> items)
         {
-            var batchItems = items as BatchItem[] ?? items.ToArray();
+            var batchItems = items as BatchItem[] ?? items. ToArray();
             try
             {
-                // 调用数据库的批量插入操作
-                var totalCount = await _database.InsertMany(batchItems.Select(x => x.Item));
+                // 呼び出しデータベースの一括挿入操作
+                var totalCount = await _database。 InsertMany(batchItems.Select(x => x.Item));
                 foreach (var batchItem in batchItems)
                 {
                     batchItem.TaskCompletionSource.SetResult(totalCount);
@@ -223,9 +223,9 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 }
 ```
 
-## 正片开始！
+## 正の映画が始まります!
 
-接下来我们使用 System.Reactive 来改造上面较为复杂的 ConcurrentQueue 版本。如下：
+次に、System.Reactive を使用して、上記のより複雑なバージョンの ConcurrentQueue を刷新します。以下の通り：
 
 ```csharp
 namespace Newbe.RxWorld.DatabaseRepository.Impl
@@ -243,20 +243,20 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
             _testOutputHelper = testOutputHelper;
             _database = database;
             _subject = new Subject<BatchItem>();
-            // 将请求进行分组，每50毫秒一组或者每100个一组
-            _subject.Buffer(TimeSpan.FromMilliseconds(50), 100)
-                .Where(x => x.Count > 0)
-                // 将每组数据调用批量插入，写入数据库
-                .Select(list => Observable.FromAsync(() => BatchInsertData(list)))
-                .Concat()
-                .Subscribe();
+            // 要求を 50 ミリ秒ごとにグループ化するか、100
+            _subject。 Buffer(TimeSpan.FromMilliseconds(50), 100)
+                . Where(x => x.Count > 0)
+                // は、データ・セットごとに一括挿入を呼び出し、データベース
+                . Select(list => Observable.FromAsync(() => BatchInsertData(list)))
+                . Concat()
+                . Subscribe();
         }
 
-        // 这里和前面对比没有变化
+        // ここと前との比較は変わっていません
         public Task<int> InsertData(int item)
         {
             var taskCompletionSource = new TaskCompletionSource<int>();
-            _subject.OnNext(new BatchItem
+            _subject. OnNext(new BatchItem
             {
                 Item = item,
                 TaskCompletionSource = taskCompletionSource
@@ -264,13 +264,13 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
             return taskCompletionSource.Task;
         }
 
-        // 这段和前面也完全一样，没有变化
+        // これは前とまったく同じですが、変更はありません
         private async Task BatchInsertData(IEnumerable<BatchItem> items)
         {
-            var batchItems = items as BatchItem[] ?? items.ToArray();
+            var batchItems = items as BatchItem[] ?items. ToArray();
             try
             {
-                var totalCount = await _database.InsertMany(batchItems.Select(x => x.Item));
+                var totalCount = await _database. InsertMany(batchItems.Select(x => x.Item));
                 foreach (var batchItem in batchItems)
                 {
                     batchItem.TaskCompletionSource.SetResult(totalCount);
@@ -296,11 +296,11 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 }
 ```
 
-代码减少了 50 行，主要原因就是使用 System.Reactive 中提供的很强力的 Buffer 方法实现了 ConcurrentQueue 版本中的复杂的逻辑实现。
+コードが 50 行削減された主な理由は、System.Reactive で提供される強力な Buffer メソッドを使用して、ConcurrentQueue バージョンの複雑なロジック実装を実装した結果です。
 
-## 老师，可以更给力一点吗？
+## 先生、もっと力を与えていただけますか。
 
-我们，可以“稍微”优化一下代码，将 Buffer 以及相关的逻辑独立于“数据库插入”这个业务逻辑。那么我们就会得到一个更加简单的版本：
+コードを "少し" 最適化し、Buffer と関連するロジックを "データベース挿入" ビジネス ロジックから独立して挿入できます。その後、我々はより単純なバージョンを取得します：
 
 ```csharp
 namespace Newbe.RxWorld.DatabaseRepository.Impl
@@ -316,7 +316,7 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
             {
                 BufferTime = TimeSpan.FromMilliseconds(50),
                 BufferCount = 100,
-                DoManyFunc = database.InsertMany,
+                DoManyFunc = database. InsertMany,
             };
             _batchOperator = new BatchOperator<int, int>(options);
         }
@@ -329,16 +329,16 @@ namespace Newbe.RxWorld.DatabaseRepository.Impl
 }
 ```
 
-其中 IBatchOperator 等代码，读者可以到代码库中进行查看，此处就不在陈列了。
+IBatchOperator などのコードは、読者がコード ベースで参照できる場所であり、ここでは表示されません。
 
-## 性能测试
+## パフォーマンス テスト
 
-基本可以测定如下：
+基本的には、次のように測定できます：
 
-在 10 条数据并发操作时，原始版本和批量版本没有多大区别。甚至批量版本在数量少时会更慢，毕竟其中存在一个最大 50 毫秒的等待时间。
+元のバージョンと一括バージョンは、10 のデータ同時操作で大きな違いはありません。バルク バージョンでも、最大 50 ミリ秒の待機時間が存在する限り、数が少ない場合は遅くなります。
 
-但是，如果需要批量操作并发操作一万条数据，那么原始版本可能需要消耗 20 秒，而批量版本仅仅只需要 0.5 秒。
+ただし、10,000 のデータを同時に操作するバッチ操作が必要な場合は、元のバージョンでは 20 秒、一括バージョンでは 0.5 秒しかかかりません。
 
-> [所有的示例代码均可以在代码库中找到](https://github.com/newbe36524/Newbe.Demo)。如果 Github Clone 存在困难，[也可以点击此处从 Gitee 进行 Clone](https://gitee.com/yks/Newbe.Demo)
+> [サンプル コードはすべて、コード ベースに](https://github.com/newbe36524/Newbe.Demo)。Github Clone に問題がある場合は、[Gitee から Clone をダウンロードするには、ここをクリック](https://gitee.com/yks/Newbe.Demo)
 
 <!-- md Footer-Newbe-Claptrap.md -->
