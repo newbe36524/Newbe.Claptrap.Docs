@@ -1,192 +1,192 @@
 ---
 date: 2020-07-20
-title: 构建一个简易的火车票售票系统，Newbe.Claptrap框架用例，第一步——业务分析
+title: Build an easy train ticketing system, Newbe.Claptrap Framework Use Case, First Step - Business Analysis
 ---
 
-Newbe.Claptrap 框架非常适合于解决具有并发问题的业务系统。火车票售票系统，就是一个非常典型的场景用例。
+The Newbe.Claptrap framework is ideal for solving business systems with complicity problems.The train ticketing system is a very typical scenario use case.
 
-本系列我们将逐步从业务、代码、测试和部署多方面来介绍，如何使用 Newbe.Claptrap 框架来构建一个简易的火车票售票系统。
+In this series, we'll step through the business, code, testing, and deployment aspects of how to use the Newbe.Claptrap framework to build a simple train ticketing system.
 
 <!-- more -->
 
-## 吹牛先打草稿
+## Bragging first hits the draft
 
-让我们来首先界定一下这个简易的火车售票系统所需要实现的业务边界和性能要求。
+Let's first define the business boundaries and performance requirements required for this simple train ticketing system.
 
-### 业务边界
+### Business boundaries.
 
-该系统仅包含车票的余票管理部分。即查询剩余座位，下单买票减座。
+The system only contains the remaining ticket management portion of the ticket.That is, query the remaining seats, order tickets to reduce seats.
 
-而生成订单信息，付款，流量控制，请求风控等等都不包含在本次讨论的范围中。
+Generating order information, payment, traffic control, request wind control, etc. are not included in the scope of this discussion.
 
-### 业务用例
+### Business use cases.
 
-- 查询余票，能够查询两个车站间可用的车次以及剩余座位数量。
-- 查询车次对应的车票余票，能够查询给定的车次，在各个车站之间还有多少剩余座位。
-- 支持选座下单，客户能够选择给定的车次及座位，并下单买票。
+- Check the remaining tickets to find out the number of trips available between the two stations and the number of seats remaining.
+- Query the ticket ticket stake corresponding to the number of trains, can query the given number of trains, between the stations there are how many remaining seats.
+- Seat selection is supported, and customers can select a given number of train and seats and place an order to buy a ticket.
 
-### 性能要求
+### Performance requirements
 
-- 查询余票和下单购票消耗平均不得超过 20ms。该时间仅包含服务端处理时间，即页面网络传输，页面渲染等等不是框架关心的部分不计算在内。
-- 余票查询可以存在延时，但不是超过 5 秒钟。延时，即表示，可能查询有票，但是下单无票的情况是被允许的。
+- The average cost of querying the remaining tickets and ordering must not exceed 20ms.This time only includes service-side processing time, i.e. page network transmission, page rendering, and so on are not parts of the framework's concern.
+- Residual ticket queries can have a delay, but not more than 5 seconds.Delay means that there may be a query for tickets, but no tickets are allowed to be ordered.
 
-## 难点分析
+## Difficult analysis
 
-### 余票管理
+### Ticketing management.
 
-火车票余票管理的难点，其实就在于其余票库存的特殊性。
+The difficulty of the management of train tickets for the rest of the ticket is in fact the peculiarity of the inventory of the remaining tickets.
 
-普通的电商商品，以 SKU 为最小单位，每个 SKU 之间相互独立，互不影响。
+The common e-commerce commodity, with SKUs as the smallest unit, is independent of each other and not affected by each other.
 
-例如：当前我正在售卖原产自赛博坦星球的阿姆斯特朗回旋加速炮，红色和白色两款分别一万个。那么用户在下单时，只要分别控制红色和白色两款的库存分别不超卖即可。他们之间没有相互关系。
+For：I'm currently selling 10,000 Armstrong roundabouts from the planet Sebotan, red and white, respectively.Then when the user under orders, as long as the control of red and white two items of inventory is not oversold.There is no relationship between them.
 
-但是火车票余票，却有所不同，因为余票会受到已卖票起终点而受到影响。下面结合一个简单的逻辑模型，来详细的了解一下这种特殊性。
+However, the remaining tickets for the train are different, as the remaining tickets will be affected by the end of the tickets sold.Here's a simple logical model to take a detailed look at this particularity.
 
-现在，我们假设存在一个车次，分别经过 a,b,c,d 四个站点，同时，我们简化场景，假设车次中只有一个座位。
+Now, let's assume that there is a number of cars passing through four stations, a, b, c, d, and at the same time, we simplify the scenario, assuming that there is only one seat in the train.
 
-那么在没有任何人购票之前，这个车次的余票情况就如下所示：
+So before anyone buys a ticket, the remaining tickets for this ride are as follows:
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 1   |
-| a,c | 1   |
-| a,d | 1   |
-| b,c | 1   |
-| b,d | 1   |
-| c,d | 1   |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 1                                |
+| a, c     | 1                                |
+| a, d     | 1                                |
+| b,c      | 1                                |
+| b,d      | 1                                |
+| c, d     | 1                                |
 
-如果现在有一位客户购买了一张 a,c 的车票。那么由于只有一个座位，所以，除了 c,d 其他的余票就都没有。余票情况就变成了如下所示：
+If a customer now has purchased a,c ticket.So since there is only one seat, there is no other ticket except c,d.The rest of the ticket situation becomes the following:
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 0   |
-| a,c | 0   |
-| a,d | 0   |
-| b,c | 0   |
-| b,d | 0   |
-| c,d | 1   |
+| Stations | The amount of remaining tickets. |
+| -------- | -------------------------------- |
+| a,b      | 0                                |
+| a, c     | 0                                |
+| a, d     | 0                                |
+| b,c      | 0                                |
+| b,d      | 0                                |
+| c, d     | 1                                |
 
-更直白一点，如果有一位客户购买了全程车票 a,d，那么所有的余票都将全部变为 0。因为这个座位上始终都坐着这位乘客。
+To put it more bluntly, if a customer buys a, d, all remaining tickets will become 0.Because the passenger was always sitting in the seat.
 
-这也就是火车票的特殊性：同一个车次的同一个座位，其各个起终点的余票数量，会受到已售出的车票的起终点的影响。
+This is the special nature of the train ticket: the same seat of the same train, the number of remaining tickets at each end point will be affected by the starting point of the ticket sold.
 
-延伸一点，很容易得出，同一车次的不同座位之间是没有这种影响的。
+What`s more, it's easy to conclude that there is no such effect between different seats in the same car.
 
-### 余票查询
+### Remaining ticket inquiries.
 
-正如上一节所述，由于余票库存的特殊性。对于同一个车次 a,b,c,d，其可能的购票选择就有 6 种。
+As mentioned in the previous section, due to the particularity of the remaining ticket inventory.For the same train a, b, c, d, there are 6 possible ticket options.
 
-并且我们很容易就得出，选择的种类数的计算方法实际上就是在 n 个站点中选取 2 个的组合数，即 c(n,2) 。
+And it's easy to conclude that the number of types selected is actually calculated by selecting a combination of 2 in the n sites, which is c (n, 2).
 
-那么如果有一辆经过 34 个站点的车次，其可能的组合就是 c(34,2) = 561 。
+So if there is a car passing through 34 stations, the possible combination is c (34,2) s 561.
 
-如何高效应对可能存在的多种查询也是该系统需要解决的问题。
+How to efficiently respond to multiple queries that may exist is also something that the system needs to address.
 
-## Claptrap 逻辑设计
+## Claptrap logical design
 
-Actor 模式是天生适合于解决并发问题的设计模式。基于该理念之上的 Newbe.Claptrap 框架自然也能够应对以上提到的难点。
+Actor mode is a design pattern that is inherently suitable for solving problems with problems with problems.The Newbe.Claptrap framework based on this concept can naturally handle the difficulties mentioned above.
 
-### 最小竞争资源
+### Minimum competitive resources
 
-类比多线程编程中“资源竞争”的概念，这里笔者提出在业务系统中的“最小竞争资源”概念。借助这个概念可以很简单的找到如何应用 Newbe.Claptrap 的设计点。
+Compared with the concept of "resource competition" in multithreaded programming, the author puts forward the concept of "minimum competitive resource" in the business system.With this concept, it's easy to find design points for how to apply Newbe.Claptrap.
 
-例如在笔者售卖阿布斯特朗回旋加速炮的例子中，同款颜色下的每个商品都是一个“最小竞争资源”。
+For example, in the author's example of selling Abstrom gyration cannons, each item in the same color is a "minimum competitive resource".
 
-注意，这里不是说，同款颜色下的所有商品是一个“最小竞争资源”。因为，如果对一万个商品进行编号，那么抢购一号商品和二号商品，本身其实不存在竞争关系。因此，每个商品都是一个最小竞争资源。
+Note that this is not to say that all items under the same color are a "minimum competitive resource".Because, if 10,000 goods are numbered, then the rush to buy goods 1 and goods 2, there is no competition.Therefore, each commodity is a Minimal Competing Resources.
 
-那么在火车票余票的例子中，最小竞争资源则是：同一车次上的同一个座位。
+So in the case of train tickets, the smallest competitive resource：the same seat on the same train.
 
-正如上面所述，同一车次上的同一座位，在选择不同的起终点是，余票情况时存在竞争关系的。具体一点，比如笔者想购买 a,c 的车票，而读者想买 a,b 的车票。那么我们就有竞争关系，我们只会有一个人能够成功的购买到这个“最小竞争资源”。
+As mentioned above, the same seat on the same train, in the selection of different starting and ending points is that the remaining ticket situation there is a competitive relationship.Specifically, for example, the author wants to buy tickets for a,c, while readers want to buy tickets for a,b.Then we have a competitive relationship, and we will only have one person who can successfully purchase this "minimum competitive resource".
 
-这里有一些笔者认为可用的例子：
+Here are some examples that the author thinks are available：
 
-- 在一个只允许单端登录的业务系统中，一个用户的登录票据就是最小竞争资源
-- 在一个配置系统中，每个配置项都是最小竞争资源
-- 在一个股票交易市场中，每个买单或者卖单都是最小竞争资源
+- In a business system that allows only single-ended logins, a user's login ticket is the Minimal Competing Resources.
+- In a configuration system, each configuration item is the Minimal Competing Resources.
+- In a stock market, each buy or sell order is Minimal Competing Resources.
 
-> 这是笔者自己的臆造词，没有参考其他资料，如果有类似资料或者名词可以佐证该内容，也希望读者可以留言说明。
+> This is the author's own assumptions, no reference to other materials, if there is similar information or nouns can support the content, but also hope that readers can leave a message description.
 
-### 最小竞争资源 与 Claptrap
+### Minimum competitive resources with Claptrap
 
-之所以要提及“最小竞争资源”，是因为在设计 Claptrap 的 State 时，区别最小竞争资源是对系统设计的一个重要依据。
+"Minimum competitive resources" are mentioned because distinguishing between the least competitive resources is an important basis for system design when designing Claptrap's State.
 
-这里列出一条笔者的结论：**Claptrap 的 State 至少应该大于等于“最小竞争资源”的范围。**
+Here's a conclusion:：**Claptrap's State should be at least greater than or equal to the "minimum competitive resource."**
 
-结合阿布斯特朗回旋加速炮的例子，如果同款颜色的所有商品设计在同一个 Claptrap 的 State 中（大于最小竞争资源）。那么，不同用户购买商品就会相互影响，因为，Claptrap 基于的 Actor 模式是排队处理请求的。也就是说，假设每个商品需要处理 10ms，那么最快也需要 10000 \* 10 ms 来处理所有的购买请求。但如果每个商品都进行编号，每个商品设计为单独的 Claptrap 的 State。那么由于他们是互不相关的。卖掉所有商品，理论上就只需要 10ms。
+Combined with the example of the Absterrand swing acceleration gun, if all items of the same color are designed in the same Claptrap State (larger than the minimum competitive resource).Well, different users buy goods to influence each other, because, the Actor pattern based on the Claptrap is the queuing processing request.That is to say, assuming that each item needs to process 10ms, it also takes 10000\* 10 ms to process all the purchase requests as soon as you want.But if each item is numbered, each item is designed as a separate Claptrap State.Well, since they are not related to each other.Selling all the goods would theoretically only cost 10ms.
 
-也就是说：**如果 Claptrap 的 State 大于最小竞争资源的范围，系统不会有正确性的问题，但可能有一些性能损失。**
+That：**if Claptrap's State is larger than the minimum competitive resource range, the system will not have a problem with correctness, but there may be some performance losses.**
 
-再进一步，前文提到在火车售票的例子中，同一车次上的同一个座位是最小竞争资源，因此，我们可以将这个业务实体设计为 Claptrap 的 State 。但如果设计范围比这个还小呢？
+Further, as mentioned earlier in the example of train ticketing, the same seat on the same train is the least competitive resource, so we can design this business entity as Claptrap's State.But what if the design range is smaller than this?
 
-例如：我们将 Claptrap 的 State 设计为同一车次上同一座位在不同起终点的余票。那么，就会遇到一个很传统的问题：“如何确保分布式系统中数据的正确性”。对于这点，笔者无法展开来说，因为笔者也说不清楚，就只是草率的丢下一句结论：**“如果 Claptrap 的 State 小于最小竞争资源的范围，Claptrap 间的关系将会变得难以处理，存在风险。”**
+For：we designed Claptrap's State as a residual ticket for the same seat on the same train at different departure points.Then, there is a very traditional question of："How to ensure the correctness of data in a distributed system".For this point, the author can not expand, because the author also can not say clearly, just hasty drop a conclusion：**"If Claptrap's State is less than the scope of the smallest competitive resources, the relationship between Claptrap will become difficult to deal with, there are risks."**
 
-### Claptrap 主体设计
+### Claptrap Main Design
 
-接下来，结合上面所述的理论。我们直接丢出设计方案。
+Next, combine the theories described above.We threw out the design directly.
 
 ![Train Ticketing System Design](/images/20200720-001.png)
 
-#### 将同一车次上的每个座位都设计为一个 Claptrap - SeatGrain
+#### Each seat on the same train is designed as a Claptrap - SeatGrain.
 
-该 Claptrap 的 State 包含有一个基本信息
+The State of the Claptrap contains a basic information.
 
-| 类型                                     | 名称         | 说明                                                                    |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | 途径车站的 id 列表，开头为始发站，结尾为终点站。主要购票时进行验证。                                  |
-| Dictionary&lt;int, int&gt; | StationDic | 途径车站 id 的索引反向字典。Stations 是 index-id 的列表，而该字典是对应的 id-index 的字典，为了加快查询。 |
-| List&lt;string&gt;         | RequestIds | 关键属性。每个区间上，已购票的购票 id。例如，index 为 0 ，即表示车站 0 到车站 1 的购票 id。如果为空则表示暂无认购票。 |
+| Type                                   | Name       | Description                                                                                                                                                                             |
+| -------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verification at the time of primary ticket purchase.                               |
+| Dictionary&lt;int, int&gt; | StationDic | The index reverse dictionary that routes the station id.Stations are a list of index-ids, and the dictionary is the corresponding id-index dictionary, in order to speed up queries.    |
+| List&lt;string&gt;         | RequestIds | Key properties.On each interval, the purchased ticket id.For example, an index of 0 represents a ticket id from station 0 to station 1.If it is empty, there is no subscription ticket. |
 
-有了这数据结构的设计，那么就可以来实现两个业务了。
+With the design of this data structure, two businesses can be implemented.
 
-##### 验证是否可以购买
+##### Verify that it can be purchased
 
-通过传入两个车站 id，可以查询到这个作为是否属于这个 SeatGrain 。并且查询到起终点对应的所有区间段。只要判断这个从 RequestIds 中判断是否所有的区间段都没有购票 Id 即可。若都没有，则说明可以购买。如果有任何一段上已有购票 Id，则说明已经无法购买了。
+By passing in two station ids, you can find out if this belongs to this SeatGrain.And query all the interval segments corresponding to the start and end points.Just judge whether all segments in the RequestIds do not have a ticket ID.If not, it can be purchased.If there is already a ticket purchase ID on any section, the purchase is no longer possible.
 
-举例来说，当前 Stations 的情况是 10,11,12,13. 而 RequestIds 是 0,1,0。
+For example, the current situation with Stations is 10, 11, 12, 13. RequestIds, on the other, are 0,1,0.
 
-那么，如果要购买 10->12 的车票，则不行，因为 RequestIds 第二个区间已经被购买。
+So, if you're buying a 10->12 ticket, that's not possible because the second range of RequestIds has already been purchased.
 
-但是，如果要购买 10->11 的车票，则可以，因为 RequestIds 第一个区间还无人购买。
+However, if you want to>10- 11 tickets, you can, because no one in the first range of RequestIds has yet to buy them.
 
-##### 购买
+##### Buy
 
-将起终点对应在 RequestIds 中所有的区间段设置上购票 Id 即可。
+Just place the starting and ending points on all the interval segment settings in RequestIds.
 
-##### 单元测试用例
+##### Unit test cases
 
-可以通过以下链接来查看关于以上算法的代码实现：
+The following links allow you to view the code implementation of the above algorithm：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
 
-#### 将同一车次上的所有座位的余票情况设计为一个 Claptrap - TrainGran
+#### Design the remaining ticket for all seats on the same ride as a Claptrap-TrainGran
 
-该 Claptrap 的 State 包含有一些基本信息
+The Claptrap State contains some basic information
 
-| 类型                                               | 名称        | 说明                                                                                   |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stations  | 途径车站的 id 列表，开头为始发站，结尾为终点站。主查询时进行验证。                                                  |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | 关键属性。StationTuple 表示一个起终点。集合包含了所有可能的起终点的余票情况。例如，根据上文，如果该车次经过 34 个地点，则该字典包含有 561 个键值对 |
+| Type                                             | Name      | Description                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations  | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verify while query.                                                                                                                                                         |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount | Key properties.The StationTuple represents a start to the end.The collection contains the rest of the ticket situation for all possible starting points.For example, according to the above, if the car passes through 34 locations, the dictionary contains 561 key-value pairs |
 
-基于以上的数据结构，只需要在每次 SeatGrain 完成下单后，将对应的信息同步到该 Grain 即可。
+Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-例如，假如 a,c 发生了一次购票，则将 a,c / a,b / b,c 的余票都减一即可。
+For example, if a,c has a ticket purchase, the remaining tickets for a,c/a,b/b,c will be reduced by one.
 
-这里可以借助本框架内置的 Minion 机制来实现。
+This can be achieved with the Minion mechanism built into this framework.
 
-值得一提的是，这是一个比“最小竞争资源”大的设计。因为查询场景在该业务场景中不需要绝对的快速。这样设计可以减少系统的复杂度。
+It is worth mentioning that this is a bigger design than the "minimum competitive resource".Because the query scenario does not need to be absolutely fast in that business scenario.This design reduces the complexity of the system.
 
-## 小结
+## Summary
 
-本篇，我们通过业务分析，得出了火车票余票管理和 Newbe.Claptrap 的结合点。
+In this article, through business analysis, we have come up with a combination of train ticket residual management and Newbe.Claptrap.
 
-后续我们将围绕本篇的设计，说明如何进行开发、测试和部署。
+We'll then focus on the design of this article, explaining how to develop, test, and deploy.
 
-实际上，项目源码已经构建完毕，读者可以从以下地址获取：
+In fact, the project source code has been built, and readers can get the：
 
-- [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples)
+- [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples)
 
-特别感谢[wangjunjx8868](https://github.com/wangjunjx8868)采用 Blazor 为本样例制作的界面。
+Special thanks[wangjunjx8868](https://github.com/wangjunjx8868)interface created with Blazor for this example.
 
 <!-- md Footer-Newbe-Claptrap.md -->
