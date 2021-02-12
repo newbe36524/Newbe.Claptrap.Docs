@@ -49,7 +49,7 @@ EventCode は、Claptrap システムの各イベントの一意のエンコー�
 
 Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
+`RemoveAllItemsFromCartEvent`クラスは、`HelloClaptrap.Models  プロジェクトの Cart/Events`フォルダの下に します。
 
 次のようなコードを追加します：
 
@@ -72,7 +72,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 `EventHandler`Claptrap の`State にイベントを更新`します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
-在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
+`HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
 
 次のようなコードを追加します：
 
@@ -118,7 +118,7 @@ EventHandler の実装が完了したら、単体テストを行うのを忘れ�
 
 EventHandler を実装してテストしたら、EventCode と Claptrap に関連付ける前に EventHandler を登録できます。
 
-打开 HelloClaptrap.Actors 项目的 CartGrain 类。
+`HelloClaptrap.Actors`プロジェクトの`CartGrain`します。
 
 タグに Attribute を使用します。
 
@@ -188,7 +188,7 @@ Grain インターフェイスの定義を変更して、外部と Claptrap の�
 
 次に、前の手順のインターフェイスの変更に従って、対応する実装クラスを変更します。
 
-打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
+`HelloClaptrap.Actors`プロジェクトの`Cart`フォルダの下にある`CartGrain`します。
 
 対応する実装を追加します。
 
@@ -249,7 +249,7 @@ Grain インターフェイスの定義を変更して、外部と Claptrap の�
 
 前のすべての手順が完了すると、Claptrap のすべての部分が完了します。ただし、Claptrap は外部プログラムとの相互運用性を直接提供できません。したがって、外部で 「ショッピング カートを空にする」ための API を Controller 層に追加する必要があります。
 
-打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
+`elloClaptrap.Web`プロジェクトの`Controllers`フォルダの下にある`CartController`します。
 
 ```cs
   using System.Threading.Tasks;
