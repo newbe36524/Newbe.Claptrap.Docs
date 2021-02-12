@@ -27,7 +27,7 @@ title: 只要十步，你就可以应用表达式树来优化动态调用
 
 本系列文章配套一个十几个小时的长篇视频。记得一键三连哟！
 
-<iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameBorder="no" frameSpacing="0" allowFullScreen="true"> </iframe>
 
 原视频地址：<https://www.bilibili.com/video/BV15y4y1r7pK>
 

@@ -34,12 +34,38 @@ module.exports = {
       ja_JP: { label: "日本語" },
     },
   },
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        debug: true,
+        offlineModeActivationStrategies: ["appInstalled", "queryString"],
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/static/images/icon/apple-touch-icon.png",
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/static/images/icon/site.webmanifest.json", // your PWA manifest
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: "rgb(37, 194, 160)",
+          },
+        ],
+      },
+    ],
+  ],
   themeConfig: {
     prism: {
       defaultLanguage: "csharp",
       additionalLanguages: ["powershell", "csharp", "sql"],
-      theme: require("prism-react-renderer/themes/github"),
-      darkTheme: require("prism-react-renderer/themes/dracula"),
+      // theme: require("prism-react-renderer/themes/github"),
+      // darkTheme: require("prism-react-renderer/themes/palenight"),
     },
     navbar: {
       title: "Newbe.Claptrap",
@@ -153,7 +179,7 @@ module.exports = {
             "https://github.com/newbe36524/Newbe.Claptrap.Docs/edit/master/src/blog/",
           // showLastUpdateAuthor: true,
           // showLastUpdateTime: true,
-          blogSidebarCount: "ALL",
+          blogSidebarCount: 5, //"ALL",
           truncateMarker: /<!-- more -->/,
           feedOptions: {
             type: "all", // required. 'rss' | 'feed' | 'all'
