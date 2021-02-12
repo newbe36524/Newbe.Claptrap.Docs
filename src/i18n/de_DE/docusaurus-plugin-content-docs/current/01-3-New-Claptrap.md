@@ -1,6 +1,6 @@
 ---
-title: 'Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren'
-description: 'Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren'
+title: "Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren"
+description: "Der dritte Schritt ist die Definition von Claptrap und die Verwaltung des Bestands von Waren"
 ---
 
 Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
@@ -309,7 +309,7 @@ Fügen Sie den folgenden Code:
 
 ## Implement EventHandler
 
-`EventHandler`, Ereignisse auf die`State`von Claptrap zu aktualisieren.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 Erstellen Sie`InventoryUpdateEventHandler`-Klasse unter dem Ordner`Sku/Events``dem Projekt HelloClaptrap.Actors`.
 
