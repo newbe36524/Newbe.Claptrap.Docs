@@ -1,5 +1,5 @@
 ---
-title: "项目简介"
+title: "Introduction"
 description: "This is a set of server-side development frameworks with reactive, event sourcing and Actor pattern as basic theories.On top of this, developers can develop \"distributed\", \"scale out\", and \"easy to test\" application more simply."
 slug: /
 ---
