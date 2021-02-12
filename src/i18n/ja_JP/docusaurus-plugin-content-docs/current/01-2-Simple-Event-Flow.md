@@ -150,7 +150,7 @@ EventHandler を実装してテストしたら、EventCode と Claptrap に関�
 
 Grain インターフェイスの定義を変更して、外部と Claptrap の相互運用性を提供します。
 
-`elloClaptrap.IActors`プロジェクトの`ICartGrain`します。
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 インターフェイスと Attribute を追加します。
 

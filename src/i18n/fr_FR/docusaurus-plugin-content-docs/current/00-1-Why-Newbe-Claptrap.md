@@ -62,7 +62,7 @@ Toutefois, la lecture des données de l’intérieur acteur à l’extérieur es
 
 ![Lire le statut d’acteur](/images/20190226-002.gif)
 
-**un seul filet**.L’acteur n’accepte généralement qu’un seul appel à la fois.Les threads décrits ici ne sont pas exactement des threads dans l’ordinateur et sont utilisés pour mettre en évidence les « attributs que l’acteur ne peut gérer qu’une seule demande à la fois. »Si Actor accepte actuellement un appel, les appels restants sont bloqués jusqu’à ce que l’appel se termine et que la prochaine demande soit autorisée.Ceci est en fait similaire à un mécanisme de synchronisation des verrous.Ce mécanisme évite la possibilité d’un problème avec la présence d’un problème lors de la modification de l’état interne de l’acteur.Specifically：Si vous utilisez 100 threads pour faire un appel à un acteur dans une variable`int`, laissez-le faire``.La valeur finale pour cet état doit être de 100.
+**un seul filet**.L’acteur n’accepte généralement qu’un seul appel à la fois.Les threads décrits ici ne sont pas exactement des threads dans l’ordinateur et sont utilisés pour mettre en évidence les « attributs que l’acteur ne peut gérer qu’une seule demande à la fois. »Si Actor accepte actuellement un appel, les appels restants sont bloqués jusqu’à ce que l’appel se termine et que la prochaine demande soit autorisée.Ceci est en fait similaire à un mécanisme de synchronisation des verrous.Ce mécanisme évite la possibilité d’un problème avec la présence d’un problème lors de la modification de l’état interne de l’acteur.具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。La valeur finale pour cet état doit être de 100.
 
 ![L’acteur est appelé dans un synthé](/images/20190226-004.gif)
 

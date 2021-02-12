@@ -150,7 +150,7 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。Например,
 
 Измените определение интерфейса Grain, чтобы обеспечить внешнюю совместимость с Claptrap.
 
-Откройте`интерфейс ICartGrain для проекта`HelloClaptrap.IActors`HelloClaptrap.`IActors.
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 Добавьте интерфейс и Attribute.
 

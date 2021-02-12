@@ -150,7 +150,7 @@ Après l’association, si l’événement correspondant à EventCode se produit
 
 Modifier la définition de l’interface Grain pour assurer l’interopérabilité externe avec Claptrap.
 
-Ouvrez`interface ICartGrain pour`HelloClaptrap.IActors`projet`projet.
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 Ajoutez des interfaces ainsi qu’Attribut.
 
