@@ -49,7 +49,7 @@ Fügen Sie EventCode für Leere Warenkorbereignisse hinzu.
 
 Event ist der Schlüssel zum Event Sourcing.Wird verwendet, um den Status in Claptrap zu ändern.Und Das Ereignis wird auf der Persistenzebene beibehalten.
 
-Erstellen Sie`RemoveAllItems FromCartEvent``unter dem Ordner Cart/Events`des Projekts HelloClaptrap.Models .
+Erstellen Sie`RemoveAllItems FromCartEvent``unter dem Ordner<code>Cart/Events`des Projekts HelloClaptrap.Models</code>.
 
 Fügen Sie den folgenden Code:
 
@@ -72,7 +72,7 @@ Denn in diesem einfachen Geschäftsszenario erfordert das Leeren eines Warenkorb
 
 `EventHandler`, Ereignisse auf die`State`von Claptrap zu aktualisieren.In diesem Geschäftsszenario ist EventHandler beispielsweise für das Leeren des Inhalts des Statuswagens verantwortlich.
 
-Erstellen Sie`RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner Cart/Events`Ordner des HelloClaptrap.Actor s -Projekts.
+Erstellen Sie`<code>RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner<code>Cart/Events`Ordner des HelloClaptrap.Actor</code>s</code>-Projekts.
 
 Fügen Sie den folgenden Code:
 
@@ -249,7 +249,7 @@ Die entsprechende Implementierung der Schnittstellenmethode wurde hinzugefügt.E
 
 Bis alle vorherigen Schritte abgeschlossen sind, sind alle Teile von Claptrap abgeschlossen.Claptrap kann jedoch keine direkte Interoperabilität mit externen Programmen bieten.Daher müssen Sie auch eine API auf der Controller-Ebene hinzufügen, um den Warenkorb extern zu leeren.
 
-Öffnen Sie den `CartController unter dem Ordner Controller``für helloClaptrap.web`-Projekt.
+Öffnen Sie den</code>`CartController unter dem Ordner<code>Controller``für helloClaptrap.web`-Projekt.
 
 ```cs
   using System.Threading.Tasks;
