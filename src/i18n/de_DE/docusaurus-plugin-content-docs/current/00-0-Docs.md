@@ -1,5 +1,5 @@
 ---
-title: "Chinesische Anweisungen"
+title: "项目简介"
 description: "Dies ist ein serviceseitiges Entwicklungsframework mit \"reaktiv\", \"Ereignisrückverfolgbarkeit\" und \"Akteursmodus\" als Grundtheorien.Darüber hinaus können Entwickler einfach \"verteilte\", \"horizontal skalierbare\" und \"hochgradig testbare\" Anwendungen entwickeln."
 slug: /
 ---
