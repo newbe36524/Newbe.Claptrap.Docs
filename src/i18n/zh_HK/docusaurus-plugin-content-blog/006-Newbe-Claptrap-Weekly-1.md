@@ -21,23 +21,23 @@ Newbe.Claptrap 项目周报 1，第一周代码写了一点。但主要还是考
 
 Actor 特性一：Actor 的状态是通过外部调用 Actor 而改变的。
 
-![更新Actor状态](/images/20190226-001.gif)
+![更新Actor狀態](/images/20190226-001.gif)
 
 Actor 特性一补 1：Actor 的状态不与外部进行共享。
 
-![共享Actor状态](/images/20190226-003.gif)
+![共享Actor狀態](/images/20190226-003.gif)
 
 Actor 特性一补 2：外部可以读取 Actor 状态。
 
-![读取Actor状态](/images/20190226-002.gif)
+![讀取Actor狀態](/images/20190226-002.gif)
 
 Actor 特性二：Actor 是“单线程”工作的，每次只能处理一个请求。
 
-![并发调用Actor](/images/20190226-004.gif)
+![併發執行Actor](/images/20190226-004.gif)
 
 Actor 特性二补 1：并发读取状态可以不是“单线程”。
 
-![并发读取Actor](/images/20190226-005.gif)
+![併發讀取Actor](/images/20190226-005.gif)
 
 框架定义的 Actor 类型——Claptrap：通过事件模式，产生事件并通过事件改变自身状态的 Actor。
 
