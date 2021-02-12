@@ -46,7 +46,7 @@ Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses P
 
 Erstens, um das Verständnis zu erleichtern, kann sich der Leser hier Schauspieler als Objekt vorstellen.In objektorientierten Sprachen (Java, C- usw.) kann der Akteur als ein Objekt betrachtet werden, das``dem neuen Schlüsselwort erstellt wurde.Aber dieses Objekt hat einige besondere characteristics：
 
-**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State）。Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.
+**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.Im Actor-Modus werden diese Eigenschaften kollektiv als State of Actor bezeichnet.Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.
 
 Dies hebt zwei points：
 
