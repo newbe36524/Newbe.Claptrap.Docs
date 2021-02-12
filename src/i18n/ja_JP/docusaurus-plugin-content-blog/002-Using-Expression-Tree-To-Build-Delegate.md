@@ -1,44 +1,44 @@
 ---
 date: 2020-10-13
-title: 只要十步，你就可以应用表达式树来优化动态调用
+title: 10 ステップで式ツリーを適用して、動的呼び出しを最適化できます
 ---
 
-表达式树是 .net 中一系列非常好用的类型。在一些场景中使用表达式树可以获得更好的性能和更佳的扩展性。本篇我们将通过构建一个“模型验证器”来理解和应用表达式树在构建动态调用方面的优势。
+式ツリーは、.net で非常に使い方の良い一連の型です。一部のシナリオでエクスプレッション ツリーを使用すると、パフォーマンスが向上し、スケーラビリティが向上します。この記事では、"モデル検証ツール" を構築することで、動的呼び出しの構築における式ツリーの利点を理解し、適用します。
 
 <!-- more -->
 
-## 开篇摘要
+## オープダイジェスト
 
-前不久，我们发布了[《如何使用 dotTrace 来诊断 netcore 应用的性能问题》](005-How-to-Use-DotTrace)，经过网友投票之后，网友们表示对其中表达式树的内容很感兴趣，因此本篇我们将展开讲讲。
+少し前、[「dotTrace を使用して netcore アプリのパフォーマンスの問題を診断する方法」の](005-How-to-Use-DotTrace)を公開し、ユーザー投票の後、式ツリーの内容に関心が表明されました。
 
-动态调用是在 .net 开发是时常遇到的一种需求，即在只知道方法名或者属性名等情况下动态的调用方法或者属性。最广为人知的一种实现方式就是使用“反射”来实现这样的需求。当然也有一些高性能场景会使用 Emit 来完成这个需求。
+動的呼び出しは、メソッド名やプロパティ名のみを知っている場合に、メソッドまたはプロパティを動的に呼び出す .net 開発で頻繁に発生する要件です。実装する最も広く知られている方法の 1 つは、"反射" を使用してこのような要件を実装することです。もちろん、Emit を使用してこの要件を満たす高パフォーマンスのシナリオもあります。
 
-本文将介绍“使用表达式树”来实现这种场景，因为这个方法相较于“反射”将拥有更好的性能和扩展性，相较于 Emit 又更容易掌握。
+この記事では、リフレクションよりもパフォーマンスとスケーラビリティが向上し、Emit よりも習得しやすいため、式ツリーを使用してこのシナリオを実装する方法について説明します。
 
-我们将使用一个具体的场景来逐步使用表达式来实现动态调用。
+具体的なシナリオを使用して、式を段階的に使用して動的呼び出しを実装します。
 
-在该场景中，我们将构建一个模型验证器，这非常类似于 aspnet mvc 中 ModelState 的需求场景。
+このシナリオでは、aspnet mvc の ModelState の要件シナリオによく似たモデル検証ツールを構築します。
 
-这**不是**一篇简单的入门文章，初次涉足该内容的读者，建议在空闲时，在手边有 IDE 可以顺便操作时边看边做。同时，也不必在意样例中出现的细节方法，只需要了解其中的大意，能够依样画瓢即可，掌握大意之后再深入了解也不迟。
+この**は**の簡単な入門記事ではなく、コンテンツに初めて足を踏み入れた読者は、アイドル状態のときに IDE が立ち寄るときに見てお勧めします。同時に、サンプルに登場する詳細な方法を気にする必要はありませんが、その意図を理解し、サンプルに従って描画し、その意図をマスターし、深く理解する必要があります。
 
-为了缩短篇幅，文章中的样例代码会将没有修改的部分隐去，想要获取完整的测试代码，请打开文章末尾的代码仓库进行拉取。
+スペースを短くするために、記事のサンプル コードは変更されていない部分を隠し、完全なテスト コードを取得するには、記事の最後にあるコード ウェアハウスを開いてプルします。
 
-## 居然还有视频
+## 実際にビデオがあります
 
-本系列文章配套一个十几个小时的长篇视频。记得一键三连哟！ <iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameBorder="no" frameSpacing="0" allowFullScreen="true" mark="crwd-mark"> </iframe>
+このシリーズには、12 時間の長いビデオが含されています。1つのキーストロークで3つのリンクを覚えている! <iframe src="//player.bilibili.com/player.html?aid=797475985&bvid=BV15y4y1r7pK&cid=247120978&page=1" scrolling="no" border="0" frameBorder="no" frameSpacing="0" allowFullScreen="true" mark="crwd-mark"> </iframe>
 
-原视频地址：<https://www.bilibili.com/video/BV15y4y1r7pK>
+元のビデオ アドレス：<https://www.bilibili.com/video/BV15y4y1r7pK>
 
-## 为什么要用表达式树，为什么可以用表达式树？
+## 式ツリーを使用する理由と、式ツリーを使用する理由
 
-首先需要确认的事情有两个：
+最初に確認する必要があるものには、2 つの：
 
-1. 使用表达式树取代反射是否有更好的性能？
-2. 使用表达式树进行动态调用是否有很大的性能损失？
+1. リフレクションの代わりに式ツリーを使用すると、パフォーマンスが向上しますか。
+2. 式ツリーを使用した動的呼び出しでは、パフォーマンスが大幅に低下しますか。
 
-有问题，做实验。我们采用两个单元测试来验证以上两个问题。
+問題がある、実験を行う。2 つの単体テストを使用して、上記の 2 つの問題を検証します。
 
-调用一个对象的方法：
+オブジェクトのメソッドを呼び出します：
 
 ```cs
 using System;
@@ -58,7 +58,7 @@ namespace Newbe.ExpressionsTests
         [SetUp]
         public void Init()
         {
-            _methodInfo = typeof(Claptrap).GetMethod(nameof(Claptrap.LevelUp));
+            _methodInfo = typeof(Claptrap). GetMethod(nameof(Claptrap.LevelUp));
             Debug.Assert(_methodInfo != null, nameof(_methodInfo) + " != null");
 
             var instance = Expression.Parameter(typeof(Claptrap), "c");
@@ -78,7 +78,7 @@ namespace Newbe.ExpressionsTests
                 _methodInfo.Invoke(claptrap, new[] {(object) Diff});
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         [Test]
@@ -87,10 +87,10 @@ namespace Newbe.ExpressionsTests
             var claptrap = new Claptrap();
             for (int i = 0; i < Count; i++)
             {
-                _func.Invoke(claptrap, Diff);
+                _func. Invoke(claptrap, Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         [Test]
@@ -99,10 +99,10 @@ namespace Newbe.ExpressionsTests
             var claptrap = new Claptrap();
             for (int i = 0; i < Count; i++)
             {
-                claptrap.LevelUp(Diff);
+                claptrap. LevelUp(Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         private MethodInfo _methodInfo;
@@ -121,7 +121,7 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-以上测试中，我们对第三种调用方式一百万次调用，并记录每个测试所花费的时间。可以得到类似以下的结果：
+上記のテストでは、3 番目の呼び出し方法に 100 万回の呼び出しを行い、各テストにかかった時間を記録しました。次のような結果が得られます：
 
 | Method        | Time  |
 | ------------- | ----- |
@@ -129,18 +129,18 @@ namespace Newbe.ExpressionsTests
 | RunExpression | 20ms  |
 | Directly      | 19ms  |
 
-可以得出以下结论：
+次の結論に達することができます：
 
-1. 使用表达式树创建委托进行动态调用可以得到和直接调用近乎相同的性能。
-2. 使用表达式树创建委托进行动态调用所消耗的时间约为十分之一。
+1. 式ツリーを使用して動的呼び出しを行うデリゲートを作成すると、ほぼ同じパフォーマンスが得られます。
+2. 式ツリーを使用して動的呼び出しを行うデリゲートを作成するのにかかる時間は、約 10 分の 1 です。
 
-所以如果仅仅从性能上考虑，应该使用表达式树，也可以是用表达式树。
+したがって、パフォーマンスのみから考える場合は、式ツリーまたは式ツリーを使用する必要があります。
 
-不过这是在一百万调用下体现出现的时间，对于单次调用而言其实就是纳秒级别的区别，其实无足轻重。
+しかし、これは100万の呼び出しの下で発生する時間であり、単一の呼び出しのために、実際にはナ秒レベルの違いであり、実際には重要ではありません。
 
-但其实表达式树不仅仅在性能上相较于反射更优，其更强大的扩展性其实采用最为重要的特性。
+しかし、式ツリーは、リフレクションよりもパフォーマンスが優れただけでなく、より強力な拡張性は、実際には最も重要な特性を使用します。
 
-此处还有一个对属性进行操作的测试，此处将测试代码和结果罗列如下：
+また、プロパティを操作するためのテストも含まれていますが、テスト コードと結果は次のように一覧：
 
 ```cs
 using System;
@@ -160,7 +160,7 @@ namespace Newbe.ExpressionsTests
         [SetUp]
         public void Init()
         {
-            _propertyInfo = typeof(Claptrap).GetProperty(nameof(Claptrap.Level));
+            _propertyInfo = typeof(Claptrap). GetProperty(nameof(Claptrap.Level));
             Debug.Assert(_propertyInfo != null, nameof(_propertyInfo) + " != null");
 
             var instance = Expression.Parameter(typeof(Claptrap), "c");
@@ -182,7 +182,7 @@ namespace Newbe.ExpressionsTests
                 _propertyInfo.SetValue(claptrap, value + Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         [Test]
@@ -191,10 +191,10 @@ namespace Newbe.ExpressionsTests
             var claptrap = new Claptrap();
             for (int i = 0; i < Count; i++)
             {
-                _func.Invoke(claptrap, Diff);
+                _func. Invoke(claptrap, Diff);
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         [Test]
@@ -203,10 +203,10 @@ namespace Newbe.ExpressionsTests
             var claptrap = new Claptrap();
             for (int i = 0; i < Count; i++)
             {
-                claptrap.Level += Diff;
+                claptrap. Level += Diff;
             }
 
-            claptrap.Level.Should().Be(Count * Diff);
+            claptrap. Level.Should(). Be(Count * Diff);
         }
 
         private PropertyInfo _propertyInfo;
@@ -220,7 +220,7 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-耗时情况：
+時間のかかる状況：
 
 | Method        | Time  |
 | ------------- | ----- |
@@ -228,11 +228,11 @@ namespace Newbe.ExpressionsTests
 | RunExpression | 19ms  |
 | Directly      | 18ms  |
 
-由于反射多了一份装拆箱的消耗，所以比起前一个测试样例显得更慢了，使用委托是没有这种消耗的。
+より多くのボックス化された消費が反映されるので、デリゲートの使用は、前のテスト サンプルよりも遅くなります。
 
-## 第〇步，需求演示
+## ステップ1、要件のデモンストレーション
 
-先通过一个测试来了解我们要创建的“模型验证器”究竟是一个什么样的需求。
+まず、テストを使用して、作成する "モデル検証ツール" がどのような要件であるかを確認します。
 
 ```cs
 using System.ComponentModel.DataAnnotations;
@@ -257,8 +257,8 @@ namespace Newbe.ExpressionsTests
                 {
                     var input = new CreateClaptrapInput();
                     var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeFalse();
-                    errorMessage.Should().Be("missing Name");
+                    isOk.Should(). BeFalse();
+                    errorMessage.Should(). Be("missing Name");
                 }
 
                 // test 2
@@ -268,8 +268,8 @@ namespace Newbe.ExpressionsTests
                         Name = "1"
                     };
                     var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeFalse();
-                    errorMessage.Should().Be("Length of Name should be great than 3");
+                    isOk.Should(). BeFalse();
+                    errorMessage.Should(). Be("Length of Name should be great than 3");
                 }
 
                 // test 3
@@ -279,8 +279,8 @@ namespace Newbe.ExpressionsTests
                         Name = "yueluo is the only one dalao"
                     };
                     var (isOk, errorMessage) = Validate(input);
-                    isOk.Should().BeTrue();
-                    errorMessage.Should().BeNullOrEmpty();
+                    isOk.Should(). BeTrue();
+                    errorMessage.Should(). BeNullOrEmpty();
                 }
             }
         }
@@ -292,12 +292,12 @@ namespace Newbe.ExpressionsTests
 
         public static ValidateResult ValidateCore(CreateClaptrapInput input, int minLength)
         {
-            if (string.IsNullOrEmpty(input.Name))
+            if (string. IsNullOrEmpty(input. Name))
             {
                 return ValidateResult.Error("missing Name");
             }
 
-            if (input.Name.Length < minLength)
+            if (input. Name.Length < minLength)
             {
                 return ValidateResult.Error($"Length of Name should be great than {minLength}");
             }
@@ -342,16 +342,16 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-从上而下，以上代码的要点：
+上から下へ、上記のコードの主なポイント：
 
-1. 主测试方法中，包含有三个基本的测试用例，并且每个都将执行一万次。后续所有的步骤都将会使用这样的测试用例。
-2. Validate 方法是被测试的包装方法，后续将会调用该方法的实现以验证效果。
-3. ValidateCore 是“模型验证器”的一个演示实现。从代码中可以看出该方法对 CreateClaptrapInput 对象进行的验证，并且得到验证结果。但是该方法的缺点也非常明显，这是一种典型的“写死”。后续我们将通过一系列改造。使得我们的“模型验证器”更加的通用，并且，很重要的，保持和这个“写死”的方法一样的高效！
-4. ValidateResult 是验证器输出的结果。后续将不断重复的用到该结果。
+1. メイン テスト メソッドには、3 つの基本的なテスト ケースが含まれています。次のすべての手順では、このようなテスト ケースを使用します。
+2. Validate メソッドは、テストされたラッパー メソッドであり、その後、効果を検証するためにメソッドの実装が呼び出されます。
+3. ValidateCore は、モデル検証ツールのデモ実装です。コードからわかるように、メソッドは CreateClaptrapInput オブジェクトを検証し、検証結果を取得します。しかし、この方法の欠点も非常に明白であり、これは典型的な「書き込み死」です。その後、我々は改造のシリーズを通過します。私たちの「モデル検証ツール」をより汎用的にし、この「デッドを書く」アプローチと同じ効率を維持することが重要です!
+4. ValidateResult は、検証ツールの出力の結果です。その後、結果は繰り返し使用されます。
 
-## 第一步，调用静态方法
+## 最初のステップは、静的メソッドを呼び出すことです
 
-首先我们构建第一个表达式树，该表达式树将直接使用上一节中的静态方法 ValidateCore。
+まず、前のセクションの静的メソッド ValidateCore を直接使用する最初の式ツリーを作成します。
 
 ```cs
 using System;
@@ -377,7 +377,7 @@ namespace Newbe.ExpressionsTests
         {
             try
             {
-                var method = typeof(X03PropertyValidationTest01).GetMethod(nameof(ValidateCore));
+                var method = typeof(X03PropertyValidationTest01). GetMethod(nameof(ValidateCore));
                 Debug.Assert(method != null, nameof(method) + " != null");
                 var pExp = Expression.Parameter(typeof(CreateClaptrapInput));
                 var minLengthPExp = Expression.Parameter(typeof(int));
@@ -402,17 +402,17 @@ namespace Newbe.ExpressionsTests
 
         public static ValidateResult Validate(CreateClaptrapInput input)
         {
-            return _func.Invoke(input, 3);
+            return _func. Invoke(input, 3);
         }
 
         public static ValidateResult ValidateCore(CreateClaptrapInput input, int minLength)
         {
-            if (string.IsNullOrEmpty(input.Name))
+            if (string. IsNullOrEmpty(input. Name))
             {
                 return ValidateResult.Error("missing Name");
             }
 
-            if (input.Name.Length < minLength)
+            if (input. Name.Length < minLength)
             {
                 return ValidateResult.Error($"Length of Name should be great than {minLength}");
             }
@@ -423,24 +423,24 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-从上而下，以上代码的要点：
+上から下へ、上記のコードの主なポイント：
 
-1. 增加了一个单元测试的初始化方法，在单元测试启动时创建的一个表达式树将其编译为委托保存在静态字段 \_func 中。
-2. 省略了主测试方法 Run 中的代码，以便读者阅读时减少篇幅。实际代码没有变化，后续将不再重复说明。可以在代码演示仓库中查看。
-3. 修改了 Validate 方法的实现，不再直接调用 ValidateCore ，而调用 \_func 来进行验证。
-4. 运行该测试，开发者可以发现，其消耗的时间和上一步直接调用的耗时，几乎一样，没有额外消耗。
-5. 这里提供了一种最为简单的使用表达式进行动态调用的思路，如果可以写出一个静态方法（例如:ValidateCore）来表示动态调用的过程。那么我们只要使用类似于 Init 中的构建过程来构建表达式和委托即可。
-6. 开发者可以试着为 ValidateCore 增加第三个参数 name 以便拼接在错误信息中，从而了解如果构建这种简单的表达式。
+1. 単体テストの開始時に作成された式ツリーが、静的フィールド \_func にデリゲートとしてコンパイルされる単体テストの初期化メソッドが追加されました。
+2. メイン テスト メソッド Run のコードは省略され、読者が読むときに短くすることができます。実際のコードは変更され、その後は説明が繰り返されません。コード デモ ウェアハウスで確認できます。
+3. Validate メソッドの実装が変更され、ValidateCore が直接呼び出され、検証のために \_func呼び出されました。
+4. このテストを実行すると、開発者は、前の手順の直接呼び出しとほぼ同じ時間を消費し、追加の消費がないのを見つけ出すことができます。
+5. ここでは、動的呼び出しのプロシージャを表す静的メソッド (ValidateCore など) を記述できる場合に、式を使用して動的呼び出しを行う最も簡単な方法を示します。次に、Init と同様のビルド プロセスを使用して式とデリゲートを構築します。
+6. 開発者は、ValidateCore に 3 番目の引数 name を追加して、エラー メッセージにステッチして、この単純な式を構築する場合を理解できます。
 
-## 第二步，组合表达式
+## 2 番目の手順では、式を結合します
 
-虽然前一步，我们将直接调用转变了动态调用，但由于 ValidateCore 还是写死的，因此还需要进一步修改。
+前の手順では、直接呼び出しによって動的呼び出しが変換されましたが、ValidateCore は書き込み用であるため、さらに変更する必要があります。
 
-本步骤，我们将会把 ValidateCore 中写死的三个 return 路径拆分为不同的方法，然后再采用表达式拼接在一起。
+この手順では、ValidateCore で記述された 3 つの return パスを異なるメソッドに分割し、式をスプライスします。
 
-如果我们实现了，那么我们就有条件将更多的方法拼接在一起，实现一定程度的扩展。
+実現すれば、ある程度の拡張のために、より多くのメソッドをつなぎ合わせる条件があります。
 
-注意：演示代码将瞬间边长，不必感受太大压力，可以辅助后面的代码要点说明进行查看。
+注：デモ コードは瞬時に長く、あまりストレスを感じなくても、後のコード ポイントの説明を参照できます。
 
 ```cs
 using System;
@@ -607,24 +607,24 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. ValidateCore 方法被拆分为了 ValidateNameRequired 和 ValidateNameMinLength 两个方法，分别验证 Name 的 Required 和 MinLength。
-2. Init 方法中使用了 local function 从而实现了方法“先使用后定义”的效果。读者可以自上而下阅读，从顶层开始了解整个方法的逻辑。
-3. Init 整体的逻辑就是通过表达式将 ValidateNameRequired 和 ValidateNameMinLength 重新组合成一个形如 ValidateCore 的委托 `Func<CreateClaptrapInput, int, ValidateResult>`。
-4. Expression.Parameter 用于标明委托表达式的参数部分。
-5. Expression.Variable 用于标明一个变量，就是一个普通的变量。类似于代码中的`var a`。
-6. Expression.Label 用于标明一个特定的位置。在该样例中，主要用于标定 return 语句的位置。熟悉 goto 语法的开发者知道， goto 的时候需要使用 label 来标记想要 goto 的地方。而实际上，return 就是一种特殊的 goto。所以想要在多个语句块中 return 也同样需要标记后才能 return。
-7. Expression.Block 可以将多个表达式顺序组合在一起。可以理解为按顺序写代码。这里我们将 CreateDefaultResult、CreateValidateNameRequiredExpression、CreateValidateNameMinLengthExpression 和 Label 表达式组合在一起。效果就类似于把这些代码按顺序拼接在一起。
-8. CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression 的结构非常类似，因为想要生成的结果表达式非常类似。
-9. 不必太在意 CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression 当中的细节。可以在本样例全部阅读完之后再尝试了解更多的 Expression.XXX 方法。
-10. 经过这样的修改之后，我们就实现了扩展。假设现在需要对 Name 增加一个 MaxLength 不得超过 16 的验证。只需要增加一个 ValidateNameMaxLength 的静态方法，添加一个 CreateValidateNameMaxLengthExpression 的方法，并且加入到 Block 中即可。读者可以尝试动手操作一波实现这个效果。
+1. ValidateCore メソッドは、ValidateNameRequired と ValidateNameMinLength の 2 つのメソッドに分割され、Name の Required と MinLength がそれぞれ検証されます。
+2. Init メソッドで local function を使用すると、メソッドの "最初に使用して定義" という効果が得られます。読者はトップダウンで読み、トップレベルからアプローチ全体のロジックを理解することができます。
+3. Init 全体のロジックは、 ValidateNameRequired と ValidateNameMinLength を式によって ValidateCore のような形のデリゲート `Func に再構成<CreateClaptrapInput, int, ValidateResult>`。
+4. Expression.Parameter は、デリゲート式の引数部分を示します。
+5. Expression.Variable は、通常の変数である変数を示します。コード内の`var a に`。
+6. Expression.Label は、特定の場所を示します。この例では、主に return ステートメントの位置を指定するために使用されます。goto の構文に精通している開発者は、goto の場合、goto を使用して goto の場所をマークする必要があることを知っています。実際には、return は特別な goto です。したがって、複数のステートメント ブロックで return を return するには、同様にタグが必要です。
+7. Expression.Block では、複数の式を順番にグループ化できます。コードを順番に記述すると理解できます。ここでは、CreateDefaultResult、CreateValidateNameRequiredExpression、CreateValidateNameMinLengthExpression、および Label 式をグループ化します。効果は、これらのコードを順番にステッチするのと似ています。
+8. CreateValidateNameRequiredExpression と CreateValidateNameMinLengthExpression の構造は非常によく似ています。
+9. CreateValidateNameRequiredExpression および CreateValidateNameMinLengthExpression の詳細についてあまり気にする必要はありません。このサンプルをすべて読み終えたら、詳細な Expression.XXXできます。
+10. このような変更により、拡張機能が実装されました。Name に MaxLength を 16 を超える検証を追加する必要がある場合。ValidateNameMaxLength の静的メソッドを 1 つ追加し、CreateValidateNameMaxLengthExpression メソッドを追加し、Block に追加するだけで済みます。読者は、この効果を達成するためにハンズオン波を試すことができます。
 
-## 第三步，读取属性
+## 3 番目の手順では、プロパティを読み取ります
 
-我们来改造 ValidateNameRequired 和 ValidateNameMinLength 两个方法。因为现在这两个方法接收的是 CreateClaptrapInput 作为参数，内部的逻辑也被写死为验证 Name，这很不优秀。
+ValidateNameRequired と ValidateNameMinLength の 2 つのメソッドを変換します。現在、これらの 2 つのメソッドは CreateClaptrapInput を引数として受け取っているため、内部ロジックも検証 Name として記述されるため、これは優れています。
 
-我们将改造这两个方法，使其传入 string name 表示验证的属性名称，string value 表示验证的属性值。这样我们就可以将这两个验证方法用于不限于 Name 的更多属性。
+両方のメソッドを変換して、検証されたプロパティ名を表す string name を渡し、検証されたプロパティ値を表す string value を渡します。これにより、Name に限定されない多くのプロパティに対して、これら 2 つの検証メソッドを使用できます。
 
 ```cs
 using System;
@@ -797,15 +797,15 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. 正如前文所述，我们修改了 ValidateNameRequired ，并重命名为 ValidateStringRequired。 ValidateNameMinLength -> ValidateStringMinLength。
-2. 修改了 CreateValidateNameRequiredExpression 和 CreateValidateNameMinLengthExpression，因为静态方法的参数发生了变化。
-3. 通过这样的改造，我们便可以将两个静态方法用于更多的属性验证。读者可以尝试增加一个 NickName 属性。并且进行相同的验证。
+1. 前述のように、ValidateNameRequired を変更し、ValidateStringRequired に名前を変更しました。 ValidateNameMinLength -> ValidateStringMinLength。
+2. 静的メソッドのパラメータが変更されたため、CreateValidateNameRequiredExpression および CreateValidateNameMinLengthExpression が変更されました。
+3. このような変換により、2 つの静的メソッドを使用して、より多くのプロパティ検証を行える可能性があります。読者は、NickName プロパティを追加しようとすることができます。そして、同じ検証を行います。
 
-## 第四步，支持多个属性验证
+## 4 番目の手順では、複数のプロパティの検証をサポートします
 
-接下来，我们通过将验证 CreateClaptrapInput 所有的 string 属性。
+次に、CreateClaptrapInput のすべての string プロパティを検証します。
 
 ```cs
 using System;
@@ -985,16 +985,16 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. 在 CreateClaptrapInput 中增加了一个属性 NickName ，测试用例也将验证该属性。
-2. 通过`List<Expression>`我们将更多动态生成的表达式加入到了 Block 中。因此，我们可以对 Name 和 NickName 都生成验证表达式。
+1. プロパティ NickName が CreateClaptrapInput に追加され、テスト ケースによっても検証されます。
+2. List`を<Expression>`、より動的に生成された式を Block に追加しました。したがって、Name と NickName の両方に対して検証式を生成できます。
 
-## 第五步，通过 Attribute 决定验证内容
+## 5 番目の手順では、Attribute を使用してコンテンツを検証することにしました
 
-尽管前面我们已经支持验证多种属性了，但是关于是否进行验证以及验证的参数依然是写死的（例如：MinLength 的长度）。
+前に複数のプロパティの検証をサポートしましたが、検証と検証に関するパラメーターは書き込み可能です (たとえば、：MinLength の長さ)。
 
-本节，我们将通过 Attribute 来决定验证的细节。例如被标记为 Required 是属性才会进行必填验证。
+このセクションでは、Attribute を使用して検証の詳細を決定します。たとえば、Required は必須の検証のためにプロパティとしてマークされます。
 
 ```cs
 using System;
@@ -1162,15 +1162,15 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. 在构建`List<Expression>`时通过属性上的 Attribute 上的决定是否加入特定的表达式。
+1. プロパティの Attribute`を使用して特定の式を含めるかどうかを決定するときに、List<Expression>`を作成します。
 
-## 第六步，将静态方法换为表达式
+## 6 番目の手順では、静的メソッドを式に変更します
 
-ValidateStringRequired 和 ValidateStringMinLength 两个静态方法的内部实际上只包含一个判断三目表达式，而且在 C# 中，可以将 Lambda 方法赋值个一个表达式。
+ValidateStringRequired と ValidateStringMinLength の 2 つの静的メソッドの内部には、実際には 1 つの判断トライブロック式のみが含まれています。
 
-因此，我们可以直接将 ValidateStringRequired 和 ValidateStringMinLength 改换为表达式，这样就不需要反射来获取静态方法再去构建表达式了。
+したがって、ValidateStringRequired と ValidateStringMinLength を式に直接変換できるため、式を構築するために静的メソッドを取得するためにリフレクションは必要ありません。
 
 ```cs
 using System;
@@ -1340,24 +1340,24 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. 将静态方法换成了表达式。因此 CreateXXXExpression 相应的位置也进行了修改，代码就更短了。
+1. 静的メソッドを式に変更します。したがって、CreateXXXExpression の対応する位置も変更され、コードが短くなります。
 
-## 第七步，柯里化
+## ステップ7、カリー化
 
-柯理化，也称为函数柯理化，是函数式编程当中的一种方法。简单的可以表述为：通过固定一个多参数函数的一个或几个参数，从而得到一个参数更少的函数。术语化一些，也可以表述为将高阶函数（函数的阶其实就是说参数的个数）转换为低阶函数的方法。
+関数コリ化とも呼ばれるコリ化は、関数型プログラミングの1つの方法です。単純な表現は、：複数の引数関数の 1 つ以上の引数を固定することで、引数の少ない関数を取得します。用語化は,高次関数(関数の次数は実際には引数の数)を下位関数に変換する方法として表現できる.
 
-例如，现在有一个 add(int,int) 的函数，它实现了将两个数相加的功能。假如我们固定集中第一个参数为 5 ，则我们会得到一个 add(5,int) 的函数，它实现的是将一个数加 5 的功能。
+たとえば、2 つの数値を加算する機能を実装する add(int,int) 関数があります。セットの最初の引数を 5 に固定すると、数に 5 を加算する関数を実装する add(5,int) 関数が得られる。
 
-这有什么意义？
+ポイントは何ですか?
 
-函数降阶可以使得函数变得一致，得到了一致的函数之后可以做一些代码上的统一以便优化。例如上面使用到的两个表达式：
+関数の降順は、関数の一貫性を高め、一貫性のある関数を取得した後、最適化のためにコードを統一することができます。たとえば、上記の 2 つの式：
 
 1. `Expression<Func<string, string, ValidateResult>> ValidateStringRequiredExp`
 2. `Expression<Func<string, string, int, ValidateResult>> ValidateStringMinLengthExp`
 
-这两个表达式中第二个表达式和第一个表达式之间仅仅区别在第三参数上。如果我们使用柯理化固定第三个 int 参数，则可以使得两个表达式的签名完全一样。这其实和面向对象中的抽象非常类似。
+2 つの式のうち、2 番目の式と最初の式は、3 番目の引数と区別されます。3 番目の int パラメータを Ke理化学で固定すると、2 つの式のシグネチャをまったく同じにできます。これは、オブジェクト指向の抽象化と非常によく似ています。
 
 ```cs
 using System;
@@ -1533,17 +1533,17 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. CreateValidateStringMinLengthExp 静态方法，传入一个参数创建得到一个和 CreateValidateStringRequiredExp 返回值一样的表达式。对比上一节中的 ValidateStringMinLengthExp ，实现了固定 int 参数而得到一个新表达式的操作。这就是一种柯理化的体现。
-2. 为了统一都采用静态方法，我们将上一节中的 ValidateStringRequiredExp 也改为 CreateValidateStringRequiredExp 静态方法，这仅仅只是为了看起来一致（但实际上增加了一点点开销，因为没必要重复创建一个不变的表达式）。
-3. 相应的调整一下 `List<Expression>` 组装过程的代码。
+1. CreateValidateStringMinLengthExp 静的メソッドで、CreateValidateStringRequiredExp の戻り値と同じ式を作成するパラメーターを渡します。前のセクションの ValidateStringMinLengthExp と比較して、int パラメーターを固定して新しい式を取得する操作を実装します。これは、コリ化の現れです。
+2. 静的メソッドを統一するために、前のセクションの ValidateStringRequiredExp も CreateValidateStringRequiredExp 静的メソッドに変更しました。
+3. それに応じて、List `アセンブリ<Expression>` コードを調整します。
 
-## 第八步，合并重复代码
+## 8 番目の手順では、重複するコードをマージします
 
-本节，我们将合并 CreateValidateStringRequiredExpression 和 CreateValidateStringMinLengthExpression 中重复的代码。
+このセクションでは、CreateValidateStringRequiredExpression と CreateValidateStringMinLengthExpression で重複するコードをマージします。
 
-其中只有 requiredMethodExp 的创建方式不同。因此，只要将这个参数从方法外面传入就可以抽离出公共部分。
+requiredMethodExp のみが異なる方法で作成されます。したがって、このパラメーターをメソッドの外側から渡すだけで、共通部分から引き出すことができます。
 
 ```cs
 using System;
@@ -1687,17 +1687,17 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. CreateValidateExpression 就是被抽离出来的公共方法。
-2. 如果没有前一步柯理化，CreateValidateExpression 的第二个参数 validateFuncExpression 将很难确定。
-3. CreateValidateStringRequiredExpression 和 CreateValidateStringMinLengthExpression 内部调用了 CreateValidateExpression，但是固定了几个参数。这其实也可以被认为是一种柯理化，因为返回值是表达式其实可以被认为是一种函数的表现形式，当然理解为重载也没有问题，不必太过纠结。
+1. CreateValidateExpression は、引き出されたパブリック メソッドです。
+2. CreateValidateExpression の 2 番目のパラメータである validateFuncExpression は、前のステップのコーリー化なしでは決定が困難です。
+3. CreateValidateStringRequiredExpression と CreateValidateStringMinLengthExpression は内部的に CreateValidateExpression を呼び出しますが、いくつかのパラメータが固定されています。戻り値は式であり、実際には関数の表現と見なされるため、これは実際にはコリ化と見なすことができます。
 
-## 第九步，支持更多模型
+## ステップ 9 では、より多くのモデルをサポートします
 
-到现在，我们已经得到了一个支持验证 CreateClaptrapInput 多个 string 字段的验证器。并且，即使要扩展多更多类型也不是太难，只要增加表达式即可。
+これで、CreateClaptrapInput の複数の string フィールドの検証をサポートする検証ツールができました。また、式を増やすだけで、より多くの型を拡張することはそれほど難しくありません。
 
-本节，我们将 CreateClaptrapInput 抽象为更抽象的类型，毕竟没有模型验证器是专门只能验证一个 class 的。
+このセクションでは、CreateClaptrapInput をより抽象的な型に抽象化します。
 
 ```cs
 using System;
@@ -1849,14 +1849,14 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. 将 `Func<CreateClaptrapInput, ValidateResult>` 替换为了 `Func<object, ValidateResult>`，并且将写死的 typeof(CreateClaptrapInput) 都替换为了 type。
-2. 将对应类型的验证器创建好之后保存在 ValidateFunc 中。这样就不需要每次都重建整个 Func。
+1. `Func<CreateClaptrapInput, ValidateResult>` を `Func<object, ValidateResult>`に置き換え、書き込み死者の typeof(CreateClaptrapInput) を type に置き換えます。
+2. 対応する型の検証ツールを作成した後、ValidateFunc に保存します。これにより、Func 全体を毎回再構築する必要がありません。
 
-## 第十步，加入一些细节
+## ステップ10は、いくつかの詳細を追加します
 
-最后的最后，我们又到了令人愉快的“加入一些细节”阶段：按照业务特性对抽象接口和实现进行调整。于是我们就得到了本示例最终的版本。
+最後に、ビジネス機能に合わせて抽象インターフェイスと実装を調整する「いくつかの詳細を追加」の楽しい段階に：しました。その結果、このサンプルの最終バージョンが作成されます。
 
 ```cs
 using System;
@@ -2194,156 +2194,156 @@ namespace Newbe.ExpressionsTests
 }
 ```
 
-代码要点：
+コードの要点：
 
-1. IValidatorFactory 模型验证器工厂，表示创建特定类型的验证器委托
-2. IPropertyValidatorFactory 具体属性的验证表达式创建工厂，可以根据规则的增加，追加新的实现。
-3. 使用 Autofac 进行模块管理。
+1. 特定の種類の検証デリゲートの作成を表す IValidatorFactory モデル検証ファクトリ
+2. IPropertyValidatorFactory の具体的な属性の検証式は、ルールの追加に応じて新しい実装を追加できるファクトリを作成します。
+3. モジュール管理には Autofac を使用します。
 
-## 随堂小练
+## 練習に同行する
 
-别走！您还有作业。
+行かないで!まだ宿題があります。
 
-以下有一个按照难度分级的需求，开发者可以尝试完成这些任务，进一步理解和使用本样例中的代码。
+開発者がこれらのタスクを実行し、このサンプルのコードをさらに理解し、使用しようとする難易度評価の要件を次に示します。
 
-### 增加一个验证 string max length 的规则
+### string max length を検証するルールを追加します
 
-难度：D
+難易度：D
 
-思路：
+アイデア：
 
-和 min length 类似，别忘记注册就行。
+min length と同様に、登録することを忘れてはならない。
 
-### 增加一个验证 int 必须大于等于 0 的规则
+### int が 0 以上でないことを確認するルールを 1 つ増やします
 
-难度：D
+難易度：D
 
-思路：
+アイデア：
 
-只是多了一个新的属性类型，别忘记注册就行。
+単に新しいプロパティタイプを追加し、登録することを忘れてはならない。
 
-### 增加一个`IEnumerable<T>`对象必须包含至少一个元素的规则
+### IEnumerable`を 1 つ増やす<T>`少なくとも 1 つの要素が含まれている必要があります
 
-难度：C
+難易度：C
 
-思路：
+アイデア：
 
-可以用 Linq 中的 Any 方法来验证
+Linq の Any メソッドを使用して検証できます
 
-### 增加一个`IEnumerable<T>`必须已经 ToList 或者 ToArray，类比 mvc 中的规则
+### IEnumerable`を追加するには<T>`が既に ToList または ToArray、mvc のルールに例えされている必要があります
 
-难度：C
+難易度：C
 
-思路：
+アイデア：
 
-其实只要验证是否已经是 ICollection 就可以了。
+実際には、ICollection が既に ICollection であることを確認するだけで十分です。
 
-### 支持空对象也输出验证结果
+### 空のオブジェクトのサポートも検証結果を出力します
 
-难度：C
+難易度：C
 
-思路：
+アイデア：
 
-如果 input 为空。则也要能够输出第一条不满足条件的规则。例如 Name Required。
+input が空の場合。また,条件を満たさない最初のルールも出力できる.たとえば、Name Required などです。
 
-### 增加一个验证 int? 必须有值的规则
+### 検証 int を追加しますか? 値を持つ必要があるルール
 
-难度：B
+難易度：B
 
-思路：
+アイデア：
 
-int? 其实是语法糖，实际类型是 `Nullable<int>`。
+int? 実際には構文砂糖であり、実際の型は `Nullable<int>`。
 
-### 增加一个验证枚举必须符合给定的范围
+### 検証列挙体を 1 つ増やすには、指定されたスコープに準拠する必要があります
 
-难度：B
+難易度：B
 
-思路：
+アイデア：
 
-枚举是可以被赋值以任意数值范围的，例如定义了 Enum TestEnum { None = 0;} 但是，强行赋值 233 给这样的属性并不会报错。该验证需要验证属性值只能是定义的值。
+列挙型は、Enum TestEnum { None = 0 が定義されているなど、任意の数値範囲に割り当て可能です。 ただし、233 を強制的に割り当てると、このようなプロパティはエラーを報告しません。この検証では、プロパティ値が定義された値のみであることを確認する必要があります。
 
-也可以增加自己的难度，例如支持验证标记为 Flags 的枚举的混合值范围。
+また、Flags というラベルの付いた列挙体の混合値範囲の検証をサポートするなど、独自の難易度を上けすることもできます。
 
-### 添加一个验证 int A 属性必须和 int B 属性大
+### int A プロパティが int B プロパティと大きくで必要な検証を追加します
 
-难度：A
+難易度：A
 
-思路：
+アイデア：
 
-需要有两个属性参与。啥都别管，先写一个静态函数来比较两个数值的大小。然后在考虑如何表达式化，如何柯理化。可以参考前面思路。
+2 つのプロパティが関与する必要があります。放っておいて、2 つの数値のサイズを比較する静的関数を記述します。次に、式化方法、コリ化方法を検討します。前のアイデアを参照することができます。
 
-额外限定条件，不能修改现在接口定义。
+追加の修飾条件により、現在のインターフェイス定義を変更することはできません。
 
-### 添加一个验证 string A 属性必须和 string B 属性相等，忽略大小写
+### string A プロパティが string B プロパティと等しく、大文字と小文字を区別しない必要がある検証を追加します
 
-难度：A
+難易度：A
 
-思路：
+アイデア：
 
-和前一个类似。但是，string 的比较比 int 特殊，并且需要忽略大小写。
+前の1つに似ています。ただし、string の比較は int よりも特殊であり、大文字と小文字を無視する必要があります。
 
-### 支持返回全部的验证结果
+### すべての検証結果の返しをサポートします
 
-难度：S
+難易度：S
 
-思路：
+アイデア：
 
-调整验证结果返回值，从返回第一个不满足的规则，修改为返回所有不满足的规则，类比 mvc model state 的效果。
+検証結果の戻り値を調整し、最初に満たされていないルールを返すから、mvc model state の効果に例え、満たされていないすべてのルールを返すに変更します。
 
-需要修改组合结果的表达式，可以有两种办法，一种是内部创建 List 然后将结果放入，更为简单的一种是使用 yield return 的方法进行返回。
+結合された結果を変更する必要がある式には、List を内部的に作成し、結果を配置する方法と、yield return メソッドを使用して返す方が簡単です。
 
-需要而外注意的是，由于所有规则都运行，一些判断就需要进行防御性判断。例如在 string 长度判断时，需要先判断其是否为空。至于 string 为空是否属于满足最小长度要求，开发者可以自由决定，不是重点。
+すべてのルールが実行されるので、いくつかの判断は防御的な判断を必要とします。たとえば、string 長さで判断する場合は、まず空かどうかを判断する必要があります。string が null が最小長要件を満たすかどうかについては、開発者はポイントではなく自由に決定できます。
 
-### 支持对象的递归验证
+### オブジェクトの再帰的な検証をサポートします
 
-难度：SS
+難易度：SS
 
-思路：
+アイデア：
 
-即如果对象包含一个属性又是一个对象，则子对象也需要被验证。
+つまり、オブジェクトにプロパティとオブジェクトが含まれている場合は、子オブジェクトも検証する必要があります。
 
-有两种思路：
+考え方は2つ：
 
-一是修改 ValidatorFactory 使其支持从 ValidateFunc 中获取验证器作为表达式的一部分。该思路需要解决的主要问题是，ValidateFunc 集合中可能提前不存在子模型的验证器。可以使用 Lazy 来解决这个问题。
+1 つは、ValidatorFactory を変更して、式の一部として ValidateFunc から検証ツールを取得できるようにします。この考え方で対処する必要がある主な問題は、ValidateFunc コレクションに子モデルの検証ツールが事前に存在しない可能性がある場合です。Lazy を使用してこの問題を解決できます。
 
-二是创建一个 IPropertyValidatorFactory 实现，使其能够从 ValidatorFactory 中获取 ValidateFunc 来验证子模型。该思路主要要解决的问题是，直接实现可能会产生循环依赖。可以保存和生成 ValidateFunc 划分在两个接口中，解除这种循环依赖。该方案较为简单。
+2 つは、ValidatorFactory から ValidateFunc を取得してサブモデルを検証できる IPropertyValidatorFactory 実装を作成します。この考え方の主な問題は、直接実装が循環依存を引き起ぼす可能性がある場合です。ValidateFunc 分割を 2 つのインターフェイスに保存して生成し、この循環依存を解除できます。シナリオは単純です。
 
-另外，晋级难度为 SSS，验证 `IEnumerable<>` 中所有的元素。开发者可以尝试。
+さらに、昇格の難易度は SSS で、 `IEnumerable<>` 要素を検証します。開発者は試すことができます。
 
-### 支持链式 API
+### チェーン API がサポートされています
 
-难度：SSS
+難易度：SSS
 
-思路：
+アイデア：
 
-形如 EntityFramework 中同时支持 Attribute 和链式 API 一样，添加链式设置验证的特性。
+EntityFramework で Attribute とチェーン API の両方をサポートするのと同様に、チェーン設定検証のプロパティを追加します。
 
-这需要增加新的接口以便进行链式注册，并且原来使用 Attribute 直接生成表达式的方法也应该调整为 Attribute -> 注册数据 -> 生成表达式。
+これには、チェーン登録用の新しいインターフェイスの追加が必要であり、Attribute を使用して式を直接生成する元のメソッドも、Attribute -> 登録データ -> 式を生成するように調整する必要があります。
 
-### 实现一个属性修改器
+### プロパティ モディファイヤを実装します
 
-难度：SSS
+難易度：SSS
 
-思路：
+アイデア：
 
-实现一条规则，手机号码加密，当对象的某个属性是满足长度为 11 的字符串，并且开头是 1。则除了前三位和后四位之外的字符全部替换为`*`。
+オブジェクトのプロパティが長さ 11 を満たす文字列で、先頭が 1 の場合、携帯電話番号が暗号化されるルールを実装します。最初の 3 桁と次の 4 桁を除くすべての文字は、すべて`*`。
 
-建议从头开始实现属性修改器，不要在上面的代码上做变更。因为验证和替换通常来说是两个不同的业务，一个是为了输入，一个是为了输出。
+プロパティ モディファイヤをゼロから実装し、上記のコードに変更を加えないようにお勧めします。検証と置換は、通常、入力用と出力用の 2 つの異なるビジネスであるためです。
 
-这里有一些额外的要求：
+ここにいくつかの追加の要件があります：
 
-1. 在替换完成后，将此次被替换的所有值的前后情况输出在日志中。
-2. 注意，测试的性能要与直接调用方法相当，否则肯定是代码实现存在问题。
+1. 置換が完了すると、今回置換されたすべての値の前後がログに出力されます。
+2. テストのパフォーマンスは、メソッドを直接呼び出すことと同等である必要があります。
 
-## 本文总结
+## この記事を要約します
 
-在.net 中，表达式树可以用于两种主要的场景。一种是用于解析结果，典型的就是 EntityFramework，而另外一种就是用于构建委托。
+.net では、式ツリーを 2 つの主要なシナリオで使用できます。1 つは結果を解析するためのもので、通常は EntityFramework で、もう 1 つはデリゲートの構築です。
 
-本文通过构建委托的方式实现了一个模型验证器的需求。生产实际中还可以用于很多动态调用的地方。
+この記事では、デリゲートを構築する方法でモデル検証ツールの要件を実装します。運用環境は、実際には、多くの動的呼び出しで使用できます。
 
-掌握表达式树，就掌握了一种可以取代反射进行动态调用的方法，这种方法不仅扩展性更好，而且性能也不错。
+式ツリーをマスターすると、リフレクションの代わりに動的呼び出しを行う方法が習得され、拡張性が向上するだけでなく、パフォーマンスも向上します。
 
-本篇内容中的示例代码，均可以在以下链接仓库中找到：
+この記事のサンプル コードは、次のリンク リポジトリにあります：
 
 - <https://github.com/newbe36524/Newbe.Demo>
 - <https://gitee.com/yks/Newbe.Demo>
