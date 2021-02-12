@@ -1,26 +1,26 @@
 ---
-title: 'Serialisierung'
-description: 'Serialisierung'
+title: '序列化（Serialization）'
+description: '序列化（Serialization）'
 ---
 
 
-Da Ereignisse und Zustände in einem Claptrap-System übertragen und gespeichert werden müssen, müssen Ereignisse und Zustände serialisiert werden, um eine Vielzahl von Transport- und Speicherszenarien zu bewältigen.
+由于在 Claptrap 系统中需要对事件和状态进行传输与存储，因此需要对事件和状态进行序列化，这样才能够应对种类繁多的传输和存储方案。
 
-## Auswählen eines Serialisierungsschemas
+## 如何选择序列化方案
 
-Es gibt eine Vielzahl von Optionen für die Serialisierung, in der Regel：JSON, MessagePack, Protobuf und mehr.Die serialisierten Szenarien im eigentlichen Projekt können anhand der folgenden points：
+可选的序列化方式多种多样，典型的就如：JSON、MessagePack、Protobuf 等等。实际项目中序列化的方案可以基于以下几点进行考虑：
 
-1. Lesbarkeit.Wenn höhere Anforderungen an die Lesbarkeit bestehen, sollten Sie die textbasierte Serialisierung berücksichtigen.
-2. Übertragungseffizienz, Speichernutzung.Wenn höhere Anforderungen an Transporteffizienz und Speicherplatz bestehen, sollte die binärere Serialisierung in Betracht gezogen werden.
+1. 可读性。如果对可读性有越高的要求，则越应该考虑以文本为主的序列化方案。
+2. 传输效率、存储空间利用率。如果对于传输效率和存储空间有越高的要求，则越应该考虑以二进制为主的序列化方案。
 
-Im Claptrap-System können Entwickler verschiedene Serialisierungsschemata für verschiedene Claptrap auswählen, da jede Claptrap vollständig anpassbar ist.Das einzige, was zu beachten ist, ist, dass das Serialisierungsschema schwierig zu ändern ist, sobald es ausgewählt wurde, daher muss es in der Entwurfsphase sorgfältig geprüft werden.
+在 Claptrap 系统中，由于每个 Claptrap 都有完全独立的可定制性，因而开发者可以为不同的 Claptrap 选择不同的序列化方案。但唯一需要注意的就是，序列化方案一旦选定就很难变更，故需在设计阶段就慎重考虑。
 
-## Serialisierung und Carrier-Unabhängigkeit
+## 序列化与载体的独立性
 
-Im Claptrap-Framework sind Lagerung, Transport und Serialisierung unabhängig voneinander.Mit anderen Worten, Sie können während der Übertragung eine lesefreundlichere JSON-Serialisierung verwenden, eine binäre Serialisierung auswählen, die der Speicherauslastung förderlicher ist, und umgekehrt.
+在 Claptrap 框架中，存储、传输和序列化是相互独立。换言之，可以在传输时使用更利于阅读的 JSON 序列化，在存储时选择更有利于存储利用率的二进制序列化，反之亦然。
 
-## Serialisierungs- und Trägereinschränkungen
+## 序列化与载体的制约性
 
-Die Serialisierung wird auch angesichts spezifischer Speicher- oder Transportvektoren eingeschränkt.Für example：Sie derzeit eine Datenbank verwenden, die binären direkten Speicher nicht als persistenten Layer für Ereignisse unterstützt, wird die Auswahl, um Ereignisse durch binäre Serialisierung zu speichern, nicht mehr aufzuhalten.Daher müssen Sie vor der Auswahl eines Serialisierungsschemas die Transport- und Speicherszenarien priorisieren.
+在面对特定的存储或者传输的载体时，序列化的方式也将受到限制。例如：当前正在使用一种不支持二进制直接存储的数据库来作为事件的持久层，那么选择想要通过二进制序列化来保存事件就将变得不可行。故而，在选择序列化方案之前，需要优先确定传输和存储方案。
 
-Derzeit werden alle unterstützten Serialisierungsschemata auf nuget unter dem Namen "Newbe.Claptrap.DataSerializer" veröffentlicht.
+目前，所有支持的序列化方案均以“Newbe.Claptrap.DataSerializer.\*”的名称发布在 nuget 上。
