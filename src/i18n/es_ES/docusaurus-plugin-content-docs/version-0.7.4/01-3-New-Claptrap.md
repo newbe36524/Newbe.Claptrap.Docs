@@ -136,7 +136,7 @@ Se ha added：lo siguiente
 
 Una vez que haya definido ISkuGrain, puede agregar código para implementarlo.
 
-在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
+Cree una nueva carpeta Sku en el proyecto HelloClaptrap.Actors y agregue la clase SkuGrain a esa carpeta.
 
 ```cs
 + using System;
