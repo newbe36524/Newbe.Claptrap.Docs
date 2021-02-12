@@ -68,7 +68,7 @@ Because Claptrap is an Actor based on event sourcing patterns.So it's important 
 
 In this example, we only need to record the inventory of the current SKU, so state design is very simple.
 
-Add` Sku`folder to the HelloClaptrap. project and create the`SkuState`under that folder.
+Add`Sku`folder to the HelloClaptrap. project and create the`SkuState`under that folder.
 
 Add the following code.：
 

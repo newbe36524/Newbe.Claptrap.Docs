@@ -72,7 +72,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 `EventHandler`mettre à jour les événements à claptrap’s`State`.Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
-Créez` supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actors.
+Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actors.
 
 Ajouter les éléments code：
 

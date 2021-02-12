@@ -1,5 +1,5 @@
 ---
-title: "粵語說明"
+title: "项目简介"
 description: "呢個係以`反應式`、`事件溯源`同`Actor模式`作為基本理論嘅一套伺服端開發框架。喺佢上面，開發者可以更加簡單咁開發出“分布式”、“可水平擴展”、“可測試性高”嘅應用系統。"
 slug: /
 ---
@@ -30,8 +30,6 @@ Claptrap and it`s Minions are coming.
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- 公开邮箱 newbe-claptrap@googlegroups.com （发送到该邮箱的内容将被公开）
-- [Gitter。](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 參考資料
@@ -56,12 +54,14 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
+  <tbody>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone。</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍。</a></td>
     <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a></td>
   </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-enable -->

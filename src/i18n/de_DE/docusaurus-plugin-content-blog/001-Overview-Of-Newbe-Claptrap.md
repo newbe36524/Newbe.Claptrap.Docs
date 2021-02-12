@@ -1,8 +1,6 @@
 ---
 date: 2019-02-28
 title: Newbe.Claptrap - Ein serviceseitiges Entwicklungsframework mit "Event Sourcing" und "Actor Mode" als Grundtheorien
-tags:
-  - Newbe.Claptrap
 ---
 
 Dieser Artikel ist eine Einführung in den Hauptinhalt des Projekts Newbe.Claptrap, über das leserliche Informationen über den Projektinhalt erhalten können.
@@ -44,11 +42,11 @@ In diesem Abschnitt werden einige der theoretischen Inhalte vorgestellt, die eng
 
 ### Actor-Modus
 
-Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses Programmiermodells können einige Systeme das Problem der Komplexität lösen.Das Problem mit der hier erwähnten Union besteht darin, dass ein Computer, der dieselben Daten logisch verarbeitet, aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dies ist ein Problem, das bei der Multithreadprogrammierung auftreten muss.Als einfaches Beispiel, wenn Sie 100 Threads verwenden, um`eine int`Variable im Speicher mit 100 Threads in ohne  Sperre auszuführen.Dann ist das Ergebnis dieser Variable oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
+Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses Programmiermodells können einige Systeme das Problem der Komplexität lösen.Das Problem mit der hier erwähnten Union besteht darin, dass ein Computer, der dieselben Daten logisch verarbeitet, aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dies ist ein Problem, das bei der Multithreadprogrammierung auftreten muss.Um ein einfaches Beispiel zu geben, wenn Sie 100 Threads in einer nicht-synchronen Sperre verwenden, um einen s. . . Vorgang für eine int-Variable im Speicher auszuführen.Dann ist das Ergebnis dieser Variable oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
 
 Erstens, um das Verständnis zu erleichtern, kann sich der Leser hier Schauspieler als Objekt vorstellen.In objektorientierten Sprachen (Java, C- usw.) kann der Akteur als ein Objekt betrachtet werden, das``dem neuen Schlüsselwort erstellt wurde.Aber dieses Objekt hat einige besondere characteristics：
 
-**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.Im Schauspielermodus werden diese Eigenschaften gemeinsam als Actor es State `.Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.
+**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.Im Actor-Modus werden diese Eigenschaften kollektiv als State of Actor bezeichnet.Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.
 
 Dies hebt zwei points：
 
@@ -56,7 +54,7 @@ Erstens kann der Zustand des Schauspielers nur von selbst geändert werden, und 
 
 ![Aktualisieren des Actor-Status](/images/20190226-001.gif)
 
-Zweitens wird der Status des Akteurs nur innerhalb von Actor beibehalten und nicht für ein anderes Objekt als den aktuellen Actor freigegeben.Die Nicht-Freigabe hier betont auch, dass sie den internen Status von Actor nicht durch eine Änderung in einer externen Eigenschaft ändern kann.Dies ist vor allem, um es von Programmiersprachen mit "Objektreferenz" Sprachmerkmale zu unterscheiden.Für example：kann die öffentliche`-Eigenschaft in`Klasse`von C- die`-Eigenschaft in Klasse ändern,` nachdem es sich um einen Verweistyp handelt, wenn es sich um einen Verweistyp handelt.Im Schauspielermodus ist dies jedoch nicht zulässig.
+Zweitens wird der Status des Akteurs nur innerhalb von Actor beibehalten und nicht für ein anderes Objekt als den aktuellen Actor freigegeben.Die Nicht-Freigabe hier betont auch, dass sie den internen Status von Actor nicht durch eine Änderung in einer externen Eigenschaft ändern kann.Dies ist vor allem, um es von Programmiersprachen mit "Objektreferenz" Sprachmerkmale zu unterscheiden.Für example：kann die`öffentliche`-Eigenschaft in`Klasse`von C- die`-Eigenschaft in` `Klasse ändern,`nachdem es sich um einen Verweistyp handelt, wenn es sich um einen Verweistyp handelt.Im Schauspielermodus ist dies jedoch nicht zulässig.
 
 ![Freigeben des Status "Akteur"](/images/20190226-003.gif)
 

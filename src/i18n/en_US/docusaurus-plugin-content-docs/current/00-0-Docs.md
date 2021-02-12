@@ -30,8 +30,6 @@ You can get the samples about the project through [Newbe.Claptrap.Examples](http
 
 - [Github Issue.](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue.](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Public mailbox newbe-claptrap@googlegroups.com (content sent to mailbox will be exposed)
-- [Gitter.](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ Group 553474855.](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Reference
@@ -56,12 +54,14 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
+  <tbody>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>Newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b>wangjunjx8868</b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b>FFFirer</b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a></td>
   </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-enable -->

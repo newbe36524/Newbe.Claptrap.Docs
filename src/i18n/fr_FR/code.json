@@ -1,0 +1,26 @@
+{
+  "homepage.轻松应对并发问题": {
+    "message": "Traiter facilement les problèmes avec les problèmes",
+    "description": "The homepage 轻松应对并发问题"
+  },
+  "homepage.轻松应对并发问题.details": {
+    "message": "Basé sur le mode acteur et le mode d’approvisionnement d’événements comme principe de base, il est facile de traiter les problèmes dans un environnement complexe.",
+    "description": "The homepage 基于 Actor 模式和事件溯源模式作为基础原理，轻松处理并发环境下的问题处理。"
+  },
+  "homepage.完全支持水平扩展": {
+    "message": "Prise en charge complète de la mise à l’échelle horizontale",
+    "description": "The homepage 完全支持水平扩展"
+  },
+  "homepage.完全支持水平扩展.details": {
+    "message": "S’adaptent facilement de un à cent avec des niveaux innés d’évolutivité, tels que le cadre dapr/Orléans.",
+    "description": "The homepage 依托 Dapr/Orleans 框架等与生俱来的水平扩展能力，轻松做到从一到百。"
+  },
+  "homepage.全面关注完整周期": {
+    "message": "Prêtez toute l’attention au cycle complet",
+    "description": "The homepage 全面关注完整周期"
+  },
+  "homepage.全面关注完整周期.details": {
+    "message": "Du design au développement, en ligne. Chaque lien est un élément de notre considération. Nous prenons en compte chaque étape.",
+    "description": "The homepage 从设计，到开发，到上线。每个环节都是我们考虑的要素。每个环节我们都充分考虑。"
+  }
+}

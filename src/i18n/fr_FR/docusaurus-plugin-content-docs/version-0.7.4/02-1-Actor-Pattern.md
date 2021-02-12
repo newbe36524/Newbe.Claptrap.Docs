@@ -3,11 +3,11 @@ title: 'Mode acteur'
 description: 'Mode acteur'
 ---
 
-Le modèle Actor est un modèle de programmation standard.Grâce à l’application de ce modèle de programmation, certains systèmes peuvent résoudre le problème de la complexité.Le problème avec le syndicat mentionné ici est que lorsqu’un ordinateur traite logiquement les mêmes données, il peut causer des données incorrectes en raison de multiples demandes simultanées.Il s’agit d’un problème que vous devez rencontrer lorsque vous êtes une programmation multicœur.Par exemple, si vous utilisez 100 threads pour effectuer`une variable int`en mémoire avec 100 threads en sans  verrou.Ensuite, le résultat de cette variable est souvent inférieur à 100.Voici comment le modèle Actor évite ce problème.
+Le modèle Actor est un modèle de programmation standard.Grâce à l’application de ce modèle de programmation, certains systèmes peuvent résoudre le problème de la complexité.Le problème avec le syndicat mentionné ici est que lorsqu’un ordinateur traite logiquement les mêmes données, il peut causer des données incorrectes en raison de multiples demandes simultanées.Il s’agit d’un problème que vous devez rencontrer lorsque vous êtes une programmation multicœur.Pour donner un exemple simple, si vous utilisez 100 threads dans un verrou non synchrone pour effectuer une opération s. . . sur une variable int dans la mémoire.Ensuite, le résultat de cette variable est souvent inférieur à 100.Voici comment le modèle Actor évite ce problème.
 
 Tout d’abord, pour la facilité de compréhension, le lecteur peut penser à l’acteur comme un objet ici.Dans les langues orientées objet (Java, C#, et ainsi de suite), l’acteur peut être considéré comme un objet créé``le nouveau mot clé.Mais cet objet a quelques particularités characteristics：
 
-**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.En mode Acteur, ces propriétés sont collectivement considérées`'État de l’acteur`.L’état de l’acteur est maintenu par l’acteur lui-même.
+**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.En mode Acteur, ces propriétés sont collectivement appelées l’État d’acteur.L’état de l’acteur est maintenu par l’acteur lui-même.
 
 Cela met en évidence deux points：
 
@@ -15,7 +15,7 @@ Tout d’abord, l’état de l’acteur ne peut être changé par lui-même, et 
 
 ![Mettre à jour le statut d’acteur](/images/20190226-001.gif)
 
-Deuxièmement, l’état de l’acteur n’est maintenu qu’au sein de l’acteur et n’est partagé avec aucun objet autre que l’acteur actuel.Le non-partage ici souligne également qu’il ne peut pas changer l’état interne de l’acteur par un changement dans une propriété extérieure.Il s’agit principalement de le distinguer des langages de programmation avec des caractéristiques linguistiques de « référence d’objet ».Pour example：la propriété``publique dans`une classe`de C# peut modifier la propriété`dans une classe` après qu’il s’agit d’un type de référence, s’il s’agit d’un type de référence.Mais ce n’est pas autorisé en mode Acteur.
+Deuxièmement, l’état de l’acteur n’est maintenu qu’au sein de l’acteur et n’est partagé avec aucun objet autre que l’acteur actuel.Le non-partage ici souligne également qu’il ne peut pas changer l’état interne de l’acteur par un changement dans une propriété extérieure.Il s’agit principalement de le distinguer des langages de programmation avec des caractéristiques linguistiques de « référence d’objet ».Pour example：la propriété``publique dans`une classe`de C# peut modifier la propriété`dans une<code>classe`</code>après qu’il s’agit d’un type de référence, s’il s’agit d’un type de référence.Mais ce n’est pas autorisé en mode Acteur.
 
 ![Partager le statut d’acteur](/images/20190226-003.gif)
 

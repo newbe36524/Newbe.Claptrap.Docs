@@ -3,11 +3,11 @@ title: 'Modo actor'
 description: 'Modo actor'
 ---
 
-El patrón Actor es un modelo de programación estándar.A través de la aplicación de este modelo de programación, algunos sistemas pueden resolver el problema de la complejidad.El problema con la unión mencionada aquí es que cuando un equipo procesa lógicamente los mismos datos, puede causar datos incorrectos debido a múltiples solicitudes simultáneas.Este es un problema que debe encontrar cuando está programando multiproceso.Por ejemplo, si utiliza 100 subprocesos para realizar`una variable de`int`en memoria con 100 subprocesos en`sin bloqueo .A continuación, el resultado de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
+El patrón Actor es un modelo de programación estándar.A través de la aplicación de este modelo de programación, algunos sistemas pueden resolver el problema de la complejidad.El problema con la unión mencionada aquí es que cuando un equipo procesa lógicamente los mismos datos, puede causar datos incorrectos debido a múltiples solicitudes simultáneas.Este es un problema que debe encontrar cuando está programando multiproceso.Para dar un ejemplo sencillo, si utiliza 100 subprocesos en un bloqueo no sincrónico para realizar una operación s. . . en una variable int en la memoria.A continuación, el resultado de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
 
 En primer lugar, para facilitar la comprensión, el lector puede pensar en Actor como un objeto aquí.En los lenguajes orientados a objetos (Java, C, etc.), el actor puede considerarse como un objeto creado``la nueva palabra clave.Pero este objeto tiene un characteristics：especial
 
-**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.En el modo Actor, estas propiedades se`colectivamente como`de estado del actor.El estado del actor es mantenido por el propio actor.
+**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.En el modo Actor, estas propiedades se conocen colectivamente como el estado del actor.El estado del actor es mantenido por el propio actor.
 
 Esto pone de relieve dos points：
 
@@ -15,7 +15,7 @@ En primer lugar, el estado de Actor sólo se puede cambiar por sí mismo, y para
 
 ![Actualizar el estado del actor](/images/20190226-001.gif)
 
-En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de pública`de `de clase de C- puede cambiar la propiedad`en clase` después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
+En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de</code>pública`de<code>`de clase de C- puede cambiar la propiedad`en<code>clase`</code>después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
 
 ![Compartir el estado de Actor](/images/20190226-003.gif)
 
@@ -23,7 +23,7 @@ Sin embargo, la lectura de datos desde el interior de Actor al exterior todavía
 
 ![Leer el estado del actor](/images/20190226-002.gif)
 
-****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de int`, déjele hacer `.El valor final para este estado debe ser 100.
+****de un solo subproceso.El actor normalmente acepta solo una llamada a la vez.Los subprocesos descritos aquí no son exactamente subprocesos en el equipo y se utilizan para resaltar los "atributos que Actor solo puede controlar una solicitud a la vez."Si Actor está aceptando actualmente una llamada, las llamadas restantes se bloquean hasta que finaliza la llamada y se permite la siguiente solicitud.Esto es realmente similar a un mecanismo para sincronizar bloqueos.Este mecanismo evita la posibilidad de un problema con la presencia de un problema al modificar el estado interno del actor.Specifically：Si usa 100 subprocesos para realizar una llamada a un actor en una variable de</code>int`, déjele hacer<code>`.El valor final para este estado debe ser 100.
 
 ![El actor se llama en un sintetizador](/images/20190226-004.gif)
 

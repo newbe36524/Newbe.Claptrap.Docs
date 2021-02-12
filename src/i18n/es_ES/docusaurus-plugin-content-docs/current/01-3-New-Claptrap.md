@@ -136,7 +136,7 @@ Se ha added：lo siguiente
 
 Una vez que haya definido ISkuGrain, puede agregar código para implementarlo.
 
-Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap.Actors`y agregue la carpeta`skugrain`.
+Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap. Actors`y agregue la carpeta`skugrain`.
 
 ```cs
 + using System;
@@ -309,9 +309,9 @@ Agregue los siguientes code：
 
 ## Implementar EventHandler
 
-`EventHandler`actualizar eventos alde estado`de Claptrap.
+`EventHandler`actualizar eventos al</code>de estado`de Claptrap.</p>
 
-Cree clase de`InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
+<p spaces-before="0">Cree clase de<code>InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
 
 Agregue los siguientes code：
 

@@ -27,10 +27,6 @@
     "message": "快速入門",
     "description": "The label of footer link with label=快速入门 linking to docs/01-0-Quick-Start/"
   },
-  "link.item.label.QQ 群": {
-    "message": "QQ 群",
-    "description": "The label of footer link with label=QQ 群 linking to https://jq.qq.com/?_wv=1027&k=vRi0usiG"
-  },
   "link.item.label.项目博客": {
     "message": "專案博客",
     "description": "The label of footer link with label=项目博客 linking to blog"
@@ -38,5 +34,9 @@
   "link.item.label.个人博客": {
     "message": "個人博客",
     "description": "The label of footer link with label=个人博客 linking to https://www.newbe.pro"
+  },
+  "link.item.label.QQ 群(610394020)": {
+    "message": "QQ 群（610394020）",
+    "description": "The label of footer link with label=QQ 群(610394020) linking to https://jq.qq.com/?_wv=1027&k=vRi0usiG"
   }
 }

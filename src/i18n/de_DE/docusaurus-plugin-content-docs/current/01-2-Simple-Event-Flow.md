@@ -72,7 +72,7 @@ Denn in diesem einfachen Geschäftsszenario erfordert das Leeren eines Warenkorb
 
 `EventHandler`, Ereignisse auf die`State`von Claptrap zu aktualisieren.In diesem Geschäftsszenario ist EventHandler beispielsweise für das Leeren des Inhalts des Statuswagens verantwortlich.
 
-Erstellen Sie` RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner Cart/Events`Ordner des HelloClaptrap.Actor s -Projekts.
+Erstellen Sie`RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner Cart/Events`Ordner des HelloClaptrap.Actor s -Projekts.
 
 Fügen Sie den folgenden Code:
 

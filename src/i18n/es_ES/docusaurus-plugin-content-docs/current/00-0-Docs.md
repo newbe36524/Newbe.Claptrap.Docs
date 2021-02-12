@@ -1,5 +1,5 @@
 ---
-title: "Instrucciones chinas"
+title: "Introducción al proyecto"
 description: "Se trata de un marco de desarrollo del lado del servicio con \"reactiva\", \"trazabilidad de eventos\" y \"modo actor\" como teorías básicas.Además, los desarrolladores pueden simplemente desarrollar aplicaciones \"distribuidas\", \"horizontalmente escalables\" y \"altamente comprobables\"."
 slug: /
 ---
@@ -30,8 +30,6 @@ Puede[código de ejemplo para el proyecto](https://github.com/newbe36524/Newbe.C
 
 - [Problema de Github](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Problema Gitee](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Newbe-claptrap@googlegroups.com de buzón de correo público (el contenido enviado al buzón se hará público)
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [Grupo QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Recursos
@@ -56,12 +54,14 @@ Gracias a estas personas maravillosas ([clave emoji](https://allcontributors.org
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
+  <tbody>
   <tr>
     <td align="center"><a href="https://www.newbe.pro"><img src="https://avatars1.githubusercontent.com/u/7685462?v=4" width="100px;" alt=""/><br /><sub><b>newbe36524</b></sub></a><br /><a href="#infra-newbe36524" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Tests">⚠️</a> <a href="https://github.com/newbe36524/Newbe.Claptrap/commits?author=newbe36524" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wangjunjx8868"><img src="https://avatars3.githubusercontent.com/u/5389565?v=4" width="100px;" alt=""/><br /><sub><b></b></sub></a><br /><a href="#example-wangjunjx8868" title="Examples">💡</a>de      💡</td>
     <td align="center"><a href="https://github.com/kotoneme"><img src="https://avatars3.githubusercontent.com/u/43395111?v=4" width="100px;" alt=""/><br /><sub><b>kotone</b></sub></a><br /><a href="#translation-kotoneme" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/FFFirer"><img src="https://avatars2.githubusercontent.com/u/22254170?v=4" width="100px;" alt=""/><br /><sub><b></b></sub></a><br /><a href="https://github.com/newbe36524/Newbe.Claptrap/issues?q=author%3AFFFirer" title="Bug reports">🐛</a>de FFFirer</td>
   </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-enable -->
