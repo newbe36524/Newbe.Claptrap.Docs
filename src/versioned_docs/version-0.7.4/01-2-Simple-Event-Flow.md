@@ -49,7 +49,7 @@ EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别
 
 Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
 
-在`HelloClaptrap.Models`项目的`Cart/Events`文件夹下创建`RemoveAllItemsFromCartEvent`类。
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 添加如下代码：
 
@@ -72,7 +72,7 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 
 `EventHandler`用于将事件更新到 Claptrap 的`State`上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
 
-在`HelloClaptrap.Actors`项目的`Cart/Events`文件夹下创建`RemoveAllItemsFromCartEventHandler`类。
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 添加如下代码：
 
@@ -120,7 +120,7 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
 
-打开`HelloClaptrap.Actors`项目的`CartGrain`类。
+打开 HelloClaptrap.Actors 项目的 CartGrain 类。
 
 使用 Attribute 进行标记。
 
@@ -190,7 +190,7 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 接下来按照上一步的接口修改，来修改相应的实现类。
 
-打开`HelloClaptrap.Actors`项目中的`Cart`文件夹下的`CartGrain`类。
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 添加对应的实现。
 
@@ -255,7 +255,7 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“清空购物车”的操作。
 
-打开`HelloClaptrap.Web`项目的`Controllers`文件夹下的`CartController`类。
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;
