@@ -1,224 +1,224 @@
 ---
 date: 2019-03-08
-title: Newbe.Claptrap项目周报1-还没轮影，先用轮跑
+title: Newbe.Claptrap Project Weekly 1 - Pas encore de roues, courir avec des roues d’abord
 ---
 
-Newbe.Claptrap 项目周报 1，第一周代码写了一点。但主要还是考虑理论可行性。
+Newbe.Claptrap Project Weekly 1, la première semaine du code a écrit un peu.Mais surtout envisager la faisabilité théorique.
 
 <!-- more -->
 
-## 周报是啥？
+## C’est quoi l’hebdomadaire ?
 
-成功的开源作品，离不开社区贡献者的积极参与。作为一个新启动的轮子项目，项目联合创始人【月落】有交代：
+Les œuvres open source réussies ne peuvent être séparées de la participation active des contributeurs communautaires.En tant que nouveau projet de roue, le co-fondateur du projet, Moon Landing, a un compte：
 
-“我知道你代码能力也不怎么样，你就把你的想法每周的交代清楚。让他人看到项目的价值。等待越来越多的人发现项目价值所在的时候，自然就会给予更多的关注，甚至于参与的项目的开发当中。所以你要每周都写一下周报。周报最好侧重于讲解项目的概念，以及通过项目如何解决实际问题。当然也可以包含一些关于项目如何设计的内容，但要注意适度，通常大家不会太注意项目怎么实现。而更关注项目带来的价值。记住：只有产生了价值，项目才会成功。”
+« Je sais que vous n’avez pas la capacité de coder très bien, et vous aurez un compte rendu hebdomadaire de vos idées. »Laissez les autres voir la valeur du projet.En attendant que de plus en plus de gens découvrent la valeur du projet, donnera naturellement plus d’attention, même dans le développement du projet impliqué.Il faut donc écrire un hebdomadaire.Le rapport hebdomadaire est mieux axé sur l’explication du concept du projet et sur la façon de résoudre les problèmes pratiques à travers le projet.Bien sûr, vous pouvez également inclure un certain contenu sur la façon dont le projet est conçu, mais attention à la modération, généralement les gens ne prêtent pas trop d’attention à la façon dont le projet est mis en œuvre.Concentrez-vous davantage sur la valeur du projet.Remember：projet ne réussit que s’il génère de la valeur. "
 
-于是笔者就只能每周写一下周报，勉强维持生活这样子。
+Ainsi, l’auteur ne peut écrire qu’un hebdomadaire, à peine capable de maintenir une vie comme celle-ci.
 
-## 轮有轮样
+## La roue a un échantillon de roue
 
-新轮要有新轮的样子，“项目开张篇”中介绍了本框架相关的基础理论和工作原理。鉴于相关的理论内容对于刚刚接触的读者较为生疏，因此本节将前文最为关键的内容罗列如下以激发读者的回忆。
+Le nouveau cycle devrait avoir l’apparence d’un nouveau cycle, « ouverture de projet » introduit la théorie de base et les principes de travail liés à ce cadre.Étant donné que le contenu théorique pertinent n’est pas familier au lecteur qui vient d’entrer en contact, cette section énumère le contenu le plus critique de la section précédente ci-dessous pour stimuler la mémoire du lecteur.
 
-Actor 特性一：Actor 的状态是通过外部调用 Actor 而改变的。
+L’attribut i.：'état de l’acteur est changé en appelant acteur à l’extérieur.
 
-![更新Actor状态](/images/20190226-001.gif)
+![Mettre à jour le statut d’acteur](/images/20190226-001.gif)
 
-Actor 特性一补 1：Actor 的状态不与外部进行共享。
+L’acteur en a un pour faire 1：statut d’acteur n’est pas partagé à l’extérieur.
 
-![共享Actor状态](/images/20190226-003.gif)
+![Partager le statut d’acteur](/images/20190226-003.gif)
 
-Actor 特性一补 2：外部可以读取 Actor 状态。
+Le long métrage Actor complète 2：lire l’État acteur à l’extérieur.
 
-![读取Actor状态](/images/20190226-002.gif)
+![Lire le statut d’acteur](/images/20190226-002.gif)
 
-Actor 特性二：Actor 是“单线程”工作的，每次只能处理一个请求。
+Acteur long métrage II：'acteur travaille « à fil unique » et ne peut traiter qu’une seule demande à la fois.
 
-![并发调用Actor](/images/20190226-004.gif)
+![L’acteur est appelé dans un synthé](/images/20190226-004.gif)
 
-Actor 特性二补 1：并发读取状态可以不是“单线程”。
+L’attribut acteur est 2-to：même état de lecture ne peut pas être un « fil unique ».
 
-![并发读取Actor](/images/20190226-005.gif)
+![Lire Acteur en même temps](/images/20190226-005.gif)
 
-框架定义的 Actor 类型——Claptrap：通过事件模式，产生事件并通过事件改变自身状态的 Actor。
+Le cadre définit le type Acteur, Claptrap：qui génère des événements à travers des modèles d’événements et change son propre état à travers des événements.
 
 ![Claptrap](/images/20190228-001.gif)
 
-框架定义的 Actor 类型——Minion：与 Claptrap 对比，Minion 不产生事件而是读取对应 Claptrap 的事件来改变自身的状态。允许存在多个 Minion 对应一个 Claptrap。
+Le cadre définit le type Acteur, Minion：par rapport à Claptrap, sbire ne génère pas d’événements, mais lit les événements correspondant à Claptrap pour changer son état.Plusieurs Sbires sont autorisés pour un Claptrap.
 
 ![Minion](/images/20190228-002.gif)
 
-通过 Claptrap 和 Minion 配合完成“转账”业务。
+Terminez l’entreprise de « transfert » avec Claptrap et Minion.
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
-> 月落大佬名言警句 1：世界上本也不存在“银弹”。一套框架解决不了所有问题。 月落大佬名言警句 2：业务复杂度是不会因为系统设计变化而减少的，它只是从一个地方转移到了另外的地方。
+> Moon fall grand homme célèbre averti 1：monde n’existe pas « solution miracle ».Un cadre ne résoudra pas tous les problèmes. Le célèbre dicton de Moon Landing 2：complexité de l’entreprise n’est pas réduit par des changements de conception de système, il n’est déplacé d’un endroit à l’autre.
 
-## 还没轮影，先用轮跑
+## Sans roue, courez d’abord avec une roue
 
-现在我们拥有了 Claptrap 和 Minion 的概念。接下来，结合一些业务场景，实验一下框架能否应对各种各样的业务需求。
+Maintenant, nous avons les concepts de Claptrap et Minion.Ensuite, combinez certains scénarios d’affaires pour expérimenter si le cadre peut répondre à une grande variété de besoins d’affaires.
 
-> 再美的技术手段无法应对现实的需求与变化，那也只能技术花瓶。——刚刚学完赛博坦 XII 量子计算机指令集的月落
+> De beaux moyens techniques ne peuvent pas faire face aux besoins réels et aux changements, qui ne peuvent être que des vases techniques. La lune tombe juste après avoir appris le Sebotan XII Quantum Computer Instruction Set
 
-### 业务场景
+### Le scénario d’affaires
 
-这是一个简单的电商系统：
+C’est un simple e-commerce system：
 
-1. 只卖一种绿色的水晶，为了方便描述，将这个商品命名为“原谅水晶”。
-2. 用户可以使用自己账号中的余额购买原谅水晶。余额是通过外部支付系统充值进来的。充值部分，暂时不是业务场景需要考虑的。
-3. 每个用户还有一个积分，很巧，这个积分的图标也是绿色的，因此，将这个积分命名为“原谅积分”。
-4. 原谅积分的获取方式有很多，例如：用户注册；邀请其他用户注册；被邀请用户进行了消费，邀请者也可以获得；原谅即挖矿；现实中获得了原谅；等等其他的一些方式，这部分可能需要配合后续的活动持续增加获得方式。
-5. 原谅积分可以在进行购买原谅水晶时，抵扣一部分需要支付的金额。
-6. 原谅积分在未来很可能有其他的用途。
-7. 购买原谅水晶的支付方式未来很可能不止余额和原谅积分两种。
+1. Un seul cristal vert est vendu, et pour des raisons de description, le produit est nommé « Forgive Crystal ».
+2. Les utilisateurs peuvent utiliser le solde de leur compte pour acheter des cristaux pardon.Le solde est rechargé par un système de paiement externe.Recharger une partie, pour le moment, n’est pas un scénario d’affaires à considérer.
+3. Chaque utilisateur a également une intégrale, qui, par coïncidence, est également vert, de sorte que le crédit est nommé « Forgive Points ».
+4. Il existe de nombreuses façons de gagner des points de pardon, tels que l’inscription des utilisateurs：, inviter d’autres utilisateurs à s’inscrire, inviter les utilisateurs à faire un achat, que l’invité peut également obtenir, pardonner est l’exploitation minière, en réalité pour obtenir le pardon, et ainsi de suite, qui peut avoir besoin d’être en ligne avec les activités ultérieures pour augmenter continuellement la méthode d’acquisition.
+5. Forgive Points peut déduire une partie du montant qui doit être payé lorsque vous faites un achat de Forgive Crystal.
+6. Les points de pardon sont susceptibles d’avoir d’autres utilisations à l’avenir.
+7. Le mode de paiement pour acheter Forgive Crystal est susceptible d’être plus que l’équilibre et pardonner les points à l’avenir.
 
-以上就是对于这个电商系统的一部分需求描述。需求未来肯定是会变化的。
+Ce qui précède est une description des exigences de ce système de commerce électronique.La demande changera certainement à l’avenir.
 
-### 要素察觉
+### Sensibilisation aux fonctionnalités
 
-电商系统，最为主要的业务场景自然是和商品的交易有关的业务场景。不论其他的需求场景多么的复杂，交易相关的业务场景必然是首当其冲需要分析解决的。
+Système de commerce électronique, le scénario d’affaires le plus important est naturellement lié à la transaction de scénarios d’affaires de marchandises.Quelle que soit la complexité des autres scénarios d’exigences, les scénarios d’affaires liés au trading seront forcément les premiers à nécessiter une analyse et une résolution.
 
-那么首先，我们将“用户确认购买原谅水晶”这个场景用简单的语言描述一下程序需要执行的业务内容：
+Donc, tout d’abord, nous allons utiliser le scénario « User Confirmation purchase forgiveness crystal » pour décrire en termes simples ce que le programme doit faire：
 
-1. 需要检查用户的余额是否足够
-2. 假如用户选择了积分抵扣，需要检查用户的积分是否足够
-3. 需要检查库存是否足够
-4. 需要扣减用户的余额
-5. 需要扣减库存
-6. 假如用户选择了积分抵扣，需要扣减用户的积分
+1. Vous devez vérifier que le solde de l’utilisateur est suffisant
+2. Si l’utilisateur sélectionne un crédit, vous devez vérifier que le crédit de l’utilisateur est suffisant
+3. Vous devez vérifier que l’inventaire est suffisant
+4. Le solde de l’utilisateur doit être déduit
+5. L’inventaire doit être déduit
+6. Si l’utilisateur sélectionne un crédit, le crédit de l’utilisateur doit être déduit
 
-如果采用直接操作数据表的方式实现以上六个要点，对于绝大部分开发者来说应该是十分简单的。开启一个数据库事务，至少具备行级锁，将数据进行检查和更新，便可以完成这个业务。那么现在使用本框架进行实现，根据“业务复杂度不减少”的基本事实，也同样需要实现以上六个要点。
+Si vous implémentez ces six points en exploitant directement la fiche de données, il devrait être très simple pour la plupart des développeurs.Vous pouvez compléter l’entreprise en ouvrant une transaction de base de données avec au moins un verrou de niveau row qui vérifie et met à jour les données.Donc, maintenant que vous utilisez ce cadre pour la mise en œuvre, vous devez implémenter les six mêmes points clés basés sur le fait fondamental que « la complexité de l’entreprise ne diminue pas. »
 
-### 未卜先知
+### Le prophète n’est pas encore appelé
 
-首先，在不太讨论依据的前提下，笔者围绕上文提到的一些主体概念，设计了以下这些 Claptrap：
+Tout d’abord, sur la base de pas beaucoup de discussion, l’auteur autour de certains des concepts principaux mentionnés ci-dessus, conçu le Claptrap：
 
-| 概念   | 英文命名        | 缩写 |
-| ---- | ----------- | -- |
-| 原谅水晶 | SKU         | S  |
-| 原谅积分 | UserPoint   | P  |
-| 用户余额 | UserBalance | B  |
+| Concept                   | Nommé en anglais          | Abréviation |
+| ------------------------- | ------------------------- | ----------- |
+| Pardonnez le cristal      | Sku                       | S (en)      |
+| Points de pardon          | UserPoint (userpoint)     | P           |
+| Le solde de l’utilisateur | UserBalance (userbalance) | B           |
 
-### 依轱辘画轮
+### Dessiner la roue selon la libellule
 
-按照前篇的“转账”业务场景的流程设计，此处采用相同的方式设计一下购买的逻辑。如下图所示：
+Suivant la conception du processus du scénario d’entreprise précédent de « transfert », la logique de l’achat est conçue de la même manière ici.Comme le montre la figure below：
 
-![链形设计](/images/20190307-001.gif)
+![Conception de chaîne](/images/20190307-001.gif)
 
-分析一下这个设计方案：
+Analyser cette design：
 
-依照业务逻辑的顺序，完成了库存检查、库存扣减、余额检查、余额扣减、积分检查、积分扣减的业务步骤。
+Conformément à l’ordre de logique d’entreprise, effectuer l’inspection des stocks, la déduction des stocks, le bilan, la déduction de solde, la vérification de crédit, les étapes d’entreprise de déduction de crédit.
 
-注意 Client 和 Claptrap S 之间的调用线的存在时间，只有在一开始的时候，也就是说，客户端仅需要稍作等待，便可以得到响应。
+Notez l’heure à partir de l’existence de la ligne d’appel entre Client et Claptrap S, et ce n’est qu’au début, c’est-à-dire que le client n’a besoin que d’un peu d’attente pour obtenir une réponse.
 
-Claptrap S 将事件推送给 Minion S 之后便可以继续响应新的请求。确保了多个用户进行并发购买商品即确保了商品不会超卖，也确保了响应事件足够短。
+Claptrap S peut continuer à répondre aux nouvelles demandes après avoir pousse l’événement au Minion S.S’assurer que plusieurs utilisateurs font un achat en même temps garantit que l’article n’est pas survendu et que la réponse est assez courte.
 
-整个业务逻辑的入口是 S、这样可以确保用户在锁定库存的前提下进行支付，避免了用户付了钱没有办法买到商品的情况。
+Le point d’entrée de toute la logique commerciale est S, qui garantit que l’utilisateur paie tout en verrouiller l’inventaire, en évitant la situation où l’utilisateur paie pour les marchandises.
 
-基于形状上的原因，这种设计方案被命名为 **“链形设计（Chain-Like Design）”**。
+Pour des raisons de forme, ce design **de « Chain-Like Design »**.
 
-### 一样的材料，不一样的轮子
+### Même matériau, roues différentes
 
-也存在另外一种设计方案。如下图所示：
+Il y a un autre design.Comme le montre la figure below：
 
-![树形设计](/images/20190307-002.gif)
+![Conception d’arbre](/images/20190307-002.gif)
 
-分析一下这个设计方案：
+Analyser cette design：
 
-引入了一个新的 Claptrap W（What a amazing that I get a forgiven-crystal）作为业务的入口，这个 Claptrap W 通过调用其他的 Claptrap 实现这个业务过程。
+Un nouveau Claptrap W (Quel étonnant que je reçois un cristal pardonné) a été introduit comme le point d’entrée pour l’entreprise, qui Claptrap W mis en œuvre en appelant d’autres Claptrap.
 
-相比与上节的设计方案，Minion S、P、B 都不再参与业务的流转控制，因为这些业务的流转控制已经由 Claptrap W 进行控制。
+Minion S, P, et B ne sont plus impliqués dans le contrôle du flux de l’entreprise car ils sont déjà contrôlés par Claptrap W, par rapport à la conception dans la section précédente.
 
-并且由于 Minion W 的存在，这个设计方案也可以将部分的调用交由 Minion 来进行，所以这个方案也可以是以下两种形式。
+Et en raison de Minion W, cette conception peut également faire des appels partiels à Minion, de sorte qu’il peut également prendre deux formes.
 
-![树形设计](/images/20190307-003.gif)
+![Conception d’arbre](/images/20190307-003.gif)
 
-![树形设计](/images/20190307-004.gif)
+![Conception d’arbre](/images/20190307-004.gif)
 
-基于形状上的原因，这种设计方案被命名为 **“树形设计（Tree-Like Design）”**。
+Pour des raisons de forme, ce design **« Tree-Like Design »**.
 
-那么此处就出现了选择，既然有出现了选择，那么此处就使用《月老板的软件开发小妙招三十二则》中记载的“WhyNot 对比分析法”来决定使用哪种设计方案：
+Ensuite, il ya un choix, et comme il ya un choix, alors voici l’utilisation de « WhyNot analyse comparative » enregistrée dans le « Moon Boss Software Development Tricks 32 » pour décider quelle conception à use：
 
-| 选项   | 为什么不？                                                                                                             | 为什么！不！                                                                                                                                                                                                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 链形设计 |                                                                                                                   | 业务流转过程的控制通过 Minion 相连接，这是一种紧耦合的设计。这相当于 Minion 和 Claptrap 这次操作业务的上下文。一个明显的问题：客户是否选择了积分支付，这个逻辑，要么在 Minion B 中判断，要么在 Claptrap P 中判断，但不论哪种方式其实都不合理。<br/>这样的设计在应对流程失败的时候，会特别难以处理。例如在最后一步客户如果积分不足，那么可能就需要逐步回滚，这可能会非常困难。 |
-| 树形设计 | 这种设计，把业务的核心流程控制内容集中的一对相关的 Claptrap W 和 Minion W 中。这是一种高内聚的表现。<br/>基于这种设计方案，很容易基于 Claptrap S、P、B 构建出更加复杂的过程。 |                                                                                                                                                                                                                         |
+| Options              | Pourquoi pas?                                                                                                                                                                                                                                                                                                   | Pourquoi!Non!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Conception de chaîne |                                                                                                                                                                                                                                                                                                                 | Le contrôle du processus de flux d’affaires est connecté via Minion, une conception étroitement couplée.C’est l’équivalent du contexte des opérations de Minion et Claptrap cette fois.Une question évidente：Si le client a choisi de payer des points est une logique qui est jugée soit dans Minion B ou Claptrap P, mais de toute façon il n’a pas de sens.<br/>conception peut être particulièrement difficile à gérer lorsqu’il s’agit de défaillances de processus.Par exemple, si le client n’a pas assez de points dans la dernière étape, il peut avoir besoin de faire marche arrière progressivement, ce qui peut être très difficile. |
+| Conception d’arbre   | Cette conception réunit le contenu de contrôle de processus de base de l’entreprise dans une paire de Claptrap W et Minion W connexes.Il s’agit d’une performance très de cohésion.<br/>basé sur cette conception, il est facile de construire des processus plus complexes basés sur Claptrap S, P et B. |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
-其实读者很容易发现，对于这个选择的 WhyNot 对比分析表，其实是一边倒的。这里明显就是要选择树形设计。
+En fait, il est facile pour les lecteurs de constater que le tableau de comparaison et d’analyse WhyNot pour ce choix est en fait à sens unique.Il s’agit évidemment de choisir une conception d’arbre.
 
-> 《月老板软件开发小妙招三十二则》，是月落大佬在日常开发过程当中对软件开发过程用到的一些小方法的收集和归纳。这些方法大多不是新发明的内容。月落大佬只是将这些方法收集在一起，为了启示后来者，在分析判断一些问题的时候，用一些小方法有时就能让事情变得有条理一些。除了“WhyNot 对比分析法”之外，还有较为知名的“5W1H 需求描述法”；非常简单的“CheckList 备忘录”；被广泛提及的“艾森豪威尔法则”等。
+> « Moon boss software development tricks 32 », est le grand homme d’atterrissage sur la lune dans le processus de développement quotidien du processus de développement logiciel utilisé dans certaines petites méthodes de collecte et de généralisation.La plupart de ces méthodes ne sont pas de nouvelles inventions.Les atterrissages de lune ont simplement mis ces méthodes ensemble, et afin d’éclairer ceux qui plus tard, il y a de petites manières de rendre les choses plus ordonnées en analysant et en jugeant quelques problèmes.En plus de la méthode d’analyse comparative WhyNot, il existe la description plus connue des exigences de 5W1H;
 
-> WhyNot 对比分析法，简单来说就是要讲选择多个主体进行并排对比，分别列举“应该选择它”和“不应该选择它”的理由，然后进行综合判断进而做出决定的方法。它特别适用于多人对某一选择争执不休时采用的方法，通过表格的形式分别记录陈述的理由，确保了不缺不漏有理有据。在方法上的基础，还衍生出了“理由权重计量”、“人员话语权计量”等其他的一些变种。此方法与“优劣对比法”、“异同对比法”等对比法，以及“概率选择法”、“经验选择法”等选择法有一定的联系与区别。此方法的命名据说是月落大佬首创，是一个语法梗。在中文当中，可以采用“为什么不？”这样的反问句来表示选择一个对象的理由，可以用“为什么！不！”这个的祈使句来表示不选择一个对象的理由。 WhyNot 其实就是对“为什么不”四个字的直译。
+> WhyPas méthode d’analyse comparative, est simplement de choisir plusieurs sujets pour la comparaison côte à côte, respectivement, la liste de la « devrait le choisir » et « ne devrait pas le choisir » raisons, puis faire un jugement complet, puis prendre une méthode de décision.Elle s’applique particulièrement à la méthode utilisée par plusieurs personnes en litige au sujet d’une option, qui garantit que les motifs de la déclaration sont consignés séparément sous la forme d’un formulaire, ce qui garantit qu’il ne manque pas de justifications.Sur la base de la méthode, d’autres variantes telles que la « mesure du poids de la raison » et « le droit des gens de parler mesure » sont également dérivées.Cette méthode a une certaine connexion et différence avec les méthodes de comparaison telles que la « méthode de différence » et la « méthode de comparaison des différences », ainsi que la « méthode de sélection des probabilités » et la « méthode de sélection de l’expérience ».Le nom de cette méthode est dit être le premier des atterrissages sur la lune et est un terrier syntaxe.Parmi les Chinois, le « Pourquoi pas? » peut être utilisé. « Une telle contre-question pour indiquer la raison du choix d’un objet, vous pouvez utiliser le « Pourquoi!Non! « Cette phrase de prière représente la raison pour laquelle nous ne choisissons pas un objet. WhyNot est en fait une traduction directe des quatre mots pourquoi pas.
 
-### 好轮子外观也好看
+### Les bonnes roues semblent bonnes, aussi
 
-初见 WhyNot 对比分析法的读者可能会有疑问：难道就没有选择链形设计的理由？
+Les lecteurs qui voient pour la première fois l’analyse comparative de WhyNot peuvent avoir questions：n’y a-t-il aucune raison de choisir la conception de la chaîne?
 
-需要解释的是， WhyNot 对比分析法是对固定场景的分析法，因此如果场景变了，分析的结果也会变。也就是说，**在某些特定的场景下，链形设计有其必要性**。
+Il convient d’expliquer que whyNot analyse comparative est l’analyse de scènes fixes, donc si la scène change, les résultats de l’analyse va changer.C’est-à**dans certains scénarios, la conception de la chaîne a sa nécessité et**.
 
-那么在解释之前，我们采用另外的方法来解读链形设计与树形设计：
+Donc, avant d’expliquer, nous prenons une approche différente de l’interprétation de la relation entre la conception de la chaîne et la conception des：
 
-- 将 Claptrap 和对应的 Minion 合并
-- 用“因为...所以...”的句式来代替图形中的实线调用
+- Fusionner Claptrap avec le Minion correspondant
+- Avec « Parce que... Alors... » la phrase remplace l’appel solide dans le dessin
 
-![链形设计](/images/20190307-001.gif)
+![Conception de chaîne](/images/20190307-001.gif)
 
-那么结合上图的链形设计就可以表述为：
+Ensuite, la conception de la chaîne combinée avec l’image ci-dessus peut être exprimée：
 
-- 因为 S，所以 B
-- 因为 B，所以 P
+- Parce que S, donc B
+- Parce que B, donc P
 
-展开的语义可以是：
+La sémantique élargie peut être：
 
-- 因为购买而扣除了库存，所以进一步扣减余额
-- 因为购买而扣减了余额，所以要进一步扣减积分
+- Le solde est en outre déduit parce que l’inventaire est déduit de l’achat
+- Le solde est déduit à la suite de l’achat, de sorte que d’autres points sont déduits
 
-![树形设计](/images/20190307-002.gif)
+![Conception d’arbre](/images/20190307-002.gif)
 
-上图树形设计就可以表述为：
+La conception de l’arbre ci-dessus peut être exprimée comme：
 
-- 因为 W，所以 S
-- 因为 W，所以 B
-- 因为 W，所以 P
+- Parce que W, donc S
+- Parce que W, donc B
+- Parce que W, donc P
 
-展开的语义可以是：
+La sémantique élargie peut être：
 
-- 因为购买，所以扣减了库存
-- 因为购买，所以扣减了余额
-- 因为购买，所以扣减了积分
+- L’inventaire a été déduit en raison de l’achat
+- Le solde a été déduit en raison de l’achat
+- Les points sont déduits à cause de l’achat
 
-即使笔者这里解释的不太清楚，但是读者仍然可以观察“因为购买而扣减了余额，所以要进一步扣减积分”这句其实不太合理，这两者在业务上其实不应该有明显的前因后果。
+Même si l’auteur ici expliqué pas très clairement, mais le lecteur peut encore observer « en raison de l’achat et la déduction du solde, afin de déduire davantage de points » cette phrase n’est pas tout à fait raisonnable, les deux en affaires ne devrait pas réellement avoir des avant-effets évidents.
 
-这其实也是链形设计在这个场景下不能适用的原因：如果两者的调用关系没有明显的前因后果，而将两者设计为前后调用的链形关系。那么很可能得到的是不合理的设计。
+C’est aussi pourquoi la conception de la chaîne ne fonctionne pas dans ce scenario：si la relation d’appel entre les deux n’a pas de pré-conséquences évidentes, les deux sont conçus comme des relations en chaîne pour les rappels.Ce qui est susceptible d’être obtenu est une conception déraisonnable.
 
-那么反过来说：**如果要应用链形设计。两者之间必须存在合理的前因后果。**
+Donc, l’around：**si vous voulez appliquer une conception de chaîne.Il doit y avoir des pré-conséquences raisonnables entre les deux.**
 
-不过，在需求分析过程中，当前可能必然存在的前因后果，过后可能就已经不太合理。业务场景的多变和需求的不完全稳定，导致了事实上，采用树形设计能够应对更多的问题。
+Toutefois, dans le processus d’analyse de la demande, les causes et les conséquences préexistants actuelles peuvent ne pas être raisonnables plus tard.Le scénario d’affaires changeable et la stabilité incomplète des exigences ont conduit au fait que la conception des arbres peut gérer plus de problèmes.
 
-读者可以尝试对上文业务场景中剩余的几点需求进行一下设计。
+Les lecteurs peuvent essayer de concevoir certaines des exigences restantes dans le scénario d’affaires ci-dessus.
 
-另外，读者可以重新思考一下开张篇中所采用的“转账”场景的设计，采用树形设计是否更为妥当。
+En outre, le lecteur peut repenser la conception du scénario de « transfert » utilisé dans l’ouverture, avec une conception d’arbre est plus approprié.
 
-## 其实就是新轮子
+## C’est en fait une nouvelle roue
 
-在开张篇中，我们将 Actor 模式与 CRUD 模式进行了简单异同点比较。而现在还存在另外一类比较常提到的设计方案，就是“领域驱动设计”。
+Dans l’ouverture, nous avons fait une simple comparaison du mode Acteur avec le modèle CRUD.Maintenant, il ya un autre type de conception qui est plus couramment mentionné, qui est « conception axée sur le domaine ».
 
-领域驱动设计的概念此处不多做介绍，对此内容比较陌生的读者可以参看微软 MVP 汤雪华老师的文章[《领域驱动设计之领域模型》](http://www.cnblogs.com/netfocus/archive/2011/10/10/2204949.html)
+Le concept de conception axée sur le domaine n’est pas beaucoup introduit ici, et les lecteurs qui sont relativement peu familiers avec ce contenu peuvent se référer à Microsoft MVP M. Tang Xuehua article[« Domain Model of Domain-Driven Design](http://www.cnblogs.com/netfocus/archive/2011/10/10/2204949.html)
 
-那么，当读者理解了领域驱动设计之后，再结合本篇前面提到的 Claptrap W、S、P、B。或许 Claptrap S、P、B 就是聚合根？或许 Claptrap W 就是应用服务？笔者认为 Actor 模式其实是对领域驱动设计的一种进一步发挥：
+Ainsi, lorsque le lecteur comprend la conception axée sur le domaine, combinez le Claptrap W, S, P, et B mentionné plus tôt dans cet article.Peut-être Claptrap S, P, B est la racine globale?Peut-être Claptrap W est un service d’application?L’auteur pense que le modèle Actor est en fait une sorte de développement ultérieur de l'：
 
-- 领域驱动设计没有在设计模型内考虑业务并发，而 Actor 模式作为一套并发编程模型其实就弥补了这部分的缺失。
-- 绝大多数（笔者所知到的）领域驱动框架仍然采用了“从仓储还原聚合根，操作完毕后保存”的一般过程。而以 Orleans 为例的 Actor 框架会将已经激活的 Actor 在内存中保留一段时间，也就是说，聚合根可以在内存中不断的修改，而不需要重复的从仓储中还原。
+- La conception axée sur le domaine ne tient pas compte des synthés d’affaires dans le modèle de conception, et le modèle Actor, en tant qu’ensemble de modèles de programmation synthé, compense cette partie de l’écart.
+- La grande majorité des cadres axés sur le domaine (comme l’auteur le sait) utilisent encore le processus général de « restauration des racines agrégées du stockage et de les sauver après l’opération ».Le cadre acteur, dans le cas d’Orléans, garde l’acteur activé en mémoire pendant un certain temps, ce qui signifie que la racine globale peut être continuellement modifiée en mémoire sans avoir besoin de restaurations répétées de l’entrepôt.
 
-总的来说，读者可以沿用领域驱动设计的思路建模，然后尝试将原有的聚合根和应用服务设计为 Actor ，从理论上尝试一下自己所熟悉的领域，能否采用 Actor 进行实现。或许读者可以从中发现一些不一样的体验。
+En général, le lecteur peut modéliser l’idée de conception axée sur le domaine, puis essayer de concevoir la racine agrégée originale et le service d’application en tant qu’acteur, théoriquement essayer de voir si le domaine qu’ils connaissent peut être implémenté avec Actor.Peut-être que les lecteurs peuvent trouver quelque chose de différent.
 
-不过，本框架由于采用了 Actor 模式和事件溯源模式，因此设计方法与领域驱动模型相比有所继承又不完全相同，还有一些其他需要注意的内容，会在后续整理出相应的文章。
+Cependant, en raison de l’acteur et les modèles d’approvisionnement d’événements, l’approche de conception n’est pas exactement la même que le modèle axé sur le domaine, et il ya d’autres choses à noter qui seront rassemblées plus tard.
 
-## 结篇
+## La conclusion
 
-本篇希望通过一个业务场景的设计，让读者了解到如何采用本框架的理论概念来实现业务。其中包含有一些作者的臆造词，因此可能需要花费读者更多的时间进行理解。
+Grâce à la conception d’un scénario d’affaires, cet article espère faire savoir au lecteur comment utiliser les concepts théoriques de ce cadre pour réaliser des affaires.Il contient certaines des hypothèses de l’auteur, de sorte qu’il peut prendre plus de temps au lecteur pour comprendre.
 
-由于作者的工作经验有限，缺乏丰富的行业领域知识，因此对于框架的设计理念是否符合特定行业特性的问题无法给出准确的判断，还需要读者多加思考。若有任何需要协助的问题，欢迎联系本项目组。
+En raison de l’expérience de travail limitée de l’auteur et du manque de connaissance du domaine de l’industrie, il est impossible de juger avec précision si le concept de conception du cadre est conforme aux caractéristiques d’une industrie particulière.Si vous avez des questions qui nécessitent de l’aide, veuillez communiquer avec cette équipe de projet.
 
-欢迎对此感兴趣的朋友关注项目，参与项目。
+Les amis intéressés sont invités à suivre le projet et à participer au projet.
 
 <!-- md Footer-Newbe-Claptrap.md -->
