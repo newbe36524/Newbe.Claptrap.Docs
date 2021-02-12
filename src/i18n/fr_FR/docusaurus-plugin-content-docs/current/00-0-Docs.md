@@ -1,5 +1,5 @@
 ---
-title: "Instructions chinoises"
+title: "项目简介"
 description: "Il s’agit d’un cadre de développement côté service avec « réactivité », « traçabilité des événements » et « mode acteur » comme théories de base.De plus, les développeurs peuvent simplement développer des applications « distribuées », « horizontalement évolutives » et « hautement testables »."
 slug: /
 ---
