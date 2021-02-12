@@ -1,6 +1,6 @@
 ---
-title: 'Schritt 2 - Einfaches Geschäft, leeren Sie Ihren Warenkorb'
-description: 'Schritt 2 - Einfaches Geschäft, leeren Sie Ihren Warenkorb'
+title: "Schritt 2 - Einfaches Geschäft, leeren Sie Ihren Warenkorb"
+description: "Schritt 2 - Einfaches Geschäft, leeren Sie Ihren Warenkorb"
 ---
 
 Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
@@ -142,7 +142,7 @@ Markieren Sie mit Attribut.
           ....
 ```
 
-`ClaptrapEventHandler-Attribut`ist ein frameworkdefiniertes Attribut, das in der Implementierungsklasse von Grain markiert werden kann, um die Zuordnung zwischen EventHandler, EventCode und ClaptrapGrain zu implementieren.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 Wenn nach der Zuordnung das Ereignis, das EventCode entspricht, in diesem Korn auftritt, wird es vom angegebenen EventHandler behandelt.
 
