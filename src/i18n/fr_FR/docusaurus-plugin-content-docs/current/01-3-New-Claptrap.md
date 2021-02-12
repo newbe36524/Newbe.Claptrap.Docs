@@ -1,6 +1,6 @@
 ---
-title: "La troisième étape consiste à définir Claptrap et à gérer l’inventaire des biens"
-description: "La troisième étape consiste à définir Claptrap et à gérer l’inventaire des biens"
+title: 'La troisième étape consiste à définir Claptrap et à gérer l’inventaire des biens'
+description: 'La troisième étape consiste à définir Claptrap et à gérer l’inventaire des biens'
 ---
 
 Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec Claptrap.
@@ -68,7 +68,7 @@ Parce que Claptrap est un acteur basé sur des modèles d’approvisionnement d�
 
 Dans cet exemple, nous avons seulement besoin d’enregistrer l’inventaire de l’actuel SKU, de sorte que la conception de l’État est très simple.
 
-Ajoutez`dossier`Sku au projet HelloClaptrap.et créez le`SkuState`sous ce dossier.
+Ajoutez`dossier`Sku au projet HelloClaptrap. et créez le`SkuState`sous ce dossier.
 
 Ajouter les éléments code：
 
@@ -309,7 +309,7 @@ Ajouter les éléments code：
 
 ## Implémenter EventHandler
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。
+`EventHandler`mettre à jour les événements à claptrap’s`State`.
 
 Créez`'inventaireUpdateEventHandler`classe dans le dossier`Sku/Events`de`le projet HelloClaptrap.Actors`.
 
