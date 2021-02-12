@@ -49,7 +49,7 @@ Ajoutez EventCode pour les événements empty shopping cart.
 
 L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
 
-Créez`RemoveAllItems FromCartEvent``sous le dossier<code>Cart/Events`du projet HelloClaptrap.Models</code>.
+Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models .
 
 Ajouter les éléments code：
 
@@ -72,7 +72,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 `EventHandler`mettre à jour les événements à claptrap’s`State`.Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
-Créez`<code>supprimer tous les membres de la classeCartEventHandler sous le dossier<code>Cart/Events`du projet HelloClaptrap.Actor</code>s</code>.
+Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
 
 Ajouter les éléments code：
 
