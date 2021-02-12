@@ -1,35 +1,35 @@
 ---
-title: "第二步——简单业务，清空购物车"
-description: "第二步——简单业务，清空购物车"
+title: "Étape 2 - Affaires simples, videz votre panier"
+description: "Étape 2 - Affaires simples, videz votre panier"
 ---
 
-通过本篇阅读，您便可以开始尝试使用 Claptrap 实现业务了。
+Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec Claptrap.
 
 <!-- more -->
 
-## 开篇摘要
+## Un résumé d’ouverture
 
-本篇，我通过实现“清空购物车”的需求来了解一下如何在已有的项目样例中增加一个业务实现。
+Dans cet article, j’ai appris à ajouter une mise en œuvre d’entreprise à un échantillon de projet existant en mettant en œuvre la nécessité de « vider le panier ».
 
-主要包含有以下这些步骤：
+Les étapes suivantes sont principalement included：
 
-1. 定义 EventCode
-2. 定义 Event
-3. 实现 EventHandler
-4. 注册 EventHandler
-5. 修改 Grain 接口
-6. 实现 Grain
-7. 修改 Controller
+1. Décrivez EventCode
+2. Décrivez Event
+3. Implémenter EventHandler
+4. Inscrivez-vous à EventHandler
+5. Modifier l’interface Grain
+6. Mettre en œuvre le grain
+7. Modifier le contrôleur
 
-这是一个从下向上的过程，实际的编码过程中开发也可以自上而下进行实现。
+Il s’agit d’un processus ascendant, et le développement dans le processus de codage réel peut également être implémenté de haut en bas.
 
-## 定义 Event Code
+## Décrivez Event Code
 
-EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别，序列化等方面起到了重要的作用。
+EventCode est le code unique pour chaque événement du système Claptrap.Il joue un rôle important dans l’identification et la sérialisation des événements.
 
-打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
+Ouvrez`la classe de`ClaptrapCodes`le HelloClaptrap.`projet.
 
-添加“清空购物车事件”的 EventCode。
+Ajoutez EventCode pour les événements empty shopping cart.
 
 ```cs
   namespace HelloClaptrap.Models
@@ -45,13 +45,13 @@ EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别
   }
 ```
 
-## 定义 Event
+## Décrivez Event
 
-Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
+L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
 
 Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models .
 
-添加如下代码：
+Ajouter les éléments code：
 
 ```cs
 + using Newbe.Claptrap;
@@ -64,17 +64,17 @@ Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet Hello
 + }
 ```
 
-由于在这个简单的业务场景中，清空购物车不需要特定的参数。因此，只要创建空类型即可。
+Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite pas de paramètres spécifiques.Par conséquent, il suffit de créer un type vide.
 
-`IEventData`接口是框架中表示事件的空接口，用于在泛型推断时使用。
+`interface`IEventData est une interface vide dans le cadre qui représente les événements et est utilisée dans les inférences génériques.
 
-## 实现 EventHandler
+## Implémenter EventHandler
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
 Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
 
-添加如下代码：
+Ajouter les éléments code：
 
 ```cs
 + using System.Threading.Tasks;
@@ -98,29 +98,29 @@ Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier C
 + }
 ```
 
-这里有一些常见的问题：
+Voici quelques points communs questions：
 
-1. NormalEventHandler 是什么？
+1. Qu’est-ce que NormalEventHandler?
 
-   NormalEventHandler 是框架定义的一个简单基类，用于方便实现 Handler。 其中第一个泛型参数是 Claptrap 对应的 State 类型。结合前篇文档中，我们的购物车 State 类型就是 CartState。 第二个泛型参数是该 Handler 需要处理的 Event 类型。
+   NormalEventHandler est une classe de base simple définie par le cadre pour une mise en œuvre facile de Handler. Le premier paramètre générique est le type d’État pour Claptrap.Combiné avec le document précédent, notre type d’état de chariot est CartState. Le deuxième paramètre générique est le type d’événement que le gestionnaire doit gérer.
 
-2. 为什么用`stateData.Items = null;`而不用`stateData.Items.Clear();`
+2. Pourquoi utiliser`StateData.Items . . . null;`au`stateData.Items.Clear ();`
 
-   stateData 是保存在内存中的对象，Clear 不会缩小字典已占用的自身内存。当然，一般一个购物车也不会有数十万商品。但其实关键是在于，更新 State 时，需要注意的是 Claptrap 是一种常驻于内存中的对象，数量增加时会加剧内存的消耗。因此，尽可能在 State 中保持更少的数据。
+   StateData est un objet qui est gardé en mémoire, et Clear ne réduit pas la mémoire que le dictionnaire consomme déjà.Bien sûr, il n’y a pas des centaines de milliers d’articles dans un panier.Mais le fait est que lorsque vous mettez à jour l’état, il est important de noter que Claptrap est un objet résident de la mémoire qui augmente la consommation de mémoire à mesure que le nombre augmente.Par conséquent, gardez le moins de données possible dans l’État.
 
-3. ValueTask 是什么？
+3. Qu’est-ce que ValueTask?
 
-   可以通过这篇[《Understanding the Whys, Whats, and Whens of ValueTask》](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)进行了解。
+   Vous pouvez[dans cet article sur la compréhension des pourquoi, whats, et quand de ValueTask](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)le monde.
 
-EventHandler 实现完成之后，不要忘记对其进行单元测试。这里就不罗列了。
+Une fois l’implémentation EventHandler terminée, n’oubliez pas de la tester unitairement.Il n’est pas répertorié ici.
 
-## 注册 EventHandler
+## Inscrivez-vous à EventHandler
 
-实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
+Une fois que vous avez implémenté et testé EventHandler, vous pouvez enregistrer eventHandler pour vous associer à EventCode et Claptrap.
 
 Ouvrez`classe CartGrain du projet HelloClaptrap.Actors``The`Project.
 
-使用 Attribute 进行标记。
+Marquez avec attribut.
 
 ```cs
   using Newbe.Claptrap;
@@ -142,17 +142,17 @@ Ouvrez`classe CartGrain du projet HelloClaptrap.Actors``The`Project.
           ....
 ```
 
-`ClaptrapEventHandlerAttribute`是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
+`ClaptrapEventHandler Attribute`est un attribut défini par framework qui peut être marqué sur la classe de mise en œuvre de Grain pour implémenter l’association entre EventHandler, EventCode et ClaptrapGrain.
 
-关联之后，如果在此 Grain 中产生的对应 EventCode 的事件将会由指定的 EventHandler 进行处理。
+Après l’association, si l’événement correspondant à EventCode se produit dans ce grain, il sera géré par le EventHandler spécifié.
 
-## 修改 Grain 接口
+## Modifier l’interface Grain
 
-修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
+Modifier la définition de l’interface Grain pour assurer l’interopérabilité externe avec Claptrap.
 
-打开`HelloClaptrap.IActors`项目的`ICartGrain`接口。
+Ouvrez`interface ICartGrain pour`HelloClaptrap.IActors`projet`projet.
 
-添加接口以及 Attribute。
+Ajoutez des interfaces ainsi qu’Attribut.
 
 ```cs
   using System.Collections.Generic;
@@ -179,18 +179,18 @@ Ouvrez`classe CartGrain du projet HelloClaptrap.Actors``The`Project.
   }
 ```
 
-其中增加了两部分内容：
+Deux parties ont été added：
 
-1. 标记了`ClaptrapEvent`，使得事件与 Grain 进行关联。注意，这里与前一步的`ClaptrapEventHandler`是不同的。此处标记的是 Event，上一步标记的是 EventHandler。
-2. 增加了 RemoveAllItemsAsync 方法，表示“清空购物车”的业务行为。需要注意的是 Grain 的方法定义有一定限制。详细可以参见[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
+1. Marquer le`ClaptrapEvent`associer l’événement à Grain.Notez que c’est différent de la`de la`ClaptrapEventHandler.L’événement est marqué ici, et EventHandler est marqué la dernière étape.
+2. Ajout de la méthode RemoveAllItemsAsync pour représenter le comportement commercial de « vider le panier ».Il est important de noter que la définition de la méthode de Grain a certaines limites.Pour plus d’informations,[pouvez être trouvé dans le « Développement d’un grain](https://dotnet.github.io/orleans/Documentation/grains/index.html).
 
-## 实现 Grain
+## Mettre en œuvre le grain
 
-接下来按照上一步的接口修改，来修改相应的实现类。
+Ensuite, suivez les modifications d’interface de l’étape suivante pour modifier la classe de mise en œuvre correspondante.
 
 Ouvrez`classe CartGrain`le`Cart``dans le projet HelloClaptrap.actors`.
 
-添加对应的实现。
+Ajouter la mise en œuvre correspondante.
 
 ```cs
   using System;
@@ -233,21 +233,21 @@ Ouvrez`classe CartGrain`le`Cart``dans le projet HelloClaptrap.actors`.
   }
 ```
 
-增加了对接口方法的对应实现。需要注意的有以下几点：
+La mise en œuvre correspondante de la méthode d’interface a été ajoutée.Il y a les points suivants à note：
 
-1. 一定要增加`if (StateData.Items?.Any() != true)`这行判断。因为这可以明显的减小存储的开销。
+1. Assurez-vous`si (StateData.Items?. Tout () ! . . vrai)`cette ligne de jugement.Cela peut réduire considérablement les frais généraux de stockage.
 
-   事件在当执行`Claptrap.HandleEventAsync(evt)`便会持久化。而就此处的场景而言，如果购物车中原本就没有内容，清空或者持久化这个事件只是增加开销，而没有实际的意义。 因此，在此之前增加判断可以减小存储的无用消耗。
+   Les événements persistent`le claptrap.HandleEventAsync (evt`'événement.En ce qui concerne le scénario en l’espèce, s’il n’y a pas de contenu dans le panier, vider ou persister l’événement augmente simplement les frais généraux et n’a aucune signification pratique. Par conséquent, l’ajout de jugement jusque-là peut réduire la consommation inutile de stockage.
 
-2. 一定要判断 State 以及传入参数是否满足事件执行的条件。
+2. Assurez-vous de déterminer l’état et si les paramètres entrants répondent aux conditions d’exécution de l’événement.
 
-   这与上一点所描述的内容侧重不同。上一点侧重表明“不要产生没有意义的事件”，这一点表明“绝不产生 EventHandler 无法消费的事件”。 在事件溯源模式中，业务的完成是以事件的持久化完成作为业务确定完成的依据。也就是说事件只要入库了，就可以认为这个事件已经完成了。 而在 EventHandler 中，只能接受从持久化层读出的事件。此时，按照事件的不可变性，已经无法再修改事件，因此一定要确保事件是可以被 EventHandler 消费的。所以，在`Claptrap.HandleEventAsync(evt)`之前进行判断尤为重要。 因此，一定要实现单元测试来确保 Event 的产生和 EventHandler 的处理逻辑已经被覆盖。
+   Ceci est différent de ce qui est décrit dans le point ci-dessus.L’accent mis sur le point ci-dessus indique que « ne produisent pas d’événements dénués de sens », ce qui indique que « ne jamais produire des événements que EventHandler ne peut pas consommer ». En mode d’approvisionnement en cas d’approvisionnement, l’achèvement de l’entreprise est basé sur la persistance de l’événement comme base pour l’achèvement de l’entreprise.Cela signifie que dès que l’événement est dans la bibliothèque, vous pouvez penser que l’événement est terminé. Dans EventHandler, seuls les événements lus à partir de la couche de persistance peuvent être acceptés.À ce stade, l’événement ne peut plus être modifié en fonction de son immuabilité, alors assurez-vous que l’événement peut être consommé par EventHandler.Par conséquent,`est important de rendre un jugement devant`de Claptrap.HandleEventAsync (evt). Par conséquent, il est important de mettre en œuvre des tests unitaires pour s’assurer que la génération d’événements et la logique de traitement d’EventHandler sont écrasées.
 
-3. 此处需要使用到一些 TAP 库中的一些方法，可以参见[基于任务的异步模式](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+3. Voici quelques méthodes à utiliser dans certaines bibliothèques TAP, telles que la[asynchrone basée sur les tâches](https://docs.microsoft.com/zh-cn/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 
-## 修改 Controller
+## Modifier le contrôleur
 
-前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“清空购物车”的操作。
+Au moment où toutes les étapes précédentes sont terminées, toutes les parties de Claptrap ont été terminées.Toutefois, Claptrap ne peut pas fournir directement l’interopérabilité avec des programmes externes.Par conséquent, vous devez également ajouter une API à la couche Contrôleur pour « vider le panier » à l’extérieur.
 
 Ouvrez le`CartController`sous le`contrôleurs`dossier`pour le projet helloClaptrap.web`.
 
@@ -281,11 +281,11 @@ Ouvrez le`CartController`sous le`contrôleurs`dossier`pour le projet helloClaptr
   }
 ```
 
-## 小结
+## Résumé
 
-至此，我们就完成了“清空购物车”这个简单需求的所有内容。
+À ce stade, nous avons fait tout ce dont nous avons besoin pour « vider le panier ».
 
-您可以从以下地址来获取本文章对应的源代码：
+Vous pouvez obtenir le code source de cet article à partir de la address：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
+- [Gitee ( Gitee )](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
