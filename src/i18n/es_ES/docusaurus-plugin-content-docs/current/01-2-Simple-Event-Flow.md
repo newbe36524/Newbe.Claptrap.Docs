@@ -49,7 +49,7 @@ Agregue EventCode para eventos vacíos del carro de la compra.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree```RemoveAllItems FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
+Cree`RemoveAllItems` FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
 
 Agregue los siguientes code：
 
@@ -72,7 +72,7 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.
 
-Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.
+Cree clase RemoveAllItems FromCartEventHandler en la carpetaCart/Events`del proyecto HelloClaptrap. Actors.
 
 Agregue los siguientes code：
 
@@ -118,11 +118,12 @@ Una vez completada la implementación de EventHandler, no olvide probarla unitar
 
 Después de implementar y probar EventHandler, puede registrar eventHandler para asociarlo con EventCode y Claptrap.
 
-Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
-<p spaces-before="0">Marcar con atributo.</p>
+Marcar con atributo.
 
-<pre><code class="cs">  using Newbe.Claptrap;
+```cs
+  using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
   namespace HelloClaptrap.Actors.Cart
@@ -139,7 +140,7 @@ Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
           }
 
           ....
-`</pre>
+```
 
 ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
@@ -187,7 +188,7 @@ Se han added：dos partes
 
 A continuación, siga las modificaciones de interfaz del paso siguiente para modificar la clase de implementación correspondiente.
 
-Abra la clase`CartGrain`el `Cart en el proyecto de`HelloClaptrap.actors.
+Abra la clase`CartGrain`el`Cart en el proyecto de`HelloClaptrap.actors.
 
 Agregue la implementación correspondiente.
 
