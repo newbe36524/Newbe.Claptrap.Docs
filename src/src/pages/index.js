@@ -6,33 +6,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./styles.module.css";
 import Translate, { translate } from "@docusaurus/Translate";
 
-const features = [
-  {
-    title: translate({
-      message: "完全支持水平扩展",
-      description: "The homepage 完全支持水平扩展",
-    }),
-    imageUrl: "images/scale-out.svg",
-    description: translate({
-      message:
-        "依托 dapr/Orleans 框架等与生俱来的水平扩展能力，轻松做到从一到百。",
-      description: "The homepage 完全支持水平扩展 detail",
-    }),
-  },
-  {
-    title: translate({
-      message: "全面关注完整周期",
-      description: "The homepage 全面关注完整周期",
-    }),
-    imageUrl: "images/full-lifetime.svg",
-    description: translate({
-      message:
-        "从设计，到开发，到上线。每个环节都是我们考虑的要素。每个环节我们都充分考虑。",
-      description: "The homepage 全面关注完整周期 detail",
-    }),
-  },
-];
-
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
@@ -74,7 +47,8 @@ function Home() {
                     id="homepage.轻松应对并发问题.details"
                     description="The homepage 基于 Actor 模式和事件溯源模式作为基础原理，轻松处理并发环境下的问题处理。"
                   >
-                    基于 Actor 模式和事件溯源模式作为基础原理，轻松处理并发环境下的问题处理。
+                    基于 Actor
+                    模式和事件溯源模式作为基础原理，轻松处理并发环境下的问题处理。
                   </Translate>
                 </p>
               </div>
@@ -98,7 +72,8 @@ function Home() {
                     id="homepage.完全支持水平扩展.details"
                     description="The homepage 依托 Dapr/Orleans 框架等与生俱来的水平扩展能力，轻松做到从一到百。"
                   >
-                    依托 Dapr/Orleans 框架等与生俱来的水平扩展能力，轻松做到从一到百。
+                    依托 Dapr/Orleans
+                    框架等与生俱来的水平扩展能力，轻松做到从一到百。
                   </Translate>
                 </p>
               </div>

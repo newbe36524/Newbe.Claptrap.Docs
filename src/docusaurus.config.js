@@ -35,6 +35,12 @@ module.exports = {
     },
   },
   themeConfig: {
+    prism: {
+      defaultLanguage: "csharp",
+      additionalLanguages: ["powershell", "csharp", "sql"],
+      theme: require("prism-react-renderer/themes/github"),
+      darkTheme: require("prism-react-renderer/themes/dracula"),
+    },
     navbar: {
       title: "Newbe.Claptrap",
       logo: {
@@ -145,6 +151,13 @@ module.exports = {
           showReadingTime: true,
           editUrl:
             "https://github.com/newbe36524/Newbe.Claptrap.Docs/edit/master/src/blog/",
+          // showLastUpdateAuthor: true,
+          // showLastUpdateTime: true,
+          blogSidebarCount: "ALL",
+          truncateMarker: /<!-- more -->/,
+          feedOptions: {
+            type: "all", // required. 'rss' | 'feed' | 'all'
+          },
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
