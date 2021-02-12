@@ -1,224 +1,224 @@
 ---
 date: 2019-03-08
-title: Newbe.Claptrap项目周报1-还没轮影，先用轮跑
+title: Newbe.Claptrap Project Weekly 1 - No wheels yet, run with wheels first
 ---
 
-Newbe.Claptrap 项目周报 1，第一周代码写了一点。但主要还是考虑理论可行性。
+Newbe.Claptrap Project Weekly 1, the first week of the code wrote a little.But mainly consider the theoretical feasibility.
 
 <!-- more -->
 
-## 周报是啥？
+## What's the weekly newspaper?
 
-成功的开源作品，离不开社区贡献者的积极参与。作为一个新启动的轮子项目，项目联合创始人【月落】有交代：
+Successful open source works can not be separated from the active participation of community contributors.As a newly launched wheel project, the co-founder of the project, Moon Landing, has an account：
 
-“我知道你代码能力也不怎么样，你就把你的想法每周的交代清楚。让他人看到项目的价值。等待越来越多的人发现项目价值所在的时候，自然就会给予更多的关注，甚至于参与的项目的开发当中。所以你要每周都写一下周报。周报最好侧重于讲解项目的概念，以及通过项目如何解决实际问题。当然也可以包含一些关于项目如何设计的内容，但要注意适度，通常大家不会太注意项目怎么实现。而更关注项目带来的价值。记住：只有产生了价值，项目才会成功。”
+"I know you don't have the ability to code very well, and you'll have a weekly account of your ideas."Let others see the value of the project.Waiting for more and more people to discover the value of the project, will naturally give more attention, even in the development of the project involved.So you have to write a weekly newspaper.The weekly report is best focused on explaining the concept of the project and how to solve practical problems through the project.Of course, you can also include some content about how the project is designed, but pay attention to moderation, usually people do not pay too much attention to how the project is implemented.Focus more on the value of the project.Remember：project succeeds only if it generates value. ”
 
-于是笔者就只能每周写一下周报，勉强维持生活这样子。
+So the author can only write a weekly newspaper, barely able to maintain a life like this.
 
-## 轮有轮样
+## The wheel has a wheel sample
 
-新轮要有新轮的样子，“项目开张篇”中介绍了本框架相关的基础理论和工作原理。鉴于相关的理论内容对于刚刚接触的读者较为生疏，因此本节将前文最为关键的内容罗列如下以激发读者的回忆。
+The new round should have the appearance of a new round, "project opening" introduced the basic theory and working principles related to this framework.Given that the relevant theoretical content is unfamiliar to the reader who has just come into contact, this section lists the most critical content of the previous section below to stimulate the reader's memory.
 
-Actor 特性一：Actor 的状态是通过外部调用 Actor 而改变的。
+Actor attribute i.：the state of Actor is changed by calling Actor externally.
 
-![更新Actor状态](/images/20190226-001.gif)
+![Update Actor state](/images/20190226-001.gif)
 
-Actor 特性一补 1：Actor 的状态不与外部进行共享。
+Actor feature one to make up 1：the status of Actor is not shared externally.
 
-![共享Actor状态](/images/20190226-003.gif)
+![Share Actor State](/images/20190226-003.gif)
 
-Actor 特性一补 2：外部可以读取 Actor 状态。
+The Actor feature complements 2：can read the Actor state externally.
 
-![读取Actor状态](/images/20190226-002.gif)
+![Read The Actor state](/images/20190226-002.gif)
 
-Actor 特性二：Actor 是“单线程”工作的，每次只能处理一个请求。
+Actor feature II：actor works "single-threaded" and can only process one request at a time.
 
-![并发调用Actor](/images/20190226-004.gif)
+![Call Actor Concurrently](/images/20190226-004.gif)
 
-Actor 特性二补 1：并发读取状态可以不是“单线程”。
+The Actor attribute is 2-to：the same read state can not be a "single thread."
 
-![并发读取Actor](/images/20190226-005.gif)
+![Read Actor Concurrently](/images/20190226-005.gif)
 
-框架定义的 Actor 类型——Claptrap：通过事件模式，产生事件并通过事件改变自身状态的 Actor。
+The framework defines the Actor type, Claptrap：Actor that generates events through event patterns and changes its own state through events.
 
 ![Claptrap](/images/20190228-001.gif)
 
-框架定义的 Actor 类型——Minion：与 Claptrap 对比，Minion 不产生事件而是读取对应 Claptrap 的事件来改变自身的状态。允许存在多个 Minion 对应一个 Claptrap。
+The framework defines the Actor type, Minion：compared to Claptrap, minion does not generate events but reads events corresponding to Claptrap to change its state.Multiple Minions are allowed for one Claptrap.
 
 ![Minion](/images/20190228-002.gif)
 
-通过 Claptrap 和 Minion 配合完成“转账”业务。
+Complete the "transfer" business with Claptrap and Minion.
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
-> 月落大佬名言警句 1：世界上本也不存在“银弹”。一套框架解决不了所有问题。 月落大佬名言警句 2：业务复杂度是不会因为系统设计变化而减少的，它只是从一个地方转移到了另外的地方。
+> Moon fall big man famously warned 1：the world does not exist "silver bullet".One framework will not solve all the problems. Moon Landing's famous saying 2：Business complexity is not reduced by system design changes, it is only moved from one place to another.
 
-## 还没轮影，先用轮跑
+## Without a wheel, run with a wheel first
 
-现在我们拥有了 Claptrap 和 Minion 的概念。接下来，结合一些业务场景，实验一下框架能否应对各种各样的业务需求。
+Now we have the concepts of Claptrap and Minion.Next, combine some business scenarios to experiment with whether the framework can handle a wide variety of business needs.
 
-> 再美的技术手段无法应对现实的需求与变化，那也只能技术花瓶。——刚刚学完赛博坦 XII 量子计算机指令集的月落
+> Beautiful technical means can not cope with the real needs and changes, that can only be technical vases. The moon falls just after learning the Sebotan XII Quantum Computer Instruction Set
 
-### 业务场景
+### The business scenario
 
-这是一个简单的电商系统：
+It's a simple e-commerce system：
 
-1. 只卖一种绿色的水晶，为了方便描述，将这个商品命名为“原谅水晶”。
-2. 用户可以使用自己账号中的余额购买原谅水晶。余额是通过外部支付系统充值进来的。充值部分，暂时不是业务场景需要考虑的。
-3. 每个用户还有一个积分，很巧，这个积分的图标也是绿色的，因此，将这个积分命名为“原谅积分”。
-4. 原谅积分的获取方式有很多，例如：用户注册；邀请其他用户注册；被邀请用户进行了消费，邀请者也可以获得；原谅即挖矿；现实中获得了原谅；等等其他的一些方式，这部分可能需要配合后续的活动持续增加获得方式。
-5. 原谅积分可以在进行购买原谅水晶时，抵扣一部分需要支付的金额。
-6. 原谅积分在未来很可能有其他的用途。
-7. 购买原谅水晶的支付方式未来很可能不止余额和原谅积分两种。
+1. Only one green crystal is sold, and for the sake of description, the product is named "Forgive Crystal".
+2. Users can use the balance in their account to purchase forgive crystals.The balance is recharged through an external payment system.Recharge part, for the time being, is not a business scenario to consider.
+3. Each user also has an integral, which, coincidentally, is also green, so the credit is named "Forgive Points".
+4. There are many ways to earn forgiveness points, such as：user registration, inviting other users to register, inviting users to make a purchase, which the invitee can also get, forgiving is mining, in reality to get forgiveness, and so on, which may need to be in line with subsequent activities to continuously increase the acquisition method.
+5. Forgive Points can deduct a portion of the amount that needs to be paid when you make a purchase of Forgive Crystal.
+6. Forgive points are likely to have other uses in the future.
+7. The payment method for buying Forgive Crystal is likely to be more than balance and forgive points in the future.
 
-以上就是对于这个电商系统的一部分需求描述。需求未来肯定是会变化的。
+The above is a description of the requirements of this e-commerce system.Demand is sure to change in the future.
 
-### 要素察觉
+### Feature awareness
 
-电商系统，最为主要的业务场景自然是和商品的交易有关的业务场景。不论其他的需求场景多么的复杂，交易相关的业务场景必然是首当其冲需要分析解决的。
+E-commerce system, the most important business scenario is naturally related to the transaction of goods business scenarios.No matter how complex the other requirements scenarios may be, trading-related business scenarios are bound to be the first to require analysis and resolution.
 
-那么首先，我们将“用户确认购买原谅水晶”这个场景用简单的语言描述一下程序需要执行的业务内容：
+So first, we'll use the "User Confirmation purchase forgiveness crystal" scenario to describe in simple terms what the program needs to do：
 
-1. 需要检查用户的余额是否足够
-2. 假如用户选择了积分抵扣，需要检查用户的积分是否足够
-3. 需要检查库存是否足够
-4. 需要扣减用户的余额
-5. 需要扣减库存
-6. 假如用户选择了积分抵扣，需要扣减用户的积分
+1. You need to check that the user's balance is sufficient
+2. If the user selects a credit credit, you need to check that the user's credit is sufficient
+3. You need to check that the inventory is sufficient
+4. The user's balance needs to be deducted
+5. Inventory needs to be deducted
+6. If the user selects a credit credit, the user's credit needs to be deducted
 
-如果采用直接操作数据表的方式实现以上六个要点，对于绝大部分开发者来说应该是十分简单的。开启一个数据库事务，至少具备行级锁，将数据进行检查和更新，便可以完成这个业务。那么现在使用本框架进行实现，根据“业务复杂度不减少”的基本事实，也同样需要实现以上六个要点。
+If you implement these six points by directly operating the data sheet, it should be very simple for most developers.You can complete the business by opening a database transaction with at least a row-level lock that checks and updates the data.So now that you're using this framework for implementation, you need to implement the same six key points based on the basic fact that "business complexity doesn't decrease."
 
-### 未卜先知
+### The prophet is not yet called
 
-首先，在不太讨论依据的前提下，笔者围绕上文提到的一些主体概念，设计了以下这些 Claptrap：
+First of all, on the premise of not much discussion, the author around some of the above-mentioned main concepts, designed the following Claptrap：
 
-| 概念   | 英文命名        | 缩写 |
-| ---- | ----------- | -- |
-| 原谅水晶 | SKU         | S  |
-| 原谅积分 | UserPoint   | P  |
-| 用户余额 | UserBalance | B  |
+| Concepts            | Named in English | Abbreviation |
+| ------------------- | ---------------- | ------------ |
+| Forgive the crystal | Sku              | S            |
+| Forgive points      | UserPoint        | P            |
+| The user balance    | UserBalance      | B            |
 
-### 依轱辘画轮
+### Draw the wheel according to the dragonfly
 
-按照前篇的“转账”业务场景的流程设计，此处采用相同的方式设计一下购买的逻辑。如下图所示：
+Following the process design of the previous "transfer" business scenario, the logic of the purchase is designed in the same way here.As shown in the figure below：
 
-![链形设计](/images/20190307-001.gif)
+![Chain design](/images/20190307-001.gif)
 
-分析一下这个设计方案：
+Analyze this design：
 
-依照业务逻辑的顺序，完成了库存检查、库存扣减、余额检查、余额扣减、积分检查、积分扣减的业务步骤。
+In accordance with the order of business logic, complete the inventory inspection, inventory deduction, balance check, balance deduction, credit check, credit deduction business steps.
 
-注意 Client 和 Claptrap S 之间的调用线的存在时间，只有在一开始的时候，也就是说，客户端仅需要稍作等待，便可以得到响应。
+Note the time the call line between Client and Claptrap S exists, and only at the beginning, that is, the client needs only a little wait to get a response.
 
-Claptrap S 将事件推送给 Minion S 之后便可以继续响应新的请求。确保了多个用户进行并发购买商品即确保了商品不会超卖，也确保了响应事件足够短。
+Claptrap S can continue to respond to new requests after it pushes the event to Minion S.Ensuring that multiple users make a purchase at the same time ensures that the item is not oversold and that the response is short enough.
 
-整个业务逻辑的入口是 S、这样可以确保用户在锁定库存的前提下进行支付，避免了用户付了钱没有办法买到商品的情况。
+The entry point of the entire business logic is S, which ensures that the user pays while locking up inventory, avoiding the situation where the user pays for the goods.
 
-基于形状上的原因，这种设计方案被命名为 **“链形设计（Chain-Like Design）”**。
+For shape reasons, this design is **"Chain-Like Design"**.
 
-### 一样的材料，不一样的轮子
+### Same material, different wheels
 
-也存在另外一种设计方案。如下图所示：
+There is another design.As shown in the figure below：
 
-![树形设计](/images/20190307-002.gif)
+![Tree design](/images/20190307-002.gif)
 
-分析一下这个设计方案：
+Analyze this design：
 
-引入了一个新的 Claptrap W（What a amazing that I get a forgiven-crystal）作为业务的入口，这个 Claptrap W 通过调用其他的 Claptrap 实现这个业务过程。
+A new Claptrap W (What a amazing that I get a forgiven-crystal) was introduced as the entry point for the business, which Claptrap W implemented by calling other Claptrap.
 
-相比与上节的设计方案，Minion S、P、B 都不再参与业务的流转控制，因为这些业务的流转控制已经由 Claptrap W 进行控制。
+Minion S, P, and B are no longer involved in the flow control of the business as they are already controlled by Claptrap W, as compared to the design in the previous section.
 
-并且由于 Minion W 的存在，这个设计方案也可以将部分的调用交由 Minion 来进行，所以这个方案也可以是以下两种形式。
+And because of Minion W, this design can also make partial calls to Minion, so it can also take two forms.
 
-![树形设计](/images/20190307-003.gif)
+![Tree design](/images/20190307-003.gif)
 
-![树形设计](/images/20190307-004.gif)
+![Tree design](/images/20190307-004.gif)
 
-基于形状上的原因，这种设计方案被命名为 **“树形设计（Tree-Like Design）”**。
+For shape reasons, this design is **"Tree-Like Design"**.
 
-那么此处就出现了选择，既然有出现了选择，那么此处就使用《月老板的软件开发小妙招三十二则》中记载的“WhyNot 对比分析法”来决定使用哪种设计方案：
+Then there is a choice, and since there is a choice, then here is the use of "WhyNot comparative analysis" recorded in the "Moon Boss's Software Development Tricks 32" to decide which design to use：
 
-| 选项   | 为什么不？                                                                                                             | 为什么！不！                                                                                                                                                                                                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 链形设计 |                                                                                                                   | 业务流转过程的控制通过 Minion 相连接，这是一种紧耦合的设计。这相当于 Minion 和 Claptrap 这次操作业务的上下文。一个明显的问题：客户是否选择了积分支付，这个逻辑，要么在 Minion B 中判断，要么在 Claptrap P 中判断，但不论哪种方式其实都不合理。<br/>这样的设计在应对流程失败的时候，会特别难以处理。例如在最后一步客户如果积分不足，那么可能就需要逐步回滚，这可能会非常困难。 |
-| 树形设计 | 这种设计，把业务的核心流程控制内容集中的一对相关的 Claptrap W 和 Minion W 中。这是一种高内聚的表现。<br/>基于这种设计方案，很容易基于 Claptrap S、P、B 构建出更加复杂的过程。 |                                                                                                                                                                                                                         |
+| Options      | Why not?                                                                                                                                                                                                                                                                   | Why!No!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chain design |                                                                                                                                                                                                                                                                            | Control of the business flow process is connected via Minion, a tightly coupled design.This is equivalent to the context of Minion and Claptrap's operations this time.One obvious question：Whether the customer has chosen to pay points is a logic that is judged either in Minion B or Claptrap P, but either way it doesn't make sense.<br/>design can be particularly difficult to handle when dealing with process failures.For example, if the customer does not have enough points in the last step, they may need to roll back gradually, which can be very difficult. |
+| Tree design  | This design brings the core process control content of the business together in a pair of related Claptrap W and Minion W.This is a highly cohesion performance.<br/>based on this design, it is easy to build more complex processes based on Claptrap S, P, and B. |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-其实读者很容易发现，对于这个选择的 WhyNot 对比分析表，其实是一边倒的。这里明显就是要选择树形设计。
+In fact, it is easy for readers to find that the WhyNot comparison and analysis table for this choice is actually one-way street.It's obviously about choosing a tree design.
 
-> 《月老板软件开发小妙招三十二则》，是月落大佬在日常开发过程当中对软件开发过程用到的一些小方法的收集和归纳。这些方法大多不是新发明的内容。月落大佬只是将这些方法收集在一起，为了启示后来者，在分析判断一些问题的时候，用一些小方法有时就能让事情变得有条理一些。除了“WhyNot 对比分析法”之外，还有较为知名的“5W1H 需求描述法”；非常简单的“CheckList 备忘录”；被广泛提及的“艾森豪威尔法则”等。
+> "Moon boss software development tricks 32", is the moon landing big man in the daily development process of the software development process used in some small methods of collection and generalization.Most of these methods are not new inventions.The Moon landings simply put these methods together, and in order to enlighten the those who later, there are small ways to make things more orderly when analyzing and judging some problems.In addition to the WhyNot comparative analysis method, there are the more well-known "5W1H requirements description";
 
-> WhyNot 对比分析法，简单来说就是要讲选择多个主体进行并排对比，分别列举“应该选择它”和“不应该选择它”的理由，然后进行综合判断进而做出决定的方法。它特别适用于多人对某一选择争执不休时采用的方法，通过表格的形式分别记录陈述的理由，确保了不缺不漏有理有据。在方法上的基础，还衍生出了“理由权重计量”、“人员话语权计量”等其他的一些变种。此方法与“优劣对比法”、“异同对比法”等对比法，以及“概率选择法”、“经验选择法”等选择法有一定的联系与区别。此方法的命名据说是月落大佬首创，是一个语法梗。在中文当中，可以采用“为什么不？”这样的反问句来表示选择一个对象的理由，可以用“为什么！不！”这个的祈使句来表示不选择一个对象的理由。 WhyNot 其实就是对“为什么不”四个字的直译。
+> WhyNot comparative analysis method, simply is to choose multiple subjects for side-by-side comparison, respectively, list the "should choose it" and "should not choose it" reasons, and then make a comprehensive judgment and then make a decision method.It is particularly applicable to the method used by multiple persons in dispute over an option, which ensures that the reasons for the statement are recorded separately in the form of a form, ensuring that there is no shortage of justifications.On the basis of method, some other variants such as "reason weight measurement" and "people's right to speak measurement" are also derived.This method has some connection and difference with the comparison methods such as "difference method" and "difference comparison method", as well as "probability selection method" and "experience selection method".The name of this method is said to be the first of the moon landings and is a syntax terrier.Among Chinese, the "Why not?" can be used. "Such a counter-question to indicate the reason for choosing an object, you can use the "Why!No! "This prayer sentence represents the reason for not choosing an object. WhyNot is actually a direct translation of the four words why not.
 
-### 好轮子外观也好看
+### Good wheels look good, too
 
-初见 WhyNot 对比分析法的读者可能会有疑问：难道就没有选择链形设计的理由？
+Readers who first see WhyNot's comparative analysis may have questions：is there no reason to choose chain design?
 
-需要解释的是， WhyNot 对比分析法是对固定场景的分析法，因此如果场景变了，分析的结果也会变。也就是说，**在某些特定的场景下，链形设计有其必要性**。
+It should be explained that whyNot comparative analysis is the analysis of fixed scenes, so if the scene changes, the results of the analysis will change.That is,**in certain scenarios, chain design has its necessity and**.
 
-那么在解释之前，我们采用另外的方法来解读链形设计与树形设计：
+So before we explain, we take a different approach to interpreting the relationship between chain design and tree：
 
-- 将 Claptrap 和对应的 Minion 合并
-- 用“因为...所以...”的句式来代替图形中的实线调用
+- Merge Claptrap with the corresponding Minion
+- With "Because... So..." the sentence replaces the solid call in the drawing
 
-![链形设计](/images/20190307-001.gif)
+![Chain design](/images/20190307-001.gif)
 
-那么结合上图的链形设计就可以表述为：
+Then the chain design combined with the image above can be expressed as：
 
-- 因为 S，所以 B
-- 因为 B，所以 P
+- Because S, so B
+- Because B, so P
 
-展开的语义可以是：
+The expanded semantics can be：
 
-- 因为购买而扣除了库存，所以进一步扣减余额
-- 因为购买而扣减了余额，所以要进一步扣减积分
+- The balance is further deducted because inventory is deducted from the purchase
+- The balance is deducted as a result of the purchase, so further points are deducted
 
-![树形设计](/images/20190307-002.gif)
+![Tree design](/images/20190307-002.gif)
 
-上图树形设计就可以表述为：
+The tree design above can be expressed as：
 
-- 因为 W，所以 S
-- 因为 W，所以 B
-- 因为 W，所以 P
+- Because W, so S
+- Because W, so B
+- Because W, so P
 
-展开的语义可以是：
+The expanded semantics can be：
 
-- 因为购买，所以扣减了库存
-- 因为购买，所以扣减了余额
-- 因为购买，所以扣减了积分
+- The inventory was deducted because of the purchase
+- The balance was deducted because of the purchase
+- Points are deducted because of the purchase
 
-即使笔者这里解释的不太清楚，但是读者仍然可以观察“因为购买而扣减了余额，所以要进一步扣减积分”这句其实不太合理，这两者在业务上其实不应该有明显的前因后果。
+Even if the author here explained not very clearly, but the reader can still observe "because of the purchase and deduction of the balance, so to further deduct points" this sentence is not quite reasonable, the two in business should not actually have obvious fore-effects.
 
-这其实也是链形设计在这个场景下不能适用的原因：如果两者的调用关系没有明显的前因后果，而将两者设计为前后调用的链形关系。那么很可能得到的是不合理的设计。
+This is also why chain design does not work in this scenario：if the call relationship between the two has no obvious pre-consequences, the two are designed as chain relationships for call-backs.What is likely to be obtained is an unreasonable design.
 
-那么反过来说：**如果要应用链形设计。两者之间必须存在合理的前因后果。**
+So the other way around：**if you want to apply a chain design.There must be reasonable pre-consequences between the two.**
 
-不过，在需求分析过程中，当前可能必然存在的前因后果，过后可能就已经不太合理。业务场景的多变和需求的不完全稳定，导致了事实上，采用树形设计能够应对更多的问题。
+However, in the process of demand analysis, the current pre-existing causes and consequences may not be reasonable later.The changeable business scenario and the incomplete stability of requirements have led to the fact that tree design can handle more problems.
 
-读者可以尝试对上文业务场景中剩余的几点需求进行一下设计。
+Readers can try to design some of the remaining requirements in the business scenario above.
 
-另外，读者可以重新思考一下开张篇中所采用的“转账”场景的设计，采用树形设计是否更为妥当。
+In addition, the reader can rethink the design of the "transfer" scenario used in the opening, with a tree design is more appropriate.
 
-## 其实就是新轮子
+## It's actually a new wheel
 
-在开张篇中，我们将 Actor 模式与 CRUD 模式进行了简单异同点比较。而现在还存在另外一类比较常提到的设计方案，就是“领域驱动设计”。
+In the opening, we made a simple comparison of the Actor mode with the CRUD pattern.Now there is another type of design that is more commonly mentioned, which is "domain-driven design".
 
-领域驱动设计的概念此处不多做介绍，对此内容比较陌生的读者可以参看微软 MVP 汤雪华老师的文章[《领域驱动设计之领域模型》](http://www.cnblogs.com/netfocus/archive/2011/10/10/2204949.html)
+The concept of domain-driven design is not much introduced here, and readers who are relatively unfamiliar with this content can refer to Microsoft MVP Mr. Tang Xuehua's article["Domain Model of Domain-Driven Design](http://www.cnblogs.com/netfocus/archive/2011/10/10/2204949.html)
 
-那么，当读者理解了领域驱动设计之后，再结合本篇前面提到的 Claptrap W、S、P、B。或许 Claptrap S、P、B 就是聚合根？或许 Claptrap W 就是应用服务？笔者认为 Actor 模式其实是对领域驱动设计的一种进一步发挥：
+So, when the reader understands the domain-driven design, combine the Claptrap W, S, P, and B mentioned earlier in this article.Maybe Claptrap S, P, B is the aggregate root?Maybe Claptrap W is an app service?The author thinks that the Actor model is actually a kind of further development of domain-driven：
 
-- 领域驱动设计没有在设计模型内考虑业务并发，而 Actor 模式作为一套并发编程模型其实就弥补了这部分的缺失。
-- 绝大多数（笔者所知到的）领域驱动框架仍然采用了“从仓储还原聚合根，操作完毕后保存”的一般过程。而以 Orleans 为例的 Actor 框架会将已经激活的 Actor 在内存中保留一段时间，也就是说，聚合根可以在内存中不断的修改，而不需要重复的从仓储中还原。
+- Domain-driven design does not take business synths into account within the design model, and the Actor pattern, as a set of synth programming models, makes up for this part of the gap.
+- The vast majority of the domain-driven frameworks (as the author knows) still use the general process of "restoring aggregate roots from storage and saving them after operation".The Actor framework, in the case of Orleans, keeps the activated Actor in memory for a period of time, meaning that the aggregate root can be continuously modified in memory without the need for repeated restores from the warehouse.
 
-总的来说，读者可以沿用领域驱动设计的思路建模，然后尝试将原有的聚合根和应用服务设计为 Actor ，从理论上尝试一下自己所熟悉的领域，能否采用 Actor 进行实现。或许读者可以从中发现一些不一样的体验。
+In general, the reader can model the idea of domain-driven design, and then try to design the original aggregate root and application service as Actor, theoretically trying to see if the domain they are familiar with can be implemented with Actor.Perhaps readers can find something different.
 
-不过，本框架由于采用了 Actor 模式和事件溯源模式，因此设计方法与领域驱动模型相比有所继承又不完全相同，还有一些其他需要注意的内容，会在后续整理出相应的文章。
+However, because of the Actor and event sourcing patterns, the design approach is not exactly the same as the domain-driven model, and there are other things to note that will be collated later.
 
-## 结篇
+## The conclusion
 
-本篇希望通过一个业务场景的设计，让读者了解到如何采用本框架的理论概念来实现业务。其中包含有一些作者的臆造词，因此可能需要花费读者更多的时间进行理解。
+Through the design of a business scenario, this article hopes to let the reader know how to use the theoretical concepts of this framework to achieve business.It contains some of the author's assumptions, so it may take the reader more time to understand.
 
-由于作者的工作经验有限，缺乏丰富的行业领域知识，因此对于框架的设计理念是否符合特定行业特性的问题无法给出准确的判断，还需要读者多加思考。若有任何需要协助的问题，欢迎联系本项目组。
+Due to the author's limited work experience and lack of knowledge of the industry field, it is impossible to give an accurate judgment on whether the design concept of the framework conforms to the characteristics of a particular industry.If you have any questions that require assistance, please contact this project team.
 
-欢迎对此感兴趣的朋友关注项目，参与项目。
+Friends interested in this are welcome to follow the project and participate in the project.
 
 <!-- md Footer-Newbe-Claptrap.md -->
