@@ -1,5 +1,5 @@
 ---
-title: '火车售票系统'
-description: '火车售票系统'
+title: 'Sistema de venta de billetes de tren'
+description: 'Sistema de venta de billetes de tren'
 ---
 
