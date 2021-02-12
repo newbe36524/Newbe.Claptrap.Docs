@@ -17,7 +17,7 @@ title: サービス側でのリアクションプログラミングの適用、�
 
 ## ビジネス シナリオ
 
-最近の記事で、[万人の同時オンラインユーザーはどのくらいのメモリを必要としますか? --Newbe.Claptrap フレームワークの水平拡張実験](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)します。メモリに常駐する複数の Claptrap をアクティブ化することで、JWT の正確性をすばやく検証します。
+在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap 框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。メモリに常駐する複数の Claptrap をアクティブ化することで、JWT の正確性をすばやく検証します。
 
 しかし、当時は技術的な問題が解決：
 
@@ -87,9 +87,9 @@ VALUES
 
 ### PostgreSQL
 
-PostgreSQL は、一括書き込みを行うときに、効率的な`COPY`ステートメントを使用して、`INSERT ステートメントよりもはるかに高速なデータの高速インポートを`よく知られています。ただし、残念`COPY`ON ON CONFLICT DO UPDATE`句を`しません。したがって、upsert`COPY`を使用して完了できません。
+众所周知，PostgreSQL 在进行批量写入时，可以使用高效的 COPY 语句来完成数据的高速导入，这远远快于 INSERT 语句。但可惜的是 COPY 并不能支持 ON CONFLICT DO UPDATE 子句。因此，无法使用 COPY 来完成 upsert 需求。
 
-したがって、`INSERT`を使用して`ON CONFLICT DO UPDATE`句を使用し、`unnest`関数を使用してバッチ upsert の要件を完了します。
+因此，我们还是回归使用 INSERT 配合 ON CONFLICT DO UPDATE 子句，以及 unnest 函数来完成批量 upsert 的需求。
 
 具体的なステートメント形式は、次の形式です：
 
