@@ -207,7 +207,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
+Este código contiene dos parámetros importantes, el`CartState`, que representa el estado actual del carro, y el evento`AddItemToCartEvent`.
 
 Determinamos si el diccionario en el estado contiene SkuId y actualizamos su cantidad de acuerdo con nuestras necesidades empresariales.
 
