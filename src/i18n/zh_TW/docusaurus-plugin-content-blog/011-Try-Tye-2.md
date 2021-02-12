@@ -1,25 +1,25 @@
 ---
 date: 2021-02-06
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（二）
+title: 使用 Tye 輔助開發 k8s 應用竟如此簡單（二）
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中使用服务发现。
+續上篇，這篇我們來進一步探索 Tye 更多的使用方法。本篇我們來瞭解一下如何在 Tye 中使用服務發現。
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 服务发现 - 微服务开发不可缺少的部件
+## 服務發現 - 微服務開發不可缺少的部件
 
-> 服务发现，就是新注册的这个服务模块能够及时的被其他调用者发现。不管是服务新增和服务删减都能实现自动发现。 《深入了解服务注册与发现》 <https://zhuanlan.zhihu.com/p/161277955>
+> 服務發現，就是新註冊的這個服務模塊能夠及時的被其他調用者發現。不管是服務新增和服務刪減都能實現自動發現。 《深入瞭解服務註冊與發現》 <https://zhuanlan.zhihu.com/p/161277955>
 
-> 我们在调用微服务的过程中, 假设在调用某个 REST API 或者 Thrift API, 为了完成某次调用请求, 代码里面需要指定服务所在的 IP 地址和端口, 在传统的应用中, 网络地址和端口是静态的,一般不会改变, 我们只需要把它们配到配置文件中, 就可以通过读取配置文件来完成调用.但是, 在现代基于 Cloud 的微服务架构中, 这种方式将失效, 因为服务的实例是动态分配的地址, 网络地址也是动态的, 这样做的好处是便于服务的自动伸缩, 失败处理和升级. 《微服务架构中的服务发现机制》 <https://www.imooc.com/article/details/id/291255>
+> 我們在呼叫微服務的過程中， 假設在呼叫某個 REST API 或者 Thrift API， 為了完成某次呼叫請求， 程式碼裡面需要指定服務所在的 IP 位址和連接埠， 在傳統的應用中， 網路位址和連接埠是靜態的，一般不會改變， 我們只需要把它們配到設定檔中， 就可以透過讀取配置檔來完成呼叫. 但是， 在現代基於 Cloud 的微服務架構中， 這種方式將失效， 因為服務的實體是動態分配的位址， 網路位址也是動態的， 這樣做的好處是便於服務的自動伸縮， 失敗處理和升級. 《微服務架構中的服務發現機制》 <https://www.imooc.com/article/details/id/291255>
 
-简单来说，通过服务发现，服务之间可以使用名称来代替具体的地址和端口甚至访问细节。这样可以使得服务更加容易适用于云原生这种应用程序实例多变的环境。
+簡單來說，通過服務發現，服務之間可以使用名稱來代替具體的位址和埠甚至訪問細節。這樣可以使得服務更加容易適用於雲原生這種應用程式實例多變的環境。
 
-## 首先，我们需要两个服务
+## 首先，我們需要兩個服務
 
-和前篇一样，我们使用命令行来创建两个服务。
+和前篇一樣，我們使用命令行來創建兩個服務。
 
 ```bash
 dotnet new sln -n TyeTest
@@ -29,9 +29,9 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用`tye init`创建`tye.yml`。
+然後使用`tye init`建立`tye.yml`。
 
-便可以在 tye.yml 中得到如下内容：
+便可以在 tye.yml 中得到如下內容：
 
 ```yml
 name: tyetest
@@ -42,41 +42,41 @@ services:
     project: TyeTest2/TyeTest2.csproj
 ```
 
-这样我们就可以在本地使用`tye run`启动着两个服务。
+這樣我們就可以在本地使用`tye run`啟動著兩個服務。
 
-接下来，我们会改造其中的 TyeTest 服务，使其调用 TyeTest2 作为其下游服务。
+接下來，我們會改造其中的 TyeTest 服務，使其調用 TyeTest2 作為其下游服務。
 
-这样我们便可以验证服务发现的效果。
+這樣我們便可以驗證服務發現的效果。
 
-## 然后，使用 Tye.Configuration
+## 然後，使用 Tye.Configuration
 
 ### 添加包
 
-运行以下命令，为 TyeTest 项目添加包：
+執行以下指令，為 TyeTest 專案加入套件：
 
 ```bash
 dotnet add ./TyeTest/TyeTest.csproj package Microsoft.Tye.Extensions.Configuration --version 0.6.0-alpha.21070.5
 ```
 
-### 添加 HttpClientFactory
+### 添加 HTTPClientFactory
 
-由于我们需要使用 HttpClient 调用下游服务，因此需要使用到 HttpClientFactory。故而，在 TyeTest 项目的 Startup.cs 增加对 HttpClientFactory 的注册。
+由於我們需要使用 HttpClient 調用下游服務，因此需要使用到 HTTPClientFactory。故而，在 TyeTest 專案的 Startup.cs 增加對 HTTPClientFactory 的註冊。
 
 ```csharp
   public void ConfigureServices(IServiceCollection services)
   {
-+     services.AddHttpClient();
-      services.AddControllers();
-      services.AddSwaggerGen(c =>
++ services. AddHttpClient();
+      services. AddControllers();
+      services. AddSwaggerGen(c =>
       {
           c.SwaggerDoc("v1", new OpenApiInfo { Title = "TyeTest", Version = "v1" });
       });
   }
 ```
 
-### 使用 HttpClient 调用服务
+### 使用 HTTPClient 調用服務
 
-进入 WeatherForecastController， 我们使用 HttpClient 来调用下游服务，并且将得到的数据返回：
+進入 WeatherForecastController， 我們使用 HTTPClient 來呼叫下遊服務，並且將得到的資料傳回：
 
 ```cs
 using System;
@@ -111,7 +111,7 @@ namespace TyeTest.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            var serviceUri = _configuration.GetServiceUri("tyetest2");
+            var serviceUri = _configuration. GetServiceUri("tyetest2");
             Console.WriteLine(serviceUri);
             var httpResponseMessage = await _httpClient.GetAsync($"{serviceUri}WeatherForecast");
             var json = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -123,27 +123,27 @@ namespace TyeTest.Controllers
 
 值得注意的是：
 
-1. 构造函数中注入的`IConfiguration`是 Aspnet Core 的内在机制，无需特殊注册。
-2. `_configuration.GetServiceUri("tyetest2")`是本示例的关键点。其通过一个服务名称来获取服务的具体 Uri 地址，这样便可以屏蔽部署时，服务地址的细节。
+1. 建構函數中注入的`IConfiguration`是 Aspnet Core 的內在機制，無需特殊註冊。
+2. `_configuration. GetServiceUri（"tyetest2"）`是本示例的關鍵點。其通過一個服務名稱來獲取服務的具體 Uri 位址，這樣便可以遮罩部署時，服務地址的細節。
 
-这样，就结束了。
+這樣，就結束了。
 
-接下来只要使用`tye run`便可以在本地查看已经改造好的服务。调用第一个服务的接口，并可以得到预期的从第二个服务返回的数据。
+接下來只要使用`tye run`便可以在本地查看已經改造好的服務。調用第一個服務的介面，並可以得到預期的從第二個服務返回的數據。
 
-> 关于 Tye 中服务发现的真实运作机制可以前往官方文库进行了解： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
+> 關於 Tye 中服務發現的真實運作機制可以前往官方文庫進行瞭解： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
 
-## 最后，发到 K8S 里面试一下
+## 最後，發到 K8S 里面試一下
 
-若要发布到 k8s 进行测试，只要按照前篇的内容，设置到 docker registry 和 ingress 便可以进行验证了。
+若要發佈到 k8s 進行測試，只要按照前篇的內容，設置到 docker registry 和 ingress 便可以進行驗證了。
 
-开发者可以自行配置并尝试。
+開發者可以自行配置並嘗試。
 
-## 小结
+## 小結
 
-本篇，我们已经顺利完成了使用 Tye 来完成服务发现机制的使用。通过这种方式，我们便可以使用服务名对服务之间进行相互调用，从而屏蔽具体的部署细节，简化开发。
+本篇，我們已經順利完成了使用 Tye 來完成服務發現機制的使用。通過這種方式，我們便可以使用服務名對服務之間進行相互調用，從而遮罩具體的部署細節，簡化開發。
 
-不过，在实际生产实际中，服务之间并非仅仅只有主机和端口两个信息。有时还需要进行用户名、密码和额外参数的设置。典型的就是对数据库连接字符串的管理。
+不過，在實際生產實際中，服務之間並非僅僅只有主機和埠兩個資訊。有時還需要進行使用者名、密碼和額外參數的設置。典型的就是對資料庫連接字串的管理。
 
-下一篇，我们将进一步在 Tye 中如何对数据库进行链接。
+下一篇，我們將進一步在 Tye 中如何對資料庫進行連結。
 
 <!-- md Footer-Newbe-Claptrap.md -->
