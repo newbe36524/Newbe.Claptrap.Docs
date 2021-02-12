@@ -4,20 +4,20 @@ description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity 是定位一个 Claptrap 的唯一标识
+## Claptrap Identity является единственным удостоверением для поиска Claptrap
 
-它是一个结构体。其包含有以下几个主要的字段：
+Это структура.Он содержит несколько основных полей：
 
-Claptrap Type Code，Claptrap 分类代码。分类代码是由开发者自行定义的代码。通常和对应 Claptrap 所关联的业务有关。值得特别注意的是， Claptrap 及其 Minion 的 Claptrap Type Code 之间没有强制的关联关系，但通常在开发过程中，Minion 的 Claptrap Type Code 应该被设计为其 Master Claptrap 的部分，这样更有利于业务上的理解。
+Код классификации Claptrap Type Code, Claptrap.Код классификации — это код, определяемый разработчиком.Обычно это связано с бизнесом, связанным с Claptrap.Примечательно, что нет обязательной корреляции между Claptrap и его Minion Claptrap Type Code, но, как правило, в процессе разработки, Minion Claptrap Type Code должен быть разработан как часть своего Master Claptrap, что делает его более полезным для понимания бизнеса.
 
-Id, Claptrap 业务 Id。这是业务的 Id。通常来说是业务的主键。在实际的代码、文档中，Claptrap Identity 都会以全称的方式出现，而出现 Id 时，通常是指业务 Id。
+Id, Claptrap Бизнес Id.Это идентификатор бизнеса.Обычно является первисмным ключом для бизнеса.В фактическом коде и документации Claptrap Identity появляется в полном названии, в то время как идентификатор обычно относится к бизнес-идентификатору при его появлении.
 
-## Claptrap Identity 这是与运行平台无关的设计
+## Claptrap Identity это дизайн, который не имеет ничего общего с запуском платформы
 
-因而在与具体的平台结合时，需要明确其结合点。
+Таким образом, в сочетании с конкретной платформой, необходимо четко определить точку интеграции.
 
-Claptrap Identity 在 Orleans 中的体现。
+Воплощение Claptrap Identity в Orleans.
 
-Claptrap Type Code：在 Orleans 中，通常每个 Claptrap 都会被放置在 ClaptrapBoxGrain 中运行。此时，Claptrap Type Code 通常会以属性标记的方式，标记在类或者接口上。
+Claptrap Type Code：в Orleans, как правило, каждый Claptrap помещается в ClaptrapBoxGrain для запуска.На этом этапе Claptrap Type Code обычно помечается на классе или интерфейсе в качестве тега свойства.
 
-Id：在 Orleans 中，Grain 本身就带有一个 PrimaryKey 。因而，在 ClaptrapBoxGrain 中也直接重用了该 PrimaryKey 作为 Claptrap Id。
+Id：в Orleans, Grain сам поставляется с PrimaryKey.Таким образом, PrimaryKey был повторно использован непосредственно в качестве идентификатора Claptrap в ClaptrapBoxGrain.
