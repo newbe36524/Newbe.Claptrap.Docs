@@ -4,21 +4,21 @@ description: 'Claptrap Box'
 ---
 
 
-## Claptrap Box 使 Claptrap 能够运行在更多框架之上
+## Claptrap Box 使 Claptrap 能夠運行在更多框架之上
 
-Claptrap 是基于 Actor 模式实现的一种对象。其仅具备处理事件和状态控制相关的能力。因此，在实际场景中，往往需要依托于具体的运行环境来承载它，或者需要根据业务来设计对外的业务接口。
+Claptrap 是基於 Actor 模式實現的一種物件。其僅具備處理事件和狀態控制相關的能力。因此，在實際場景中，往往需要依託於具體的運行環境來承載它，或者需要根據業務來設計對外的業務介面。
 
-最典型的用例，就是与 Orleans 的 Grain 进行结合。Grain 是 Orleans 的虚拟 Actor 实现，而 Claptrap 也是 Actor。在 Claptrap 和 Grain 结合时，我们选择将 Claptrap 封装在 Grain 内部。这样，我们就使得 Claptrap 这种结合了事件溯源的 Actor 运行在 Grain 中，这就可以充分利用 Orleans 支持分布式的特点。当我们将 Claptrap 放入到 Grain 中运行时，可以将 Grain 看做是一个盒子，这种对象的组合方式非常类似于设计模式中的门面模式，Grain 为 Claptrap 提供了一个门面与外部进行通信，屏蔽内部细节的同时也使得外部更理解其交互方式。此处我们将这种“将 Claptrap 装入到特定门面对象中运行的方式”称为 Claptrap Box 模式，而其中的门面对象被称为 Claptrap Box 。有了这种方式的存在，才使得 Claptrap 能够应用于更加复杂的平台和业务。在 Orleans 中，这种 Claptrap Box 则被称为 ClaptrapBoxGrain。
+最典型的用例，就是與 Orleans 的 Grain 進行結合。Grain 是 Orleans 的虛擬 Actor 實現，而 Claptrap 也是 Actor。在 Claptrap 和 Grain 結合時，我們選擇將 Claptrap 封裝在 Grain 內部。這樣，我們就使得 Claptrap 這種結合了事件溯源的 Actor 運行在 Grain 中，這就可以充分利用 Orleans 支援分散式的特點。當我們將 Claptrap 放入到 Grain 中運行時，可以將 Grain 看做是一個盒子，這種物件的組合方式非常類似於設計模式中的門面模式，Grain 為 Claptrap 提供了一個門面與外部進行通信，遮罩內部細節的同時也使得外部更理解其交互方式。此處我們將這種「將 Claptrap 載入到特定門面物件中執行的方式」稱為 Claptrap Box 模式，而其中的門面物件被稱為 Claptrap Box 。有了這種方式的存在，才使得 Claptrap 能夠應用於更加複雜的平臺和業務。在 Orleans 中，這種 Claptrap Box 則被稱為 ClaptrapBoxGrain。
 
-由于 Claptrap Box 的存在，Claptrap 即使脱离了 Orleans 也可以保持事件溯源和 Actor 模式的基本条件。例如在简单的控制台程序中，开发者仍然可以使用 NormalClaptrapBox 来作为门面对象。然而这就失去了 Orleans 分布式的优势。
+由於 Claptrap Box 的存在，Claptrap 即使脫離了 Orleans 也可以保持事件溯源和 Actor 模式的基本條件。例如在簡單的控制台程式中，開發者仍然可以使用 NormalClaptrapBox 來作為門面物件。然而這就失去了 Orleans 分散式的優勢。
 
-依托 Claptrap Box 概念的存在，使得 Claptrap 能够在更多的基础平台和框架之上运行。虽然目前仅有 Orleans / Akka.net / 无承载 等可以选用的门面对象。
+依託 Claptrap Box 概念的存在，使得 Claptrap 能夠在更多的基礎平臺和框架之上運行。雖然目前僅有 Orleans / Akka.net / 無承載 等可以選用的門面物件。
 
 ---
 
 以下是關於故事化描述，用於輔助理解。不必太過在意。
 
-Claptrap 是一种可定制化程度很高的机器人。为了能够让 Claptrap 在更缤纷复杂的环境下运行，需要针对不同的实际环境设计一些可以装载 Claptrap 的载具，以便它们能够完美地运行。例如：在海底工作的 Claptrap 需要配备足够承受水压的载具；在沼泽工作的 Claptrap 需要配备防陷防潮的载具；在火山口附近工作的 Claptrap 则需要配备耐高温材料制成的载具。这一系列的载具，我们统称为 Claptrap Box 。这是因为这些载具都有一个共同的特点，它们都是全包裹式的盒装，当然形状各异，但是我们统称为 Box 。有了这些载具，Claptrap 便可以良好的运行在各种不同的环境中。
+Claptrap 是一種可定製化程度很高的機器人。為了能夠讓 Claptrap 在更繽紛複雜的環境下運行，需要針對不同的實際環境設計一些可以裝載 Claptrap 的載具，以便它們能夠完美地運行。例如：在海底工作的 Claptrap 需要配備足夠承受水壓的載具;在沼澤工作的 Claptrap 需要配備防陷防潮的載具;在火山口附近工作的 Claptrap 則需要配備耐高溫材料製成的載具。這一系列的載具，我們統稱為 Claptrap Box 。這是因為這些載具都有一個共同的特點，它們都是全包裹式的盒裝，當然形狀各異，但是我們統稱為 Box 。有了這些載具，Claptrap 便可以良好的運行在各種不同的環境中。
 
 ## ICON
 
