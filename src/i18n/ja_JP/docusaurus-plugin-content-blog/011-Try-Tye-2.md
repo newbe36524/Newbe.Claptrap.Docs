@@ -1,25 +1,25 @@
 ---
 date: 2021-02-06
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（二）
+title: Tye を使用して k8s アプリを開発するのはとても簡単です (ii)
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中使用服务发现。
+前回は、Tye の使用方法をさらに探求します。この記事では、Tye でサービス検出を使用する方法について説明します。
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 服务发现 - 微服务开发不可缺少的部件
+## サービス検出 - マイクロサービス開発に不可欠なコンポーネント
 
-> 服务发现，就是新注册的这个服务模块能够及时的被其他调用者发现。不管是服务新增和服务删减都能实现自动发现。 《深入了解服务注册与发现》 <https://zhuanlan.zhihu.com/p/161277955>
+> サービス検出は、新しく登録されたサービス モジュールが他の呼び出し元によってタイムリーに検出される可能性がある場合です。サービスの追加と削除に関係なく、自動検出が可能になります。 「サービスの登録と検出に関する洞察」を参照 <https://zhuanlan.zhihu.com/p/161277955>
 
-> 我们在调用微服务的过程中, 假设在调用某个 REST API 或者 Thrift API, 为了完成某次调用请求, 代码里面需要指定服务所在的 IP 地址和端口, 在传统的应用中, 网络地址和端口是静态的,一般不会改变, 我们只需要把它们配到配置文件中, 就可以通过读取配置文件来完成调用.但是, 在现代基于 Cloud 的微服务架构中, 这种方式将失效, 因为服务的实例是动态分配的地址, 网络地址也是动态的, 这样做的好处是便于服务的自动伸缩, 失败处理和升级. 《微服务架构中的服务发现机制》 <https://www.imooc.com/article/details/id/291255>
+> マイクロサービスを呼び出す過程で、REST API または Thrift API を呼び出し、呼び出し要求を完了するために、サービスが存在する IP アドレスとポートを指定するコードが必要であると仮定すると、従来のアプリケーションでは、ネットワーク アドレスとポートは静的であり、一般的に変更されません。 ただし、最新の Cloud ベースのマイクロサービス アーキテクチャでは、サービスのインスタンスが動的に割り当てられたアドレスであり、ネットワーク アドレスも動的であるため、この方法は無効になり、サービスの自動スケーリング、失敗処理、およびアップグレードが容易になります。 マイクロサービス アーキテクチャにおけるサービス検出メカニズム」を参照 <https://www.imooc.com/article/details/id/291255>
 
-简单来说，通过服务发现，服务之间可以使用名称来代替具体的地址和端口甚至访问细节。这样可以使得服务更加容易适用于云原生这种应用程序实例多变的环境。
+簡単に言えば、サービス検出では、特定のアドレスとポートの代わりに名前を使用したり、サービス間で詳細にアクセスしたりできます。これにより、クラウド ネイティブなどのアプリケーション インスタンスが変化する環境でサービスを簡単に適用できます。
 
-## 首先，我们需要两个服务
+## まず、2 つのサービスが必要です
 
-和前篇一样，我们使用命令行来创建两个服务。
+前編と同様に、コマンド ラインを使用して 2 つのサービスを作成します。
 
 ```bash
 dotnet new sln -n TyeTest
@@ -29,9 +29,9 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用`tye init`创建`tye.yml`。
+次に、`tye init`を使用して`tye.yml を作成`。
 
-便可以在 tye.yml 中得到如下内容：
+tye.yml では、次のように表示されます：
 
 ```yml
 name: tyetest
@@ -42,41 +42,41 @@ services:
     project: TyeTest2/TyeTest2.csproj
 ```
 
-这样我们就可以在本地使用`tye run`启动着两个服务。
+これにより、ローカルで`tye run`を使用して 2 つのサービスを開始できます。
 
-接下来，我们会改造其中的 TyeTest 服务，使其调用 TyeTest2 作为其下游服务。
+次に、TyeTest サービスを変換して、TyeTest2 をダウンストリーム サービスとして呼び出します。
 
-这样我们便可以验证服务发现的效果。
+これにより、サービス検出の効果を検証できます。
 
-## 然后，使用 Tye.Configuration
+## 次に、Tye.Configuration を使用します
 
-### 添加包
+### パッケージを追加します
 
-运行以下命令，为 TyeTest 项目添加包：
+次のコマンドを実行して、TyeTest プロジェクトのパッケージを追加します：
 
 ```bash
 dotnet add ./TyeTest/TyeTest.csproj package Microsoft.Tye.Extensions.Configuration --version 0.6.0-alpha.21070.5
 ```
 
-### 添加 HttpClientFactory
+### HttpClientFactory を追加します
 
-由于我们需要使用 HttpClient 调用下游服务，因此需要使用到 HttpClientFactory。故而，在 TyeTest 项目的 Startup.cs 增加对 HttpClientFactory 的注册。
+HttpClient を使用してダウンストリーム サービスを呼び出す必要があるため、HttpClientFactory を使用する必要があります。したがって、TyeTest プロジェクトの Startup.cs HttpClientFactory への登録が増加します。
 
 ```csharp
   public void ConfigureServices(IServiceCollection services)
   {
-+     services.AddHttpClient();
-      services.AddControllers();
-      services.AddSwaggerGen(c =>
++ services. AddHttpClient();
+      services. AddControllers();
+      services. AddSwaggerGen(c =>
       {
           c.SwaggerDoc("v1", new OpenApiInfo { Title = "TyeTest", Version = "v1" });
       });
   }
 ```
 
-### 使用 HttpClient 调用服务
+### HttpClient を使用してサービスを呼び出します
 
-进入 WeatherForecastController， 我们使用 HttpClient 来调用下游服务，并且将得到的数据返回：
+WeatherForecastController に移動し、HttpClient を使用してダウンストリーム サービスを呼び出し、取得したデータを：
 
 ```cs
 using System;
@@ -111,7 +111,7 @@ namespace TyeTest.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            var serviceUri = _configuration.GetServiceUri("tyetest2");
+            var serviceUri = _configuration. GetServiceUri("tyetest2");
             Console.WriteLine(serviceUri);
             var httpResponseMessage = await _httpClient.GetAsync($"{serviceUri}WeatherForecast");
             var json = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -121,29 +121,29 @@ namespace TyeTest.Controllers
 }
 ```
 
-值得注意的是：
+注目すべきは：
 
-1. 构造函数中注入的`IConfiguration`是 Aspnet Core 的内在机制，无需特殊注册。
-2. `_configuration.GetServiceUri("tyetest2")`是本示例的关键点。其通过一个服务名称来获取服务的具体 Uri 地址，这样便可以屏蔽部署时，服务地址的细节。
+1. コンストラクターに挿入される`IConfiguration`は、Aspnet Core の固有のメカニズムであり、特別な登録は必要ではありません。
+2. `_configuration. GetServiceUri("tyetest2")`この例の重要なポイントです。サービス名を使用してサービスの特定の Uri アドレスを取得し、展開時のサービス アドレスの詳細をマスクします。
 
-这样，就结束了。
+これで終わりです。
 
-接下来只要使用`tye run`便可以在本地查看已经改造好的服务。调用第一个服务的接口，并可以得到预期的从第二个服务返回的数据。
+次に、`tye run`を使用して、変換されたサービスをローカルで表示できます。最初のサービスのインターフェイスを呼び出し、2 番目のサービスから返されるデータを取得できます。
 
-> 关于 Tye 中服务发现的真实运作机制可以前往官方文库进行了解： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
+> Tye のサービス検出の実際の動作メカニズムについては、公式のライブラリにアクセスして： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
 
-## 最后，发到 K8S 里面试一下
+## 最後に、インタビューのためにK8Sに送ります
 
-若要发布到 k8s 进行测试，只要按照前篇的内容，设置到 docker registry 和 ingress 便可以进行验证了。
+テストのために k8s に投稿するには、前編の内容に従って docker registry と ingress に設定して検証します。
 
-开发者可以自行配置并尝试。
+開発者は自分で設定して試してみてください。
 
-## 小结
+## 小さな結び目
 
-本篇，我们已经顺利完成了使用 Tye 来完成服务发现机制的使用。通过这种方式，我们便可以使用服务名对服务之间进行相互调用，从而屏蔽具体的部署细节，简化开发。
+この記事では、Tye を使用してサービス検出メカニズムの使用を完了しました。これにより、サービス名を使用してサービス間で相互に呼び出し、特定の展開の詳細をマスクし、開発を簡素化できます。
 
-不过，在实际生产实际中，服务之间并非仅仅只有主机和端口两个信息。有时还需要进行用户名、密码和额外参数的设置。典型的就是对数据库连接字符串的管理。
+ただし、実際には、サービス間の情報はホストとポートだけではありません。場合によっては、ユーザー名、パスワード、および追加のパラメーターの設定も必要です。通常、データベース接続文字列の管理です。
 
-下一篇，我们将进一步在 Tye 中如何对数据库进行链接。
+次の記事では、Tye でデータベースをリンクする方法について説明します。
 
 <!-- md Footer-Newbe-Claptrap.md -->
