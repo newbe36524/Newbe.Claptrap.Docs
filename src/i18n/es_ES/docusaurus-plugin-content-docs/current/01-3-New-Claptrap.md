@@ -68,12 +68,11 @@ Porque Claptrap es un actor basado en patrones de abastecimiento de eventos.Por 
 
 En este ejemplo, solo necesitamos registrar el inventario de la SKU actual, por lo que el diseño de estado es muy simple.
 
-Agregue`carpeta Sku`al proyecto de HelloClaptrap.y cree elskuState`en esa carpeta.
+Agregue`<code>carpeta Sku`al proyecto de HelloClaptrap.</code>y cree el</code>skuState`en esa carpeta.</p>
 
-Agregue los siguientes code：
+<p spaces-before="0">Agregue los siguientes code：</p>
 
-```cs
-+ using Newbe.Claptrap;
+<pre><code class="cs">+ using Newbe.Claptrap;
 +
 + namespace HelloClaptrap.Models.Sku
 + {
@@ -82,7 +81,7 @@ Agregue los siguientes code：
 +         public int Inventory { get; set; }
 +     }
 + }
-```
+`</pre>
 
 El inventario representa el inventario de la SKU actual.
 
@@ -136,7 +135,7 @@ Se ha added：lo siguiente
 
 Una vez que haya definido ISkuGrain, puede agregar código para implementarlo.
 
-Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap. Actors`y agregue la carpeta`skugrain`.
+Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap.Actors`y agregue la carpeta`skugrain`.
 
 ```cs
 + using System;
@@ -311,7 +310,7 @@ Agregue los siguientes code：
 
 `EventHandler`actualizar eventos al</code>de estado`de Claptrap.</p>
 
-<p spaces-before="0">Cree clase de<code>InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
+<p spaces-before="0">Cree<code>clase de`InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
 
 Agregue los siguientes code：
 
