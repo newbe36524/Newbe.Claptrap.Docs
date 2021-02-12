@@ -1,211 +1,211 @@
 ---
 date: 2020-06-18
-title: 十万同时在线用户，需要多少内存？——Newbe.Claptrap框架水平扩展实验
+title: De combien de mémoire avez-vous besoin pour 100 000 utilisateurs en ligne simultanés ? - Expérience d’extension horizontale du cadre Newbe.Claptrap
 ---
 
-Newbe.Claptrap 项目是笔者正在构建以`反应式`、`Actor模式`和`事件溯源`为理论基础的一套服务端开发框架。本篇我们将来了解一下框架在水平扩展方面的能力。
+Le projet Newbe.Claptrap est un cadre de développement côté service que l’auteur construit sur la base théorique`d’une`réactive, d’un mode acteur``et d'`une`de traçabilité des événements.Dans cet article, nous examinerons la capacité du cadre à s’écheller horizontalement.
 
 <!-- more -->
 
-## 前情提要
+## Un synthé d’information précédent
 
-时隔许久，今日我们再次见面。首先介绍一下过往的项目情况：
+Après une longue période, nous nous réunissons à nouveau aujourd’hui.Tout d’abord, j’aimerais vous présenter les dernières project：
 
-[第一次接触本框架的读者，可以先点击此处阅读本框架相关的基础理论和工作原理。](001-Overview-Of-Newbe-Claptrap)
+[Pour les lecteurs pour la première fois de ce cadre, vous pouvez lire la théorie de base et comment il fonctionne ici.](001-Overview-Of-Newbe-Claptrap)
 
-日前，我们也编写了一些预热文章和工具，读者可以通过以下链接进行了解：
+Récemment, nous avons également écrit quelques articles d’échauffement et des outils, les lecteurs peuvent en apprendre davantage sur les：
 
-- [谈反应式编程在服务端中的应用，数据库操作优化，从 20 秒到 0.5 秒](008-Reactive-In-Server-1)
-- [Newbe.Claptrap 项目周报 1-还没轮影，先用轮跑](006-Newbe-Claptrap-Weekly-1)
+- [Parlez de l’application de la programmation réactive du côté du service, de l’optimisation des opérations de base de données, de 20 secondes à 0,5 seconde](008-Reactive-In-Server-1)
+- [Newbe.Claptrap Project Weekly 1 - Pas encore de roues, courir avec des roues d’abord](006-Newbe-Claptrap-Weekly-1)
 
-## 今日主题
+## Le sujet d’aujourd’hui
 
-今天，我们来做一套实验预演，来验证 Newbe.Claptrap 框架，如何通过水平扩展的形式来适应逐渐增长的同时在线用户数。
+Aujourd’hui, faisons un aperçu de laboratoire pour valider le cadre Newbe.Claptrap et comment s’adapter au nombre croissant d’utilisateurs en ligne sous forme d’extensions horizontales.
 
-## 业务需求说明
+## Description des besoins de l’entreprise
 
-先看看今天要实现的业务场景：
+Examinons d’abord le scénario d’affaires à mettre en œuvre today：
 
-- 用户通过 API 登录后生成一个 JWT token
-- 用户调用 API 时验证 JWT token 的有效性
-- 没有使用常规的 JWS 公私钥方式进行 JWT token 颁发，而是为每个用户单独使用 secret 进行哈希验证
-- 验证看不同的在线用户需要消耗的内存情况
-- 用户登录到生成 token 所消耗时间不得超过 200 ms
-- tokn 的验证耗时不得超过 10 ms
+- L’utilisateur se connecte via l’API et génère un jeton JWT
+- La validité du jeton JWT est vérifiée lorsque l’utilisateur appelle l’API
+- L’émission de jetons JWT n’est pas effectuée à l’aide de la clé publique et privée JWS régulière, mais est hashed pour chaque utilisateur utilisant secrètement séparément
+- Vérifiez la quantité de mémoire que les différents utilisateurs en ligne doivent consommer
+- Il ne faut pas plus de 200 ms pour que l’utilisateur se connecte au jeton de build
+- Le temps de validation de Tokn ne doit pas dépasser 10 ms
 
-### 吹牛先打草稿
+### Vantardise frappe d’abord le projet
 
-笔者没有搜索到于“在线用户数”直接相关的理论定义，因此，为了避免各位的理解存在差异。笔者先按照自己的理解来点明：在线用户数到底意味着什么样的技术要求？
+L’auteur n’a donc pas cherché le « nombre d’utilisateurs en ligne » directement lié à la définition théorique afin d’éviter les différences dans votre compréhension.L’auteur d’abord selon leur propre compréhension de souligner：nombre d’utilisateurs en ligne à la fin signifie quel genre d’exigences techniques?
 
-#### 未在线用户若上线，不应该受到已在线用户数的影响
+#### Les utilisateurs non en ligne qui sont en ligne ne devraient pas être affectés par le nombre d’utilisateurs qui sont déjà en ligne
 
-如果一个用户登录上线需要消耗 100 ms。那么不论当前在线的用户数是十人还是百万人。这个登录上线所消耗的时间都不会明显的超过 100 ms。
+Si un utilisateur se connecte, il faut 100 ms.Donc, si le nombre d’utilisateurs en ligne aujourd’hui est de dix ou un million.Cette connexion ne prend pas beaucoup plus de 100 ms.
 
-当然，有限的物理硬件肯定会使得，当在线用户数超过一个阈值（例如两百万）时，新用户登录上线会变慢甚至出错。
+Bien sûr, le matériel physique limité est sûr de ralentir ou même de le rendre plus facile ou même mal pour les nouveaux utilisateurs de se connecter lorsque le nombre d’utilisateurs en ligne dépasse un seuil, comme deux millions.
 
-但是，增加物理机器就能提高这个阈值，我们就可以认为水平扩展设计是成功的。
+Toutefois, en augmentant la machine physique, ce seuil peut être relevé, et nous pouvons considérer la conception d’expansion horizontale comme un succès.
 
-#### 对于任意一个已在线用户，得到的系统性能反馈应当相同
+#### Pour tout utilisateur en ligne, la rétroaction des performances du système doit être la même
 
-例如已在线的用户查询自己的订单详情，需要消耗 100 ms。那么当前任何一个用户进行订单查询的平均消耗都应该稳定在 100 ms。
+Par exemple, les utilisateurs qui sont déjà en ligne doivent consommer 100 ms pour interroger les détails de leur commande.Ensuite, la consommation moyenne de requêtes de commande par un utilisateur doit être stable à 100 ms.
 
-当然，这里需要排除类似于“抢购”这种高集中性能问题。此处主要还是讨论日常稳定的容量增加。（我们以后会另外讨论“抢购”这种问题）
+Bien sûr, vous devez exclure les problèmes de performances à haute concentration comme le claquement.La discussion principale ici est l’augmentation régulière quotidienne de la capacité.(Nous parlerons de « claquer » séparément plus tard)
 
-具体一点可以这样理解。假设我们做的是一个云笔记产品。
+Le point spécifique peut être compris de cette façon.Disons que nous faisons un produit cloud note.
 
-那么，如果增加物理机器就能增加同时使用云笔记产品的用户数，而且不牺牲任何一个用户的性能体验，我们就认为水平扩展设计是成功的。
+Donc, si l’ajout de machines physiques augmente le nombre d’utilisateurs qui utilisent des produits de note cloud en même temps, sans sacrifier l’expérience de performance d’un seul utilisateur, nous pensons que la conception horizontale de mise à l’échelle est un succès.
 
-在此次的实验中，若用户已经登录，则验证 JWT 有效性的时长大约为 0.5 ms。
+Dans cette expérience, si l’utilisateur est déjà connecté, le temps de vérifier la validité du JWT est d’environ 0,5 ms.
 
-## 调用时序关系
+## Appelez la relation de synchronisation
 
-![Timing diagram](/images/20200621-001.png)
+![Diagramme de synchronisation](/images/20200621-001.png)
 
-简要说明：
+Brève description：
 
-1. 客户端发起登录请求将会逐层传达到 UserGrain 中
-2. UserGrain 将会在内部激活一个 Claptrap 来进行维持 UserGrain 中的状态数据。包括用户名、密码和用于 JWT 签名的 Secret。
-3. 随后的生成 JWT 生成和验证都将直接使用 UserGrain 中的数据。由于 UserGrain 中的数据是在一段时间内是“缓存”在内存中的。所以之后的 JWT 生成和验证将非常快速。实测约为 0.5 ms。
+1. Les demandes de connexion client sont communiquées couche par couche à UserGrain
+2. UserGrain activera en interne un Claptrap pour maintenir les données d’état dans UserGrain.Inclut le nom d’utilisateur, le mot de passe et le secret pour la signature JWT.
+3. Les builds et validations JWT suivants utiliseront directement les données d’UserGrain.Parce que les données d’UserGrain sont « mises en cache » dans la mémoire pendant un certain temps.Ainsi, la construction et la validation JWT qui suit seront très rapides.La quantité mesurée est d’environ 0,5 ms.
 
-## 物理结构设计
+## Conception de structure physique
 
-![物理结构设计](/images/20200618-001.png)
+![Conception de structure physique](/images/20200618-001.png)
 
-如上图所示，便是此次进行测试的物理组件：
+Comme le montre la figure ci-dessus, il s’agit de la composante physique du test：
 
-| 名称                  | 说明                                                            |
-| ------------------- | ------------------------------------------------------------- |
-| WebAPI              | 公开给外部调用 WebAPI 接口。提供登录和验证 token 的接口。                          |
-| Orleans Cluster     | 托管 Grain 的核心进程.                                               |
-| Orleans Gateway     | 于 Orleans Cluster 基本相同，但是 WebAPI 只能与 Gateway 进行通信             |
-| Orleans Dashboard   | 于 Orleans Gateway 基本相同，但增加了 Dashboard 的展示，以查看整个 Orleans 集群的情况 |
-| Consul              | 用于 Orleans 集群的集群发现和维护                                         |
-| Claptrap DB         | 用于保存 Newbe.Claptrap 框架的事件和状态数据                                |
-| Influx DB & Grafana | 用于监控 Newbe.Claptrap 相关的性能指标数据                                 |
+| Nom                     | Description                                                                                                                                          |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WebAPI (en)             | Exposez à l’extérieur appelez l’interface WebAPI.Fournit une interface pour se connecter et vérifier les jetons.                                     |
+| Cluster Orléans         | Le processus de base de l’hébergement grain.                                                                                                         |
+| Porte d’Orléans         | Le Cluster Orléans est essentiellement le même, mais le WebAPI ne peut communiquer qu’avec Gateway                                                   |
+| Tableau de bord Orléans | La passerelle d’Orléans est fondamentalement la même, mais une présentation de tableau de bord a été ajoutée pour voir l’ensemble du cluster Orléans |
+| Consul                  | Découverte et maintenance de grappes pour les clusters Orléans                                                                                       |
+| Claptrap DB             | Utilisé pour contenir des données d’événement et d’état pour le cadre Newbe.Claptrap                                                                 |
+| Afflux DB & Grafana     | Utilisé pour surveiller les données de Performance Metrics liées à Newbe.Claptrap                                                                    |
 
-此次实验的 Orleans 集群节点的数量实际上是 Cluster + Gateway + Dashboard 的总数。以上的划分实际上是由于功能设定的不同而进行的区分。
+Le nombre de nœuds cluster Orléans dans cette expérience est en fait le nombre total de Cluster plus Gateway plus Dashboard.Les divisions ci-dessus se distinguent en fait par des différences dans les paramètres de fonction.
 
-此次测试“水平扩展”特性的物理节点主要是 Orleans Cluster 和 Orleans Gateway 两个部分。将会分别测试以下这些情况的内存使用情况。
+Les nœuds physiques qui testent la fonction extension horizontale sont principalement The Orleans Cluster et The Orleans Gateway.L’utilisation de la mémoire pour les conditions suivantes sera testée séparément.
 
-| Orleans Dashboard | Orleans Gateway | Orleans Cluster |
-| ----------------- | --------------- | --------------- |
-| 1                 | 0               | 0               |
-| 1                 | 1               | 1               |
-| 1                 | 3               | 5               |
+| Tableau de bord Orléans | Porte d’Orléans | Cluster Orléans |
+| ----------------------- | --------------- | --------------- |
+| 1                       | 0               | 0               |
+| 1                       | 1               | 1               |
+| 1                       | 3               | 5               |
 
-此次实验采用的是 Windows Docker Desktop 结合 WSL 2 进行的部署测试。
+Cette expérience utilise des tests de déploiement par Windows Docker Desktop en conjonction avec WSL 2.
 
-以上的物理结构实际上是按照最为此次实验最为复杂的情况设计的。实际上，如果业务场景足够简单，该物理结构可以进行裁剪。详细可以查看下文“常见问题解答”中的说明。
+Les structures physiques ci-dessus sont en fait conçues en fonction des circonstances les plus complexes de l’expérience.En fait, si le scénario d’affaires est assez simple, la structure physique peut être recadrée.Vous pouvez voir les instructions dans la FAQ ci-dessous pour plus de détails.
 
-## 实际测试数据
+## Les données de test réelles
 
-以下，分别对不同的集群规模和用户数量进行测试
+Ci-dessous, testez différentes tailles de cluster et numéros d’utilisateur
 
-### 0 Gateway 0 Cluster
+### 0 Cluster Gateway 0
 
-默认情况下，刚刚启动 Dashboard 节点时，通过 portainer 可以查看 container 占用的内存约为 200 MB 左右，如下图所示：
+Par défaut, lorsque vous démarrez le nœud dashboard, le portainer vous permet de voir que le conteneur consomme environ 200 Mo de mémoire, comme le montre le：
 
-![初始内存占用](/images/20200621-002.png)
+![L’empreinte mémoire initiale](/images/20200621-002.png)
 
-通过测试控制台，向 WebAPI 发出 30,000 次请求。每批 100 个请求，分批发送。
+La console de test fait 30 000 demandes au WebAPI.Chaque lot de 100 demandes est envoyé par lots.
 
-经过约两分钟的等待后，再次查看内存情况，约为 9.2 GB，如下图所示：
+Après une attente d’environ deux minutes, regardez à nouveau la mémoire, environ 9,2 Go, comme le montre le：
 
-![三万用户](/images/20200621-003.png)
+![30 000 utilisateurs](/images/20200621-003.png)
 
-因此，我们简单的估算每个在线用户需要消耗的内存情况约为 （9.2\*1024-200）/30000 = 0.3 MB。
+Par conséquent, nous estimons simplement la quantité de mémoire que chaque utilisateur en ligne doit consommer est approximativement (9,2 x 1024-200)/30000 x 0,3 Mo.
 
-另外，可以查看一些辅助数据：
+En outre, vous pouvez voir quelques data：
 
-CPU 使用情况
+Utilisation du processeur
 
-![CPU使用情况](/images/20200621-004.png)
+![Utilisation du processeur](/images/20200621-004.png)
 
-网络吞吐量
+Débit du réseau
 
-![网络吞吐量](/images/20200621-005.png)
+![Débit du réseau](/images/20200621-005.png)
 
-Orleans Dashboard 情况。左上角的 TOTAL ACTIVATIONS 中 30,000 即表示当前内存中存在的 UserGrain 数量，另外的 3 个为 Dashboard 使用的 Grain。
+Tableau de bord Orléans.Les 30 000 activations totales dans le coin supérieur gauche représentent le nombre d’UserGrains actuellement en mémoire, et les trois autres sont des grains utilisés par Dashboard.
 
-![Orleans Dashboard 情况](/images/20200621-006.png)
+![Tableau de bord Orléans](/images/20200621-006.png)
 
-Grafana 中查看 Newbe.Claptrap 的事件平均处理时长约为 100-600 ms。此次测试的主要是内存情况，处理时长的采集时间为 30s 一次，因此样本数并不多。关于处理时长我们将在后续的文章中进行详细测试。
+Le temps de traitement moyen pour les événements visionnant Newbe.Claptrap à Grafana est d’environ 100-600 ms.Ce test est principalement une condition de mémoire, avec un temps de traitement de 30s, de sorte que la taille de l’échantillon est petite.Nous le testerons plus en détail dans un article ultérieur sur le temps de traitement.
 
-![时间平均处理时长](/images/20200621-007.png)
+![Le temps de traitement moyen](/images/20200621-007.png)
 
-Grafana 中查看 Newbe.Claptrap 的事件的保存花费的平均时长约为 50-200 ms。事件的保存时长是事件处理的主要部分。
+Le temps moyen qu’il faut pour enregistrer des événements à Grafana pour voir Newbe.Claptrap est d’environ 50-200 ms.La durée pendant qu’un événement est enregistré est une partie importante du traitement des événements.
 
-![三万用户](/images/20200621-009.png)
+![30 000 utilisateurs](/images/20200621-009.png)
 
-Grafana 中查看 Newbe.Claptrap 的事件已处理总数。一种登录了三万次，因此事件总数也是三万。
+Le nombre total d’événements traités à Grafana pour voir Newbe.Claptrap.L’un d’eux est enregistré 30 000 fois, de sorte que le nombre total d’événements est de 30 000.
 
-![事件处理的总数](/images/20200621-008.png)
+![Le nombre total d’événements traités](/images/20200621-008.png)
 
-### 1 Gateway 1 Cluster
+### 1 Cluster Gateway 1
 
-接下来，我们测试额外增加两个节点进行测试。
+Ensuite, nous testons pour deux nœuds supplémentaires.
 
-还是再提一下，Orleans 集群节点的数量实际上是 Cluster + Gateway + Dashboard 的总数。因此，对比上一个测试，该测试的节点数为 3。
+Encore une fois, le nombre de nœuds cluster Orléans est en fait le nombre total de Cluster plus Gateway plus Dashboard.Par conséquent, par rapport au dernier test, le nombre de nœuds dans le test est de 3.
 
-测试得到的内存使用情况如下：
+L’utilisation de mémoire testée est aussi follows：
 
-| 用户数   | 节点平均内存 | 内存总占用              |
-| ----- | ------ | ------------------ |
-| 10000 | 1.8 GB | 1.8\*3 = 5.4 GB  |
-| 20000 | 3.3 GB | 3.3\*3 = 9.9 GB  |
-| 30000 | 4.9 GB | 4.9\*3 = 14.7 GB |
+| Le nombre d’utilisateurs | La mémoire moyenne du nœud | Consommation totale de mémoire |
+| ------------------------ | -------------------------- | ------------------------------ |
+| 10000                    | 1,8 Go                     | 1,8\*3 = 5,4 Go              |
+| 20000                    | 3,3 Go                     | 3,3 \*3 = 9,9 Go             |
+| 30000                    | 4,9 Go                     | 4,9\*3 = 14,7 Go             |
 
-那么，以三万用户为例，平均每个用户占用的内存约为 （14.7\*1024-200\*3）/30000 = 0.48 MB
+Ainsi, dans le cas de 30 000 utilisateurs, l’utilisateur moyen consomme environ (14,7 x 1024-200 x 3)/30000 x 0,48 Mo
 
-为什么节点数增加了，平均消耗内存上升了呢？笔者推测，没有进行过验证：节点增加，实际上节点之间的通讯还需要消耗额外的内存，因此平均来说有所增加。
+Pourquoi le nombre de nœuds a-t-il augmenté et la consommation moyenne de mémoire a-t-elle augmenté?L’auteur spécule qu’il n’y a pas eu de validation：nœuds ont augmenté, et que la communication entre les nœuds nécessite effectivement une mémoire supplémentaire, donc en moyenne il augmente.
 
-### 3 Gateway 5 Cluster
+### 3 Cluster Gateway 5
 
-我们再次增加节点。总结点数为 1 （dashboard） + 3 （cluster） + 5 (gateway) = 9 节点
+Ajoutons encore des nœuds.Les points récapitulatifs sont 1 (tableau de bord) et 3 (cluster) et 5 (passerelle) et 9 nœuds
 
-测试得到的内存使用情况如下：
+L’utilisation de mémoire testée est aussi follows：
 
-| 用户数   | 节点平均内存 | 内存总占用              |
-| ----- | ------ | ------------------ |
-| 20000 | 1.6 GB | 1.6\*9 = 14.4 GB |
-| 30000 | 2 GB   | 2\*9 = 18 GB     |
+| Le nombre d’utilisateurs | La mémoire moyenne du nœud | Consommation totale de mémoire |
+| ------------------------ | -------------------------- | ------------------------------ |
+| 20000                    | 1,6 Go                     | 1,6 \*9 = 14,4 Go            |
+| 30000                    | 2 Go                       | 2\*9 = 18 Go                 |
 
-那么，以三万用户为例，平均每个用户占用的内存约为 （18\*1024-200\*9）/30000 = 0.55 MB
+Ainsi, dans le cas de 30 000 utilisateurs, l’utilisateur moyen consomme environ (18 x 1024-200 x 9)/30000 x 0,55 Mo
 
-### 十万用户究竟要多少内存？
+### De combien de mémoire 100 000 utilisateurs ont-ils besoin ?
 
-以上所有的测试都是以三万为用户数进行的测试，这是一个特殊的数字。因为继续增加用户数的话，内存将会超出测试机的内存余量。（求赞助两条 16G）
+Tous les tests ci-dessus sont dans le nombre de 30.000 utilisateurs, qui est un nombre spécial.Étant donné que le nombre d’utilisateurs continue d’augmenter, la mémoire dépassera l’équilibre de mémoire du testeur.(S’il vous plaît parrainer deux 16G)
 
-如果继续增加用户数，将会开始使用操作系统的虚拟内存。虽然可以运行，但是运行效率会降低。原来登录可能只需要 100 ms。使用到虚拟内存的用户则需要 2 s。
+Si vous continuez à augmenter le nombre d’utilisateurs, vous commencerez à utiliser la mémoire virtuelle du système d’exploitation.Bien qu’il puisse fonctionner, il est moins efficace.La connexion d’origine peut n’avoir besoin que de 100 ms.Les utilisateurs qui utilisent la mémoire virtuelle ont besoin de 2 s.
 
-因此，速度降低的情况下，在验证需要多少内存意义可能不大。
+Par conséquent, dans le cas de vitesses plus lentes, il peut ne pas être très logique de vérifier combien de mémoire est nécessaire.
 
-但是，这不意味着不能够继续登录，以下便是 1+1+1 的情况下，十万用户全部登录后的情况。(有十万用户同时在线，加点内存吧，不差钱了。)
+Toutefois, cela ne signifie pas que vous ne serez pas en mesure de continuer à vous connecter, comme c’est le cas pour le cas de 1-plus1, lorsque les 100 000 utilisateurs sont connectés.(Il ya 100.000 utilisateurs en ligne en même temps, ajouter un peu de mémoire, pas mal d’argent.))
 
-![十万用户](/images/20200621-010.png)
+![100 000 utilisateurs](/images/20200621-010.png)
 
-## 源码构建说明
+## Instructions de construction source
 
-此次测试的代码均可以在文末的样例代码库中找到。为了方便读者自行实验，主要采用的是 docker-compose 进行构建和部署。
+Le code pour ce test peut être trouvé dans la base de code de l’échantillon à la fin de l’article.Pour faciliter l’expérimentation des lecteurs par eux-mêmes, docker-composer est principalement utilisé pour la construction et le déploiement.
 
-因此对于测试机的唯一环境需求就是要正确的安装好 Docker Desktop 。
+Ainsi, la seule exigence environnementale pour un testeur est d’installer Docker Desktop correctement.
 
-可以从以下任一地址获取最新的样例代码：
+Vous pouvez obtenir le dernier exemple de code à partir de l’un des addresses：
 
 - <https://github.com/newbe36524/Newbe.Claptrap.Examples>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
 
-### 快速启动
+### Démarrer rapidement
 
-使用控制台进入 `src/Newbe.Claptrap.Auth/LocalCluster` 文件夹。运行以下命令便可以在本地启动所有的组件：
+Utilisez la console `le dossier src/Newbe.Claptrap.Auth/LocalCluster` .Vous pouvez démarrer tous les composants localement en exécutant les commands：
 
 ```
-docker-compose up -d
+docker-composer jusqu’à -d
 ```
 
-途中需要拉取一些托管于 Dockerhub 上的公共镜像，请确保本地已经正确配置了相关的加速器，以便您可以快速构建。[可以参看这篇文档进行设置](https://www.runoob.com/docker/docker-mirror-acceleration.html)
+Vous devez tirer quelques images publiques hébergées sur Dockerhub le long du chemin, et assurez-vous que les accélérateurs sont configurés correctement localement afin que vous puissiez construire rapidement.[pouvez être mis en place en lisant ce document](https://www.runoob.com/docker/docker-mirror-acceleration.html)
 
-成功启动之后可以通过`docker ps` 查看到所有的组件。
+Après un lancement réussi,`composants peuvent être` le site docker ps.
 
 ```bash
 PS>docker ps
@@ -223,76 +223,76 @@ d31c73b62a47        bitnami/consul                                              
 72d4273eba2c        bitnami/consul                                                                   "/opt/bitnami/script…"   4 hours ago         Up About an hour    0.0.0.0:8300-8301->8300-8301/tcp, 0.0.0.0:8500->8500/tcp, 0.0.0.0:8301->8301/udp, 0.0.0.0:8600->8600/tcp, 0.0.0.0:8600->8600/udp   localcluster_consulnode1_1
 ```
 
-启动完成之后，便可以通过以下链接来查看相关的界面
+Une fois le démarrage terminé, vous pouvez afficher l’interface pertinente à travers les liens ci-dessous
 
-| 地址                       | 说明                                     |
-| ------------------------ | -------------------------------------- |
-| <http://localhost:19000> | Orleans Dashboard 查看 Orleans 集群中各节点的状态 |
-| <http://localhost:10080> | Web API 基地址，此次使用所测试的 API 基地址           |
-| <http://localhost:23000> | Grafana 地址，查看 Newbe.Claptrap 相关的性能指标情况 |
+| Adresse                  | Description                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------- |
+| <http://localhost:19000> | Le tableau de bord Orléans voit l’état des nœuds dans le cluster Orléans          |
+| <http://localhost:10080> | Adresse de base de l’API Web, cette fois à l’aide de l’adresse de base API testée |
+| <http://localhost:23000> | Adresse Grafana pour afficher les mesures de performance liées à Newbe.Claptrap   |
 
-### 源码构建
+### Construction de source
 
-使用控制台进入 `src/Newbe.Claptrap.Auth` 文件夹。运行以下命令便可以在本地完成代码的构建：
+Utilisez la console `le dossier src/Newbe.Claptrap.Auth` .En exécutant les commandes suivantes, vous pouvez créer le code locally：
 
 ```bash
 ./LocalCluster/pullimage.cmd
-docker-compose build
+docker-composer construire
 ```
 
-等待构建完毕之后，本地便生成好了相关的镜像。接下来便可以初次尝试在本地启动应用：
+Après avoir attendu la fin de la build, l’image pertinente est générée localement.Ensuite, vous pouvez essayer de lancer l’application localement pour la première time：
 
-使用控制台进入 `src/Newbe.Claptrap.Auth/LocalCluster` 文件夹。运行以下命令便可以启动相关的容器:
+Utilisez la console `le dossier src/Newbe.Claptrap.Auth/LocalCluster` .Vous pouvez démarrer le conteneur en exécutant la commande suivante :
 
 ```bash
-docker-compose up -d
+docker-composer jusqu’à -d
 ```
 
-## 常见问题解答
+## FAQ
 
-### 文中为何没有说明代码和配置的细节？
+### Pourquoi le code et les détails de configuration ne sont-ils pas décrits dans l’article ?
 
-本文主要为读者展示该方案的实验可行性，具体应该如何应用 Newbe.Claptrap 框架编写代码，并非本文的主旨，因此没有提及。
+Cet article est destiné à montrer au lecteur la faisabilité expérimentale de ce scénario, et comment écrire du code en utilisant le cadre Newbe.Claptrap, qui n’est pas l’objectif principal de cet article et n’est donc pas mentionné.
 
-当然，另外一点就是目前框架没有最终定版，所有内容都有可能发生变化，讲解代码细节意义不大。
+L’autre point, bien sûr, c’est que le cadre n’est pas finalisé, que tout est susceptible de changer et que les détails du code n’ont que peu d’importance.
 
-但可以提前说明的是：编写非常简单，由于本样例的业务需求非常简单，因此代码内容也不多。全部都可以在示例仓库中找到。
+Cependant, il peut être expliqué à l’avance que l’écriture：est très simple, parce que les exigences commerciales de cet exemple sont très simples, de sorte que le contenu du code n’est pas beaucoup.Tout peut être trouvé dans le référentiel d’échantillons.
 
-### 用 Redis 存储 Token 也可以实现上面的需求，为什么要选择这个框架？
+### Le jeton de stockage avec Redis peut également implémenter les exigences ci-dessus, pourquoi choisir ce cadre ?
 
-目前来说，笔者没有十足的理由说服读者必须使用哪种方案，此处也只是提供一种可行方案，至于实际应该选择哪种方案，应该有读者自己来考量，毕竟工具是否趁手还是需要试试才知道。
+À l’heure actuelle, l’auteur n’a pas toutes les raisons de convaincre le lecteur doit utiliser quel régime, ici est seulement de fournir un régime réalisable, quant à la réelle devrait choisir quel régime, devrait avoir le lecteur de considérer, après tout, si l’outil ou la nécessité d’essayer de savoir.
 
-### 如果是最多 100 个在线用户，那怎么裁剪系统？
+### Si c’est jusqu’à 100 utilisateurs en ligne, comment puis-je recadrer le système?
 
-必要的组件只有 Orleans Dashboard 、 WebAPI 和 Claptrap Db。其他的组件全部都是非必要的。而且如果修改代码， Orleans Dashboard 和 WebAPI 是可以合并的。
+Les seuls composants requis sont Orleans Dashboard, WebAPI et Claptrap Db.Tous les autres composants ne sont pas essentiels.Et si vous modifiez le code, Orleans Dashboard et WebAPI peuvent être fusionnés.
 
-所以最小规模就是一个进程加一个数据库。
+Ainsi, le plus petit est un processus plus une base de données.
 
-### Grafana 为什么没有报表?
+### Pourquoi Grafana n’a pas de rapport ?
 
-Grafana 首次启动之后需要手动的创建 DataSource 和导入 Dashboard.
+Grafana doit créer manuellement DataSource et importer Dashboard après son premier lancement.
 
-本实验相关的参数如下：
+Les paramètres liés à cette expérience sont aussi follows：
 
-DataSource
+Datasource
 
 - URL： http://influxdb:8086
-- Database： metricsdatabase
-- User： claptrap
-- Password： claptrap
+- Base： base de données métriques
+- Claptrap： 'utilisateur
+- Mot de passe： claptrap
 
-[点击此处获取 Dashboard 定义文件](https://github.com/newbe36524/Newbe.Claptrap/blob/develop/src/Docker/Monitor/grafana/claptrap.json)
+[Cliquez ici pour le fichier de définition du tableau de bord](https://github.com/newbe36524/Newbe.Claptrap/blob/develop/src/Docker/Monitor/grafana/claptrap.json)
 
-### 测试机的物理配置是什么？
+### Quelle est la configuration physique du testeur ?
 
-没有专门腾内存，未开始测试前已占用 16GB 内存。以下是测试机的身材数据（洋垃圾，3500 元左右）：
+Il n’y a pas de mémoire gratuite dédiée et 16 Go de mémoire ont été utilisés avant le début des tests.Ce qui suit est les données de figure de la machine d’essai (ordures étrangères, environ 3500 yuans)：
 
-处理器 英特尔 Xeon(至强) E5-2678 v3 @ 2.50GHz 12 核 24 线程 主板 HUANANZHI X99-AD3 GAMING ( Wellsburg ) 显卡 Nvidia GeForce GTX 750 Ti ( 2 GB / Nvidia ) 内存 32 GB ( 三星 DDR3L 1600MHz ) 2013 年产 高龄内存 主硬盘 金士顿 SA400S37240G ( 240 GB / 固态硬盘 )
+Processeur Intel Xeon (Xeon) E5-2678 v3 s 2.50GHz 12 noyau 24 threads carte mère HUANANZHI X99-AD3 GAMING (Wellsburg) graphiques Nvidia GeForce GTX 75 0 Ti Ti ( 2 Go / Nvidia ) 32 Go de mémoire ( Samsung DDR3L 1600MHz ) 2013 Senior memory main hard drive Kingston SA400S37240G ( 240 Go / SSD )
 
-如果您有更好的物理配置，相信可以得出更加优秀的数据。
+Si vous avez une meilleure configuration physique, je crois que vous pouvez obtenir de meilleures données.
 
-### 即使是 0.3 MB 平均每用户的占用的我也觉得太高了
+### Même 0,3 Mo par utilisateur est trop élevé
 
-框架还在优化。未来会更好。
+Le cadre est encore en cours d’optimisation.L’avenir sera meilleur.
 
 <!-- md Footer-Newbe-Claptrap.md -->
