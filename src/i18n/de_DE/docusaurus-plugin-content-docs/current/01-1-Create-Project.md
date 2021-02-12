@@ -207,7 +207,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Dieser Code enthält zwei wichtige Parameter, die cartState</code>`, die den aktuellen Warenkorbstatus darstellt, und das Ereignis<code>AddItemToCartEvent`.
+Dieser Code enthält zwei wichtige Parameter, die cartState `, die den aktuellen Warenkorbstatus darstellt, und das Ereignis AddItemToCartEvent`.
 
 Wir bestimmen, ob das Wörterbuch im Status SkuId enthält und aktualisieren seine Menge entsprechend unseren Geschäftsanforderungen.
 
