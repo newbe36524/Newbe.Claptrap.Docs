@@ -31,7 +31,7 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用`tye init`创建`tye.yml`。
+然后使用 tye init 创建 tye.yml 。
 
 便可以在 tye.yml 中得到如下内容：
 
