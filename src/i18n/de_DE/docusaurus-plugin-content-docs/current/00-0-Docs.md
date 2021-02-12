@@ -1,5 +1,5 @@
 ---
-title: "项目简介"
+title: "Einführung in das Projekt"
 description: "Dies ist ein serviceseitiges Entwicklungsframework mit \"reaktiv\", \"Ereignisrückverfolgbarkeit\" und \"Akteursmodus\" als Grundtheorien.Darüber hinaus können Entwickler einfach \"verteilte\", \"horizontal skalierbare\" und \"hochgradig testbare\" Anwendungen entwickeln."
 slug: /
 ---
