@@ -54,7 +54,7 @@ En primer lugar, el estado de Actor sólo se puede cambiar por sí mismo, y para
 
 ![Actualizar el estado del actor](/images/20190226-001.gif)
 
-En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".Por example：la propiedad de</code>pública`de<code>`de clase de C- puede cambiar la propiedad`en<code>clase`</code>después de que sea un tipo de referencia, si es un tipo de referencia.Pero esto no está permitido en el modo Actor.
+En segundo lugar, el estado del actor se mantiene solo dentro de Actor y no se comparte con ningún objeto que no sea el actor actual.La falta de uso compartido aquí también hace hincapié en que no puede cambiar el estado interno de Actor a través de un cambio en una propiedad externa.Esto es principalmente para distinguirlo de los lenguajes de programación con características de lenguaje de "referencia de objetos".例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。Pero esto no está permitido en el modo Actor.
 
 ![Compartir el estado de Actor](/images/20190226-003.gif)
 
