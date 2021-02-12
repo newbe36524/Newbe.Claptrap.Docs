@@ -1,6 +1,6 @@
 ---
-title: "中文说明"
-description: "这是以`反应式`、`事件溯源`和`Actor模式`作为基本理论的一套服务端开发框架。于此之上，开发者可以更为简单的开发出“分布式”、“可水平扩展”、“可测试性高”的应用系统。"
+title: "Инструкции по китайскому языку"
+description: "Это платформа разработки на стороне службы с \"реактивным\", \"отслеживанием событий\" и \"моделью Actor\" в качестве основных теорий.По этой основе разработчики могут более просто разрабатывать \"распределенные\", \"горизонтально масштабируемые\" и \"тестируемые\" приложения."
 slug: /
 ---
 
@@ -14,33 +14,33 @@ slug: /
 
 [![build](https://github.com/newbe36524/Newbe.Claptrap/workflows/Claptrap/badge.svg)](https://github.com/newbe36524/Newbe.Claptrap/actions) [![Codecov](https://img.shields.io/codecov/c/github/newbe36524/Newbe.Claptrap)](https://codecov.io/gh/newbe36524/Newbe.Claptrap) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=coverage)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=newbe36524_Newbe.Claptrap&metric=alert_status)](https://sonarcloud.io/dashboard?id=newbe36524_Newbe.Claptrap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fd0e7443364414ca0003dab27f9f9b8)](https://www.codacy.com/manual/472158246/Newbe.Claptrap?utm_source=github.com&utm_medium=referral&utm_content=newbe36524/Newbe.Claptrap&utm_campaign=Badge_Grade) [![Newbe.Claptrap](https://img.shields.io/nuget/v/Newbe.Claptrap?label=Newbe.Claptrap%20nuget&logo=Newbe.Claptrap&style=flat-square)](https://www.nuget.org/packages/Newbe.Claptrap/)
 
-这是以`反应式`、`事件溯源`和`Actor模式`作为基本理论的一套服务端开发框架。于此之上，开发者可以更为简单的开发出“分布式”、“可水平扩展”、“可测试性高”的应用系统。
+Это платформа разработки на стороне службы, основанная на`реактивном`,`отслеживании событий`и режиме`Actor`в качестве базовой теории.По этой основе разработчики могут более просто разрабатывать "распределенные", "горизонтально масштабируемые" и "тестируемые" приложения.
 
-## 当前项目状态
+## Текущее состояние проекта
 
-当前项目已经进入 Preview 阶段，相关的版本将会发布到 master 分支上。您可以通过 nuget 来获取最新的开发包。我们不建议将 Preview 版本用于生产环境。
+Текущий проект находится в стадии Preview, и соответствующая версия будет выпущена в ветви master.Вы можете получить последние пакеты разработки с помощью nuget.Не рекомендуется использовать версию Preview в рабочей среде.
 
 Claptrap and it`s Minions are coming.
 
-## 项目样例
+## Пример проекта
 
-您可以通过[Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples)来获取关于该项目的样例代码，以便您了解如何使用该项目。
+Вы можете[пример кода для проекта, используя Newbe.Claptrap.Examples](https://github.com/newbe36524/Newbe.Claptrap.Examples), чтобы узнать, как его использовать.
 
-## 参与讨论
+## Примите участие в обсуждении
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
+- [Группа QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
-## 参考资料
+## Справочные материалы
 
-该项目受启发于众多开源项目与博客文章：
+Проект вдохновлен многочисленными проектами с открытым исходным кодом и блогами：
 
-- [基于 Actor 框架 Orleans 构建的分布式、事件溯源、事件驱动、最终一致性的高性能框架——Ray](https://github.com/RayTale/Ray)
+- [Ray, распределенная, отслеживаемая событиями, управляемая событиями и в конечном счете консистенция высокопроизводительной платформы, построенной на основе Платформы Actor Orleans](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
-- [Event Sourcing Pattern 中文译文](https://www.infoq.cn/article/event-sourcing)
+- [Перевод Event Sourcing Pattern на китайский язык](https://www.infoq.cn/article/event-sourcing)
 - [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [ENode 1.0 - Saga 的思想与实现](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [ENode 1.0 - Мысль и реализация Саги](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 ## Stargazers over time
 
@@ -69,13 +69,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## 图标
+## значок
 
-本项目目前使用的图标均来自于[The Noun Project](https://thenounproject.com/)。您可以在[/docs/noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)中查看各个部分的版权信息。
+Значки, используемые в настоящее время в этом проекте, поступают из[noun Project](https://thenounproject.com/).Вы[информацию об авторских правах noun_source](https://github.com/newbe36524/Newbe.Claptrap/tree/master/docs/noun_source)разделах в разделе /docs/2.
 
 ## Gitee
 
-如果您无法正常的使用 Github，也可以通过 Gitee 来获取源码以及样例。
+Если вы не можете использовать Github должным образом, вы также можете использовать Gitee для получения исходного кода и примеров.
 
 - <https://gitee.com/yks/Newbe.Claptrap>
 - <https://gitee.com/yks/Newbe.Claptrap.Examples>
