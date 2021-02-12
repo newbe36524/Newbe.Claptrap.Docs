@@ -1,149 +1,149 @@
 ---
 date: 2021-02-06
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（二）
+title: Utiliser Tye pour aider à développer des applications k8s est aussi simple que cela (II)
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中使用服务发现。
+Dans le dernier article, explorons les autres façons de Tye de l’utiliser.Jetons un coup d’oeil à la façon d’utiliser la découverte de service dans Tye.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 服务发现 - 微服务开发不可缺少的部件
+## Service Discovery - Une partie indispensable du développement des microservateurs
 
-> 服务发现，就是新注册的这个服务模块能够及时的被其他调用者发现。不管是服务新增和服务删减都能实现自动发现。 《深入了解服务注册与发现》 <https://zhuanlan.zhihu.com/p/161277955>
+> La découverte du service est que le module de service nouvellement enregistré peut être découvert par d’autres appelants en temps opportun.La découverte automatique est réalisée indépendamment des ajouts de service et des coupures de service. En savoir plus sur l’inscription au service et discovery <https://zhuanlan.zhihu.com/p/161277955>
 
-> 我们在调用微服务的过程中, 假设在调用某个 REST API 或者 Thrift API, 为了完成某次调用请求, 代码里面需要指定服务所在的 IP 地址和端口, 在传统的应用中, 网络地址和端口是静态的,一般不会改变, 我们只需要把它们配到配置文件中, 就可以通过读取配置文件来完成调用.但是, 在现代基于 Cloud 的微服务架构中, 这种方式将失效, 因为服务的实例是动态分配的地址, 网络地址也是动态的, 这样做的好处是便于服务的自动伸缩, 失败处理和升级. 《微服务架构中的服务发现机制》 <https://www.imooc.com/article/details/id/291255>
+> Dans le processus d’appel d’un microservateur, en supposant qu’en appelant une API REST ou une API Thrift, afin de remplir une demande d’appel, le code doit spécifier l’adresse IP et le port où le service est situé, dans les applications traditionnelles, l’adresse réseau et le port sont statiques et généralement ne changent pas, nous avons juste besoin de les faire correspondre au fichier de configuration, nous pouvons compléter l’appel en lisant le fichier de configuration. Toutefois, dans les architectures modernes de microserveurs basés sur le Cloud, cette approche échouera, car les cas de services sont des adresses assignées dynamiquement, et les adresses réseau sont dynamiques, ce qui a l’avantage de faciliter la mise à l’échelle automatique, le traitement des pannes et la mise à niveau des services. « Mécanisme de découverte de service dans l’architecture microserver » <https://www.imooc.com/article/details/id/291255>
 
-简单来说，通过服务发现，服务之间可以使用名称来代替具体的地址和端口甚至访问细节。这样可以使得服务更加容易适用于云原生这种应用程序实例多变的环境。
+En termes simples, la découverte de service vous permet d’utiliser des noms entre les services au lieu d’adresses et de ports spécifiques ou même des détails d’accès.Il est ainsi plus facile pour les services d’être utilisés dans des environnements où les instances d’application telles que les natifs du cloud sont variables.
 
-## 首先，我们需要两个服务
+## Premièrement, nous avons besoin de deux services
 
-和前篇一样，我们使用命令行来创建两个服务。
+Comme dans l’article précédent, nous utilisons la ligne de commande pour créer deux services.
 
 ```bash
-dotnet new sln -n TyeTest
-dotnet new webapi -n TyeTest
-dotnet sln .\TyeTest.sln add .\TyeTest\TyeTest.csproj
-dotnet new webapi -n TyeTest2
-dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
+dotnet nouveau sln -n TyeTest
+dotnet nouveau webapi -n TyeTest
+dotnet sln .\TyeTest.sln ajouter .\TyeTest\TyeTest.csproj
+dotnet nouveau webapi -n TyeTest2
+dotnet sln .\TyeTest.sln ajouter .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用`tye init`创建`tye.yml`。
+Ensuite,`tye init`à`tye.yml`.
 
-便可以在 tye.yml 中得到如下内容：
+Vous pouvez trouver ce qui suit dans tye.yml：
 
 ```yml
-name: tyetest
+nom: tyetest
 services:
-  - name: tyetest
+  - nom: tyetest
     project: TyeTest/TyeTest.csproj
-  - name: tyetest2
+  - nom: tyetest2
     project: TyeTest2/TyeTest2.csproj
 ```
 
-这样我们就可以在本地使用`tye run`启动着两个服务。
+Cela nous permet de commencer à`services locaux en utilisant`tye run.
 
-接下来，我们会改造其中的 TyeTest 服务，使其调用 TyeTest2 作为其下游服务。
+Ensuite, nous allons moderniser le service TyeTest afin qu’il appelle TyeTest2 comme son service en aval.
 
-这样我们便可以验证服务发现的效果。
+Cela nous permet de vérifier l’efficacité de la découverte du service.
 
-## 然后，使用 Tye.Configuration
+## Ensuite, utilisez Tye.Configuration
 
-### 添加包
+### Ajouter un paquet
 
-运行以下命令，为 TyeTest 项目添加包：
+Exécutez la commande suivante pour ajouter un paquet à l’project：
 
 ```bash
-dotnet add ./TyeTest/TyeTest.csproj package Microsoft.Tye.Extensions.Configuration --version 0.6.0-alpha.21070.5
+dotnet ajouter ./TyeTest/TyeTest.csproj paquet Microsoft.Tye.Extensions.Configuration --version 0.6.0-alpha.21070.5
 ```
 
-### 添加 HttpClientFactory
+### Ajouter http://www.http://www.http://www.twitter.com/http://www.http://www.http
 
-由于我们需要使用 HttpClient 调用下游服务，因此需要使用到 HttpClientFactory。故而，在 TyeTest 项目的 Startup.cs 增加对 HttpClientFactory 的注册。
+Parce que nous avons besoin d’appeler les services en aval en utilisant HttpClient, nous devons utiliser httpClientFactory.Par conséquent, le projet TyeTest vise à Startup.cs’enregistrement des http://www.twitter.com/TyTest.
 
 ```csharp
-  public void ConfigureServices(IServiceCollection services)
+  vide public ConfigureServices (services IServiceCollection)
   {
-+     services.AddHttpClient();
-      services.AddControllers();
-      services.AddSwaggerGen(c =>
++ services. AddHttpClient();
+      services. AddControllers();
+      services. AddSwaggerGen(c =>
       {
-          c.SwaggerDoc("v1", new OpenApiInfo { Title = "TyeTest", Version = "v1" });
+          c.SwaggerDoc (« v1 », nouveau OpenApiInfo { Titre = « TyeTest », Version = « v1 » });
       });
   }
 ```
 
-### 使用 HttpClient 调用服务
+### Utilisez HttpClient pour invoquer le service
 
-进入 WeatherForecastController， 我们使用 HttpClient 来调用下游服务，并且将得到的数据返回：
+Entrez WeatherForecastController, où nous utilisons HttpClient pour invoquer les services en aval et retourner les données qui en résultent：
 
 ```cs
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+en utilisant le système;
+utilisant System.Collections.Generic;
+utilisant System.Linq;
+en utilisant System.Net.Http;
+utilisant System.Text.Json;
+utilisant System.Threading.Tasks;
+en utilisant Microsoft.AspNetCore.Mvc;
+en utilisant Microsoft.Extensions.Configuration;
+'utilisation de Microsoft.Extensions.Logging;
 
-namespace TyeTest.Controllers
+'espace de nom TyeTest.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [Route( »[controller]« )]
+    classe publique WeatherForecastController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IConfiguration _configuration;
-        private readonly HttpClient _httpClient;
+        privé readonly ILogger<WeatherForecastController> _logger;
+        'IConfiguration privée _configuration;
+        privé readonly HttpClient _httpClient;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IConfiguration configuration,
-            HttpClient httpClient)
+        public WeatherForecastController (enregistreur<WeatherForecastController> ILogger, configuration
+            IConfiguration,
+            httpClient httpClient)
         {
-            _logger = logger;
+            _logger = bûcheron;
             _configuration = configuration;
             _httpClient = httpClient;
         }
 
         [HttpGet]
-        public async Task<string> Get()
+        public async Task<string> Get ()
         {
-            var serviceUri = _configuration.GetServiceUri("tyetest2");
-            Console.WriteLine(serviceUri);
-            var httpResponseMessage = await _httpClient.GetAsync($"{serviceUri}WeatherForecast");
-            var json = await httpResponseMessage.Content.ReadAsStringAsync();
-            return json;
+            var serviceUri = _configuration. GetServiceUri (« tyetest2 »);
+            Console.WriteLine (serviceUri);
+            var httpResponseMessage = attendre _httpClient.GetAsync ($ »{serviceUri}WeatherForecast »);
+            var json = attendez httpResponseMessage.Content.ReadAsStringAsync();
+            json retour;
         }
     }
 }
 ```
 
-值得注意的是：
+Il est à noter que：
 
-1. 构造函数中注入的`IConfiguration`是 Aspnet Core 的内在机制，无需特殊注册。
-2. `_configuration.GetServiceUri("tyetest2")`是本示例的关键点。其通过一个服务名称来获取服务的具体 Uri 地址，这样便可以屏蔽部署时，服务地址的细节。
+1. L’IConfiguration`injectée dans`est un mécanisme intrinsèque d’Aspnet Core et ne nécessite pas d’enregistrement spécial.
+2. `_configuration. GetServiceUri (« tyetest2 »)`point clé de cet exemple.Il obtient l’adresse Uri spécifique du service par un nom de service, qui masque les détails de l’adresse de service au moment du déploiement.
 
-这样，就结束了。
+C’est ça, c’est fini.
 
-接下来只要使用`tye run`便可以在本地查看已经改造好的服务。调用第一个服务的接口，并可以得到预期的从第二个服务返回的数据。
+L’étape suivante est`exécuter tye`vous pouvez afficher les services modifiés localement.L’interface du premier service est appelée et les données attendues du deuxième service peuvent être obtenues.
 
-> 关于 Tye 中服务发现的真实运作机制可以前往官方文库进行了解： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
+> Le véritable fonctionnement de la découverte de service à Tye se trouve dans la bibliothèque officielle pour： <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md#how-it-works-uris-in-development>
 
-## 最后，发到 K8S 里面试一下
+## Enfin, envoyez-le à K8S pour une interview
 
-若要发布到 k8s 进行测试，只要按照前篇的内容，设置到 docker registry 和 ingress 便可以进行验证了。
+Pour publier sur k8s pour les tests, il suffit de suivre le contenu précédent et mis en place pour docker registre et l’entrée pour vérifier.
 
-开发者可以自行配置并尝试。
+Les développeurs peuvent configurer et essayer eux-mêmes.
 
-## 小结
+## Résumé
 
-本篇，我们已经顺利完成了使用 Tye 来完成服务发现机制的使用。通过这种方式，我们便可以使用服务名对服务之间进行相互调用，从而屏蔽具体的部署细节，简化开发。
+Dans cet article, nous avons terminé avec succès l’utilisation de Tye pour compléter l’utilisation du mécanisme de découverte de service.De cette façon, nous pouvons utiliser des noms de service pour nous appeler entre les services, masquer des détails de déploiement spécifiques et simplifier le développement.
 
-不过，在实际生产实际中，服务之间并非仅仅只有主机和端口两个信息。有时还需要进行用户名、密码和额外参数的设置。典型的就是对数据库连接字符串的管理。
+Toutefois, dans la production du monde réel, il n’y a pas que des informations sur les hôtes et les ports entre les services.Parfois, vous devez également définir des noms d’utilisateur, des mots de passe et des paramètres supplémentaires.Typique est la gestion des chaînes de connexion de base de données.
 
-下一篇，我们将进一步在 Tye 中如何对数据库进行链接。
+Dans le prochain article, nous allons aller plus loin sur la façon de relier la base de données dans Tye.
 
 <!-- md Footer-Newbe-Claptrap.md -->
