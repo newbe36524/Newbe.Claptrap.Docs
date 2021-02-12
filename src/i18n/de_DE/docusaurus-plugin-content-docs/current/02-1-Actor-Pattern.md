@@ -3,19 +3,19 @@ title: 'Actor-Modus'
 description: 'Actor-Modus'
 ---
 
-Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses Programmiermodells können einige Systeme das Problem der Komplexität lösen.Das Problem mit der hier erwähnten Union besteht darin, dass ein Computer, der dieselben Daten logisch verarbeitet, aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dies ist ein Problem, das bei der Multithreadprogrammierung auftreten muss.Als einfaches Beispiel, wenn Sie 100 Threads verwenden, um`eine<code>int`Variable im Speicher mit 100 Threads in</code>ohne  Sperre auszuführen.Dann ist das Ergebnis dieser Variable oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
+Das Actor-Muster ist ein Standard-Programmiermodell.Durch die Anwendung dieses Programmiermodells können einige Systeme das Problem der Komplexität lösen.Das Problem mit der hier erwähnten Union besteht darin, dass ein Computer, der dieselben Daten logisch verarbeitet, aufgrund mehrerer gleichzeitiger Anforderungen zu falschen Daten führen kann.Dies ist ein Problem, das bei der Multithreadprogrammierung auftreten muss.举个简单的例子，假如在不加同步锁的情况下，使用 100 个线程并发对内存中的一个 int 变量执行 ++ 操作。Dann ist das Ergebnis dieser Variable oft kleiner als 100.So vermeidet das Actor-Muster dieses Problem.
 
 Erstens, um das Verständnis zu erleichtern, kann sich der Leser hier Schauspieler als Objekt vorstellen.In objektorientierten Sprachen (Java, C- usw.) kann der Akteur als ein Objekt betrachtet werden, das``dem neuen Schlüsselwort erstellt wurde.Aber dieses Objekt hat einige besondere characteristics：
 
-**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.Im Schauspielermodus werden diese Eigenschaften gemeinsam als Actor es State</code>`.Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.</p>
+**hat einen Zustand, der zu**gehört.Objekte können alle ihre eigenen Eigenschaften haben, was ein grundlegendes Merkmal objektorientierter Sprachen ist.在 Actor 模式中，这些属性都被统称为 Actor的状态（State） 。Der Zustand des Schauspielers wird von Schauspieler selbst aufrechterhalten.
 
-<p spaces-before="0">Dies hebt zwei points：</p>
+Dies hebt zwei points：
 
-<p spaces-before="0">Erstens kann der Zustand des Schauspielers nur von selbst geändert werden, und um den Zustand des Schauspielers von außen zu ändern, kann er nur durch Aufrufen von Actor geändert werden.</p>
+Erstens kann der Zustand des Schauspielers nur von selbst geändert werden, und um den Zustand des Schauspielers von außen zu ändern, kann er nur durch Aufrufen von Actor geändert werden.
 
-<p spaces-before="0"><img src="/images/20190226-001.gif" alt="Aktualisieren des Actor-Status" /></p>
+![Aktualisieren des Actor-Status](/images/20190226-001.gif)
 
-<p spaces-before="0">Zweitens wird der Status des Akteurs nur innerhalb von Actor beibehalten und nicht für ein anderes Objekt als den aktuellen Actor freigegeben.Die Nicht-Freigabe hier betont auch, dass sie den internen Status von Actor nicht durch eine Änderung in einer externen Eigenschaft ändern kann.Dies ist vor allem, um es von Programmiersprachen mit "Objektreferenz" Sprachmerkmale zu unterscheiden.Für example：kann die<code>öffentliche`-Eigenschaft in`Klasse`von C- die`-Eigenschaft in<code>Klasse ändern,`</code>nachdem es sich um einen Verweistyp handelt, wenn es sich um einen Verweistyp handelt.Im Schauspielermodus ist dies jedoch nicht zulässig.
+Zweitens wird der Status des Akteurs nur innerhalb von Actor beibehalten und nicht für ein anderes Objekt als den aktuellen Actor freigegeben.Die Nicht-Freigabe hier betont auch, dass sie den internen Status von Actor nicht durch eine Änderung in einer externen Eigenschaft ändern kann.Dies ist vor allem, um es von Programmiersprachen mit "Objektreferenz" Sprachmerkmale zu unterscheiden.Für example：kann die`öffentliche`-Eigenschaft in`Klasse`von C- die`-Eigenschaft in``Klasse ändern,`nachdem es sich um einen Verweistyp handelt, wenn es sich um einen Verweistyp handelt.Im Schauspielermodus ist dies jedoch nicht zulässig.
 
 ![Freigeben des Status "Akteur"](/images/20190226-003.gif)
 
