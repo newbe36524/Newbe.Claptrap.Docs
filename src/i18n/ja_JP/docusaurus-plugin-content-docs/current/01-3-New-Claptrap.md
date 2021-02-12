@@ -309,7 +309,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。
+EventHandlerはイベントを Claptrap の state への更新に使用します。
 
 `HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
 
