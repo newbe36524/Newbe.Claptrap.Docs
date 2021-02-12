@@ -32,17 +32,17 @@ Usage:
   tye [options] [command]
 
 Options:
-  --no-default      Disable default options from environment variables
-  -?, -h, --help    Show help and usage information
-  --version         Show version information
+  --no-default Disable default default options from environment variables
+  -? -h, --help show help and use information
+  --version show version information
 
 Commands:
   init <path>        create a yaml manifest
   run <path>         run the application
   build <path>       build containers for the application
-  push <path>        build and push application containers to registry
-  deploy <path>      deploy the application
-  undeploy <path>    delete deployed application
+  push <path>        build and push applications contained to registry
+  uploy <path>      upload the application
+  unuploy <path>    delete employed application
 ```
 
 ## Create and run a test project
@@ -165,9 +165,9 @@ This is equivalent to, if built, a tag image of`registry.cn-hangzhou.aliyuncs.co
 
 Because this time we're releasing a netcore program, they're going to be built with netcore images, so for a smoother build, it's recommended that you use the acceleration tool to download the underlying image locally in advance.
 
-例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
+For example, the application of net5 TFM used by my person in this use of this time, requires a base image to be pulled locally as mcr.microsoft.com/dotnet/aspnet:5.0.
 
-Since the source of the netcore underlying mirror has now been migrated from docker hub to mcr.microsoft.com.故而，建议使用 Newbe.McrMirror 进行加速下载。
+Since the source of the netcore underlying mirror has now been migrated from docker hub to mcr.microsoft.com.Therefore, it is recommended to use Newbe.McMirror to expedite downloads.
 
 Detailed usage methods can be referred to：<https://github.com/newbe36524/Newbe.McrMirror>
 
