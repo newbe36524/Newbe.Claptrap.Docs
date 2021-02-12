@@ -1,5 +1,5 @@
 ---
-title: "项目简介"
+title: "Introducción al proyecto"
 description: "Se trata de un marco de desarrollo del lado del servicio con \"reactiva\", \"trazabilidad de eventos\" y \"modo actor\" como teorías básicas.Además, los desarrolladores pueden simplemente desarrollar aplicaciones \"distribuidas\", \"horizontalmente escalables\" y \"altamente comprobables\"."
 slug: /
 ---
