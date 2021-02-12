@@ -1,5 +1,5 @@
 ---
-title: "Инструкции по китайскому языку"
+title: "项目简介"
 description: "Это платформа разработки на стороне службы с \"реактивным\", \"отслеживанием событий\" и \"моделью Actor\" в качестве основных теорий.По этой основе разработчики могут более просто разрабатывать \"распределенные\", \"горизонтально масштабируемые\" и \"тестируемые\" приложения."
 slug: /
 ---
@@ -30,8 +30,6 @@ Claptrap and it`s Minions are coming.
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- Общедоступный почтовый ящик newbe-claptrap@googlegroups.com (содержимое, отправленное в почтовый ящик, будет общедоступным)
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [Группа QQ 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Справочные материалы
