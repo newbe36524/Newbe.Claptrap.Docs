@@ -1,192 +1,192 @@
 ---
 date: 2020-07-20
-title: 构建一个简易的火车票售票系统，Newbe.Claptrap框架用例，第一步——业务分析
+title: Construire un système de billetterie de train facile, Newbe.Claptrap Framework Use Case, First Step - Business Analysis
 ---
 
-Newbe.Claptrap 框架非常适合于解决具有并发问题的业务系统。火车票售票系统，就是一个非常典型的场景用例。
+Le cadre Newbe.Claptrap est idéal pour résoudre les systèmes d’affaires avec des problèmes de complicité.Le système de billetterie des trains est un cas d’utilisation de scénario très typique.
 
-本系列我们将逐步从业务、代码、测试和部署多方面来介绍，如何使用 Newbe.Claptrap 框架来构建一个简易的火车票售票系统。
+Dans cette série, nous allons passer en travers de l’entreprise, le code, les tests et les aspects de déploiement de la façon d’utiliser le cadre Newbe.Claptrap pour construire un système de billetterie de train simple.
 
 <!-- more -->
 
-## 吹牛先打草稿
+## Vantardise frappe d’abord le projet
 
-让我们来首先界定一下这个简易的火车售票系统所需要实现的业务边界和性能要求。
+Définissons d’abord les limites d’affaires et les exigences de performance requises pour ce système simple de billetterie ferroviaire.
 
-### 业务边界
+### Frontières d’affaires
 
-该系统仅包含车票的余票管理部分。即查询剩余座位，下单买票减座。
+Le système ne contient que la partie restante de la gestion des billets du billet.C’est-à-dire, interroger les sièges restants, commander un billet pour réduire le siège.
 
-而生成订单信息，付款，流量控制，请求风控等等都不包含在本次讨论的范围中。
+La production d’informations sur les commandes, le paiement, le contrôle de la circulation, la demande de contrôle du vent, etc. ne sont pas incluses dans le champ d’application de cette discussion.
 
-### 业务用例
+### Cas d’utilisation commerciale
 
-- 查询余票，能够查询两个车站间可用的车次以及剩余座位数量。
-- 查询车次对应的车票余票，能够查询给定的车次，在各个车站之间还有多少剩余座位。
-- 支持选座下单，客户能够选择给定的车次及座位，并下单买票。
+- Vérifiez les billets restants et être en mesure de vérifier le nombre de billets disponibles entre les deux stations et le nombre de sièges restants.
+- Vérifiez les billets restants correspondant au nombre de voyages, peut interroger le nombre donné de fois, entre les stations combien de sièges restent.
+- Prise en charge de la sélection des sièges, les clients peuvent choisir un nombre donné de voitures et de sièges, et commander des billets.
 
-### 性能要求
+### Exigences de performance
 
-- 查询余票和下单购票消耗平均不得超过 20ms。该时间仅包含服务端处理时间，即页面网络传输，页面渲染等等不是框架关心的部分不计算在内。
-- 余票查询可以存在延时，但不是超过 5 秒钟。延时，即表示，可能查询有票，但是下单无票的情况是被允许的。
+- Le coût moyen de la requête des billets restants et de la commande ne doit pas dépasser 20ms.Ce temps inclut uniquement le temps de traitement côté service, c’est-à-dire la transmission du réseau de pages, le rendu des pages, et ainsi de suite ne sont pas des parties de la préoccupation du cadre.
+- Les requêtes résiduelles peuvent avoir un retard, mais pas plus de 5 secondes.Le retard signifie qu’il peut y avoir une requête pour les billets, mais aucun billet n’est autorisé à être commandé.
 
-## 难点分析
+## Analyse difficile
 
-### 余票管理
+### Gestion résiduelle des billets
 
-火车票余票管理的难点，其实就在于其余票库存的特殊性。
+La difficulté de la gestion résiduelle des billets de train réside dans la particularité du reste de l’inventaire des billets.
 
-普通的电商商品，以 SKU 为最小单位，每个 SKU 之间相互独立，互不影响。
+Les marchandises ordinaires de commerce électronique, SKU comme la plus petite unité, chaque SKU est indépendant les uns des autres, ne s’affectent pas les uns les autres.
 
-例如：当前我正在售卖原产自赛博坦星球的阿姆斯特朗回旋加速炮，红色和白色两款分别一万个。那么用户在下单时，只要分别控制红色和白色两款的库存分别不超卖即可。他们之间没有相互关系。
+Pour：je vends actuellement 10.000 ronds-points Armstrong de la planète Sebotan, rouge et blanc, respectivement.Ensuite, lorsque l’utilisateur sous les ordres, tant que le contrôle de rouge et blanc deux éléments d’inventaire n’est pas survendu.Il n’y a pas de relation entre eux.
 
-但是火车票余票，却有所不同，因为余票会受到已卖票起终点而受到影响。下面结合一个简单的逻辑模型，来详细的了解一下这种特殊性。
+Toutefois, les billets restants pour le train sont différents, car les billets restants seront touchés par la fin des billets vendus.Voici un modèle logique simple pour obtenir un regard détaillé sur cette particularité.
 
-现在，我们假设存在一个车次，分别经过 a,b,c,d 四个站点，同时，我们简化场景，假设车次中只有一个座位。
+Supposons maintenant qu’il y ait un train qui traverse quatre gares, a, b, c, d, et en même temps, nous simplifions le scénario, en supposant qu’il n’y ait qu’un seul siège dans le trajet.
 
-那么在没有任何人购票之前，这个车次的余票情况就如下所示：
+Donc, avant que l’on achète un billet, la situation de billet restant pour ce nombre de billets est aussi follows：
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 1   |
-| a,c | 1   |
-| a,d | 1   |
-| b,c | 1   |
-| b,d | 1   |
-| c,d | 1   |
+| Début et fin | Le montant des billets restants |
+| ------------ | ------------------------------- |
+| a,b          | 1                               |
+| a,c          | 1                               |
+| a,d          | 1                               |
+| b,c          | 1                               |
+| b,d          | 1                               |
+| c,d          | 1                               |
 
-如果现在有一位客户购买了一张 a,c 的车票。那么由于只有一个座位，所以，除了 c,d 其他的余票就都没有。余票情况就变成了如下所示：
+Si un client a maintenant acheté un billet a,c.Donc, puisqu’il n’y a qu’un seul siège, il n’y a pas d’autre billet que c,d.Le reste de la situation de vote devient le：
 
-| 起终点 | 余票量 |
-| --- | --- |
-| a,b | 0   |
-| a,c | 0   |
-| a,d | 0   |
-| b,c | 0   |
-| b,d | 0   |
-| c,d | 1   |
+| Début et fin | Le montant des billets restants |
+| ------------ | ------------------------------- |
+| a,b          | 0                               |
+| a,c          | 0                               |
+| a,d          | 0                               |
+| b,c          | 0                               |
+| b,d          | 0                               |
+| c,d          | 1                               |
 
-更直白一点，如果有一位客户购买了全程车票 a,d，那么所有的余票都将全部变为 0。因为这个座位上始终都坐着这位乘客。
+Pour le dire plus directement, si un client achète un, d pour l’ensemble du billet, tous les billets restants seront changés en 0.Parce que le passager est toujours dans ce siège.
 
-这也就是火车票的特殊性：同一个车次的同一个座位，其各个起终点的余票数量，会受到已售出的车票的起终点的影响。
+C’est la particularité des billets de train：le même siège dans le même train, le nombre de billets restants à chaque point de départ sera affecté par le début et la fin du billet vendu.
 
-延伸一点，很容易得出，同一车次的不同座位之间是没有这种影响的。
+S’étendant un peu, il est facile de conclure qu’il n’y a pas un tel effet entre les différents sièges dans le même trajet.
 
-### 余票查询
+### Enquête résiduelle sur les billets
 
-正如上一节所述，由于余票库存的特殊性。对于同一个车次 a,b,c,d，其可能的购票选择就有 6 种。
+Comme mentionné dans la section précédente, en raison de la particularité de l’inventaire résiduel des billets.Pour le même trajet a, b, c, d, il ya 6 options de billets possibles.
 
-并且我们很容易就得出，选择的种类数的计算方法实际上就是在 n 个站点中选取 2 个的组合数，即 c(n,2) 。
+Et il est facile de conclure que la méthode de calcul du nombre de types choisis est en fait de sélectionner deux combinaisons dans les sites n, c’est-à-dire .c(n, 2).
 
-那么如果有一辆经过 34 个站点的车次，其可能的组合就是 c(34,2) = 561 。
+Donc, s’il ya une voiture passant par 34 stations, la combinaison possible est c (34,2) s 561.
 
-如何高效应对可能存在的多种查询也是该系统需要解决的问题。
+Comment traiter de nombreux types de requêtes qui peuvent exister efficacement est également un problème que le système doit résoudre.
 
-## Claptrap 逻辑设计
+## Conception logique de Claptrap
 
-Actor 模式是天生适合于解决并发问题的设计模式。基于该理念之上的 Newbe.Claptrap 框架自然也能够应对以上提到的难点。
+Mode acteur est un modèle de conception qui est intrinsèquement adapté pour résoudre les problèmes avec des problèmes.Le cadre Newbe.Claptrap basé sur ce concept peut naturellement gérer les difficultés mentionnées ci-dessus.
 
-### 最小竞争资源
+### Ressources concurrentielles minimales
 
-类比多线程编程中“资源竞争”的概念，这里笔者提出在业务系统中的“最小竞争资源”概念。借助这个概念可以很简单的找到如何应用 Newbe.Claptrap 的设计点。
+Par rapport au concept de « concurrence des ressources » dans la programmation multicœur, l’auteur met de l’avant le concept de « ressource concurrentielle minimale » dans le système d’affaires.Ce concept permet de trouver facilement des points de conception pour la façon d’appliquer Newbe.Claptrap.
 
-例如在笔者售卖阿布斯特朗回旋加速炮的例子中，同款颜色下的每个商品都是一个“最小竞争资源”。
+Par exemple, dans l’exemple de l’auteur de la vente de canons de gyration Abstrom, chaque élément de la même couleur est une « ressource concurrentielle minimale ».
 
-注意，这里不是说，同款颜色下的所有商品是一个“最小竞争资源”。因为，如果对一万个商品进行编号，那么抢购一号商品和二号商品，本身其实不存在竞争关系。因此，每个商品都是一个最小竞争资源。
+Notez que cela ne veut pas dire que tous les articles de la même couleur sont une « ressource concurrentielle minimale ».Parce que, si vous comptez 10.000 articles, alors la ruée vers l’achat des première et deuxième marchandises, il n’y a pas de concurrence en soi.Par conséquent, chaque produit est une ressource concurrentielle minimale.
 
-那么在火车票余票的例子中，最小竞争资源则是：同一车次上的同一个座位。
+Ainsi, dans le cas des billets de train, la plus petite ressource：le même siège dans le même train.
 
-正如上面所述，同一车次上的同一座位，在选择不同的起终点是，余票情况时存在竞争关系的。具体一点，比如笔者想购买 a,c 的车票，而读者想买 a,b 的车票。那么我们就有竞争关系，我们只会有一个人能够成功的购买到这个“最小竞争资源”。
+Comme mentionné ci-dessus, le même siège dans le même train, dans le choix des différents points de départ et de fin, c’est que la situation de billet restante il ya une relation concurrentielle.Plus précisément, par exemple, l’auteur veut acheter des billets pour a,c, tandis que les lecteurs veulent acheter des billets pour a,b.Ensuite, nous avons une relation concurrentielle, et nous n’aurons qu’une seule personne qui pourra acheter avec succès cette « ressource concurrentielle minimale ».
 
-这里有一些笔者认为可用的例子：
+Voici quelques exemples que l’auteur pense être available：
 
-- 在一个只允许单端登录的业务系统中，一个用户的登录票据就是最小竞争资源
-- 在一个配置系统中，每个配置项都是最小竞争资源
-- 在一个股票交易市场中，每个买单或者卖单都是最小竞争资源
+- Dans un système d’entreprise qui ne permet que les connexions unifaches, le ticket de connexion d’un utilisateur est la ressource la moins compétitive
+- Dans un système de configuration, chaque élément de configuration est la ressource la moins compétitive
+- Dans un marché boursier, chaque ordre d’achat ou de vente est la ressource la moins compétitive
 
-> 这是笔者自己的臆造词，没有参考其他资料，如果有类似资料或者名词可以佐证该内容，也希望读者可以留言说明。
+> Il s’agit des propres hypothèses de l’auteur, aucune référence à d’autres documents, s’il ya des informations similaires ou des noms peuvent soutenir le contenu, mais aussi l’espoir que les lecteurs peuvent laisser une description de message.
 
-### 最小竞争资源 与 Claptrap
+### Ressources concurrentielles minimales avec Claptrap
 
-之所以要提及“最小竞争资源”，是因为在设计 Claptrap 的 State 时，区别最小竞争资源是对系统设计的一个重要依据。
+Les « ressources concurrentielles minimales » sont mentionnées parce que la distinction entre les ressources les moins compétitives est une base importante pour la conception du système lors de la conception de l’État de Claptrap.
 
-这里列出一条笔者的结论：**Claptrap 的 State 至少应该大于等于“最小竞争资源”的范围。**
+Voici une conclusion : l’état：**Claptrap devrait être au moins supérieur ou égal à la « ressource concurrentielle minimale ».**
 
-结合阿布斯特朗回旋加速炮的例子，如果同款颜色的所有商品设计在同一个 Claptrap 的 State 中（大于最小竞争资源）。那么，不同用户购买商品就会相互影响，因为，Claptrap 基于的 Actor 模式是排队处理请求的。也就是说，假设每个商品需要处理 10ms，那么最快也需要 10000 \* 10 ms 来处理所有的购买请求。但如果每个商品都进行编号，每个商品设计为单独的 Claptrap 的 State。那么由于他们是互不相关的。卖掉所有商品，理论上就只需要 10ms。
+Combiné avec l’exemple de l’Absterrand swing acceleration gun, si tous les éléments de la même couleur sont conçus dans le même État Claptrap (plus grand que la ressource compétitive minimale).Ensuite, différents utilisateurs achètent des éléments qui s’affectent les uns les autres parce que Claptrap est basé sur le modèle Acteur qui fait la queue pour traiter les demandes.C’est-à-dire, en supposant que chaque article doit traiter 10ms, alors il est jusqu’à 10000 pour traiter toutes les demandes d’achat.Toutefois, si chaque élément est numéroté, chaque élément est conçu comme un état Claptrap distinct.Donc, parce qu’ils ne sont pas liés les uns aux autres.La vente de toutes les marchandises ne nécessiterait théoriquement que 10ms.
 
-也就是说：**如果 Claptrap 的 State 大于最小竞争资源的范围，系统不会有正确性的问题，但可能有一些性能损失。**
+Cela：**si l’État de Claptrap est plus grand que la plage minimale de ressources concurrentielles, le système n’aura pas de problème avec la justesse, mais il peut y avoir des pertes de performances.**
 
-再进一步，前文提到在火车售票的例子中，同一车次上的同一个座位是最小竞争资源，因此，我们可以将这个业务实体设计为 Claptrap 的 State 。但如果设计范围比这个还小呢？
+En outre, comme mentionné précédemment dans l’exemple de la billetterie des trains, le même siège sur le même train est la ressource la moins compétitive, de sorte que nous pouvons concevoir cette entité commerciale comme l’État de Claptrap.Mais que faire si la gamme de conception est plus petite que cela?
 
-例如：我们将 Claptrap 的 State 设计为同一车次上同一座位在不同起终点的余票。那么，就会遇到一个很传统的问题：“如何确保分布式系统中数据的正确性”。对于这点，笔者无法展开来说，因为笔者也说不清楚，就只是草率的丢下一句结论：**“如果 Claptrap 的 State 小于最小竞争资源的范围，Claptrap 间的关系将会变得难以处理，存在风险。”**
+Pour：nous avons conçu l’État de Claptrap comme un ticket résiduel pour le même siège sur le même train à différents points de départ.Ensuite, il y a une question très traditionnelle de：« Comment assurer la justesse des données dans un système distribué ».Pour ce point, l’auteur ne peut pas élargir, parce que l’auteur ne peut pas dire clairement, il suffit d’abandonner à la hâtive une conclusion：**« Si l’État de Claptrap est inférieur à la portée des plus petites ressources concurrentielles, la relation entre Claptrap deviendra difficile à traiter, il ya des risques. »**
 
-### Claptrap 主体设计
+### Conception de corps de Claptrap
 
-接下来，结合上面所述的理论。我们直接丢出设计方案。
+Ensuite, combinez les théories décrites ci-dessus.Nous avons jeté la conception directement.
 
-![Train Ticketing System Design](/images/20200720-001.png)
+![Conception du système de billetterie ferroviaire](/images/20200720-001.png)
 
-#### 将同一车次上的每个座位都设计为一个 Claptrap - SeatGrain
+#### Concevoir chaque siège sur la même conduite qu’un Claptrap-SeatGrain
 
-该 Claptrap 的 State 包含有一个基本信息
+L’État de Claptrap contient une information de base
 
-| 类型                                     | 名称         | 说明                                                                    |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | 途径车站的 id 列表，开头为始发站，结尾为终点站。主要购票时进行验证。                                  |
-| Dictionary&lt;int, int&gt; | StationDic | 途径车站 id 的索引反向字典。Stations 是 index-id 的列表，而该字典是对应的 id-index 的字典，为了加快查询。 |
-| List&lt;string&gt;         | RequestIds | 关键属性。每个区间上，已购票的购票 id。例如，index 为 0 ，即表示车站 0 到车站 1 的购票 id。如果为空则表示暂无认购票。 |
+| Type                                     | Nom                     | Description                                                                                                                                                                                            |
+| ---------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| IList&lt;int&gt;             | Stations                | La liste id des stations d’itinéraire, en commençant par la station d’origine et se terminant par le terminal.Vérification au moment de l’achat du billet principal.                                   |
+| Dictionnaire&lt;int, int&gt; | StationDic (en)         | Le dictionnaire inverse de l’index qui adage l’id de la station.Les stations sont une liste d’index-ids, et le dictionnaire est le dictionnaire id-index correspondant, afin d’accélérer les requêtes. |
+| Liste&lt;string&gt;          | RequestIds (requestids) | Propriétés clés.À chaque intervalle, l’id de billet acheté.Par exemple, un index de 0 représente un id de billet de la station 0 à la station 1.S’il est vide, il n’y a pas de billet d’abonnement.    |
 
-有了这数据结构的设计，那么就可以来实现两个业务了。
+Avec la conception de cette structure de données, deux entreprises peuvent être mises en œuvre.
 
-##### 验证是否可以购买
+##### Vérifiez qu’il peut être acheté
 
-通过传入两个车站 id，可以查询到这个作为是否属于这个 SeatGrain 。并且查询到起终点对应的所有区间段。只要判断这个从 RequestIds 中判断是否所有的区间段都没有购票 Id 即可。若都没有，则说明可以购买。如果有任何一段上已有购票 Id，则说明已经无法购买了。
+En passant dans deux identifiants de station, vous pouvez savoir si cela appartient à ce SeatGrain.Et interrogez tous les segments d’intervalle correspondant aux points de départ et de fin.Il suffit de juger si tous les segments des RequestIds n’ont pas d’iD de billet.Sinon, il peut être acheté.S’il y a déjà une pièce d’identité d’achat de billet sur n’importe quelle section, l’achat n’est plus possible.
 
-举例来说，当前 Stations 的情况是 10,11,12,13. 而 RequestIds 是 0,1,0。
+Par exemple, la situation actuelle avec les stations est de 10, 11, 12, 13. RequestIds, d’autre part, sont 0,1,0.
 
-那么，如果要购买 10->12 的车票，则不行，因为 RequestIds 第二个区间已经被购买。
+Donc, si vous achetez un billet de 10>12, ce n’est pas possible parce que la deuxième gamme de RequestIds a déjà été achetée.
 
-但是，如果要购买 10->11 的车票，则可以，因为 RequestIds 第一个区间还无人购买。
+Toutefois, si vous voulez>10- 11 billets, vous pouvez, parce que personne dans la première gamme de RequestIds n’a pas encore de les acheter.
 
-##### 购买
+##### Acheter
 
-将起终点对应在 RequestIds 中所有的区间段设置上购票 Id 即可。
+Il suffit de placer les points de départ et de fin sur tous les paramètres du segment d’intervalle dans RequestIds.
 
-##### 单元测试用例
+##### Cas de test unitaires
 
-可以通过以下链接来查看关于以上算法的代码实现：
+Les liens suivants vous permettent de visualiser la mise en œuvre du code de ce qui précède algorithm：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
+- [Gitee ( Gitee )](https://gitee.com/yks/Newbe.Claptrap.Examples/blob/master/src/Newbe.Claptrap.Ticketing/Newbe.Claptrap.Ticketing.Actors.Tests/TicketingTest.cs)
 
-#### 将同一车次上的所有座位的余票情况设计为一个 Claptrap - TrainGran
+#### Concevoir le billet restant pour tous les sièges sur le même trajet qu’un Claptrap-TrainGran
 
-该 Claptrap 的 State 包含有一些基本信息
+L’État de Claptrap contient quelques informations de base
 
-| 类型                                               | 名称        | 说明                                                                                   |
-| ------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| IReadOnlyList&lt;int&gt;             | Stations  | 途径车站的 id 列表，开头为始发站，结尾为终点站。主查询时进行验证。                                                  |
-| IDictionary&lt;StationTuple, int&gt; | SeatCount | 关键属性。StationTuple 表示一个起终点。集合包含了所有可能的起终点的余票情况。例如，根据上文，如果该车次经过 34 个地点，则该字典包含有 561 个键值对 |
+| Type                                             | Nom                   | Description                                                                                                                                                                                                                                                                         |
+| ------------------------------------------------ | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IReadOnlyList&lt;int&gt;             | Stations              | La liste id des stations d’itinéraire, en commençant par la station d’origine et se terminant par le terminal.Valider sur la requête principale.                                                                                                                                    |
+| IDictionary&lt;StationTuple, int&gt; | SeatCount (SeatCount) | Propriétés clés.StationTuple représente un point de départ.La collection contient les billets restants pour tous les points de départ et de fin possibles.Par exemple, selon ce qui précède, si le trajet passe à travers 34 emplacements, le dictionnaire contient 561 paires clés |
 
-基于以上的数据结构，只需要在每次 SeatGrain 完成下单后，将对应的信息同步到该 Grain 即可。
+Sur la base de la structure de données ci-dessus, vous n’avez qu’à synchroniser les informations correspondantes avec le grain une fois chaque commande SeatGrain terminée.
 
-例如，假如 a,c 发生了一次购票，则将 a,c / a,b / b,c 的余票都减一即可。
+Par exemple, si a,c a un achat de billet, les billets restants pour a,c/a,b/b,c seront réduits d’un.
 
-这里可以借助本框架内置的 Minion 机制来实现。
+Cela peut être réalisé avec le mécanisme Minion intégré dans ce cadre.
 
-值得一提的是，这是一个比“最小竞争资源”大的设计。因为查询场景在该业务场景中不需要绝对的快速。这样设计可以减少系统的复杂度。
+Il convient de mentionner qu’il s’agit d’une conception plus grande que la « ressource concurrentielle minimale ».Parce que le scénario de requête n’a pas besoin d’être absolument rapide dans ce scénario d’affaires.Cette conception réduit la complexité du système.
 
-## 小结
+## Résumé
 
-本篇，我们通过业务分析，得出了火车票余票管理和 Newbe.Claptrap 的结合点。
+Dans cet article, à travers l’analyse d’entreprise, nous avons mis au point une combinaison de gestion résiduelle des billets de train et Newbe.Claptrap.
 
-后续我们将围绕本篇的设计，说明如何进行开发、测试和部署。
+Nous nous concentrerons ensuite sur la conception de cet article, en expliquant comment développer, tester et déployer.
 
-实际上，项目源码已经构建完毕，读者可以从以下地址获取：
+En fait, le code source du projet a été construit, et les lecteurs peuvent obtenir le：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples)
-- [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples)
+- [Gitee ( Gitee )](https://gitee.com/yks/Newbe.Claptrap.Examples)
 
-特别感谢[wangjunjx8868](https://github.com/wangjunjx8868)采用 Blazor 为本样例制作的界面。
+Merci spécial[wangjunjx8868](https://github.com/wangjunjx8868)interface créée avec Blazor pour cet exemple.
 
 <!-- md Footer-Newbe-Claptrap.md -->
