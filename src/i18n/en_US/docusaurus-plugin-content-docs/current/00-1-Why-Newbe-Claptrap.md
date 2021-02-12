@@ -54,7 +54,7 @@ Firstly, state of actor must be change by itself. If you want to change the stat
 
 ![Update Actor state](/images/20190226-001.gif)
 
-Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example the public property of the class：in C#, if this class is referenced, the property in the class can be changed when obtained externally.It is not allowed to do so in actor pattern.
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。It is not allowed to do so in actor pattern.
 
 ![Share Actor State](/images/20190226-003.gif)
 
