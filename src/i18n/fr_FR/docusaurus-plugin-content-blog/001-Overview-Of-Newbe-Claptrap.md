@@ -1,8 +1,6 @@
 ---
 date: 2019-02-28
 title: Newbe.Claptrap - Un cadre de développement côté service avec « approvisionnement événementiel » et « Mode Acteur » comme théories de base
-tags:
-  - Newbe.Claptrap
 ---
 
 Cet article est une introduction au contenu principal du projet Newbe.Claptrap, à travers lequel les lecteurs peuvent obtenir une compréhension générale du contenu du projet.
@@ -44,11 +42,11 @@ Cette section présentera une partie du contenu théorique qui est étroitement 
 
 ### Mode acteur
 
-Le modèle Actor est un modèle de programmation standard.Grâce à l’application de ce modèle de programmation, certains systèmes peuvent résoudre le problème de la complexité.Le problème avec le syndicat mentionné ici est que lorsqu’un ordinateur traite logiquement les mêmes données, il peut causer des données incorrectes en raison de multiples demandes simultanées.Il s’agit d’un problème que vous devez rencontrer lorsque vous êtes une programmation multicœur.举个简单的例子，假如在不加同步锁的情况下，使用 100 个线程并发对内存中的一个 int 变量执行 ++ 操作。Ensuite, le résultat de cette variable est souvent inférieur à 100.Voici comment le modèle Actor évite ce problème.
+Le modèle Actor est un modèle de programmation standard.Grâce à l’application de ce modèle de programmation, certains systèmes peuvent résoudre le problème de la complexité.Le problème avec le syndicat mentionné ici est que lorsqu’un ordinateur traite logiquement les mêmes données, il peut causer des données incorrectes en raison de multiples demandes simultanées.Il s’agit d’un problème que vous devez rencontrer lorsque vous êtes une programmation multicœur.Pour donner un exemple simple, si vous utilisez 100 threads dans un verrou non synchrone pour effectuer une opération s. . . sur une variable int dans la mémoire.Ensuite, le résultat de cette variable est souvent inférieur à 100.Voici comment le modèle Actor évite ce problème.
 
 Tout d’abord, pour la facilité de compréhension, le lecteur peut penser à l’acteur comme un objet ici.Dans les langues orientées objet (Java, C#, et ainsi de suite), l’acteur peut être considéré comme un objet créé``le nouveau mot clé.Mais cet objet a quelques particularités characteristics：
 
-**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.在 Actor 模式中，这些属性都被统称为 Actor的状态（State）。L’état de l’acteur est maintenu par l’acteur lui-même.
+**a un État qui appartient à**.Les objets peuvent tous avoir leurs propres propriétés, ce qui est une caractéristique de base des langues orientées objet.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State）。L’état de l’acteur est maintenu par l’acteur lui-même.
 
 Cela met en évidence deux points：
 
