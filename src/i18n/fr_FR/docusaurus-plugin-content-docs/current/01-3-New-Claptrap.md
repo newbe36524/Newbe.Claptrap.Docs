@@ -68,7 +68,7 @@ Parce que Claptrap est un acteur basé sur des modèles d’approvisionnement d�
 
 Dans cet exemple, nous avons seulement besoin d’enregistrer l’inventaire de l’actuel SKU, de sorte que la conception de l’État est très simple.
 
-Ajoutez`<code>dossier`Sku au projet HelloClaptrap.</code>et créez le`SkuState`sous ce dossier.
+Ajoutez`dossier`Sku au projet HelloClaptrap.et créez le`SkuState`sous ce dossier.
 
 Ajouter les éléments code：
 
@@ -136,7 +136,7 @@ Ce qui suit a été added：
 
 Une fois que vous avez défini ISkuGrain, vous pouvez ajouter du code pour l’implémenter.
 
-Créez`nouveau<code>dossier`Sku pour le projet HelloClaptrap.Actors</code>et ajoutez le`dossier`SkuGrain.
+Créez`nouveau dossier`Sku pour le projet HelloClaptrap.Actors et ajoutez le`dossier`SkuGrain.
 
 ```cs
 + using System;
