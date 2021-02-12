@@ -165,20 +165,21 @@ Dies entspricht, wenn es erstellt wird, einem Tag-Bild von`registry.cn-hangzhou.
 
 Da wir dieses Mal ein Netcore-Programm veröffentlichen, werden sie mit Netcore-Images erstellt, daher wird für einen reibungsloseren Build empfohlen, dass Sie das Beschleunigungstool verwenden, um das zugrunde liegende Bild lokal im Voraus herunterzuladen.
 
-Zum Beispiel, die net5 TFM-Anwendung, die vom Autor in dieser Verwendung verwendet wird, daher müssen Sie die`mcr.microsoft.com/dotnet/aspnet:5.0`als zugrunde liegenden Spiegel ziehen.
+例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
 
-Da die Quelle des zugrunde liegenden Netcore-Spiegels nun von docker hub nach mcr.microsoft.com migriert wurde.Daher wird empfohlen, die</code>von Newbe.McRiror`, um Downloads zu beschleunigen.</p>
+Da die Quelle des zugrunde liegenden Netcore-Spiegels nun von docker hub nach mcr.microsoft.com migriert wurde.故而，建议使用 Newbe.McrMirror 进行加速下载。
 
-<p spaces-before="0">Detaillierte Verwendungsmethoden können auf：<a href="https://github.com/newbe36524/Newbe.McrMirror" x-nc="1">https://github.com/newbe36524/Newbe.McrMirror</a></p>
+Detaillierte Verwendungsmethoden können auf：<https://github.com/newbe36524/Newbe.McrMirror>
 
-<p spaces-before="0">Wenn der Entwickler nicht weiß, was das zugrunde liegende Image ist, das er derzeit abrufen muss, kann er auch den folgenden Schritt versuchen, direkt zu veröffentlichen, den zugrunde liegenden Bildinhalt anzuzeigen, der im Prozess verwendet wird, und dann zu ziehen.</p>
+Wenn der Entwickler nicht weiß, was das zugrunde liegende Image ist, das er derzeit abrufen muss, kann er auch den folgenden Schritt versuchen, direkt zu veröffentlichen, den zugrunde liegenden Bildinhalt anzuzeigen, der im Prozess verwendet wird, und dann zu ziehen.
 
-<h3 spaces-before="0">Verwenden von tye-Bereitstellung</h3>
+### Verwenden von tye-Bereitstellung
 
-<p spaces-before="0">Nachdem nun alles fertig ist, können Sie veröffentlichen, indem Sie die folgenden Befehle im Lösungskatalog fortsetzen:</p>
+Nachdem nun alles fertig ist, können Sie veröffentlichen, indem Sie die folgenden Befehle im Lösungskatalog fortsetzen:
 
-<pre><code class="bash">tye deploy
-`</pre>
+```bash
+tye deploy
+```
 
 Sie können die folgenden Ergebnisse erhalten:
 
