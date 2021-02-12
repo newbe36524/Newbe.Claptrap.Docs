@@ -1,23 +1,23 @@
 ---
-title: 'Identité Claptrap'
-description: 'Identité Claptrap'
+title: 'Claptrap Identity'
+description: 'Claptrap Identity'
 ---
 
 
-## Claptrap Identity est l’identité unique qui localise un Claptrap
+## Claptrap Identity 是定位一个 Claptrap 的唯一标识
 
-C’est une structure.Il contient plusieurs fields：
+它是一个结构体。其包含有以下几个主要的字段：
 
-Code de type Claptrap, code de classification Claptrap.Le code classifié est un code défini par le développeur.Généralement lié à l’entreprise associée à Claptrap.Il est important de noter qu’il n’y a pas d’association forcée entre Claptrap et son Minion Claptrap Type Code, mais habituellement pendant le développement, Minion Claptrap Type Code devrait être conçu dans le cadre de son Master Claptrap, qui est plus convivial pour les entreprises.
+Claptrap Type Code，Claptrap 分类代码。分类代码是由开发者自行定义的代码。通常和对应 Claptrap 所关联的业务有关。值得特别注意的是， Claptrap 及其 Minion 的 Claptrap Type Code 之间没有强制的关联关系，但通常在开发过程中，Minion 的 Claptrap Type Code 应该被设计为其 Master Claptrap 的部分，这样更有利于业务上的理解。
 
-Id, Claptrap Business ID.C’est l’identité de l’entreprise.En règle générale, c’est la clé principale de l’entreprise.Dans le code et la documentation réels, Claptrap Identity apparaît en nom complet, et lorsque les ID apparaissent, ils se réfèrent généralement aux cartes d’identité d’entreprise.
+Id, Claptrap 业务 Id。这是业务的 Id。通常来说是业务的主键。在实际的代码、文档中，Claptrap Identity 都会以全称的方式出现，而出现 Id 时，通常是指业务 Id。
 
-## Claptrap Identity Il s’agit d’un design indépendant de la plate-forme
+## Claptrap Identity 这是与运行平台无关的设计
 
-Par conséquent, lors de la combinaison avec une plate-forme spécifique, il est nécessaire de clarifier son point de liaison.
+因而在与具体的平台结合时，需要明确其结合点。
 
-L’incarnation de Claptrap Identity à Orléans.
+Claptrap Identity 在 Orleans 中的体现。
 
-Claptrap Type Code：à Orléans, habituellement chaque Claptrap est placé pour fonctionner dans ClaptrapBoxGrain.À ce stade, claptrap type code est généralement marqué sur une classe ou une interface comme une balise de propriété.
+Claptrap Type Code：在 Orleans 中，通常每个 Claptrap 都会被放置在 ClaptrapBoxGrain 中运行。此时，Claptrap Type Code 通常会以属性标记的方式，标记在类或者接口上。
 
-Id：à Orléans, Grain lui-même est livré avec un PrimaryKey.En conséquence, le PrimaryKey est également réutilisé directement dans ClaptrapBoxGrain sous le nom de Claptrap ID.
+Id：在 Orleans 中，Grain 本身就带有一个 PrimaryKey 。因而，在 ClaptrapBoxGrain 中也直接重用了该 PrimaryKey 作为 Claptrap Id。
