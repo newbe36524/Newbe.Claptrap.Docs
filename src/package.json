@@ -10,7 +10,8 @@
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
-    "write-translations": "docusaurus write-translations"
+    "write-translations": "docusaurus write-translations",
+    "write-translations-zh": "docusaurus write-translations --locale zh_Hans --override"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.70",
