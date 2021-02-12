@@ -1,5 +1,5 @@
 ---
-title: 'Système de billetterie des trains'
-description: 'Système de billetterie des trains'
+title: '火车售票系统'
+description: '火车售票系统'
 ---
 
