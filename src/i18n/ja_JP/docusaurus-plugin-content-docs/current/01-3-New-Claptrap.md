@@ -1,6 +1,6 @@
 ---
-title: 'ステップ 3 - Claptrap を定義し、商品在庫を管理します'
-description: 'ステップ 3 - Claptrap を定義し、商品在庫を管理します'
+title: "ステップ 3 - Claptrap を定義し、商品在庫を管理します"
+description: "ステップ 3 - Claptrap を定義し、商品在庫を管理します"
 ---
 
 この記事では、Claptrap を使用してビジネスを開始できます。
@@ -309,7 +309,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-`EventHandler`Claptrap の`State にイベントを更新`します。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 `HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
 
