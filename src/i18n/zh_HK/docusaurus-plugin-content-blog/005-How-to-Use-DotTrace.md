@@ -7,7 +7,7 @@ title: 如何使用dotTrace来诊断netcore应用的性能问题
 
 <!-- more -->
 
-## 开篇摘要
+## 開篇摘要
 
 [dotTrace](https://www.jetbrains.com/profiler/) 是 Jetbrains 公司为 .net 应用提供的一款 profile 软件。有助于对于软件中的耗时函数和内存问题进行诊断分析。
 
