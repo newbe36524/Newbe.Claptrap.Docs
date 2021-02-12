@@ -165,9 +165,9 @@ This is equivalent to, if built, a tag image of`registry.cn-hangzhou.aliyuncs.co
 
 Because this time we're releasing a netcore program, they're going to be built with netcore images, so for a smoother build, it's recommended that you use the acceleration tool to download the underlying image locally in advance.
 
-For example, the net5 TFM application used by the author in this use, therefore, you need to pull the`mcr.microsoft.com/dotnet/aspnet:5.0`as the underlying mirror.
+例如，笔者在此次的使用中使用的 net5 TFM 的应用程序，因此，就需要在本地先拉好 mcr.microsoft.com/dotnet/aspnet:5.0 作为基础镜像。
 
-Since the source of the netcore underlying mirror has now been migrated from docker hub to mcr.microsoft.com.Therefore, it is recommended`the Newbe.McRiror`to speed up downloads.
+Since the source of the netcore underlying mirror has now been migrated from docker hub to mcr.microsoft.com.故而，建议使用 Newbe.McrMirror 进行加速下载。
 
 Detailed usage methods can be referred to：<https://github.com/newbe36524/Newbe.McrMirror>
 
