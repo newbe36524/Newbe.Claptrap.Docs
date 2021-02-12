@@ -1,6 +1,6 @@
 ---
-title: 'Étape 2 - Affaires simples, videz votre panier'
-description: 'Étape 2 - Affaires simples, videz votre panier'
+title: "Étape 2 - Affaires simples, videz votre panier"
+description: "Étape 2 - Affaires simples, videz votre panier"
 ---
 
 Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec Claptrap.
@@ -49,7 +49,7 @@ Ajoutez EventCode pour les événements empty shopping cart.
 
 L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
 
-Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models.
+Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models .
 
 Ajouter les éléments code：
 
@@ -72,7 +72,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
-Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actors.
+Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
 
 Ajouter les éléments code：
 
@@ -142,7 +142,7 @@ Marquez avec attribut.
           ....
 ```
 
-`ClaptrapEventHandler Attribute`est un attribut défini par framework qui peut être marqué sur la classe de mise en œuvre de Grain pour implémenter l’association entre EventHandler, EventCode et ClaptrapGrain.
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 Après l’association, si l’événement correspondant à EventCode se produit dans ce grain, il sera géré par le EventHandler spécifié.
 
