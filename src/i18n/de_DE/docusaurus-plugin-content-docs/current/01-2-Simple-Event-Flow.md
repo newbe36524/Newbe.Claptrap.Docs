@@ -70,7 +70,7 @@ Denn in diesem einfachen Geschäftsszenario erfordert das Leeren eines Warenkorb
 
 ## Implement EventHandler
 
-`EventHandler`, Ereignisse auf die`State`von Claptrap zu aktualisieren.In diesem Geschäftsszenario ist EventHandler beispielsweise für das Leeren des Inhalts des Statuswagens verantwortlich.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。In diesem Geschäftsszenario ist EventHandler beispielsweise für das Leeren des Inhalts des Statuswagens verantwortlich.
 
 Erstellen Sie`RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner Cart/Events`Ordner des HelloClaptrap.Actor s -Projekts.
 
