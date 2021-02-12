@@ -333,7 +333,7 @@ Deleting 'Ingress' 'tyetest-ingress' ...
 Time Elapsed: 00:00:02:87
 ```
 
-## 小结
+## 小結
 
 本篇，我们简单介绍了如何使用 tye 运行或者部署应用的简单步骤。实际过程中还有很多可以扩展和自定义的选项。感兴趣的朋友可以查看 https://github.com/dotnet/tye 中的内容进行学习。
 
