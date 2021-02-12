@@ -68,7 +68,7 @@ Because Claptrap is an Actor based on event sourcing patterns.So it's important 
 
 In this example, we only need to record the inventory of the current SKU, so state design is very simple.
 
-在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
+Add`Sku`folder to the HelloClaptrap.project and create the`SkuState`under that folder.
 
 Add the following code.：
 
@@ -92,7 +92,7 @@ Inventory represents the inventory of the current SKU.
 
 Define the definition of the Grain interface to provide external interoperability with Claptrap.
 
-在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
+Add`ISkuGrain interface to`HelloClaptrap.IActors``project.
 
 Add interfaces and Attributes.
 
@@ -136,7 +136,7 @@ The following has been added：
 
 Once you've defined ISkuGrain, you can add code to implement it.
 
-在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
+Create`new Sku`folder for the HelloClaptrap.Actors. project and add the`SkuGrain`folder.
 
 ```cs
 + using System;
@@ -253,7 +253,7 @@ We have implemented the main part of Claptrap earlier, but we have not completed
 
 EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
+Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
 
 Add EventCode for Update Inventory.
 
@@ -287,7 +287,7 @@ Add EventCode for Update Inventory.
 
 Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
+Create`InventoryUpdateEvent`under the`Sku/Events`folder of`helloClaptrap.`projects.
 
 Add the following code.：
 
@@ -311,7 +311,7 @@ Add the following code.：
 
 `EventHandler.`Used to update events to Claptrap.`State.`.
 
-在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
+Create`InventoryUpdateEventHandler`class under the`Sku/Events`folder of`the HelloClaptrap.Actors`project.
 
 Add the following code.：
 
