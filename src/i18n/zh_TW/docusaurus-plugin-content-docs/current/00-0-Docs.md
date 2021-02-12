@@ -1,5 +1,5 @@
 ---
-title: "正體中文說明"
+title: "项目简介"
 description: "這是以`反應式`、`事件溯源`和`Actor模式`作為基本理論的一套服務端開發框架。於此之上，開發者可以更為簡單的開發出“分布式”、“可水平擴展”、“可測試性高”的應用系統。"
 slug: /
 ---
@@ -30,8 +30,6 @@ Claptrap and it`s Minions are coming.
 
 - [Github Issue](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee Issue](https://gitee.com/yks/Newbe.Claptrap/issues)
-- 公開信箱 newbe-claptrap@googlegroups.com （發送到該郵箱的內容將被公開）
-- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ 群 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## 參考資料
