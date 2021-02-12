@@ -1,6 +1,6 @@
 ---
-title: '快速入门'
-description: 'Newbe.Claptrap 快速入门'
+title: 'Comience rápidamente'
+description: 'Newbe.Claptrap Inicio rápido'
 ---
 
-本系列，我们将通过一个简化的电商小应用来了解如使用 Newbe.Claptrap 来开发一个服务端系统。
+En esta serie, aprenderemos a desarrollar un sistema de servicio con Newbe.Claptrap con una aplicación de comercio electrónico simplificada.
