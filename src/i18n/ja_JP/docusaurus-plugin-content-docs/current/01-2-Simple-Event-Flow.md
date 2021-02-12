@@ -70,7 +70,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
+EventHandlerはイベントを Claptrap の state への更新に使用します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
 `HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
 
@@ -118,7 +118,7 @@ EventHandler の実装が完了したら、単体テストを行うのを忘れ�
 
 EventHandler を実装してテストしたら、EventCode と Claptrap に関連付ける前に EventHandler を登録できます。
 
-`HelloClaptrap.Actors`プロジェクトの`CartGrain`します。
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 タグに Attribute を使用します。
 
