@@ -68,7 +68,7 @@ Porque Claptrap es un actor basado en patrones de abastecimiento de eventos.Por 
 
 En este ejemplo, solo necesitamos registrar el inventario de la SKU actual, por lo que el diseño de estado es muy simple.
 
-Agregue`carpeta Sku`al proyecto de HelloClaptrap.y cree elskuState`en esa carpeta.
+Agregue`carpeta Sku`al proyecto de HelloClaptrap. y cree el skuState`en esa carpeta.
 
 Agregue los siguientes code：
 
