@@ -1,6 +1,6 @@
 ---
-title: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
-description: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
+title: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
+description: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
 ---
 
 この記事では、Claptrap を使用してビジネスを開始できます。
@@ -70,7 +70,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-`EventHandler`Claptrap の`State にイベントを更新`します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
 `HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
 
