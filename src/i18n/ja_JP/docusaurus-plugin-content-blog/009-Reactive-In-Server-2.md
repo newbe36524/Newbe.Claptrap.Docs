@@ -1,33 +1,33 @@
 ---
 date: 2020-06-28
-title: 谈反应式编程在服务端中的应用，数据库操作优化，提速 Upsert
+title: サービス側でのリアクションプログラミングの適用、データベース操作の最適化、Upsertのスピードアップについて説明します
 ---
 
-反应式编程在客户端编程当中的应用相当广泛，而当前在服务端中的应用相对被提及较少。本篇将介绍如何在服务端编程中应用响应时编程来改进数据库操作的性能。
+リアクティブ プログラミングは、クライアント プログラミングで非常に広く使用されていますが、サービス側での現在のアプリケーションは比較的少ないです。この記事では、サービス側プログラミングで応答を適用するときにプログラミングして、データベース操作のパフォーマンスを改善する方法について説明します。
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 开篇就是结论
+## 始まりは結論です
 
-接续上一篇[《谈反应式编程在服务端中的应用，数据库操作优化，从 20 秒到 0.5 秒`》](008-Reactive-In-Server-1)之后，这次，我们带来了关于利用反应式编程进行 upsert 优化的案例说明。建议读者可以先阅读一下前一篇，这样更容易理解本篇介绍的方法。
+前回の[「サービス側でのリアクション プログラミングの適用、データベース操作の最適化、20 秒から 0.5 秒'」の](008-Reactive-In-Server-1)に続き、今回はリアクション プログラミングを使用した upsert 最適化のケース ノートを紹介します。読者は、この記事で紹介した方法を理解しやすくするために、前の記事を読むことをお勧めします。
 
-同样还是利用批量化的思路，将单个 upsert 操作批量进行合并。已达到减少数据库链接消耗从而大幅提升性能的目的。
+また、バッチ化されたアイデアを使用して、個々の upsert 操作をバッチでマージすることもできます。データベース リンクの消費を削減し、パフォーマンスを大幅に向上させる目標を達成しました。
 
-## 业务场景
+## ビジネス シナリオ
 
-在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。我们通过激活多个常驻于内存当中的 Claptrap 来实现快速验证 JWT 正确性的目的。
+最近の記事で、[万人の同時オンラインユーザーはどのくらいのメモリを必要としますか? --Newbe.Claptrap フレームワークの水平拡張実験](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)します。メモリに常駐する複数の Claptrap をアクティブ化することで、JWT の正確性をすばやく検証します。
 
-但，当时有一个技术问题没有得到解决：
+しかし、当時は技術的な問題が解決：
 
-Newbe.Claptrap 框架设计了一个特性：当 Claptrap Deactive 时，可以选择将快照立即保存到数据库。因此，当尝试从集群中关闭一个节点时，如果节点上存在大量的 Claptrap ，那么将产生大量的数据库 upsert 操作。瞬间推高数据库消耗，甚至导致部分错误而保存失败。
+Newbe.Claptrap フレームワークは、プロパティを設計しました：Claptrap Deactive の場合、スナップショットをデータベースにすぐに保存するオプションがあります。したがって、クラスターからノードをシャットダウンしようとすると、ノードに多数の Claptrap が存在する場合、大量のデータベース upsert 操作が生成されます。データベースの消費を瞬時に押し上け、一部のエラーを引き起こして保存に失敗しました。
 
-## 一点点代码
+## 少しコード
 
-有了前篇的`IBatchOperator`，那么留给这篇的代码内容就非常少了。
+前編の「IBatchOperator`を`すると、この記事に残されたコードの内容は最小限に抑えます。
 
-首先，按照使用上一篇的 IBatchOperator 编写一个支持操作的 Repository，形如以下代码：
+まず、前の IBatchOperator を使用して、次のコードを参照して、操作をサポートする Repository を：
 
 ```cs
 public class BatchUpsert : IUpsertRepository
@@ -49,7 +49,7 @@ public class BatchUpsert : IUpsertRepository
 
     private Task<int> DoManyFunc(IEnumerable<(int, int)> arg)
     {
-        return _database.UpsertMany(arg.ToDictionary(x => x.Item1, x => x.Item2));
+        return _database. UpsertMany(arg. ToDictionary(x => x.Item1, x => x.Item2));
     }
 
     public Task UpsertAsync(int key, int value)
@@ -59,19 +59,19 @@ public class BatchUpsert : IUpsertRepository
 }
 ```
 
-然后，只要实现对应数据库的 UpsertMany 方法，便可以很好地完成这项优化。
+この最適化は、データベースに対応する UpsertMany メソッドを実装する限り、適切に実行できます。
 
-## 各种数据库的操作
+## さまざまなデータベースの操作
 
-结合 Newbe.Claptrap 现在项目的实际。目前，被支持的数据库分别有 SQLite、PostgreSQL、MySql 和 MongoDB。以下，分别对不同类型的数据库的批量 Upsert 操作进行说明。
+Newbe.Claptrap の現在のプロジェクトの実績を組み合わせます。現在、サポートされているデータベースには、SQLite、PostgreSQL、MySql、MongoDB があります。以下では、さまざまな種類のデータベースに対する一括 Upsert 操作について説明します。
 
-由于在 Newbe.Claptrap 项目中的 Upsert 需求都是以主键作为对比键，因此以下也只讨论这种情况。
+Newbe.Claptrap プロジェクトの Upsert 要件は主キーを比較キーとして使用するため、この状況については以下で説明します。
 
 ### SQLite
 
-根据官方文档，使用 `INSERT OR REPLACE INTO` 便可以实现主键冲突时替换数据的需求。
+公式ドキュメントによると、 `INSERT OR REPLACE INTO` を使用すると、主キーの競合時にデータを置き換える必要があります。
 
-具体的语句格式形如以下：
+具体的なステートメント形式は、次の形式です：
 
 ```SQL
 INSERT OR REPLACE INTO TestTable (id, value)
@@ -81,17 +81,17 @@ VALUES
 (@idn,@valuen);
 ```
 
-因此只要直接拼接语句和参数调用即可。需要注意的是，SQLite 的可传入参数默认为 999，因此拼接的变量也不应大于该数量。
+したがって、ステートメントと引数の呼び出しを直接スプライスするだけです。SQLite の渡し可能なパラメーターは既定で 999 に設定されているため、スプライスされた変数もその数より大きくする必要があります。
 
-> [官方文档：INSERT](https://www.sqlite.org/lang_insert.html)
+> [公式文書：INSERT](https://www.sqlite.org/lang_insert.html)
 
 ### PostgreSQL
 
-众所周知，PostgreSQL 在进行批量写入时，可以使用高效的`COPY`语句来完成数据的高速导入，这远远快于`INSERT`语句。但可惜的是`COPY`并不能支持`ON CONFLICT DO UPDATE`子句。因此，无法使用`COPY`来完成 upsert 需求。
+PostgreSQL は、一括書き込みを行うときに、効率的な`COPY`ステートメントを使用して、`INSERT ステートメントよりもはるかに高速なデータの高速インポートを`よく知られています。ただし、残念`COPY`ON ON CONFLICT DO UPDATE`句を`しません。したがって、upsert`COPY`を使用して完了できません。
 
-因此，我们还是回归使用`INSERT`配合`ON CONFLICT DO UPDATE`子句，以及`unnest`函数来完成批量 upsert 的需求。
+したがって、`INSERT`を使用して`ON CONFLICT DO UPDATE`句を使用し、`unnest`関数を使用してバッチ upsert の要件を完了します。
 
-具体的语句格式形如以下：
+具体的なステートメント形式は、次の形式です：
 
 ```SQL
 INSERT INTO TestTable (id, value)
@@ -100,17 +100,17 @@ ON CONFLICT ON CONSTRAINT TestTable_pkey
 DO UPDATE SET value=excluded.value;
 ```
 
-其中的 ids 和 values 分别为两个等长的数组对象，unnest 函数可以将数组对象转换为行数据的形式。
+ids と values はそれぞれ 2 つの等長配列オブジェクトであり、unnest 関数は配列オブジェクトを行データの形式に変換します。
 
-注意，可能会出现 ON CONFLICT DO UPDATE command cannot affect row a second time 错误。
+ON CONFLICT DO UPDATE command cannot affect row a second time エラーが発生することがあります。
 
-因此如果尝试使用上述方案，需要在传入数据库之前，先在程序中去重一遍。而且，通常来说，在程序中进行一次去重可以减少向数据库中传入的数据，这本身也很有意义。
+したがって、上記のシナリオを使用する場合は、データベースを渡す前に、プログラムでやり直す必要があります。また、通常、プログラム内で 1 回の削除を行う場合、データベースへのデータの受信が減るのも理にかなっています。
 
-> [官方文档：unnest 函数](https://www.postgresql.org/docs/9.2/functions-array.html) > [官方文档：Insert 语句](https://www.postgresql.org/docs/9.5/sql-insert.html)
+> [ドキュメント：unnest 関数](https://www.postgresql.org/docs/9.2/functions-array.html) > [公式ドキュメント：Insert ステートメント](https://www.postgresql.org/docs/9.5/sql-insert.html)
 
 ### MySql
 
-MySql 与 SQLite 类似，支持`REPLACE` 语法。具体语句形式如下：
+MySql は SQLite に似ていますが、`REPLACE` サポートしています。具体的なステートメントの形式は次のとおりです：
 
 ```sql
 REPLACE INTO TestTable (id, value)
@@ -120,22 +120,22 @@ VALUES
 (@idn,@valuen);
 ```
 
-> [官方文档：REPLACE 语句](https://dev.mysql.com/doc/refman/8.0/en/replace.html)
+> [公式ドキュメント：REPLACE ステートメント](https://dev.mysql.com/doc/refman/8.0/en/replace.html)
 
 ### MongoDB
 
-MongoDB 原生支持 bulkWrite 的批量传输模式，也支持 replace 的 upsert 语法。因此操作非常简单。
+MongoDB は、bulkWrite の一括転送モードと replace の upsert 構文をネイティブにサポートしています。だから、操作は非常に簡単です。
 
-那么这里展示一下 C# 操作方法：
+次に、C# の動作を示します：
 
 ```cs
 private async Task SaveManyCoreMany(
     IDbFactory dbFactory,
     IEnumerable<StateEntity> entities)
 {
-    var array = entities as StateEntity[] ?? entities.ToArray();
+    var array = entities as StateEntity[] ?? entities. ToArray();
     var items = array
-        .Select(x => new MongoStateEntity
+        . Select(x => new MongoStateEntity
         {
             claptrap_id = x.ClaptrapId,
             claptrap_type_code = x.ClaptrapTypeCode,
@@ -143,13 +143,13 @@ private async Task SaveManyCoreMany(
             state_data = x.StateData,
             updated_time = x.UpdatedTime,
         })
-        .ToArray();
+        . ToArray();
 
     var client = dbFactory.GetConnection(_connectionName);
-    var db = client.GetDatabase(_databaseName);
-    var collection = db.GetCollection<MongoStateEntity>(_stateCollectionName);
+    var db = client. GetDatabase(_databaseName);
+    var collection = db. GetCollection<MongoStateEntity>(_stateCollectionName);
 
-    var upsertModels = items.Select(x =>
+    var upsertModels = items. Select(x =>
     {
         var filter = new ExpressionFilterDefinition<MongoStateEntity>(entity =>
             entity.claptrap_id == x.claptrap_id && entity.claptrap_type_code == x.claptrap_type_code);
@@ -158,92 +158,92 @@ private async Task SaveManyCoreMany(
             IsUpsert = true
         };
     });
-    await collection.BulkWriteAsync(upsertModels);
+    await collection. BulkWriteAsync(upsertModels);
 }
 ```
 
-这是从 Newbe.Claptrap 项目业务场景中给出的代码，读者可以结合自身需求进行修改。
+これは、Newbe.Claptrap プロジェクトのビジネス シナリオから提供されるコードであり、読者は自分のニーズに合わせて変更できます。
 
-> [官方文档：db.collection.bulkWrite()](https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#db.collection.bulkWrite)
+> [公式文書：db.collection.bulkWrite()](https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#db.collection.bulkWrite)
 
-### 通用型解法
+### 汎用解法
 
-优化的本质是减少数据库链接的使用，尽可能在一个链接内完成更多的工作。因此如果特定的数据库不支持以上数据库类似的操作。那么还是存在一种通用型的解法：
+最適化の本質は、データベース リンクの使用を減らし、1 つのリンク内でより多くの作業を行います。したがって、特定のデータベースが上記のデータベースと同様の操作をサポートしていない場合。では、汎用的な解法があります：
 
-1. 以尽可能快地方式将数据写入一临时表
-2. 将临时表的数据已连表 update 的方式更新的目标表
-3. 删除临时表
+1. 一時テーブルにできるだけ速くデータを書き込みます
+2. 一時テーブルのデータがテーブル update に接続されている方法で更新されるターゲット テーブル
+3. 一時テーブルを削除します
 
 > [UPDATE with a join](http://www.sql-workbench.eu/dbms_comparison.html)
 
-## 性能测试
+## パフォーマンス テスト
 
-以 SQLite 为例，尝试对 12345 条数据进行 2 次 upsert 操作。
+たとえば、SQLite では、12345 データに対して 2 回 upsert 操作を実行してください。
 
-单条并发：1 分 6 秒
+1 つの同時：1 分 6 秒です
 
-批量处理：2.9 秒
+バッチ処理：2.9 秒です
 
-[可以在该链接找到测试的代码。](https://github.com/newbe36524/Newbe.Demo/blob/master/src/BlogDemos/Newbe.Rx/Newbe.RxWorld/Newbe.RxWorld/UpsertTest.cs)
+[テストのコードは、このリンクにあります。](https://github.com/newbe36524/Newbe.Demo/blob/master/src/BlogDemos/Newbe.Rx/Newbe.RxWorld/Newbe.RxWorld/UpsertTest.cs)
 
-样例中不包含有 MySql、PostgreSQL 和 MongoDB 的样例，因为没有优化之前，在不提高连接池的情况下，一并发基本就爆炸了。所有优化的结果是直接解决了可用性的问题。
+MySql、PostgreSQL、および MongoDB のサンプルは、最適化の前に接続プールを改善せずにほぼ同時に爆発するため、サンプルには含まれていません。すべての最適化の結果、可用性の問題が直接解決されます。
 
-> [所有的示例代码均可以在代码库中找到](https://github.com/newbe36524/Newbe.Demo)。如果 Github Clone 存在困难，[也可以点击此处从 Gitee 进行 Clone](https://gitee.com/yks/Newbe.Demo)
+> [サンプル コードはすべて、コード ベースに](https://github.com/newbe36524/Newbe.Demo)。Github Clone に問題がある場合は、[Gitee から Clone をダウンロードするには、ここをクリック](https://gitee.com/yks/Newbe.Demo)
 
-## 常见问题解答
+## よく寄せられる質問
 
-此处对一些常见的问题进行解答。
+ここでは、いくつかの一般的な質問に対する回答を示します。
 
-### 客户端是等待批量操作的结果吗？
+### クライアントは一括操作の結果を待機していますか。
 
-这是一个很多网友提出的问题。答案是：是的。
+これは、多くのネチズンによって提起された質問です。答えは：です。
 
-假设我们公开了一个 WebApi 作为接口，由浏览器调用。如果同时有 100 个浏览器同时发出请求。
+ブラウザーによって呼び出されるインターフェイスとして WebApi を公開するとします。同時に 100 台のブラウザーが同時に要求を行う場合。
 
-那么这 100 个请求会被合并，然后写入数据库。而在写入数据库之前，这些客户端都不会得到服务端的响应，会一直等待。
+その後、100 の要求がマージされ、データベースに書き込まれます。これらのクライアントは、データベースに書き込むまでサービス側から応答を受け取り、待機します。
 
-这也是该合并方案区别于普通的“写队列，后写库”方案的地方。
+また、マージ スキームは、通常の "書き込みキュー、ポスト 書き込みライブラリ" スキームと区別されます。
 
-### 原理上讲，这种和 bulkcopy 有啥不一样？
+### 原理的には、これはbulkcopyと何が違うのでしょうか?
 
-两者是不相关，必须同时才有作用的功能。 首先，代码中的 database.InsertMany 就是你提到的 bulkcopy。
+両者は無関係であり、機能的な機能を持つ必要があります。 まず、コード内の database. InsertMany は、あなたが言及した bulkcopy です。
 
-这个代码的关键不是 InsertMany ，而是如何将单次的插入请求合并。 试想一下，你可以在 webapi 上公开一个 bulkcopy 的 API。 但是，你无法将来自不同客户端的请求合并在同一个 API 里面来调用 bulkcopy。 例如，有一万个客户端都在调用你的 API，那怎么合并这些 API 请求呢？
+このコードの鍵は InsertMany ではなく、単一の挿入要求をマージする方法です。 bulkcopy の API を webapi で公開できるのを想像してください。 ただし、異なるクライアントからの要求を同じ API にマージして bulkcopy を呼び出す方法はありません。 たとえば、1 万のクライアントが API を呼び出しているとしますが、これらの API 要求を組み込むにはどうすればよいでしょうか。
 
-如果如果通过上面这种方式，虽然你只是对外公开了一个单次插入的 API。你却实现了来自不同客户端请求的合并，变得可以使用 bulkcopy 了。这在高并发下很有意义。
+上記の方法でこれを行う場合は、単一の挿入 API を外部に公開します。しかし、異なるクライアント要求からのマージを実装し、bulkcopy を使用できます。これは、高同時実行で理にかなっています。
 
-另外，这符合开闭的原理，因为你没有修改 Repository 的 InsertOne 接口，却实现了 bulkcopy 的效果。
+また、Repository の InsertOne インターフェイスを変更していないが、bulkcopy インターフェイスの効果を実現しているので、これは開閉の原則 です。
 
-### 如果批量操作中一个操作异常失败是否会导致被合并的其他操作全部失败？
+### 一括操作で 1 つの操作が異常に失敗すると、マージされた他の操作はすべて失敗しますか。
 
-如果业务场景是合并会有影响，那当然不应该合并。
+ビジネス シナリオがマージの影響を受ける場合は、もちろんマージしないでください。
 
-批量操作一个失败，当然是一起失败，因为底层的数据库事务肯定也是一起失败。
+一括操作の失敗は、基になるデータベース トランザクションも必ず一緒に失敗するため、一緒に失敗します。
 
-除非批量接口也支持对每个传入的 ID 做区别对待。典型的，比如 mongodb 的 bulkcopy 可以返回哪些成功哪些失败，那么我们就有能力设置不同的 Tcs 状态。
+バルク インターフェイスが着信 ID ごとに異なる扱いもサポートしていない限り。通常、mongodb の bulkcopy がどの成功または失敗を返すかなど、Tcs の状態を異なる状態に設定できます。
 
-哪些该合并，哪些不该合并，完全取决于业务。样例给出的是如果要合并，应该怎么合并。不会要求所有都要合并。
+どの合併が、何が合併しないかは、ビジネスに完全に依存します。サンプルは、マージする場合のマージ方法を示しています。すべてがマージされる必要はありません。
 
-### Insert 和 Upsert 都说了，那 Delete 和 Select 呢？
+### インサートとUpsertは、DeleteとSelectについて何を言いましたか?
 
-笔者笼统地将该模式称为“反应式批量处理”。要确认业务场景是否应用该模式，需要具备以下这两个基本的要求：
+筆者は大まかにこのパターンを「反応式バッチ処理」と呼ぶ.ビジネス シナリオでパターンが適用されているかどうかを確認するには、次の 2 つの基本的な要件が必要です：
 
-- 业务下游的批量处理是否会比累积的单条处理要快，如果会，那可以用
-- 业务上游是否会出现短时间的突增频率的请求，如果会，那可以用
+- ビジネスダウンストリームのバッチ処理が累積された 1 つの処理よりも高速かどうか
+- ビジネス アップストリームで短時間の急増頻度の要求が発生するかどうか
 
-当然，还需要考量，比如：下游的批量操作能否却分每个请求的结果等等问题。但以上两点是一定需要考量的。
+もちろん、：下流のバッチ操作が各要求の結果を分割できるかどうかなど、考慮する必要があります。しかし、上記の2つの点は、考慮する必要があります。
 
-那么以 Delete 为例：
+Delete を例にとってみましょう：
 
-- Delete Where In 的速度会比 Delete = 的速度快吗？试一下
-- 会有突增的 Delete 需求吗？想一下
+- Delete Where In は Delete = よりも高速ですか?試してください
+- デレットの需要は急増していますか?考えろ
 
-## 小小工具 Zeal
+## 小さなガジェットゼロ
 
-笔者是一个完整存储过程都写不出来的人。能够查阅到这些数据库的文档，全靠一款名为 Zeal 的离线文档查看免费软件。推荐给您，您也值得拥有。
+著者は、完全なストアドプロシージャが書き込み可能な人ではありません。これらのデータベースにアクセスできるドキュメントは、Zeal という名前のオフライン ドキュメントで無料で表示できます。あなたにお勧めし、あなたも持っている価値がある。
 
 ![Zeal](/images/20200627-010.png)
 
-Zeal 官网地址：<https://zealdocs.org/>
+Zeal の公式サイトのアドレス：<https://zealdocs.org/>
 
 <!-- md Footer-Newbe-Claptrap.md -->
