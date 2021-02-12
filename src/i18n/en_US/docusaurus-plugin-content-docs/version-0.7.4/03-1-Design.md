@@ -76,29 +76,29 @@ How to efficiently respond to multiple queries that may exist is also something 
 
 The State of the Claptrap contains a basic information.
 
-| Type                                   | Name       | Description                                                                                                                                                                             |
-| -------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.Verification at the time of primary ticket purchase.                               |
-| Dictionary&lt;int, int&gt; | StationDic | The index reverse dictionary that routes the station id.Stations are a list of index-ids, and the dictionary is the corresponding id-index dictionary, in order to speed up queries.    |
-| List&lt;string&gt;         | RequestIds | Key properties.On each interval, the purchased ticket id.For example, an index of 0 represents a ticket id from station 0 to station 1.If it is empty, there is no subscription ticket. |
+| Type                                   | Name       | Description                                                                                                                                                                            |
+| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IList&lt;int&gt;           | Stations   | A list of the id of the Pathways Station, starting with the Origin Station, ending with the Terminal.The principal ticket is verified.                                                 |
+| Dictionary&lt;int, int&gt; | StationDic | The index of the pad id is reverse dictionary.Stations are a list of index-id dictionaries, which are the dictionary of the corresponding id-index in order to expedite queries.       |
+| List&lt;string&gt;         | RequestIds | Key properties.For each district, the ticket id has been purchased.For example, index is 0, which means ticket id for the station 0 to 1.If empty, indicate that there are no tickets. |
 
-With the design of this data structure, two businesses can be implemented.
+With the design of this data structure, two operations could be achieved.
 
-#### Verify that it can be purchased
+#### Verify if purchase is possible
 
-By passing in two station ids, you can find out if this belongs to this SeatGrain.And query all the interval segments corresponding to the start and end points.Just judge whether all segments in the RequestIds do not have a ticket ID.If not, it can be purchased.If there is already a ticket purchase ID on any section, the purchase is no longer possible.
+By passing into two stops ids, it can be asked if this is this SeatGrain.and search for all the interval between the end of the end.It is sufficient to determine whether all the interval segments are not billed Id from RequestIs.If none is available, indicate that it can be purchased.If there is any paragraph with Purchase Id, then it is no longer available.
 
-For example, the current situation with Stations is 10, 11, 12, 13. RequestIds, on the other, are 0,1,0.
+The current Stations case, for example, is 10,11,12,13. The RequestIds are 0,1,0.
 
-So, if you're buying a 10->12 ticket, that's not possible because the second range of RequestIds has already been purchased.
+So, if the ticket 10->12 is to be purchased, it will not do so because the second period of requestIds has already been purchased.
 
-However, if you want to>10- 11 tickets, you can, because no one in the first range of RequestIds has yet to buy them.
+However, if the tickets for 10->11 are to be purchased, they can be bought because the first period of the Request Ids is not yet purchased.
 
 #### Buy
 
-Just place the starting and ending points on all the interval segment settings in RequestIds.
+Use the ticket Id to set up for all interval segments in RequestIs.
 
-### Design the remaining ticket for all seats on the same ride as a Claptrap-TrainGran
+### Designed for a Claptrap - TrainGran for all seats on the same car
 
 The Claptrap State contains some basic information
 
@@ -109,11 +109,11 @@ The Claptrap State contains some basic information
 
 Based on the data structure above, you only need to synchronize the corresponding information to the Grain each time The SeatGrain completes placing the order.
 
-For example, if a,c has a ticket purchase, the remaining tickets for a,c/a,b/b,c will be reduced by one.
+For example, given a,c there was a single ticket, the surplus of a,c c /a,b b,c was reduced by one.
 
-This can be achieved with the Minion mechanism built into this framework.
+This can be done by using the Minion mechanism within this framework.
 
-It is worth mentioning that this is a bigger design than the "minimum competitive resource".Because the query scenario does not need to be absolutely fast in that business scenario.This design reduces the complexity of the system.
+It is worth mentioning that this is a larger design than the “least competitive resources”.The search scene does not require absolute speed in the business scenario.This design reduces the complexity of the system.
 
 ## Id
 
