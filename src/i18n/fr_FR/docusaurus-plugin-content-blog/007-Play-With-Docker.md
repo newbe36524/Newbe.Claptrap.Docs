@@ -1,68 +1,68 @@
 ---
 date: 2020-08-16
-title: 年轻的樵夫哟，你掉的是这个免费8核4G公网服务器，还是这个随时可用的Docker实验平台？
+title: Jeune veuf yo, abandonnez-vous ce serveur de réseau public 4G 8 cœurs gratuit, ou est-ce la plate-forme expérimentale Docker prête à l’emploi ?
 ---
 
-小孩子才做选择，成年人全都要。那么我们现在就来看看如何获得一台免费的 8 核 4G 公网 Docker 实验平台服务器。
+Les enfants font des choix, les adultes le veulent tous.Donc, nous allons jeter un oeil à la façon d’obtenir un serveur gratuit 8-core 4G docker plate-forme expérimentale.
 
 <!-- more -->
 
-## Play With Docker
+## Jouer avec Docker
 
-直接打开<https://labs.play-with-docker.com/>即可访问 Play With Docker 平台。 注册一个 DockerHub 账号便可以访问这个站点，轻松地获得一台 8 核 4G 的公网服务器。 接下来我们就来了解一下如何使用这台服务器进行一些 Docker 的操作。
+Ouvrez la<https://labs.play-with-docker.com/>accéder à la plate-forme Play With Docker. Inscrivez-vous à un compte DockerHub et vous pouvez accéder à ce site et facilement obtenir un serveur réseau public 4G 8 cœurs. Jetons un coup d’oeil à la façon d’utiliser ce serveur pour certaines opérations Docker.
 
-## 部署 Nginx
+## Déployer Nginx
 
-本示例，我们部署一个 nginx ，并且通过将服务公开在一个公网地址上。
+Dans cet exemple, nous déployons un nginx et exposons le service à une adresse réseau publique.
 
-### 登录并创建实例
+### Connectez-vous et créez une instance
 
-这一步非常简单，不多说明，成功创建完成之后便可以看到如下所示的界面。
+Cette étape est très simple, avec peu d’explications, et une fois la création réussie terminée, vous pouvez voir l’interface indiquée ci-dessous.
 
-![操作界面](/images/20200816-001.png)
+![L’interface](/images/20200816-001.png)
 
-### 拉取镜像
+### Tirez sur le miroir
 
-运行以下命令，便可以拉取最新的 nginx 镜像。
+En exécutant la commande suivante, vous pouvez tirer la dernière image nginx.
 
 ```bash
-docker pull nginx
+docker tirer nginx
 ```
 
-拉取速度非常快速，因为这个实例节点是部署在国外的，因此无需设置镜像也可以极速下载。
+Pull est très rapide parce que ce nœud d’instance est déployé à l’étranger, de sorte que vous pouvez le télécharger très rapidement sans mettre en place un miroir.
 
-### 启动 nginx 容器
+### Démarrer le conteneur nginx
 
-运行以下命令，便可以启动一个 nginx container
+En exécutant la commande suivante, vous pouvez démarrer un conteneur nginx
 
 ```bash
-docker run --name nginx-test -p 8080:80 -d nginx
+docker run --nom nginx-test -p 8080:80 -d nginx
 ```
 
-### 公网访问
+### Accès du public
 
-部署完成之后，界面上会自动出现一个新的按钮，表示当前可以已经部署成功的公网地址，如下图所示：
+Une fois le déploiement terminé, un nouveau bouton apparaît automatiquement sur l’interface pour indiquer que l’adresse réseau publique peut désormais être déployée avec succès, comme le montre le：
 
-![公网访问的按钮](/images/20200816-002.png)
+![Le bouton pour l’accès du public](/images/20200816-002.png)
 
-点击按钮便可以在浏览器中访问刚刚部署成功的 nginx 服务。
+En un clic, vous pouvez accéder au service nginx de votre navigateur que vous venez de déployer avec succès.
 
-如果生成按钮，也可以点击“OPEN PORT”来选择开放的端口。
+Si vous générez un bouton, vous pouvez également cliquer sur « OPEN PORT » pour sélectionner un port ouvert.
 
-## 部署火车票售票系统
+## Déployer un système de billetterie ferroviaire
 
-如果只是部署一个简单的 nginx 显然不够快乐。因此，我来部署一个稍微复杂一点的系统。
+Il suffit de déployer un nginx simple n’est évidemment pas assez amusant.Je vais donc déployer un système un peu plus complexe.
 
-这是一个由 7 个容器构成的演示系统，参考[《火车票售票系统-部署》](https://claptrap.newbe.pro/zh_Hans/3-Sample/1-Newbe-Claptrap-Ticketing/3-Deployment)的说明，运行以下命令来启动一个模拟的火车票售票系统：
+Il s’agit d’un système de démonstration composé de sept conteneurs, en référence aux instructions du système de billetterie des trains[-](https://claptrap.newbe.pro/zh_Hans/3-Sample/1-Newbe-Claptrap-Ticketing/3-Deployment)de déploiement, et l’exécution de la commande suivante pour démarrer une simulation de billetterie de train system：
 
 ```bash
-git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
+clone git https://github.com/newbe36524/Newbe.Claptrap.Examples.git
 cd Newbe.Claptrap.Examples/src/Newbe.Claptrap.Ticketing
-docker-compose build
+docker-composer build
 cd Docker/LocalClusterMongodb
-docker-compose up -d
+docker-composer -d
 ```
 
-脚本运行完成之后，通过“OPEN PORT”打开 10080 端口，便可以查看刚刚部署完成的火车票模拟售票系统。 ![模拟售票系统界面](/images/20200816-003.png)
+Une fois le script en cours d’exécution, ouvrez port 10080 via OPEN PORT pour voir le système de simulation des billets de train qui vient d’être déployé. ![Interface système de billetterie simulée](/images/20200816-003.png)
 
 <!-- md Footer-Newbe-Claptrap.md -->
