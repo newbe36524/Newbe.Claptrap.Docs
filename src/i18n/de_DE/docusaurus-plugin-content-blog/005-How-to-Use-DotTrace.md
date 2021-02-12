@@ -1,199 +1,199 @@
 ---
 date: 2020-10-06
-title: 如何使用dotTrace来诊断netcore应用的性能问题
+title: Verwenden von dotTrace zur Diagnose von Leistungsproblemen mit Netcore-Apps
 ---
 
-最近在为 [Newbe.Claptrap](https://claptrap.newbe.pro/) 做性能升级，因此将过程中使用到的 dotTrace 软件的基础用法介绍给各位开发者。
+Kürzlich ein Leistungsupgrade für die [Newbe.Claptrap](https://claptrap.newbe.pro/) , stellen Sie den Entwicklern die grundlegende Verwendung der im Prozess verwendeten dotTrace-Software vor.
 
 <!-- more -->
 
-## 开篇摘要
+## Eine Eröffnungszusammenfassung
 
-[dotTrace](https://www.jetbrains.com/profiler/) 是 Jetbrains 公司为 .net 应用提供的一款 profile 软件。有助于对于软件中的耗时函数和内存问题进行诊断分析。
+[dotTrace](https://www.jetbrains.com/profiler/) ist die Profilsoftware von Jetbrains für .net-Anwendungen.Hilft bei der Diagnoseanalyse zeitaufwändiger Funktionen und Speicherprobleme in Ihrer Software.
 
-本篇，我们将使用 Jetbrains 公司的 dotTrace 软件对一些已知的性能问题进行分析。从而使读者能够掌握使用该软件的基本技能。
+In diesem Artikel verwenden wir die dotTrace-Software von Jetbrains, um einige bekannte Leistungsprobleme zu analysieren.Dies ermöglicht es dem Leser, die Grundfertigkeiten der Verwendung der Software zu beherrschen.
 
-过程中我们将搭配一些经典的面试问题进行演示，逐步解释该软件的使用。
+Während des Prozesses werden wir mit einigen klassischen Interview-Fragen gepaart, um den Einsatz der Software Schritt für Schritt zu demonstrieren.
 
-此次示例使用的是 Rider 作为主要演示的 IDE。 开发者也可以使用 VS + Resharper 做出相同的效果。
+In diesem Beispiel wird Rider als IDE für die Hauptdemonstration verwendet. Entwickler können dasselbe auch mit VS und Resharper tun.
 
-## 如何获取 dotTrace
+## So erhalten Sie dotTrace
 
-dotTrace 是付费软件。目前只要购买 [dotUltimate](https://www.jetbrains.com/dotnet/) 及以上的许可证便可以直接使用该软件。
+dotTrace ist kostenpflichtige Software.Derzeit [die Software direkt, solange](https://www.jetbrains.com/dotnet/) dotUltimate und höher Lizenzen erworben werden.
 
-当然，该软件也包含试用版本，可以免费开启 7 天的试用时间。Jetbrains 的 IDE 购买满一年以上即可获取一个当前最新的永久使用版本。
+Natürlich enthält die Software auch eine Testversion, mit der Sie die 7-Tage-Testversion kostenlos starten können.Jetbrains IDE-Käufe sind mehr als ein Jahr alt, um die neueste Version der aktuellen permanenten Nutzung zu erhalten.
 
-或者也可以直接购买 [Jetbrains 全家桶许可证](https://www.jetbrains.com/all/)，一次性全部带走。
+Oder Sie können [Jetbrains Familie Eimer Lizenz](https://www.jetbrains.com/all/)kaufen, alle auf einmal.
 
-## 经典场景再现
+## Klassische Szenenreproduktion
 
-接下来，我们通过一些经典的面试问题，来体验一下如何使用 dotTrace。
+Als Nächstes werfen wir einen Blick auf die Verwendung von dotTrace durch einige klassische Interviewfragen.
 
-### 何时要使用 StringBuilder
+### Verwendung von StringBuilder
 
-这是多么经典的面试问题。能够看到这篇文章的朋友，我相信各位都知道 StringBuilder 能够减少 string 直接拼接的碎片，减少内存压力这个道理。
+Was für eine klassische Interviewfrage.Freunde, die diesen Artikel sehen können, ich bin sicher, dass Sie alle wissen, dass StringBuilder StringBuilder String Direct Stitching Fragmentierung und Speicherstress reduzieren kann.
 
-我们这是真的吗？会不会只是面试官想要刁难我，欺负我信息不对称呢？
+Sind wir echt?Wird es nur der Interviewer sein, der mich in Verlegenheit bringen und mich mit asymmetrischen Informationen belästigen will?
 
-没有关系，接下来，让我们使用 dotTrace 来具体的结合代码来分析一波。看看使用 StringBuilder 究竟有没有减低内存分配的压力。
+Es spielt keine Rolle, als nächstes verwenden wir dotTrace, um eine Welle von spezifischem Kombinationscode zu analysieren.Prüfen Sie, ob die Verwendung von StringBuilder den Druck auf die Speicherzuweisung verringert hat.
 
-首先，我们创建一个单元测试项目，并添加以下这样一个测试类：
+Erstellen wir zunächst ein Komponententestprojekt und fügen einen der folgenden Tests hinzu classes：
 
 ```cs
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+mit System.Linq;
+mit System.Text;
+mit NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X01StringBuilderTest
-    {
+Namespace Newbe.DotTrace.Tests
+
+    der öffentlichen Klasse X01StringBuilderTest
+
         [Test]
-        public void UsingString()
-        {
+        öffentliche void UsingString()
+
             var source = Enumerable.Range(0, 10)
-                .Select(x => x.ToString())
-                .ToArray();
-            var re = string.Empty;
-            for (int i = 0; i < 10_000; i++)
-            {
+                . Select(x => x.ToString())
+                . ToArray();
+            var re = String. Leer;
+            für (int i = 0; i < 10_000; i++)
+
                 re += source[i % 10];
-            }
-        }
+
+        -
 
         [Test]
-        public void UsingStringBuilder()
-        {
-            var source = Enumerable.Range(0, 10)
-                .Select(x => x.ToString())
-                .ToArray();
-            var sb = new StringBuilder();
-            for (var i = 0; i < 10_000; i++)
-            {
-                sb.Append(source[i % 10]);
-            }
+        öffentliche void UsingStringBuilder()
 
-            var _ = sb.ToString();
-        }
-    }
-}
+            var source = Enumerable.Range(0, 10)
+                . Select(x => x.ToString())
+                . ToArray();
+            var sb = neuer StringBuilder();
+            für (var i = 0; i < 10_000; i++)
+
+                sb. Anfügen(Quelle[i % 10]);
+
+
+            var _ = sb. ToString();
+
+
+
 ```
 
-然后，如下图所示，我们将 Rider 中的 profile 模式设置为 Timeline 。
+Anschließend legen wir, wie in der folgenden Abbildung gezeigt, das Profilmuster in Rider auf Timeline fest.
 
-![设置profile模式](/images/20201006-001.png)
+![Stellen Sie den Profele-Modus ein](/images/20201006-001.png)
 
-TimeLine 是多种模式中的一种，相较而言，该模式可以更全面的了解各个线程的工作情况，包括有内存分配、IO 处理、锁、反射等等多维度数据。这将会作为本示例主要使用的一种模式。
+TimeLine ist eines von mehreren Mustern, die eine umfassendere Ansicht der Funktionsweise jedes Threads bieten, einschließlich mehrteiliger Daten wie Speicherzuweisung, E/A-Verarbeitung, Sperren, Reflektion usw.Dies dient als eines der Hauptmuster, die in diesem Beispiel verwendet werden.
 
-接着，如下图所示，通过单元测试左侧的小图标启动对应测试的 profile。
+Starten Sie anschließend, wie in der folgenden Abbildung gezeigt, das Profil für den entsprechenden Test mit einem kleinen Symbol auf der linken Seite des Komponententests.
 
-![启动profile](/images/20201006-002.png)
+![Start profele](/images/20201006-002.png)
 
-启动 profile 之后，等待一段时间之后，便会出现最新生成的 timeline 报告。查看报告的位置如下所示：
+Nachdem Sie das Profil gestartet haben, warten Sie eine Weile, bis der zuletzt generierte Zeitachsenbericht angezeigt wird.Die Position des Ansichtsberichts wird below：
 
-![启动profile](/images/20201006-003.png)
+![Start profele](/images/20201006-003.png)
 
-右键选择对应的报告，选择"Open in External Viewer"，便可以使用 dotTrace 打开生成好的报告。
+Klicken Sie mit der rechten Maustaste auf den entsprechenden Bericht, und wählen Sie Öffnen in externer Anzeige aus, um den generierten Bericht mit dotTrace zu öffnen.
 
-那么首先，让我打开第一个报告，查看 UsingString 方法生成的报告。
+Lassen Sie mich also zunächst den ersten Bericht öffnen und den Bericht betrachten, der von der UsingString-Methode generiert wurde.
 
-如下图所示，选择 .Net Memory Allocations 以查看该测试运行过程中分配的内存数额。
+Wie in der folgenden Abbildung gezeigt, wählen Sie .Net Memory Allocations aus, um die während des Testlaufs zugewiesene Speichermenge anzuzeigen.
 
-![启动profile](/images/20201006-004.png)
+![Start profele](/images/20201006-004.png)
 
-根据上图我们可以得出以下结论：
+Basierend auf der obigen Abbildung können wir folgende conclusions：
 
-1. 在这测试中，有 102M 的内存被分配给 String 。注意，在 dotTrace 中显示的分配是指整个运行过程中全部分配的内存。即使后续被回收，该数值也不会减少。
-2. 内存的分配只要在 CLR Worker 线程进行。并且非常的密集。
+1. In diesem Test wurde String 102M Arbeitsspeicher zugewiesen.Beachten Sie, dass sich die in dotTrace angezeigte Zuordnung auf den gesamten zugewiesenen Speicher während des gesamten Laufs bezieht.Dieser Wert nimmt auch dann nicht ab, wenn er anschließend recycelt wird.
+2. Speicher wird zugewiesen, solange er im CLR Worker-Thread erfolgt.Und sehr dicht.
 
-> Tip： Timeline 所显示的运行时间比正常运行测试的时间更长，因为在 profile 过程中需要对数据进行记录会有额外的消耗。
+> Tipp： Timeline zeigt längere Laufzeiten als normale Tests aufgrund des zusätzlichen Datenverbrauchs an, der während des Profilprozesses aufgezeichnet werden muss.
 
-因此，我们就得出了第一个结论：使用 string 进行直接拼接，确实会消耗更多的内存分配。
+So kamen wir zum ersten conclusion：mit String für direktes Nähen mehr Speicherzuweisung verbraucht.
 
-接着，我们继续按照上面的步骤，查看一下 UsingStringBuilder 方法的报告，如下所示：
+Sehen wir uns als Nächstes den Bericht über die UsingStringBuilder-Methode an, wie：
 
-![启动profile](/images/20201006-005.png)
+![Start profele](/images/20201006-005.png)
 
-根据上图，我们可以得出第二个结论：使用 StringBuilder 可以明显的减少相较于 string 直接拼接所消耗的内存。
+Basierend auf der obigen Abbildung können wir die zweite conclusion：Mit StringBuilder kann der Speicherverbrauch im Vergleich zu String-Direktnähten erheblich reduziert werden.
 
-当然，我们得到的最终的结论其实是：看来面试官不是糊弄人。
+Natürlich kam die abschließende Schlussfolgerung, zu der wir kamen,：, dass der Interviewer die Leute nicht täuschen würde.
 
-### class 和 struct 对内存有什么影响
+### Welche Auswirkungen Klasse und Struktur auf den Speicher haben
 
-class 和 struct 的区别有很多，面试题常客了。其中，两者在内存方面就存在区别。
+Es gibt viele Unterschiede zwischen Klasse und Struktur, und Interview-Fragen sind häufige Besucher.Es gibt einen Unterschied im Speicher zwischen den beiden.
 
-那么我们通过一个测试来看看区别。
+Lassen Sie uns also einen Test machen, um den Unterschied zu sehen.
 
 ```cs
-using System;
-using System.Collections.Generic;
-using NUnit.Framework;
+Verwendung von System;
+mit System.Collections.Generic;
+mit NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X02ClassAndStruct
-    {
-        [Test]
-        public void UsingClass()
-        {
-            Console.WriteLine($"memory in bytes before execution: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
-            const int count = 1_000_000;
-            var list = new List<Student>(count);
-            for (var i = 0; i < count; i++)
-            {
-                list.Add(new Student
-                {
-                    Level = int.MinValue
-                });
-            }
+Namespace Newbe.DotTrace.Tests
 
-            list.Clear();
-
-            var gcMemoryInfo = GC.GetGCMemoryInfo();
-            Console.WriteLine($"heap size: {gcMemoryInfo.HeapSizeBytes}");
-            Console.WriteLine($"memory in bytes end of execution: {gcMemoryInfo.TotalAvailableMemoryBytes}");
-        }
+    öffentlichen Klasse X02ClassAndStruct
 
         [Test]
-        public void UsingStruct()
-        {
-            Console.WriteLine($"memory in bytes before execution: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
+        öffentliche void UsingClass()
+        -
+            Console.WriteLine('memory in bytes vor der Ausführung: 'GC'. GetGCMemoryInfo(). TotalAvailableMemoryBytes");
             const int count = 1_000_000;
-            var list = new List<Yueluo>(count);
-            for (var i = 0; i < count; i++)
-            {
-                list.Add(new Yueluo
-                {
-                    Level = int.MinValue
-                });
-            }
+            var list = neue Liste<Student>(Anzahl);
+            für (var i = 0; ich < zählen; i++)
 
-            list.Clear();
+                Liste. Add(neue Student
+                -
+                    Ebene = int. MinValue
+                )
+            liste
 
-            var gcMemoryInfo = GC.GetGCMemoryInfo();
-            Console.WriteLine($"heap size: {gcMemoryInfo.HeapSizeBytes}");
-            Console.WriteLine($"memory in bytes end of execution: {gcMemoryInfo.TotalAvailableMemoryBytes}");
-        }
+            . Clear();
 
-        public class Student
-        {
-            public int Level { get; set; }
-        }
+            var gcMemoryInfo = GC. GetGCMemoryInfo();
+            Console.WriteLine("heap-Größe: {gcMemoryInfo.HeapSizeBytes}");
+            Console.WriteLine(-Speicher in Bytes Ende der Ausführung: {gcMemoryInfo.TotalAvailableMemoryBytes}");
 
-        public struct Yueluo
-        {
-            public int Level { get; set; }
-        }
-    }
-}
+
+        [Test]
+        öffentliche void UsingStruct()
+
+            Console.WriteLine("speicher in Bytes vor der Ausführung: 'GC' . GetGCMemoryInfo(). TotalAvailableMemoryBytes");
+            const int count = 1_000_000;
+            var list = neue Liste<Yueluo>(Anzahl);
+            für (var i = 0; ich < zählen; i++)
+
+                Liste. Hinzufügen(neue Yueluo-
+                -
+                    Level = int. MinValue
+                );
+            liste
+
+            . Clear();
+
+            var gcMemoryInfo = GC. GetGCMemoryInfo();
+            Console.WriteLine("Heapgröße: {gcMemoryInfo.HeapSizeBytes}");
+            Console.WriteLine(-Speicher in Bytes Ende der Ausführung: {gcMemoryInfo.TotalAvailableMemoryBytes}");
+
+
+        der öffentlichen Klasse Schüler
+        -
+            öffentliche int-Stufe erhalten; eingestellt; •
+        -
+
+        öffentliche Struktur Yueluo
+        -
+            öffentliche int Level - get; eingestellt; •
+
+    -
+.
 ```
 
-代码要点：
+Code Essentials：
 
-1. 两个测试，分别创建 1,000,000 个 class 和 struct 加入到 List 中。
-2. 运行测试之后，在测试的末尾输出当前堆空间的大小。
+1. In zwei Tests werden 1.000.000 Klassen erstellt und die Verknüpfung mit der Liste erstellt.
+2. Geben Sie nach dem Ausführen des Tests die Größe des aktuellen Heapspeichers am Ende des Tests aus.
 
-按照上一节提供的基础步骤，我们对比两个方法生成的报告。
+Nach den grundlegenden Schritten im letzten Abschnitt vergleichen wir die Berichte, die mit den beiden Methoden generiert wurden.
 
 UsingClass
 
@@ -203,95 +203,95 @@ UsingStruct
 
 ![UsingClass](/images/20201006-007.png)
 
-对比两个报告，可以得出以下这些结论：
+Wenn Sie die beiden Berichte vergleichen, können Sie die folgenden conclusions：
 
-1. Timeline 报告中的内存分配，只包含分配在堆上的内存情况。
-2. struct 不需要分配在堆上，但是，数组是引用对象，需要分配在堆上。
-3. List 自增的过程本质是扩张数组的特性在报告中也得到了体现。
-4. 另外，没有展示在报告上，而展示在测试打印文本中可以看到，UsingStruct 运行之后的堆大小也证实了 struct 不会被分配在堆上。
+1. Die Speicherzuweisung im Timeline-Bericht enthält nur den Speicher, der dem Heap zugewiesen ist.
+2. Die Struktur muss dem Heap nicht zugewiesen werden, das Array ist jedoch ein Referenzobjekt und muss dem Heap zugewiesen werden.
+3. Das Wesen des selbststeigernden Prozesses von List besteht darin, dass sich die Merkmale des Erweiterungsarrays auch im Bericht widerspiegeln.
+4. Darüber hinaus wird sie nicht im Bericht angezeigt, und wie im testgedruckten Text zu sehen ist, bestätigt die Heapgröße nach dem UsingStruct-Lauf, dass die Struktur nicht dem Heap zugewiesen wird.
 
-### 装箱和拆箱
+### Boxen und Entpacken
 
-经典面试题 X3，来，上代码，上报告！
+Klassische Interview-Frage X3, kommen, Code, berichten!
 
 ```cs
-using NUnit.Framework;
+Verwendung von NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X03Boxing
-    {
+Namespace Newbe.DotTrace.Tests
+
+    öffentlichen Klasse X03Boxing
+
         [Test]
-        public void Boxing()
-        {
-            for (int i = 0; i < 1_000_000; i++)
-            {
+        öffentliche leere Boxing()
+        -
+            für (int i = 0; i < 1_000_000; i++)
+
                 UseObject(i);
-            }
-        }
+            -
+        -
 
         [Test]
-        public void NoBoxing()
-        {
-            for (int i = 0; i < 1_000_000; i++)
-            {
+        öffentliche nichtigkeit NoBoxing()
+
+            für (int i = 0; i < 1_000_000; i++)
+
                 UseInt(i);
-            }
-        }
 
-        public static void UseInt(int age)
-        {
-            // nothing
-        }
+        -
 
-        public static void UseObject(object obj)
-        {
-            // nothing
-        }
-    }
-}
+        öffentliche statische void UseInt(int age)
+        '
+            / '
+        '
+
+        öffentliche statische void UseObject(object obj)
+        '
+
+
+    
+        /
 ```
 
-Boxing,发生装箱拆箱
+Boxen, Boxen findet statt
 
-![Boxing](/images/20201006-008.png)
+![Boxen](/images/20201006-008.png)
 
-NoBoxing，未发生装箱拆箱
+NoBoxing, kein Boxen
 
 ![NoBoxing](/images/20201006-009.png)
 
-对比两个报告，可以得出以下这些结论：
+Wenn Sie die beiden Berichte vergleichen, können Sie die folgenden conclusions：
 
-1. 没有买卖就没有杀害，没有装拆就没有分配消耗。
+1. Es gibt kein Töten ohne Kaufen und Verkaufen, und es gibt keine Verteilung des Verbrauchs ohne Abriss.
 
-### Thread.Sleep 和 Task.Delay 有什么区别
+### Was ist der Unterschied zwischen Thread.Sleep und Task.Delay?
 
-经典面试题 X4，来，上代码，上报告！
+Klassische Interview-Frage X4, kommen Sie auf, auf den Code, auf den Bericht!
 
 ```cs
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using NUnit.Framework;
+Verwendung von System;
+mit System.Collections.Generic;
+mit System.Threading;
+mit System.Threading.Tasks;
+mit NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X04SleepTest
-    {
-        [Test]
-        public Task TaskDelay()
-        {
-            return Task.Delay(TimeSpan.FromSeconds(3));
-        }
+Namespace Newbe.DotTrace.Tests
+
+    öffentlichen Klasse X04SleepTest
 
         [Test]
-        public Task ThreadSleep()
-        {
-            return Task.Run(() => { Thread.Sleep(TimeSpan.FromSeconds(3)); });
-        }
-    }
-}
+        öffentlichen TaskDelay()
+
+            task.Delay(TimeSpan.FromSeconds(3));
+
+
+        [Test]
+        öffentlichen Task ThreadSleep()
+
+            Task.Run(()=> . });
+
+    -
+
 ```
 
 ThreadSleep
@@ -302,148 +302,148 @@ TaskDelay
 
 ![TaskDelay](/images/20201006-011.png)
 
-对比两个报告，可以得出以下这些结论：
+Wenn Sie die beiden Berichte vergleichen, können Sie die folgenden conclusions：
 
-1. 在 dotTrace 中 Thread.Sleep 会被单独标记，因为这是一种性能不不佳的做法，容易造成线程饥饿。
-2. Thread.Sleep 比起 Task.Delay 会多出一个线程处于 Sleep 状态
+1. Thread.Sleep ist in dotTrace separat markiert, da es sich um eine nicht funktionierende Praxis handelt, die leicht Threadhunger verursachen kann.
+2. Thread.Sleep hat einen Thread mehr im Ruhezustand als Task.Delay
 
-### 阻塞大量的 Task 真的会导致应用一动不动吗
+### Führt das Blockieren einer großen Anzahl von Aufgaben wirklich dazu, dass Ihre App regungslos bleibt?
 
-有了上一步的结论，笔者产生了一个大胆的想法。我们都知道线程的有限的，那如果启动非常多的 Thread.Sleep 或者 Task.Delay 会如何呢？
+Mit dem Abschluss des nächsten Schritts kam der Autor auf eine kühne Idee.Wir alle wissen, dass Threads begrenzt sind, also was ist, wenn Sie eine Menge Thread.Sleep oder Task.Delay starten?
 
-来，代码：
+Komm, code：
 
 ```cs
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using NUnit.Framework;
+Verwendung von System;
+mit System.Collections.Generic;
+mit System.Threading;
+mit System.Threading.Tasks;
+mit NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X04SleepTest
-    {
+Namespace Newbe.DotTrace.Tests
 
-        [Test]
-        public Task RunThreadSleep()
-        {
-            return Task.WhenAny(GetTasks(50));
+    öffentlichen Klasse X04SleepTest
 
-            IEnumerable<Task> GetTasks(int count)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    var i1 = i;
-                    yield return Task.Run(() =>
-                    {
-                        Console.WriteLine($"Task {i1}");
-                        Thread.Sleep(int.MaxValue);
-                    });
-                }
-
-                yield return Task.Run(() => { Console.WriteLine("yueluo is the only one dalao"); });
-            }
-        }
 
         [Test]
-        public Task RunTaskDelay()
-        {
-            return Task.WhenAny(GetTasks(50));
+        öffentlichen Task RunThreadSleep()
+
+            - -Datei (LANY(GetTasks(50));
 
             IEnumerable<Task> GetTasks(int count)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    var i1 = i;
-                    yield return Task.Run(() =>
-                    {
-                        Console.WriteLine($"Task {i1}");
-                        return Task.Delay(TimeSpan.FromSeconds(int.MaxValue));
-                    });
-                }
+            für
+                (int i = 0; ich < zählen; i++)
 
-                yield return Task.Run(() => { Console.WriteLine("yueluo is the only one dalao"); });
-            }
-        }
-    }
-}
+                    var i1 = i;
+                    -Ertragsrückgabe Task.Run(() =>
+
+                        Console.WriteLine("Task {i1}");
+                        Thread.Sleep(int. MaxValue);
+                    );
+
+
+                Yield-Rückgabe Task.Run(() => "Console.WriteLine"("yueluo is the only one dalao"); });
+
+
+
+        [Test]
+        öffentlichen Task RunTaskDelay()
+
+            -rückgabe Task.WhenAny(GetTasks(50));
+
+            IEnumerable<Task> GetTasks(int count)
+
+                für (int i = 0; i < zählen; i++)
+
+                    var i1 = i;
+                    -Ertragsrückgabe Task.Run(() =>
+
+                        Console.WriteLine("Task {i1}");
+                        Task.Delay(TimeSpan.FromSeconds(int. MaxValue));
+                    ) );
+
+
+                Yield-Rückgabe Task.Run(() => ,,Console.WriteLine"("yueluo is the only one dalao"); });
+
+        -
+    -
+.
 ```
 
-这里就不贴报告了，读者可以试一下这个测试，也可以将报告的内容写在本文的评论中参与讨论~
+Hier ist kein Beitragsbericht, Leser können diesen Test ausprobieren, Sie können auch den Inhalt des Berichts in die Kommentare dieses Artikels schreiben, um an der Diskussion teilzunehmen
 
-### 反射调用和表达式树编译调用
+### Reflektionsaufrufe und Ausdrucksstrukturkompilierungsaufrufe
 
-有时，我们需要动态调用一个方法。最广为人知的方式就是使用反射。
+Manchmal müssen wir eine Methode dynamisch aufrufen.Der bekannteste Weg ist die Verwendung von Reflexion.
 
-但是，这也是广为人知的耗时相对较高的方式。
+Dies ist jedoch auch eine relativ zeitaufwändige Art und Weise, um bekannt zu sein.
 
-这里，笔者提供一种使用表达式树创建委托来取代反射提高效率的思路。
+Hier bietet der Autor eine Idee der Verwendung von Ausdrucksbaumerstellungsdelegaten anstelle von Reflexionen, um die Effizienz zu verbessern.
 
-那么，究竟有没有减少时间消耗呢？好报告，自己会说话。
+Hat es also eine Verringerung des Zeitverbrauchs gegeben?Guter Bericht, ich kann selbst reden.
 
 ```cs
-using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using NUnit.Framework;
+Verwendung von System;
+mit System.Diagnostics;
+mit System.Linq.Expressions;
+mit NUnit.Framework;
 
-namespace Newbe.DotTrace.Tests
-{
-    public class X05ReflectionTest
-    {
+Namespace Newbe.DotTrace.Tests
+
+    öffentlichen Klasse X05ReflectionTest
+
         [Test]
-        public void RunReflection()
-        {
-            var methodInfo = GetType().GetMethod(nameof(MoYue));
+        öffentliche void RunReflection()
+
+            var methodInfo = GetType(). GetMethod(nameof(MoYue));
             Debug.Assert(methodInfo != null, nameof(methodInfo) + " != null");
-            for (int i = 0; i < 1_000_000; i++)
-            {
-                methodInfo.Invoke(null, null);
-            }
+            für (int i = 0; i < 1_000_000; i++)
+
+                methodeInfo.Invoke(null, null);
+
 
             Console.WriteLine(_count);
-        }
+
 
         [Test]
-        public void RunExpression()
-        {
-            var methodInfo = GetType().GetMethod(nameof(MoYue));
+        öffentliche void RunExpression()
+
+            var methodInfo = GetType(). GetMethod(nameof(MoYue));
             Debug.Assert(methodInfo != null, nameof(methodInfo) + " != null");
             var methodCallExpression = Expression.Call(methodInfo);
             var lambdaExpression = Expression.Lambda<Action>(methodCallExpression);
             var func = lambdaExpression.Compile();
-            for (int i = 0; i < 1_000_000; i++)
-            {
-                func.Invoke();
-            }
+            für (int i = 0; i < 1_000_000; i++)
+
+                Func. Invoke();
+
 
             Console.WriteLine(_count);
-        }
 
-        private static int _count = 0;
 
-        public static void MoYue()
-        {
+        private statische int _count = 0;
+
+        öffentliche statische void MoYue()
+
             _count++;
-        }
-    }
-}
+
+
+.
 ```
 
-RunReflection，直接使用反射调用。
+RunReflection, rufen Sie direkt mit Reflektion auf.
 
 ![RunReflection](/images/20201006-012.png)
 
-RunExpression，使用表达式树编译一个委托。
+RunExpression, das einen Delegaten mithilfe einer Ausdrucksstruktur kompiliert.
 
 ![RunExpression](/images/20201006-013.png)
 
-## 本篇小结
+## Dieser Abschnitt ist ein Syn-Ende
 
-使用 dotTrace 可以查看方法的内存和时间消耗。本篇所演示的内容只是其中很小的部分。开发者们可以尝试上手，大有裨益。
+Verwenden Sie dotTrace, um zu sehen, wie viel Arbeitsspeicher und Zeit die Methode verbraucht.Der in diesem Artikel vorgestellte Inhalt ist nur ein kleiner Teil davon.Entwickler können versuchen, loszulegen, was von Vorteil sein kann.
 
-本篇内容中的示例代码，均可以在以下链接仓库中找到：
+Den Beispielcode in diesem Artikel finden Sie im Link-Repository below：
 
 - <https://github.com/newbe36524/Newbe.Demo>
 - <https://gitee.com/yks/Newbe.Demo>
