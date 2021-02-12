@@ -30,6 +30,8 @@ Sie[Beispielcode für das Projekt](https://github.com/newbe36524/Newbe.Claptrap.
 
 - [Github-Problem](https://github.com/newbe36524/Newbe.Claptrap/issues)
 - [Gitee-Ausgabe](https://gitee.com/yks/Newbe.Claptrap/issues)
+- Öffentliche sandende newbe-claptrap@googlegroups.com (an das Postfach gesendete Inhalte werden veröffentlicht)
+- [Gitter](https://gitter.im/newbe-claptrap/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 - [QQ Gruppe 553474855](https://jq.qq.com/?_wv=1027&k=5uJGXf5)
 
 ## Ressourcen
