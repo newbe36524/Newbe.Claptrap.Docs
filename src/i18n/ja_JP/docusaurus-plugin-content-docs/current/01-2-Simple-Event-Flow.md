@@ -1,6 +1,6 @@
 ---
-title: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
-description: 'ステップ2 - シンプルなビジネス、ショッピングカートを空にします'
+title: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
+description: "ステップ2 - シンプルなビジネス、ショッピングカートを空にします"
 ---
 
 この記事では、Claptrap を使用してビジネスを開始できます。
@@ -70,7 +70,7 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
+EventHandlerはイベントを Claptrap の state への更新に使用します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
 `HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
 
@@ -142,7 +142,7 @@ EventHandler を実装してテストしたら、EventCode と Claptrap に関�
           ....
 ```
 
-`ClaptrapEventHandlerAttribute`は、EventHandler 、 EventCode 、および ClaptrapGrain の 3 つの関連付けを実現するために Grain の実装クラスにタグ付けできるフレームワーク定義の Attribute です。
+ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
 関連付け後、この Grain で発生した EventCode に対応するイベントは、指定された EventHandler によって処理されます。
 
