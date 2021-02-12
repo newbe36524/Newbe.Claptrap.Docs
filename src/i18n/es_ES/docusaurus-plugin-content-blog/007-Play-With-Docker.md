@@ -1,59 +1,59 @@
 ---
 date: 2020-08-16
-title: 年轻的樵夫哟，你掉的是这个免费8核4G公网服务器，还是这个随时可用的Docker实验平台？
+title: Joven viudo yo, ¿está dejando caer este servidor de red pública 4G gratuito de 8 núcleos, o esta plataforma experimental Docker lista para usar?
 ---
 
-小孩子才做选择，成年人全都要。那么我们现在就来看看如何获得一台免费的 8 核 4G 公网 Docker 实验平台服务器。
+Los niños toman decisiones, todos los adultos quieren.Así que echemos un vistazo a cómo obtener un servidor de plataforma experimental 8-core 4G gratuito.
 
 <!-- more -->
 
-## Play With Docker
+## Juega con Docker
 
-直接打开<https://labs.play-with-docker.com/>即可访问 Play With Docker 平台。 注册一个 DockerHub 账号便可以访问这个站点，轻松地获得一台 8 核 4G 的公网服务器。 接下来我们就来了解一下如何使用这台服务器进行一些 Docker 的操作。
+Abra el<https://labs.play-with-docker.com/>para acceder a la plataforma Play With Docker. Regístrese para obtener una cuenta de DockerHub y podrá acceder a este sitio y obtener fácilmente un servidor de red pública 4G de 8 núcleos. Echemos un vistazo a cómo usar este servidor para algunas operaciones de Docker.
 
-## 部署 Nginx
+## Implementar Nginx
 
-本示例，我们部署一个 nginx ，并且通过将服务公开在一个公网地址上。
+En este ejemplo, implementamos un nginx y exponemos el servicio a una dirección de red pública.
 
-### 登录并创建实例
+### Inicie sesión y cree una instancia
 
-这一步非常简单，不多说明，成功创建完成之后便可以看到如下所示的界面。
+Este paso es muy simple, con poca explicación, y una vez completada la creación exitosa, puede ver la interfaz que se muestra a continuación.
 
-![操作界面](/images/20200816-001.png)
+![La interfaz](/images/20200816-001.png)
 
-### 拉取镜像
+### Tire del espejo
 
-运行以下命令，便可以拉取最新的 nginx 镜像。
+Al ejecutar el siguiente comando, puede extraer la última imagen de nginx.
 
 ```bash
 docker pull nginx
 ```
 
-拉取速度非常快速，因为这个实例节点是部署在国外的，因此无需设置镜像也可以极速下载。
+Pull es muy rápido porque este nodo de instancia se implementa en el extranjero, por lo que puede descargarlo muy rápidamente sin configurar un reflejo.
 
-### 启动 nginx 容器
+### Inicie el contenedor nginx
 
-运行以下命令，便可以启动一个 nginx container
+Al ejecutar el siguiente comando, puede iniciar un contenedor nginx
 
 ```bash
 docker run --name nginx-test -p 8080:80 -d nginx
 ```
 
-### 公网访问
+### Acceso público
 
-部署完成之后，界面上会自动出现一个新的按钮，表示当前可以已经部署成功的公网地址，如下图所示：
+Una vez completada la implementación, un nuevo botón aparece automáticamente en la interfaz para indicar que la dirección de red pública ahora se puede desplegar correctamente, tal y como se muestra en de la：
 
-![公网访问的按钮](/images/20200816-002.png)
+![El botón de acceso público](/images/20200816-002.png)
 
-点击按钮便可以在浏览器中访问刚刚部署成功的 nginx 服务。
+Con el clic de un botón, puede acceder al servicio nginx en su navegador que acaba de implementar correctamente.
 
-如果生成按钮，也可以点击“OPEN PORT”来选择开放的端口。
+Si genera un botón, también puede hacer clic en "OPEN PORT" para seleccionar un puerto abierto.
 
-## 部署火车票售票系统
+## Implementar un sistema de emisión de billetes de tren
 
-如果只是部署一个简单的 nginx 显然不够快乐。因此，我来部署一个稍微复杂一点的系统。
+Sólo la implementación de un simple nginx obviamente no es lo suficientemente divertido.Así que voy a implementar un sistema un poco más complejo.
 
-这是一个由 7 个容器构成的演示系统，参考[《火车票售票系统-部署》](https://claptrap.newbe.pro/zh_Hans/3-Sample/1-Newbe-Claptrap-Ticketing/3-Deployment)的说明，运行以下命令来启动一个模拟的火车票售票系统：
+Se trata de un sistema de demostración que consta de siete contenedores, con referencia a las instrucciones de[Train TicketIng System - Deployment](https://claptrap.newbe.pro/zh_Hans/3-Sample/1-Newbe-Claptrap-Ticketing/3-Deployment), y ejecutando el siguiente comando para iniciar una emisión simulada de billetes de tren system：
 
 ```bash
 git clone https://github.com/newbe36524/Newbe.Claptrap.Examples.git
@@ -63,6 +63,6 @@ cd Docker/LocalClusterMongodb
 docker-compose up -d
 ```
 
-脚本运行完成之后，通过“OPEN PORT”打开 10080 端口，便可以查看刚刚部署完成的火车票模拟售票系统。 ![模拟售票系统界面](/images/20200816-003.png)
+Una vez que el script se está ejecutando, abra el puerto 10080 a través de OPEN PORT para ver el sistema de simulación de billetes de simulación de billetes de tren que acaba de ser desplegado. ![Interfaz del sistema de ticketing simulado](/images/20200816-003.png)
 
 <!-- md Footer-Newbe-Claptrap.md -->
