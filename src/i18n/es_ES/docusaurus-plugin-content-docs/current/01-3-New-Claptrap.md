@@ -68,11 +68,12 @@ Porque Claptrap es un actor basado en patrones de abastecimiento de eventos.Por 
 
 En este ejemplo, solo necesitamos registrar el inventario de la SKU actual, por lo que el diseño de estado es muy simple.
 
-Agregue`<code>carpeta Sku`al proyecto de HelloClaptrap.</code>y cree el</code>skuState`en esa carpeta.</p>
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
-<p spaces-before="0">Agregue los siguientes code：</p>
+Agregue los siguientes code：
 
-<pre><code class="cs">+ using Newbe.Claptrap;
+```cs
++ using Newbe.Claptrap;
 +
 + namespace HelloClaptrap.Models.Sku
 + {
@@ -81,7 +82,7 @@ Agregue`<code>carpeta Sku`al proyecto de HelloClaptrap.</code>y cree el</code>sk
 +         public int Inventory { get; set; }
 +     }
 + }
-`</pre>
+```
 
 El inventario representa el inventario de la SKU actual.
 
@@ -91,7 +92,7 @@ El inventario representa el inventario de la SKU actual.
 
 Defina la definición de la interfaz Grain para proporcionar interoperabilidad externa con Claptrap.
 
-Agregue`interfaz ISkuGrain a`proyecto de``HelloClaptrap.IActors.
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 Agregue interfaces así como atributo.
 
@@ -135,7 +136,7 @@ Se ha added：lo siguiente
 
 Una vez que haya definido ISkuGrain, puede agregar código para implementarlo.
 
-Cree`nueva carpeta`de sku de`para el proyecto helloClaptrap.Actors`y agregue la carpeta`skugrain`.
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -252,7 +253,7 @@ Hemos implementado la parte principal de Claptrap anteriormente, pero no hemos c
 
 EventCode es el código único para cada evento en el sistema Claptrap.Desempeña un papel importante en la identificación y serialización de eventos.
 
-Abra`la clase de`ClaptrapCodes en`el proyecto de HelloClaptrap.`.
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 Agregar EventCode para el inventario de actualización.
 
@@ -286,7 +287,7 @@ Agregar EventCode para el inventario de actualización.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree``InventoryUpdateEvent en la carpeta`Sku/Events`de`helloClaptrap.`proyectos.
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 Agregue los siguientes code：
 
@@ -310,12 +311,11 @@ Agregue los siguientes code：
 
 `EventHandler`actualizar eventos al</code>de estado`de Claptrap.</p>
 
-<p spaces-before="0">Cree<code>clase de`InventoryUpdateEventHandler en la carpeta`Sku/Events`de`el proyecto de`HelloClaptrap.Actors.
+<p spaces-before="0">在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。</p>
 
-Agregue los siguientes code：
+<p spaces-before="0">Agregue los siguientes code：</p>
 
-```cs
-+ using System.Threading.Tasks;
+<pre><code class="cs">+ using System.Threading.Tasks;
 + using HelloClaptrap.Models.Sku;
 + using HelloClaptrap.Models.Sku.Events;
 + using Newbe.Claptrap;
@@ -334,7 +334,7 @@ Agregue los siguientes code：
 +         }
 +     }
 + }
-```
+`</pre>
 
 1. Dado que el inventario actualizado ya está incluido en el evento, simplemente se asigna a StateData.
 
