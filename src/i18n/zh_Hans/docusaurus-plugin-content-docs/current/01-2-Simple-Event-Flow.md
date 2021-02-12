@@ -152,7 +152,7 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
 
-打开`HelloClaptrap.IActors`项目的`ICartGrain`接口。
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 添加接口以及 Attribute。
 
