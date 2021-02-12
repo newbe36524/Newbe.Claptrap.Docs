@@ -1,8 +1,6 @@
 ---
 date: 2019-02-28
 title: Newbe.Claptrap - Un marco de desarrollo del lado del servicio con "abastecimiento de eventos" y "modo actor" como teorías básicas
-tags:
-  - Newbe.Claptrap
 ---
 
 Este artículo es una introducción al contenido principal del proyecto Newbe.Claptrap, a través del cual los lectores pueden obtener una comprensión general del contenido del proyecto.
@@ -44,11 +42,11 @@ Esta sección presentará algunos de los contenidos teóricos que están estrech
 
 ### Modo actor
 
-El patrón Actor es un modelo de programación estándar.A través de la aplicación de este modelo de programación, algunos sistemas pueden resolver el problema de la complejidad.El problema con la unión mencionada aquí es que cuando un equipo procesa lógicamente los mismos datos, puede causar datos incorrectos debido a múltiples solicitudes simultáneas.Este es un problema que debe encontrar cuando está programando multiproceso.举个简单的例子，假如在不加同步锁的情况下，使用 100 个线程并发对内存中的一个 int 变量执行 ++ 操作。A continuación, el resultado de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
+El patrón Actor es un modelo de programación estándar.A través de la aplicación de este modelo de programación, algunos sistemas pueden resolver el problema de la complejidad.El problema con la unión mencionada aquí es que cuando un equipo procesa lógicamente los mismos datos, puede causar datos incorrectos debido a múltiples solicitudes simultáneas.Este es un problema que debe encontrar cuando está programando multiproceso.Para dar un ejemplo sencillo, si utiliza 100 subprocesos en un bloqueo no sincrónico para realizar una operación s. . . en una variable int en la memoria.A continuación, el resultado de esta variable suele ser inferior a 100.Así es como el patrón Actor evita este problema.
 
 En primer lugar, para facilitar la comprensión, el lector puede pensar en Actor como un objeto aquí.En los lenguajes orientados a objetos (Java, C, etc.), el actor puede considerarse como un objeto creado``la nueva palabra clave.Pero este objeto tiene un characteristics：especial
 
-**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.在 Actor 模式中，这些属性都被统称为 Actor的状态（State）。El estado del actor es mantenido por el propio actor.
+**tiene un estado que pertenece a**.Todos los objetos pueden tener sus propias propiedades, que es una característica básica de los lenguajes orientados a objetos.在 Actor 模式中，这些属性都被统称为 Actor 的状态（State）。El estado del actor es mantenido por el propio actor.
 
 Esto pone de relieve dos points：
 
