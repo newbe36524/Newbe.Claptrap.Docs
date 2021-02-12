@@ -1,116 +1,115 @@
 ---
 date: 2020-06-28
-title: 谈反应式编程在服务端中的应用，数据库操作优化，提速 Upsert
+title: Hable sobre la aplicación de programación reactiva en el lado del servicio, optimización de la operación de la base de datos, acelerar Upsert
 ---
 
-反应式编程在客户端编程当中的应用相当广泛，而当前在服务端中的应用相对被提及较少。本篇将介绍如何在服务端编程中应用响应时编程来改进数据库操作的性能。
+La programación reactiva se utiliza ampliamente en la programación de clientes, mientras que las aplicaciones actuales en el lado del servicio son relativamente menos mencionadas.En este artículo se describe cómo mejorar el rendimiento de las operaciones de base de datos mediante la aplicación de programación de respuestas en la programación del lado del servicio.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 开篇就是结论
+## La apertura es la conclusión
 
-接续上一篇[《谈反应式编程在服务端中的应用，数据库操作优化，从 20 秒到 0.5 秒`》](008-Reactive-In-Server-1)之后，这次，我们带来了关于利用反应式编程进行 upsert 优化的案例说明。建议读者可以先阅读一下前一篇，这样更容易理解本篇介绍的方法。
+Siguiendo el último["Hablando de la aplicación de la programación reactiva en el lado del servicio, optimización de la operación de la base de datos, de 20 segundos a 0,5 seconds](008-Reactive-In-Server-1)este tiempo, traemos un caso de estudio de optimización de upsert con programación reactiva.Se recomienda a los lectores que lean primero el artículo anterior, lo que facilita la comprensión de los métodos descritos en este artículo.
 
-同样还是利用批量化的思路，将单个 upsert 操作批量进行合并。已达到减少数据库链接消耗从而大幅提升性能的目的。
+También es una manera de combinar operaciones de upsert individuales en masa utilizando la idea de procesamiento por lotes.El objetivo de reducir el consumo de vínculos de base de datos se ha logrado para mejorar significativamente el rendimiento.
 
-## 业务场景
+## El escenario empresarial
 
-在最近的一篇文章[《十万同时在线用户，需要多少内存？——Newbe.Claptrap框架水平扩展实验》](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)中。我们通过激活多个常驻于内存当中的 Claptrap 来实现快速验证 JWT 正确性的目的。
+En un article[100.000 usuarios en línea simultáneos, ¿cuánta memoria necesita? - Newbe.Claptrap Framework Horizontal Extension Experiment es](003-How-Many-RAMs-In-Used-While-There-Are-One-Hundred-Thousand-Users-Online)experimento.Verificamos rápidamente la corrección de JWT activando múltiples Claptrap residentes en memoria.
 
-但，当时有一个技术问题没有得到解决：
+Sin embargo, hay un problema técnico que no es resolved：
 
-Newbe.Claptrap 框架设计了一个特性：当 Claptrap Deactive 时，可以选择将快照立即保存到数据库。因此，当尝试从集群中关闭一个节点时，如果节点上存在大量的 Claptrap ，那么将产生大量的数据库 upsert 操作。瞬间推高数据库消耗，甚至导致部分错误而保存失败。
+El marco Newbe.Claptrap diseña un feature：cuando Claptrap Deactive, puede elegir guardar la instantánea en la base de datos inmediatamente.Por lo tanto, cuando intenta cerrar un nodo de un clúster, si hay un gran número de Claptrap en el nodo, se genera un gran número de operaciones upsert de base de datos.Empuje al instante el consumo de la base de datos e incluso causar algunos errores y no se puede guardar.
 
-## 一点点代码
+## Un poco de código
 
-有了前篇的`IBatchOperator`，那么留给这篇的代码内容就非常少了。
+Con el`anterior`IBatchOperator, queda muy poco código para este artículo.
 
-首先，按照使用上一篇的 IBatchOperator 编写一个支持操作的 Repository，形如以下代码：
+En primer lugar, escriba un repositorio compatible con acciones con IBatchOperator del último artículo, como el siguiente code：
 
 ```cs
-public class BatchUpsert : IUpsertRepository
-{
-    private readonly IDatabase _database;
-    private readonly IBatchOperator<(int, int), int> _batchOperator;
+clase pública BatchUpsert : IUpsertRepository
+-
+    _database privada de IDatabase readonly;
+<privado de solo lectura IBatchOperator (int, int), int> _batchOperator;
 
-    public BatchUpsert(IDatabase database)
-    {
-        _database = database;
-        var options = new BatchOperatorOptions<(int, int), int>
-        {
-            BufferCount = 100,
-            BufferTime = TimeSpan.FromMilliseconds(50),
-            DoManyFunc = DoManyFunc
-        };
-        _batchOperator = new BatchOperator<(int, int), int>(options);
-    }
+    de la base de datos public BatchUpsert(IDatabase)
+    de la base de datos de
+        _database;
+        var options ( new BatchOperatorOptions<(int, int), int>
+        á
+            BufferCount ,
+            BufferTime , TimeSpan.FromMilliseconds(50),
+            DoManyFunc - DoManyFunc
+        ;
+        _batchOperator: nuevo<De BatchOperator (int, int), int>(opciones);
 
-    private Task<int> DoManyFunc(IEnumerable<(int, int)> arg)
-    {
-        return _database.UpsertMany(arg.ToDictionary(x => x.Item1, x => x.Item2));
-    }
 
-    public Task UpsertAsync(int key, int value)
-    {
-        return _batchOperator.CreateTask((key, value));
-    }
-}
+    tarea privada<int> DoManyFunc(IEnumerable<(int, int)> arg)
+
+        devuelve _database. UpsertMany(arg. ToDictionary(x á> x.Item1, x á> x.Item2));
+    :
+
+    Task UpsertAsync(int key, int value)
+    -
+        devuelve _batchOperator.CreateTask((key, value));
+
+?
 ```
 
-然后，只要实现对应数据库的 UpsertMany 方法，便可以很好地完成这项优化。
+Esta optimización se puede hacer bien mediante la implementación de la UpsertMany método para la base de datos correspondiente.
 
-## 各种数据库的操作
+## Operaciones en varias bases de datos
 
-结合 Newbe.Claptrap 现在项目的实际。目前，被支持的数据库分别有 SQLite、PostgreSQL、MySql 和 MongoDB。以下，分别对不同类型的数据库的批量 Upsert 操作进行说明。
+Combinado con el newbe.Claptrap ahora proyecto real.Actualmente, se admiten SQLite, PostgreSQL, MySql y MongoDB.A continuación, las operaciones de Upsert masivas para diferentes tipos de bases de datos se describen por separado.
 
-由于在 Newbe.Claptrap 项目中的 Upsert 需求都是以主键作为对比键，因此以下也只讨论这种情况。
+Dado que los requisitos de Upsert en el proyecto Newbe.Claptrap se basan en la clave principal como clave de comparación, esto solo se describe a continuación.
 
-### SQLite
+### Sqlite
 
-根据官方文档，使用 `INSERT OR REPLACE INTO` 便可以实现主键冲突时替换数据的需求。
+De acuerdo con la documentación oficial, `insertar o REEMPLAZAR EN` la necesidad de reemplazar los datos en el primer conflicto clave.
 
-具体的语句格式形如以下：
+Las instrucciones específicas tienen el formato de follows：
 
 ```SQL
-INSERT OR REPLACE INTO TestTable (id, value)
+INSERTAR O REEMPLAZAR INTO TestTable (id, valor)
 VALUES
 (@id0,@value0),
 ...
 (@idn,@valuen);
 ```
 
-因此只要直接拼接语句和参数调用即可。需要注意的是，SQLite 的可传入参数默认为 999，因此拼接的变量也不应大于该数量。
+Así que sólo las instrucciones de puntada y las llamadas de parámetros directamente.Es importante tener en cuenta que los parámetros pasables de SQLite tienen como valor predeterminado 999, por lo que el número de variables cosidas no debe ser mayor.
 
-> [官方文档：INSERT](https://www.sqlite.org/lang_insert.html)
+> [El documento oficial：INSERT](https://www.sqlite.org/lang_insert.html)
 
-### PostgreSQL
+### Postgresql
 
-众所周知，PostgreSQL 在进行批量写入时，可以使用高效的`COPY`语句来完成数据的高速导入，这远远快于`INSERT`语句。但可惜的是`COPY`并不能支持`ON CONFLICT DO UPDATE`子句。因此，无法使用`COPY`来完成 upsert 需求。
+Se sabe que PostgreSQL utiliza instrucciones</code>COPY eficientes`para la importación de datos a alta velocidad cuando se escriben de forma masiva, mucho más rápido que<code>instrucciones INSERT`.Desafortunadamente,``COPY no`la cláusula ON CONFLICT DO UPDATE`.Por lo tanto, la copia``para completar los requisitos de upsert.
 
-因此，我们还是回归使用`INSERT`配合`ON CONFLICT DO UPDATE`子句，以及`unnest`函数来完成批量 upsert 的需求。
+Por lo tanto, estamos retrocediendo la necesidad de usar``INSERT junto con la cláusula`de`ON CONFLICT DO UPDATE, así como la función</code>`unnest para completar el upsert de bulk.</p>
 
-具体的语句格式形如以下：
+<p spaces-before="0">Las instrucciones específicas tienen el formato de follows：</p>
 
-```SQL
-INSERT INTO TestTable (id, value)
+<pre><code class="SQL">INSERT INTO TestTable (id, value)
 VALUES (unnest(@ids), unnest(@values))
 ON CONFLICT ON CONSTRAINT TestTable_pkey
-DO UPDATE SET value=excluded.value;
-```
+DO UPDATE SET value-excluded.value;
+`</pre>
 
-其中的 ids 和 values 分别为两个等长的数组对象，unnest 函数可以将数组对象转换为行数据的形式。
+Donde los identificadores y los valores son dos objetos de matriz igualmente largos, la función unnest convierte los objetos de matriz en datos de fila.
 
-注意，可能会出现 ON CONFLICT DO UPDATE command cannot affect row a second time 错误。
+Tenga en cuenta que un comando ON CONFLICT DO UPDATE puede afectar a la fila por segunda vez.
 
-因此如果尝试使用上述方案，需要在传入数据库之前，先在程序中去重一遍。而且，通常来说，在程序中进行一次去重可以减少向数据库中传入的数据，这本身也很有意义。
+Así que si intenta utilizar el escenario anterior, debe ir a través de él de nuevo en el programa antes de pasar la base de datos.Además, en general, tiene sentido realizar un reingreso en un programa para reducir la cantidad de datos que se pasan a la base de datos.
 
-> [官方文档：unnest 函数](https://www.postgresql.org/docs/9.2/functions-array.html) > [官方文档：Insert 语句](https://www.postgresql.org/docs/9.5/sql-insert.html)
+> [documento oficial：función no más](https://www.postgresql.org/docs/9.2/functions-array.html) > [documento oficial：Insertar statement](https://www.postgresql.org/docs/9.5/sql-insert.html)
 
-### MySql
+### Mysql
 
-MySql 与 SQLite 类似，支持`REPLACE` 语法。具体语句形式如下：
+MySql, similar a SQLite, admite`sintaxis de` REPLACE.Las instrucciones específicas se encuentran en el siguiente：
 
 ```sql
 REPLACE INTO TestTable (id, value)
@@ -120,130 +119,130 @@ VALUES
 (@idn,@valuen);
 ```
 
-> [官方文档：REPLACE 语句](https://dev.mysql.com/doc/refman/8.0/en/replace.html)
+> [El documento oficial：declaración REPLACE](https://dev.mysql.com/doc/refman/8.0/en/replace.html)
 
-### MongoDB
+### Mongodb
 
-MongoDB 原生支持 bulkWrite 的批量传输模式，也支持 replace 的 upsert 语法。因此操作非常简单。
+MongoDB admite de forma nativa el modo de transporte masivo de bulkWrite, así como la sintaxis upsert de replace.Así que es muy fácil de hacer.
 
-那么这里展示一下 C# 操作方法：
+Así que aquí hay un vistazo a cómo hacer it：
 
 ```cs
-private async Task SaveManyCoreMany(
-    IDbFactory dbFactory,
+Tarea asincrónica privada SaveManyCoreMany(
+    IDbFactory,
     IEnumerable<StateEntity> entities)
-{
-    var array = entities as StateEntity[] ?? entities.ToArray();
-    var items = array
-        .Select(x => new MongoStateEntity
-        {
-            claptrap_id = x.ClaptrapId,
-            claptrap_type_code = x.ClaptrapTypeCode,
-            version = x.Version,
-            state_data = x.StateData,
-            updated_time = x.UpdatedTime,
-        })
-        .ToArray();
 
-    var client = dbFactory.GetConnection(_connectionName);
-    var db = client.GetDatabase(_databaseName);
-    var collection = db.GetCollection<MongoStateEntity>(_stateCollectionName);
+    . ToArray();
+    var items -
+        de matriz . Select(x á> nuevo
+        MongoStateEntity
+            claptrap_id á x.ClaptrapId,
+            claptrap_type_code x.ClaptrapTypeCode,
+            versión de x.version,
+            state_data x.StateData,
+            updated_time x.UpdatedTime,
+        )
+        . ToArray();
 
-    var upsertModels = items.Select(x =>
-    {
-        var filter = new ExpressionFilterDefinition<MongoStateEntity>(entity =>
-            entity.claptrap_id == x.claptrap_id && entity.claptrap_type_code == x.claptrap_type_code);
-        return new ReplaceOneModel<MongoStateEntity>(filter, x)
-        {
-            IsUpsert = true
-        };
-    });
-    await collection.BulkWriteAsync(upsertModels);
-}
+    var client á dbFactory.GetConnection(_connectionName);
+    cliente var db. GetDatabase(_databaseName);
+    colección var: db.<MongoStateEntity>GetCollection (_stateCollectionName);
+
+    var upsertModels- elementos. Select(x á>
+    -
+        var filter ? new ExpressionFilterDefinition<MongoStateEntity>(entidad )>
+            entity.claptrap_id x.claptrap_id && entity.claptrap_type_code á x.claptrap_type_code);
+        devuelven un nuevo<MongoStateEntity>ReplaceOneModel (filtro, x)
+        de
+            IsUpsert a
+        verdadero;
+    );
+    esperamos colección. BulkWriteAsync(upsertModels);
+?
 ```
 
-这是从 Newbe.Claptrap 项目业务场景中给出的代码，读者可以结合自身需求进行修改。
+Este es el código proporcionado por el escenario empresarial del proyecto Newbe.Claptrap, que los lectores pueden modificar junto con sus propias necesidades.
 
-> [官方文档：db.collection.bulkWrite()](https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#db.collection.bulkWrite)
+> [Documentos oficiales：db.collection.bulkWrite()](https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#db.collection.bulkWrite)
 
-### 通用型解法
+### Solución universal
 
-优化的本质是减少数据库链接的使用，尽可能在一个链接内完成更多的工作。因此如果特定的数据库不支持以上数据库类似的操作。那么还是存在一种通用型的解法：
+La esencia de la optimización es reducir el uso de enlaces de base de datos y hacer tanto trabajo como sea posible dentro de un enlace.Por lo tanto, si una base de datos determinada no admite operaciones similares para las bases de datos anteriores.Luego hay un solution：universal
 
-1. 以尽可能快地方式将数据写入一临时表
-2. 将临时表的数据已连表 update 的方式更新的目标表
-3. 删除临时表
+1. Escribir datos en una tabla temporal lo antes posible
+2. La tabla de destino que actualiza los datos de la tabla temporal a la actualización de la tabla
+3. Eliminar la tabla temporal
 
-> [UPDATE with a join](http://www.sql-workbench.eu/dbms_comparison.html)
+> [ACTUALIZAR con una unión](http://www.sql-workbench.eu/dbms_comparison.html)
 
-## 性能测试
+## Pruebas de rendimiento
 
-以 SQLite 为例，尝试对 12345 条数据进行 2 次 upsert 操作。
+En el caso de SQLite, pruebe 2 operaciones upsert en datos 12345.
 
-单条并发：1 分 6 秒
+El：1 minuto y 6 segundos
 
-批量处理：2.9 秒
+Procesamiento por lotes：2,9 segundos
 
-[可以在该链接找到测试的代码。](https://github.com/newbe36524/Newbe.Demo/blob/master/src/BlogDemos/Newbe.Rx/Newbe.RxWorld/Newbe.RxWorld/UpsertTest.cs)
+[El código de la prueba se puede encontrar en el vínculo.](https://github.com/newbe36524/Newbe.Demo/blob/master/src/BlogDemos/Newbe.Rx/Newbe.RxWorld/Newbe.RxWorld/UpsertTest.cs)
 
-样例中不包含有 MySql、PostgreSQL 和 MongoDB 的样例，因为没有优化之前，在不提高连接池的情况下，一并发基本就爆炸了。所有优化的结果是直接解决了可用性的问题。
+El ejemplo no contiene mySql, PostgreSQL y MongoDB, porque antes de la optimización, el grupo de conexiones se descompone básicamente sin generar el grupo de conexiones.El resultado de todas las optimizaciones es una solución directa al problema de disponibilidad.
 
-> [所有的示例代码均可以在代码库中找到](https://github.com/newbe36524/Newbe.Demo)。如果 Github Clone 存在困难，[也可以点击此处从 Gitee 进行 Clone](https://gitee.com/yks/Newbe.Demo)
+> [todo el código de ejemplo se puede encontrar en la base de código](https://github.com/newbe36524/Newbe.Demo).Si Github Clone está en problemas,[también puede hacer clic aquí para Clonar desde Gitee](https://gitee.com/yks/Newbe.Demo)
 
-## 常见问题解答
+## Preguntas más frecuentes
 
-此处对一些常见的问题进行解答。
+Estas son las respuestas a algunas preguntas comunes.
 
-### 客户端是等待批量操作的结果吗？
+### ¿Está el cliente esperando el resultado de una operación masiva?
 
-这是一个很多网友提出的问题。答案是：是的。
+Esta es una pregunta planteada por muchos neizeres.La respuesta：sí.
 
-假设我们公开了一个 WebApi 作为接口，由浏览器调用。如果同时有 100 个浏览器同时发出请求。
+Supongamos que exponemos un WebApi como una interfaz, a la que llama el explorador.Si 100 navegadores están haciendo solicitudes al mismo tiempo.
 
-那么这 100 个请求会被合并，然后写入数据库。而在写入数据库之前，这些客户端都不会得到服务端的响应，会一直等待。
+A continuación, las 100 solicitudes se combinan y, a continuación, se escriben en la base de datos.Estos clientes no recibirán una respuesta del lado del servicio hasta que se escriban en la base de datos y esperarán.
 
-这也是该合并方案区别于普通的“写队列，后写库”方案的地方。
+Aquí también es donde el esquema de combinación difiere del escenario habitual de "cola de escritura, biblioteca de escritura más adelante".
 
-### 原理上讲，这种和 bulkcopy 有啥不一样？
+### En principio, ¿cuál es el punto de esto y la copia a granel?
 
-两者是不相关，必须同时才有作用的功能。 首先，代码中的 database.InsertMany 就是你提到的 bulkcopy。
+Los dos son irrelevantes y deben tener funciones que funcionen al mismo tiempo. En primer lugar, la base de datos en el código. InsertMany es la copia a granel que mencionó.
 
-这个代码的关键不是 InsertMany ，而是如何将单次的插入请求合并。 试想一下，你可以在 webapi 上公开一个 bulkcopy 的 API。 但是，你无法将来自不同客户端的请求合并在同一个 API 里面来调用 bulkcopy。 例如，有一万个客户端都在调用你的 API，那怎么合并这些 API 请求呢？
+La clave de este código no es InsertMany, sino cómo combinar una sola solicitud de inserción. Imagine que puede exponer una API de copia masiva en webapi. Sin embargo, no puede combinar solicitudes de diferentes clientes dentro de la misma API para llamar a bulkcopy. Por ejemplo, con 10.000 clientes que llaman a la API, ¿cómo se combinan estas solicitudes de API?
 
-如果如果通过上面这种方式，虽然你只是对外公开了一个单次插入的 API。你却实现了来自不同客户端请求的合并，变得可以使用 bulkcopy 了。这在高并发下很有意义。
+Si lo hace anteriormente, aunque solo expone una única API insertada al público.Entre usted y la consolidación de solicitudes de diferentes clientes, puede utilizar bulkcopy.Esto tiene sentido en niveles altos.
 
-另外，这符合开闭的原理，因为你没有修改 Repository 的 InsertOne 接口，却实现了 bulkcopy 的效果。
+Además, esto funciona con el principio de cierre abierto, porque no modificó la interfaz InsertOne del repositorio, pero copia masiva.
 
-### 如果批量操作中一个操作异常失败是否会导致被合并的其他操作全部失败？
+### Si se produce un error en una excepción de operación en una operación por lotes, ¿se producirá un error en todas las demás operaciones que se combinaron?
 
-如果业务场景是合并会有影响，那当然不应该合并。
+Si el escenario empresarial es que la consolidación tiene un impacto, ciertamente no debería combinarse.
 
-批量操作一个失败，当然是一起失败，因为底层的数据库事务肯定也是一起失败。
+Una operación masiva falla, por supuesto, porque la transacción de base de datos subyacente ciertamente falla juntos.
 
-除非批量接口也支持对每个传入的 ID 做区别对待。典型的，比如 mongodb 的 bulkcopy 可以返回哪些成功哪些失败，那么我们就有能力设置不同的 Tcs 状态。
+A menos que la interfaz masiva también admita el tratamiento diferencial de cada ID entrante.Normalmente, como la copia masiva de mongodb, tenemos la capacidad de establecer diferentes estados Tcs si podemos devolver qué éxitos y qué errores.
 
-哪些该合并，哪些不该合并，完全取决于业务。样例给出的是如果要合并，应该怎么合并。不会要求所有都要合并。
+Lo que debe y no debe fusionarse depende enteramente del negocio.En el ejemplo se muestra cómo se debe combinar si desea combinar.No todos deben combinarse.
 
-### Insert 和 Upsert 都说了，那 Delete 和 Select 呢？
+### Insert y Upsert dijeron, ¿qué pasa con Eliminar y Seleccionar?
 
-笔者笼统地将该模式称为“反应式批量处理”。要确认业务场景是否应用该模式，需要具备以下这两个基本的要求：
+El autor generalmente se refiere a este modelo como "procesamiento por lotes reactivo".Para confirmar que el patrón se aplica al escenario empresarial, debe tener las dos requirements：
 
-- 业务下游的批量处理是否会比累积的单条处理要快，如果会，那可以用
-- 业务上游是否会出现短时间的突增频率的请求，如果会，那可以用
+- Si el procesamiento por lotes aguas abajo del negocio será más rápido que el procesamiento único acumulado, si es así, se puede utilizar
+- Si habrá una solicitud de frecuencia de ráfaga corta aguas arriba de la empresa, si es así, que se puede utilizar
 
-当然，还需要考量，比如：下游的批量操作能否却分每个请求的结果等等问题。但以上两点是一定需要考量的。
+Por supuesto, también hay preguntas a tener en cuenta,：como si las operaciones por lotes posteriores se pueden dividir en los resultados de cada solicitud.Pero estos dos puntos deben ser considerados.
 
-那么以 Delete 为例：
+Así que toma Delete como un example：
 
-- Delete Where In 的速度会比 Delete = 的速度快吗？试一下
-- 会有突增的 Delete 需求吗？想一下
+- ¿Eliminar dónde en será más rápido que Eliminar?Pruébalo
+- ¿Habrá un aumento repentino en los requisitos de eliminación?Piénsalo
 
-## 小小工具 Zeal
+## Gadget Zeal
 
-笔者是一个完整存储过程都写不出来的人。能够查阅到这些数据库的文档，全靠一款名为 Zeal 的离线文档查看免费软件。推荐给您，您也值得拥有。
+El autor es un procedimiento almacenado completo que no se puede escribir fuera de la persona.Acceso a documentos para estas bases de datos, todos con un documento sin conexión llamado Zeal.Recomendado para usted, usted se lo merece.
 
-![Zeal](/images/20200627-010.png)
+![Celo](/images/20200627-010.png)
 
-Zeal 官网地址：<https://zealdocs.org/>
+Discurso Oficial de Zeal：<https://zealdocs.org/>
 
 <!-- md Footer-Newbe-Claptrap.md -->
