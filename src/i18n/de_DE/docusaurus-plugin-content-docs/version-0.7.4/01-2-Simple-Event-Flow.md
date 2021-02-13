@@ -118,7 +118,7 @@ Sobald die EventHandler-Implementierung abgeschlossen ist, vergessen Sie nicht, 
 
 Nachdem Sie EventHandler implementiert und getestet haben, können Sie eventHandler registrieren, um EventCode und Claptrap zuzuordnen.
 
-Öffnen Sie die`CartGrain-Klasse des HelloClaptrap.Actors`-Projekts`The`Project.
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 Markieren Sie mit Attribut.
 

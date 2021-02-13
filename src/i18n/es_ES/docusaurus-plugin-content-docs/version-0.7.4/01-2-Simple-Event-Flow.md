@@ -118,11 +118,12 @@ Una vez completada la implementación de EventHandler, no olvide probarla unitar
 
 Después de implementar y probar EventHandler, puede registrar eventHandler para asociarlo con EventCode y Claptrap.
 
-Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
-<p spaces-before="0">Marcar con atributo.</p>
+Marcar con atributo.
 
-<pre><code class="cs">  using Newbe.Claptrap;
+```cs
+  using Newbe.Claptrap;
   using Newbe.Claptrap.Orleans;
 
   namespace HelloClaptrap.Actors.Cart
@@ -139,7 +140,7 @@ Abra la clase`CartGrain del proyecto HelloClaptrap.</p>
           }
 
           ....
-`</pre>
+```
 
 ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 

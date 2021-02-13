@@ -118,7 +118,7 @@ EventHandler の実装が完了したら、単体テストを行うのを忘れ�
 
 EventHandler を実装してテストしたら、EventCode と Claptrap に関連付ける前に EventHandler を登録できます。
 
-`HelloClaptrap.Actors`プロジェクトの`CartGrain`します。
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 タグに Attribute を使用します。
 

@@ -118,7 +118,7 @@ Once the EventHandler implementation is complete, don't forget to unit test it.I
 
 Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
 
-Open it.`HelloClap.Actors.`The project.`CartGrain.`Class.
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 Mark with Attribute.
 

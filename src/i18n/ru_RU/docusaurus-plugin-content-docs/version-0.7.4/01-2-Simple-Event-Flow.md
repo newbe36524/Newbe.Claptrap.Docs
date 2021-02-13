@@ -118,7 +118,7 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。Например,
 
 После реализации и тестирования EventHandler можно зарегистрировать EventHandler для связи с EventCode и Claptrap.
 
-Откройте`класс CartGrain для проекта`HelloClaptrap.actors`,`HelloClaptrap.Actors.
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 Используйте Attribute для маркировки.
 

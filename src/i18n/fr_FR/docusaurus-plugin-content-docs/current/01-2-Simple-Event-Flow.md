@@ -118,7 +118,7 @@ Une fois l’implémentation EventHandler terminée, n’oubliez pas de la teste
 
 Une fois que vous avez implémenté et testé EventHandler, vous pouvez enregistrer eventHandler pour vous associer à EventCode et Claptrap.
 
-Ouvrez`classe CartGrain du projet HelloClaptrap.Actors``The`Project.
+打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
 Marquez avec attribut.
 
