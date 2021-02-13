@@ -1,27 +1,27 @@
 ---
-title: 'Recursos competitivos mínimos'
-description: 'Recursos competitivos mínimos'
+title: '最小竞争资源 (Minimal Competing Resources)'
+description: '最小竞争资源 (Minimal Competing Resources)'
 ---
 
 
-Un concepto que es importante cuando se utiliza el marco de Claptrap para recursos competitivos mínimos.Comprender este concepto puede ayudar a los desarrolladores a diseñar mejor el estado de Claptrap y evitar el diseño incorrecto.
+最小竞争资源在使用 Claptrap 框架时重要的一个概念。理解此概念有助于开发者更好的设计 Claptrap 的 State ，避免错误的设计。
 
-## ¿Cuál es el recurso competitivo mínimo
+## 什么是最小竞争资源
 
-El concepto de "competencia de recursos" en la programación multiproceso se presenta aquí como el concepto de "recurso competitivo mínimo" en los sistemas empresariales.Este concepto facilita la búsqueda de puntos de diseño para aplicar Newbe.Claptrap.
+类比多线程编程中 “资源竞争” 的概念，这里提出在业务系统中的 “最小竞争资源” 概念。借助这个概念可以很简单的找到如何应用 Newbe.Claptrap 的设计点。
 
-Por ejemplo, en el caso del comercio electrónico, cada elemento es un "recurso competitivo mínimo".Tenga en cuenta que esto no quiere decir que todos los productos sean un "recurso mínimo competitivo".Porque, si usted es el número 10.000 artículos, entonces la prisa por comprar el primer y segundo producto, no hay competencia en sí mismo.Por lo tanto, cada producto básico es un recurso competitivo mínimo.
+例如在电商抢购的例子中，每个商品都是一个 “最小竞争资源”。注意，这里不是说，所有商品是一个 “最小竞争资源”。因为，如果对一万个商品进行编号，那么抢购一号商品和二号商品，本身其实不存在竞争关系。因此，每个商品都是一个最小竞争资源。
 
-Estos son algunos ejemplos available：
+这里还有一些可用的例子：
 
-- En un sistema empresarial que solo permite inicios de sesión de un solo extremo, el ticket de inicio de sesión de un usuario es el recurso menos competitivo
-- En un sistema de configuración, cada elemento de configuración es el recurso menos competitivo
-- En un mercado de valores, cada orden de compra o venta es el recurso menos competitivo
+- 在一个只允许单端登录的业务系统中，一个用户的登录票据就是最小竞争资源
+- 在一个配置系统中，每个配置项都是最小竞争资源
+- 在一个股票交易市场中，每个买单或者卖单都是最小竞争资源
 
-En algunos escenarios, el recurso competitivo más pequeño también se conoce como la Unidad Concurrente Mínima
+在有的场景中，最小竞争资源也被称为“最小并发单元（Minimal Concurrent Unit）”
 
-## El Estado de Claptrap debe ser al menos mayor o igual que el alcance de los "recursos mínimos competitivos".
+## Claptrap 的 State 至少应该大于等于 “最小竞争资源” 的范围
 
-Combinado con ejemplos de complementos de comercio electrónico, si todos los artículos están diseñados en el mismo estado de Claptrap (mayor que el recurso competitivo mínimo).A continuación, diferentes usuarios compran elementos que se afectan entre sí porque Claptrap se basa en el patrón Actor que pone en cola para procesar las solicitudes.Es decir, suponiendo que cada artículo necesita procesar 10 ms, entonces es hasta 10000 para manejar todas las solicitudes de compra.Sin embargo, si cada elemento está numerado, cada elemento está diseñado como un estado de Claptrap independiente.Así que porque no están relacionados entre sí.La venta de todos los productos requeriría teóricamente sólo 10ms.
+结合电商抢购的例子，如果所有商品设计在同一个 Claptrap 的 State 中（大于最小竞争资源）。那么，不同用户购买商品就会相互影响，因为，Claptrap 基于的 Actor 模式是排队处理请求的。也就是说，假设每个商品需要处理 10ms，那么最快也需要 10000 \* 10 ms 来处理所有的购买请求。但如果每个商品都进行编号，每个商品设计为单独的 Claptrap 的 State。那么由于他们是互不相关的。卖掉所有商品，理论上就只需要 10ms。
 
-Por lo tanto, es fácil concluir que si el estado de Claptrap es mayor que el rango mínimo de recursos competitivos, el sistema no tendrá un problema con la corrección, pero puede haber algunas pérdidas de rendimiento. Además, si el estado de Claptrap es menor que el rango mínimo de recursos competitivos, la relación entre Claptrap se vuelve difícil de manejar y arriesgada.Dado que esto equivale a dividir un recurso competitivo mínimo en partes, y el recurso competitivo mínimo normalmente debe controlarse en una transacción, esto vuelve al problema de las transacciones distribuidas, que es muy común en distribuidas, difíciles de tratar.
+故而容易得出，如果 Claptrap 的 State 大于最小竞争资源的范围，系统不会有正确性的问题，但可能有一些性能损失。 另外，如果 Claptrap 的 State 小于最小竞争资源的范围，Claptrap 间的关系将会变得难以处理，存在风险。因为这就相当于将一个最小竞争资源拆分为多个部分，而最小竞争资源通常来说需要在一个事务中一并处理，这也就又回到了分布式中非常常见的分布式事务的问题，难以处理。
