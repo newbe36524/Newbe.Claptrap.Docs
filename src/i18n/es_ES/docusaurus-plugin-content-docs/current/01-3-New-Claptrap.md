@@ -404,7 +404,7 @@ Marca con Attribute y modifica updateInventoryAsync para ejecutar el evento.
 
 Hemos completado la consulta de inventario y la actualización anteriormente.Pero generalmente hay una cantidad inicial en el inventario, y estamos complementando esta parte de la lógica en esta sección.
 
-Cree`clase de`SkuStateInitHandler en la carpeta`Sku`de`el proyecto de`HelloClaptrap.Actors.
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + utilizando System.Threading.Tasks;
