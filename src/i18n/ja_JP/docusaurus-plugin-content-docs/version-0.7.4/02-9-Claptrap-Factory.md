@@ -1,24 +1,24 @@
 ---
-title: 'Claptrap ファクトリー (Claptrap Factory)'
-description: 'Claptrap ファクトリー (Claptrap Factory)'
+title: 'Claptrap ファクトリ (Claptrap Factory)'
+description: 'Claptrap ファクトリ (Claptrap Factory)'
 ---
 
 
-## Claptrap Factory セットの Claptrap
+## Claptrap Factory は Claptrap を組み立てます
 
-クラップのよりカスタマイズがアップ。開発者はClaptrap オブジェクトに Event Loader/Event Saver/ State Loader / State Saver / EventNotification Method など複数のコンポーネントを指定します。これを適合させるには良いパターンを作るためにClaptrap オブジェクトの作成を実装する適切なスキームが必要です。
+Claptrap は高いカスタマイズ性を提供します。開発者は、Claptrap オブジェクトにカスタマイズされた Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method などの一連のコンポーネントを指定できます。このカスタマイズ性に対応するためには、Claptrap オブジェクトのアセンブリを実装するための適切なスキームが必要です。
 
-現在のフレームワークは Autofac をボディランナーとして使用しますAutofac は Delegate Factory / Decorator / Generic Type / Module などよりも、System.DepenedenedInjection をサポートしているからである。
+現在、フレームワークは Autofac をアセンブラーとして選択しています。主な理由は、Autofac が Delegate Factory / Decorator / Generic Type / Module など、System.DepenedencyInjection よりも豊富な機能をサポートしているためです。
 
-## クラプトファクトy は Claptrap のライフサイクルを制御します。
+## Claptrap Factory は Claptrap のライフサイクルを制御します
 
-クラプトファクトリは Claptrap のプロデューサーなので Claptrap のライフサイクル操作と、Claptrap のライフサイクル制御に関するものとなっている。Autofac 経由で実現した Claptrap Factory? このライフサイクルの制御は、今のAutofac の Life オブジェクトを使用してすべてのマウント・アンインストール・アンインストール・プロセスを制御します。
+Claptrap Factory は Claptrap のプロデューサであるため、通常は Claptrap レベルのライフサイクル制御機能も担当します。Autofac ベースの実装の Claptrap Factory では、このライフサイクル制御は、Autofac の LifetimeScope オブジェクトを使用してマウント、作成、およびアンロード全体を制御するプロセスに表されます。
 
 ---
 
-こちらはストーリーの表現であり、分かりやすくなっていますあまり気にしなくても構いません。
+以下は、理解を支援するストーリーテリングの説明です。あまり気にする必要はありません。
 
-Claptrap Factory は Claptrap で本番環境で実施する主要な場所です。Claptrap Design の各工場出荷時 Classptrap はアセンブリにカスタムして機能し、極めて高い製品合格率と作業を可能にします。
+Claptrap Factory は、Claptrap の生産を行う主要な場所です。これは、特定のClaptrap Designに従って、非常に高い製品歩留まりと作業効率で、各工場出荷時のClaptrapのカスタムアセンブリを実行します。
 
 ## ICON
 
