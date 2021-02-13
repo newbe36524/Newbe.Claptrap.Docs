@@ -1,7 +1,7 @@
 ---
-title: '实现'
-description: '火车售票系统-实现'
+title: 'darse cuenta de'
+description: 'Sistema de venta de billetes de tren - implementación'
 ---
 
 
-TBD
+Tbd
