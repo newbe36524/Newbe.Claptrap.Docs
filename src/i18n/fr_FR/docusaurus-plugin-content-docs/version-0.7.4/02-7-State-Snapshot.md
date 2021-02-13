@@ -1,31 +1,31 @@
 ---
-title: '状态快照 （State Snapshot）'
-description: '状态快照 （State Snapshot）'
+title: 'Instantané d’état'
+description: 'Instantané d’état'
 ---
 
-## State Snapshot 加速状态还原速度
+## L’instantané d’état accélère la vitesse de restauration d’état
 
-一个处于激活状态的 Claptrap ，它的 State 即是当前的最新数据状态。这是通过事件溯源的方式来从持久化层还原的。有时，事件的数量可能非常庞大。那么通过事件来还原 State 将会花费更多的时间。因此，在 Claptrap 框架中提供了状态快照来持久化特定 Claptrap 在一定条件之后的状态。这个条件通常来说是以下几种：
+Un Claptrap actif dont l’État est l’état actuel des dernières données.Ceci est restauré à partir de la couche de persistance par l’approvisionnement d’événement.Parfois, le nombre d’événements peut être très important.Restaurer l’État à travers les événements prendra plus de temps.Par conséquent, un instantané d’état est fourni dans le cadre Claptrap pour persister l’état d’un Claptrap particulier après une certaine condition.Cette condition est habituellement la following：
 
-1. 执行了若干个事件之后。
-2. 在 Claptrap Deactive 时。
-3. 在一定的时间周期内。
+1. Après plusieurs événements ont été exécutés.
+2. Chez Claptrap Deactive.
+3. Sur une période de temps.
 
-事件快照的存在，使得状态从持久层还原的速度得到了提升。如果持久层存在快照，则一个状态的还原通常是按照以下步骤进行的：
+La présence d’instantanés d’événements augmente la vitesse à laquelle les états sont restaurés à partir de la couche persistante.Si un instantané existe dans une couche persistante, la restauration d’un état est généralement effectuée en suivant：
 
-1. 读取状态快照。
-2. 从状态快照对应的版本号开始，向后读取所有的事件进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Lisez l’instantané de l’état.
+2. Commencez par le numéro de version de l’instantané d’état et relisez tous les événements pour les mises à jour de l’état.
+3. Mettez à jour l’état jusqu’à ce que la couche de persistance n’ait pas d’événements restants.
 
-但是，如果没有快照，则还原步骤则变为如下所示：
+Toutefois, s’il n’y a pas d’instantané, l’étape de restauration devient la：
 
-1. 通过用户自定义方法来创建初始状态。
-2. 从事件库中读取所有事件来进行状态的更新。
-3. 更新状态直到持久层已经没有剩余的事件。
+1. Créez un état initial grâce à une méthode définie par l’utilisateur.
+2. Lisez tous les événements de la bibliothèque d’événements pour les mises à jour de statut.
+3. Mettez à jour l’état jusqu’à ce que la couche de persistance n’ait pas d’événements restants.
 
-不过。快照的存在也会带来一些特殊性。结合上面的工作步骤，我们很容易就发现，一旦形成了快照：
+Mais.L’existence d’instantanés apporte également une certaine spécialité.Combiné avec les étapes ci-dessus, il est facile de voir qu’une fois qu’un instantané est：
 
-1. 将不会再执行用户的自定义方法。
-2. 小于快照版本号的事件将不会被再次执行。
+1. La méthode personnalisée de l’utilisateur ne sera plus exécutée.
+2. Les événements plus petits que le numéro de version instantanée ne seront pas exécutés à nouveau.
 
-目前，框架对于每个 Id 仅仅能够保存一个最后的快照。
+Actuellement, le framework ne peut contenir qu’un seul instantané final pour chaque ID.
