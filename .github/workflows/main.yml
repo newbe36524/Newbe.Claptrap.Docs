@@ -2,13 +2,13 @@ name: qiniu publish
 on:
   push:
     branches:
-      - master
-      - feature/ci
+      # - master
+      - publish
 
 jobs:
   build:
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
-    name: Build Gatsby Site
+    name: Build docusaurus Site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,36 +17,14 @@ jobs:
           node-version: "12"
       - name: install yarn
         run: npm i -g --force yarn
-      - name: install gatsby-cli
-        run: npm install -g gatsby-cli
       - name: restore yarn
         run: |
           cd $GITHUB_WORKSPACE/src
           yarn install
-      - name: move l10n files
+      - name: yarn build
         run: |
           cd $GITHUB_WORKSPACE/src
-          mv ./content/de_DE/src/content/zh_Hans/** ./content/de_DE/
-          mv ./content/de_DE/src/content/zh_Hans.md ./content/de_DE.md
-          mv ./content/en_US/src/content/zh_Hans/** ./content/en_US/
-          mv ./content/en_US/src/content/zh_Hans.md ./content/en_US.md
-          mv ./content/es_ES/src/content/zh_Hans/** ./content/es_ES/
-          mv ./content/es_ES/src/content/zh_Hans.md ./content/es_ES.md
-          mv ./content/fr_FR/src/content/zh_Hans/** ./content/fr_FR/
-          mv ./content/fr_FR/src/content/zh_Hans.md ./content/fr_FR.md
-          mv ./content/ja_JP/src/content/zh_Hans/** ./content/ja_JP/
-          mv ./content/ja_JP/src/content/zh_Hans.md ./content/ja_JP.md
-          mv ./content/ru_RU/src/content/zh_Hans/** ./content/ru_RU/
-          mv ./content/ru_RU/src/content/zh_Hans.md ./content/ru_RU.md
-          mv ./content/zh_HK/src/content/zh_Hans/** ./content/zh_HK/
-          mv ./content/zh_HK/src/content/zh_Hans.md ./content/zh_HK.md
-          mv ./content/zh_TW/src/content/zh_Hans/** ./content/zh_TW/
-          mv ./content/zh_TW/src/content/zh_Hans.md ./content/zh_TW.md
-      - name: gatsby build
-        run: |
-          cd $GITHUB_WORKSPACE/src
-          mkdir -p public/images/icon 
-          npm run build
+          yarn run build
       - uses: actions/setup-java@v1
         with:
           java-version: "8" # The JDK version to make available on the path.
@@ -57,4 +35,4 @@ jobs:
           JAVA_TOOL_OPTIONS: "-agentlib:hprof"
         run: |
           cd $GITHUB_WORKSPACE/src
-          java -jar ../tools/qsuits-8.4.4.jar -process=qupload -path=public -rm-prefix=public/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}
+          java -jar ../tools/qsuits-8.4.4.jar -process=qupload -path=build -rm-prefix=build/ -bucket=newbeclaptrap -ak=${{ secrets.QINIU_AK }} -sk=${{ secrets.QINIU_SK }}

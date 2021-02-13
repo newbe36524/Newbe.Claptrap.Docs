@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "Newbe.Claptrap",
+    "description": "The title in the navbar"
+  },
+  "item.label.GitHub": {
+    "message": "Github",
+    "description": "Navbar item with label GitHub"
+  },
+  "item.label.开发文档": {
+    "message": "Documentación de desarrollo",
+    "description": "Navbar item with label 开发文档"
+  },
+  "item.label.博客": {
+    "message": "Blog",
+    "description": "Navbar item with label 博客"
+  },
+  "item.label.QQ 群(610394020)": {
+    "message": "Grupo QQ (610394020)",
+    "description": "Navbar item with label QQ 群(610394020)"
+  }
+}
