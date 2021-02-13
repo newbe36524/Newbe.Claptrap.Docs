@@ -404,7 +404,7 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
 Ранее мы завершили запросы и обновления запасов.Но, как правило, запасы имеют начальную сумму, и мы дополняем эту часть логики в этом разделе.
 
-Создайте`класс<code>SkuStateInitHandler в папке<code>Sku`проекта HelloClaptrap.</code>actors</code>.
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
