@@ -404,7 +404,7 @@ Attribute でタグ付けし、UpdateInventoryAsync 実行イベントを変更�
 
 在庫の照会と更新は、前に完了しました。ただし、通常、在庫には初期金額があり、このセクションではロジックのこの部分を補足します。
 
-`HelloClaptrap.Actors`プロジェクトの`Sku`フォルダの下に`SkuStateInitHandler`します。
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
