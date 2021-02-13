@@ -150,7 +150,7 @@ Wenn nach der Zuordnung das Ereignis, das EventCode entspricht, in diesem Korn a
 
 Ändern Sie die Definition der Grain-Schnittstelle, um externe Interoperabilität mit Claptrap bereitzustellen.
 
-Öffnen Sie`ICartGrain-Schnittstelle für`HelloClaptrap.IActors`Projekt`Projekt.
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 Fügen Sie Schnittstellen sowie Attribut hinzu.
 

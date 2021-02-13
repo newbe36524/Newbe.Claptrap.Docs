@@ -150,7 +150,7 @@ After the association, if the event for EventCode is generated in this grain, th
 
 Modify the definition of the Grain interface to provide external interoperability with Claptrap.
 
-Open it.`HelloClaptrap.IActors.`The project.`ICartGrain.`Interface.
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 Add interfaces and Attributes.
 

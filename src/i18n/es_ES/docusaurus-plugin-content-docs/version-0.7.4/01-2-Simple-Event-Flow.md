@@ -150,11 +150,12 @@ Después de la asociación, si el evento correspondiente a EventCode se produce 
 
 Modifique la definición de la interfaz Grain para proporcionar interoperabilidad externa con Claptrap.
 
-Abra`interfaz ICartGrain para`proyecto de</code>de proyecto HelloClaptrap.IActor`s.</p>
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
-<p spaces-before="0">Agregue interfaces así como atributo.</p>
+Agregue interfaces así como atributo.
 
-<pre><code class="cs">  using System.Collections.Generic;
+```cs
+  using System.Collections.Generic;
   using System.Threading.Tasks;
   using HelloClaptrap.Models;
   using HelloClaptrap.Models.Cart;
@@ -176,7 +177,7 @@ Abra`interfaz ICartGrain para`proyecto de</code>de proyecto HelloClaptrap.IActor
 +         Task RemoveAllItemsAsync();
       }
   }
-`</pre>
+```
 
 Se han added：dos partes
 
