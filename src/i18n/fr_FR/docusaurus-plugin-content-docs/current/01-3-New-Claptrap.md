@@ -404,7 +404,7 @@ Marquez avec Attribut et modifiez updateInventoryAsync pour exécuter l’évén
 
 Nous avons terminé la requête d’inventaire et la mise à jour plus tôt.Mais en général, il y a un montant initial dans l’inventaire, et nous complétons cette partie de la logique dans cette section.
 
-Créez`classe`SkuStateInitHandler sous le dossier`Sku`de`le projet HelloClaptrap.Actors`.
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + en utilisant System.Threading.Tasks;
