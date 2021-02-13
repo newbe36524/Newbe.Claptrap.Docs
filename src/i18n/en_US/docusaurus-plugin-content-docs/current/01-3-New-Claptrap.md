@@ -68,7 +68,7 @@ Because Claptrap is an Actor based on event sourcing patterns.So it's important 
 
 In this example, we only need to record the inventory of the current SKU, so state design is very simple.
 
-Add`Sku`folder to the HelloClaptrap. project and create the`SkuState`under that folder.
+Add`Sku`folder to the HelloClaptrap.project and create the`SkuState`under that folder.
 
 Add the following code.：
 
@@ -136,7 +136,7 @@ The following has been added：
 
 Once you've defined ISkuGrain, you can add code to implement it.
 
-Create`new Sku`folder for the HelloClaptrap.Actors project and add the`SkuGrain`folder.
+Create`new Sku`folder for the HelloClaptrap.Actors. project and add the`SkuGrain`folder.
 
 ```cs
 + using System;
@@ -309,7 +309,7 @@ Add the following code.：
 
 ## Implement EventHandler.
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。
+EventHandler is used to update events to the State of Claptrap.
 
 Create`InventoryUpdateEventHandler`class under the`Sku/Events`folder of`the HelloClaptrap.Actors`project.
 
