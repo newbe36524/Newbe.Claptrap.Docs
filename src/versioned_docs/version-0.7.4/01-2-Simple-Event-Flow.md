@@ -152,7 +152,7 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
 
 修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
 
-打开`HelloClaptrap.IActors`项目的`ICartGrain`接口。
+打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
 添加接口以及 Attribute。
 
