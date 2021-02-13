@@ -68,7 +68,7 @@ Parce que Claptrap est un acteur basé sur des modèles d’approvisionnement d�
 
 Dans cet exemple, nous avons seulement besoin d’enregistrer l’inventaire de l’actuel SKU, de sorte que la conception de l’État est très simple.
 
-Ajoutez`dossier`Sku au projet HelloClaptrap. et créez le`SkuState`sous ce dossier.
+Ajoutez`dossier`Sku au projet HelloClaptrap.et créez le`SkuState`sous ce dossier.
 
 Ajouter les éléments code：
 
