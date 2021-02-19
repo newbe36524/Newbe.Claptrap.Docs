@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "crwdns71538:0crwdne71538:0",
+    "description": "The title in the navbar"
+  },
+  "item.label.GitHub": {
+    "message": "crwdns71540:0crwdne71540:0",
+    "description": "Navbar item with label GitHub"
+  },
+  "item.label.开发文档": {
+    "message": "crwdns71542:0crwdne71542:0",
+    "description": "Navbar item with label 开发文档"
+  },
+  "item.label.博客": {
+    "message": "crwdns71544:0crwdne71544:0",
+    "description": "Navbar item with label 博客"
+  },
+  "item.label.QQ 群(610394020)": {
+    "message": "crwdns84110:0crwdne84110:0",
+    "description": "Navbar item with label QQ 群(610394020)"
+  }
+}
