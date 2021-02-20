@@ -1,6 +1,9 @@
 ---
 date: 2021-01-30
 title: El desarrollo de aplicaciones k8s con Tye Aid es tan simple como eso (I)
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 Recientemente se ha desarrollado una nueva versión de Newbe.Claptrap, utilizando Tye para ayudar al desarrollo de aplicaciones k8s.Echemos un breve vistazo a cómo se usa en esta serie.
