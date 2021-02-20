@@ -44,12 +44,12 @@ module.exports = {
           {
             tagName: "link",
             rel: "icon",
-            href: "/static/images/icon/apple-touch-icon.png",
+            href: "/images/icon/apple-touch-icon.png",
           },
           {
             tagName: "link",
             rel: "manifest",
-            href: "/static/images/icon/site.webmanifest.json", // your PWA manifest
+            href: "/images/icon/site.webmanifest.json", // your PWA manifest
           },
           {
             tagName: "meta",
