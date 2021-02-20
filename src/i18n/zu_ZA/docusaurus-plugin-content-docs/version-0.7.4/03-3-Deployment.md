@@ -1,6 +1,6 @@
 ---
-title: 'crwdns76982:0crwdne76982:0'
-description: 'crwdns76984:0crwdne76984:0'
+title: 'crwdns86614:0crwdne86614:0'
+description: 'crwdns86616:0crwdne86616:0'
 ---
 
 
@@ -25,31 +25,31 @@ description: 'crwdns76984:0crwdne76984:0'
 
 为了更有效的抢票，开发者可以根据 swagger 文档给出的 API 开发自动抢票工具。文档地址<http://ticketing.newbe.pro/swagger> -->
 
-## crwdns76986:0crwdne76986:0
+## crwdns86618:0crwdne86618:0
 
-crwdns76988:0crwdne76988:0crwdns76990:0crwdne76990:0
+crwdns86620:0crwdne86620:0crwdns86622:0crwdne86622:0
 
-1. crwdns76992:0crwdne76992:0
-2. crwdns76994:0crwdne76994:0
-3. crwdns76996:0crwdne76996:0
-4. crwdns76998:0crwdne76998:0
-5. crwdns77000:0crwdne77000:0
+1. crwdns86624:0crwdne86624:0
+2. crwdns86626:0crwdne86626:0
+3. crwdns86628:0crwdne86628:0
+4. crwdns86630:0crwdne86630:0
+5. crwdns86632:0crwdne86632:0
 
-crwdns77002:0crwdne77002:0
+crwdns86634:0crwdne86634:0
 
 ```bash
-crwdns77004:0crwdne77004:0
+crwdns86636:0crwdne86636:0
 ```
 
-crwdns77006:0crwdne77006:0
+crwdns86638:0crwdne86638:0
 
-| crwdns77008:0crwdne77008:0 | crwdns77010:0crwdne77010:0 |
+| crwdns86640:0crwdne86640:0 | crwdns86642:0crwdne86642:0 |
 | -------------------------- | -------------------------- |
-| crwdns77012:0crwdne77012:0 | crwdns77014:0crwdne77014:0 |
-| crwdns77016:0crwdne77016:0 | crwdns77018:0crwdne77018:0 |
-| crwdns77020:0crwdne77020:0 | crwdns77022:0crwdne77022:0 |
+| crwdns86644:0crwdne86644:0 | crwdns86646:0crwdne86646:0 |
+| crwdns86648:0crwdne86648:0 | crwdns86650:0crwdne86650:0 |
+| crwdns86652:0crwdne86652:0 | crwdns86654:0crwdne86654:0 |
 
-> - crwdns77024:0crwdne77024:0
-> - crwdns77026:0crwdne77026:0
-> - crwdns77028:0crwdne77028:0
-> - crwdns77030:0crwdne77030:0
+> - crwdns86656:0crwdne86656:0
+> - crwdns86658:0crwdne86658:0
+> - crwdns86660:0crwdne86660:0
+> - crwdns86662:0crwdne86662:0
