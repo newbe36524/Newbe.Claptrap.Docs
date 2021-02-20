@@ -1,6 +1,9 @@
 ---
 date: 2021-02-06
 title: Die Verwendung von Tye zur Entwicklung von k8s-Anwendungen ist so einfach wie das (II)
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 Im letzten Artikel, lassen Sie uns Tyes weitere Möglichkeiten zu erkunden, es zu verwenden.Werfen wir einen Blick auf die Verwendung der Dienstermittlung in Tye.
