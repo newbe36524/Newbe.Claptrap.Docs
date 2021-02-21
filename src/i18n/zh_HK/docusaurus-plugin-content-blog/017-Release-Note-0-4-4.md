@@ -25,9 +25,9 @@ Newbe.Claptrap 0.4.4 发布，新增 RabbitMQ 支持。
 
 添加了若干术语的说明：
 
-- [Actor 模式](02-1-Actor-Pattern)
-- [事件溯源](02-2-Event-Sourcing)
-- [Claptrap](02-3-Claptrap)
-- [Minion](02-4-Minion)
+- [Actor 模式](../docs/02-1-Actor-Pattern)
+- [事件溯源](../docs/02-2-Event-Sourcing)
+- [Claptrap](../docs/02-3-Claptrap)
+- [Minion](../docs/02-4-Minion)
 
 <!-- md Footer-Newbe-Claptrap.md -->
