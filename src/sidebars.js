@@ -1,13 +1,7 @@
 module.exports = {
   someSidebar: {
     项目简介: ["00-0-Docs", "00-1-Why-Newbe-Claptrap"],
-    快速入门: [
-      "01-0-Quick-Start",
-      "01-1-Create-Project",
-      "01-2-Simple-Event-Flow",
-      "01-3-New-Claptrap",
-      "01-4-Start-With-Minion",
-    ],
+    快速入门: ["01-0-Quick-Start", "01-1-Preparation"],
     术语表: [
       "02-0-Glossary",
       "02-1-Actor-Pattern",

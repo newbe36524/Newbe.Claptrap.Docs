@@ -67,6 +67,18 @@ module.exports = {
       // theme: require("prism-react-renderer/themes/github"),
       // darkTheme: require("prism-react-renderer/themes/palenight"),
     },
+    algolia: {
+      apiKey: "6e0145abb5d335f273b4d8205992745f",
+      indexName: "newbe",
+
+      // Optional: see doc section bellow
+      contextualSearch: true,
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      //... other Algolia params
+    },
     navbar: {
       title: "Newbe.Claptrap",
       logo: {
