@@ -1,26 +1,26 @@
 ---
-title: '序列化（Serialization）'
-description: '序列化（Serialization）'
+title: 'Sérialisation'
+description: 'Sérialisation'
 ---
 
 
-由于在 Claptrap 系统中需要对事件和状态进行传输与存储，因此需要对事件和状态进行序列化，这样才能够应对种类繁多的传输和存储方案。
+Étant donné que les événements et les états doivent être transmis et stockés dans un système Claptrap, les événements et les états doivent être sérialisés pour gérer une grande variété de scénarios de transport et de stockage.
 
-## 如何选择序列化方案
+## Comment choisir un schéma de sérialisation
 
-可选的序列化方式多种多样，典型的就如：JSON、MessagePack、Protobuf 等等。实际项目中序列化的方案可以基于以下几点进行考虑：
+Il existe une variété d’options de sérialisation, généralement：JSON, MessagePack, Protobuf, et plus encore.Les scénarios sérialisés du projet réel peuvent être envisagés en fonction des éléments points：
 
-1. 可读性。如果对可读性有越高的要求，则越应该考虑以文本为主的序列化方案。
-2. 传输效率、存储空间利用率。如果对于传输效率和存储空间有越高的要求，则越应该考虑以二进制为主的序列化方案。
+1. Lisibilité.S’il y a des exigences plus élevées en matière de lisibilité, plus vous devriez envisager une sérialisation textuelle.
+2. Efficacité de transmission, utilisation de l’espace de stockage.S’il y a des exigences plus élevées pour l’efficacité du transport et l’espace de stockage, la sérialisation plus binaire devrait être envisagée.
 
-在 Claptrap 系统中，由于每个 Claptrap 都有完全独立的可定制性，因而开发者可以为不同的 Claptrap 选择不同的序列化方案。但唯一需要注意的就是，序列化方案一旦选定就很难变更，故需在设计阶段就慎重考虑。
+Dans le système Claptrap, parce que chaque Claptrap est entièrement personnalisable, les développeurs peuvent choisir différents schémas de sérialisation pour différents Claptrap.Cependant, la seule chose à noter est que le schéma de sérialisation est difficile à modifier une fois sélectionné, de sorte qu’il doit être soigneusement examiné à l’étape de la conception.
 
-## 序列化与载体的独立性
+## Sérialisation et indépendance du transporteur
 
-在 Claptrap 框架中，存储、传输和序列化是相互独立。换言之，可以在传输时使用更利于阅读的 JSON 序列化，在存储时选择更有利于存储利用率的二进制序列化，反之亦然。
+Dans le cadre claptrap, le stockage, le transport et la sérialisation sont indépendants les uns des autres.En d’autres termes, vous pouvez utiliser une sérialisation JSON plus lisible pendant la transmission, choisir une sérialisation binaire plus propice à l’utilisation du stockage, et vice versa.
 
-## 序列化与载体的制约性
+## Sérialisation et contraintes de transporteur
 
-在面对特定的存储或者传输的载体时，序列化的方式也将受到限制。例如：当前正在使用一种不支持二进制直接存储的数据库来作为事件的持久层，那么选择想要通过二进制序列化来保存事件就将变得不可行。故而，在选择序列化方案之前，需要优先确定传输和存储方案。
+La sérialisation sera également limitée face à des vecteurs spécifiques de stockage ou de transport.Par example：vous utilisez actuellement une base de données qui ne prend pas en charge le stockage direct binaire comme une couche persistante pour les événements, puis le choix d’enregistrer des événements par sérialisation binaire devient imparable.Par conséquent, avant de choisir un schéma de sérialisation, vous devez hiérarchiser les scénarios de transport et de stockage.
 
-目前，所有支持的序列化方案均以“Newbe.Claptrap.DataSerializer.\*”的名称发布在 nuget 上。
+Actuellement, tous les schémas de sérialisation pris en charge sont publiés sur nuget sous le nom de « Newbe.Claptrap.DataSerializer ».
