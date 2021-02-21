@@ -1,32 +1,32 @@
 ---
-title: '「Claptrap Design」(Claptrap Design)'
-description: '「Claptrap Design」(Claptrap Design)'
+title: 'Claptrap デザインマップ (Claptrap Design)'
+description: 'Claptrap デザインマップ (Claptrap Design)'
 ---
 
-## Claptrap Design は、Claptrap の高いカスタマイズ性を実現します
+## Claptrap Design Claptrap を実現する高いカスタマイズ機能
 
-Claptrap は高いカスタマイズ性を提供します。開発者は、Claptrap オブジェクトにカスタマイズされた Event Loader/ Event Saver/ State Loader / State Saver / EventNotification Method などの一連のコンポーネントを設定できます。このカスタマイズはすべて、Claptrap Design オブジェクトに具体的に反映できます。
+クラップのよりカスタマイズがアップ。開発者はClaptrap オブジェクト用のEvent Loader/ Event Saver/ State Loader / State Saver / EventNotification Method など複数のコンポーネントで構成することができます。これらのカスタマイズにより、Claptrap Design オブジェクトを満たすことができる。
 
-Claptrap Design は、Claptrap のすべての詳細を決定する設計図のようなもので、一般的に：
+Claptrap DesignはClaptrap の Crap の各詳細で発生する： に似ています。
 
-1. イベントを処理するために、どのような Event Loader / Event Saver を使用します。
-2. State スナップショットはどのくらいの頻度で保存されます。
-3. Minion 、もしそうなら、マスターは誰です。
-4. イベントの種類と、対応する Event Handler の種類。
+1. イベントを処理する方法は、どのようなものですか？ Event Saver に実装されています。
+2. State スナップショットを保存するまでの時間。
+3. Minion は master が有名です。
+4. どれだけのイベントが どれくらいいるでしょう？ Event Handler とは何ですか？
 
-これらの詳細は、アプリケーションの起動時に、タイプ スキャン、プロパティ タグ、一貫したインターフェイス、構成ファイルなど、さまざまな方法で構成されます。これにより、完全な Claptrap Design が形成されます。また、Claptrap Design は起動時に妥当性を検証し、Claptrap Design が基本的に使用可能であることを確認します。これにより、"Event 対応の Handler を書き忘れた" などの低レベルのエラーは発生しません。
+これらの詳細は、アプリケーションの起動時に適用されます。タイプスキャン、プロパティタグ、一貫性インターフェース、プロファイルなど、様々な方法で設定されます。そして完全に新しい Claptrap Design を形成します。更に、起動時にClaptrap Designのとても適切な確認 - Claptrap Designs がされています。これは、『シャンパンによって書かれた Handler』 と同じレベルの低いエラーと見なされません。
 
-すべての Claptrap Design は IClaptrapDesignStore などのメモリ オブジェクトに一元的に保存され、Claptrap Factory が Claptrap を構築して取得できます。
+すべての Claptrap Designライブラリは、ClaptrapDesignストアで使用されている、Claptrap ファクトリーのビルドに保持されます。
 
-開発者は、IClaptrapDesignStore のすべてのデータに基づいて、人間が読み取るテキストまたはグラフィックスを構成して、現在のシステム内の Claptrap の相互関係と構成の詳細を高レベルで理解しやすくすることもできます。
+開発者がIClaptrapDesignStoreの全データを基に作り、深い所定のテキストやグラフィックスを含むことができ、深いレベルで見やすくするために使われるようになるように、開発者はコーディングに於いて様々な工程の詳細を得ることができます。
 
 ---
 
-以下は、理解を支援するストーリーテリングの説明です。あまり気にする必要はありません。
+こちらはストーリーの表現であり、分かりやすくなっていますあまり気にしなくても構いません。
 
-Claptrap Design は、Claptrap Factory が Claptrap を生産するための重要な基礎です。特定の種類の Claptrap に必要なカスタムデバイスが Design に記録されます。たとえば：多機能タスク プロセッサのタスク実行モジュールの決定、ハンドヘルド メモのデバイス モデルの決定、メモリ回復コントローラの回復戦略の決定などです。
+Claptrap Design はClaptrap Factoryで Claptrap が本番に不可欠なものです。Design Cevの特定の種類の Claptrap に必要なカスタマイズ装置を記録します。例えば：多目的タスク・プロセッサでMODを導入する; 持ち合わせているデバイス種別を選択します; 制御器の復元方法決定。
 
-Claptrap Design の設計は、Claptrap が稼働することを決定する前に、最終製品がニーズを満たしていることを確認する上で重要な要素です。
+Claptrap によるアーティファクトを分析する前に、ClassroomDesignを開発し、最終的にその製品が必要とする重要なステップを保証します。
 
 ## ICON
 
