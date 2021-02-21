@@ -143,4 +143,4 @@ Preguntas prácticas durante el proceso de solicitud, los lectores pueden buscar
 
 ## Todo está listo
 
-Creo que tiene una comprensión preliminar del marco.Ahora, vaya a[primer paso: cree un proyecto, implemente un simple carro de la compra](01-1-Create-Project) comience a probar el proyecto.
+Creo que tiene una comprensión preliminar del marco.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。
