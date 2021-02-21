@@ -7,6 +7,8 @@ description: '第一步——建立項目，實現簡易購物車'
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## 業務需求
 
 實現一個簡單嘅“電商購物車”需求，呢度需要實現幾個簡單嘅業務：
@@ -85,7 +87,7 @@ dotnet new newbe.claptrap --name HelloClaptrap
 
 ### Rider
 
-按照上文提到嘅啟動方式，同時執行兩個項目。
+按照上文提到嘅執行方式，同時執行兩個項目。
 
 Rider 目前無提供中斷點導入功能。因此需要手動喺以下嘅位置建立中斷點：
 
@@ -207,7 +209,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-這段code入面，包含咗兩個重要參數，分別係表示當前購物車狀態嘅`CartState`同需要處理嘅事件`AddItemToCartEvent`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 我地按照業務需求，判斷狀態入面嘅字典係咪包含 SkuId，並對佢嘅數量進行更新。
 
