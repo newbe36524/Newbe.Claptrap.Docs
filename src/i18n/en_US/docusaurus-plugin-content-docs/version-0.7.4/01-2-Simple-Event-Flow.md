@@ -7,11 +7,13 @@ With this reading, you're ready to try using Claptrap to implement your business
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Summary
 
-In this article, I learned how to add a business implementation to an existing project sample by implementing the need to "empty the shopping cart".
+本篇，我通过实现“清空购物车”的需求来了解一下如何在已有的项目样例中增加一个业务实现。
 
-Mainly consists of the following these steps：
+主要包含有以下这些步骤：
 
 1. Define EventCode.
 2. Define Event.
@@ -21,15 +23,15 @@ Mainly consists of the following these steps：
 6. Implement grain.
 7. Modify the Controller.
 
-This is a process from down-up, and the development of the actual coding process can also be achieved top-down.
+这是一个从下向上的过程，实际的编码过程中开发也可以自上而下进行实现。
 
 ## Define Event Code.
 
-EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
+EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别，序列化等方面起到了重要的作用。
 
-Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
+打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
 
-Add EventCode for "Empty Shopping Cart Events."
+添加“清空购物车事件”的 EventCode。
 
 ```cs
   namespace HelloClaptrap.Models
@@ -47,11 +49,11 @@ Add EventCode for "Empty Shopping Cart Events."
 
 ## Define Event.
 
-Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
+Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
 
-Create the`RemoveAllItemsFromCartEvent`class under the`Cart/Events`folder of the`HelloCladaptrap.Models`project.
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
-Add the following code.：
+添加如下代码：
 
 ```cs
 + using Newbe.Claptrap;
@@ -64,17 +66,17 @@ Add the following code.：
 + }
 ```
 
-Because in this simple business scenario, emptying a shopping cart does not require specific parameters.Therefore, just create an empty type.
+由于在这个简单的业务场景中，清空购物车不需要特定的参数。因此，只要创建空类型即可。
 
-The `IEventData`interface is an empty interface that represents an event in the frame, for use when generaltype inference.
+`IEventData`接口是框架中表示事件的空接口，用于在泛型推断时使用。
 
 ## Implement EventHandler.
 
-EventHandler is used to update events to the State of Claptrap.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
 
-Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
-Add the following code.：
+添加如下代码：
 
 ```cs
 + using System.Threading.Tasks;
@@ -98,7 +100,7 @@ Add the following code.：
 + }
 ```
 
-Here are some common problems.：
+这里有一些常见的问题：
 
 1. What is NormalEventHandler?
 
@@ -112,15 +114,15 @@ Here are some common problems.：
 
    Can pass this.[Understanding The Whys, Whats, and Whens of ValueTask](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)Learn.
 
-Once the EventHandler implementation is complete, don't forget to unit test it.It's not listed here.
+EventHandler 实现完成之后，不要忘记对其进行单元测试。这里就不罗列了。
 
 ## Sign up for EventHandler.
 
-Once you have implemented and tested EventHandler, you can register EventHandler to associate with EventCode and Claptrap.
+实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
 
 打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
-Mark with Attribute.
+使用 Attribute 进行标记。
 
 ```cs
   using Newbe.Claptrap;
@@ -144,15 +146,15 @@ Mark with Attribute.
 
 ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
-After the association, if the event for EventCode is generated in this grain, the event is handled by the specified EventHandler.
+关联之后，如果在此 Grain 中产生的对应 EventCode 的事件将会由指定的 EventHandler 进行处理。
 
 ## Modify the Grain interface.
 
-Modify the definition of the Grain interface to provide external interoperability with Claptrap.
+修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
 
 打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
-Add interfaces and Attributes.
+添加接口以及 Attribute。
 
 ```cs
   using System.Collections.Generic;
@@ -179,18 +181,18 @@ Add interfaces and Attributes.
   }
 ```
 
-Two parts have been added.：
+其中增加了两部分内容：
 
 1. marked.`ClaptrapEvent.`to associate the event with Grain.Note that here is the previous step.`Claptrap Event Handler.`is different.Event is marked here, and eventHandler is marked in the previous step.
 2. Added the RemoveAllItemsAsync method to indicate business behavior of "emptying shopping carts".It is important to note that grain's method definition has certain limitations.Details can be found.[Developing a Grain](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
 ## Implement grain.
 
-Next, follow the previous interface modification, to modify the corresponding implementation class.
+接下来按照上一步的接口修改，来修改相应的实现类。
 
-Open it.`HelloClap.Actors.`Project.`Cart.`under the folder.`CartGrain.`Class.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
-Add the corresponding implementation.
+添加对应的实现。
 
 ```cs
   using System;
@@ -233,7 +235,7 @@ Add the corresponding implementation.
   }
 ```
 
-The corresponding implementation of the interface method has been added.There are a few points to be aware of.：
+增加了对接口方法的对应实现。需要注意的有以下几点：
 
 1. Be sure to increase.`if (StateData.Items?? Any() ! . . . . . . . . . . . . . . .`This line of judgment.This can significantly reduce the overhead of storage.
 
@@ -247,9 +249,9 @@ The corresponding implementation of the interface method has been added.There ar
 
 ## Modify the Controller.
 
-Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.Therefore, it is also necessary to add an API on the Controller layer for the operation of "emptying the cart" externally.
+前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“清空购物车”的操作。
 
-Open the`CartController`class under the`Controllers`folder of the`HelloCladaptrap.Web`project.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;
@@ -283,9 +285,9 @@ Open the`CartController`class under the`Controllers`folder of the`HelloCladaptra
 
 ## Summary
 
-At this point, we complete all the contents of this simple requirement of "emptying the cart".
+至此，我们就完成了“清空购物车”这个简单需求的所有内容。
 
-You can get the source code for this article from the following address.：
+您可以从以下地址来获取本文章对应的源代码：
 
 - [Github.](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
 - [Gitee.](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
