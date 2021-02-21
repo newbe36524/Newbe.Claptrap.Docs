@@ -143,4 +143,4 @@ Praktische Fragen während des Bewerbungsprozesses können Leser in nachfolgende
 
 ## Alles ist fertig
 
-Ich glaube, Sie haben ein vorläufiges Verständnis des Rahmens.Gehen Sie nun zu[ersten Schritt - erstellen Sie ein Projekt, implementieren Sie einen einfachen Einkaufswagen,](01-1-Create-Project) starten Sie das Projekt.
+Ich glaube, Sie haben ein vorläufiges Verständnis des Rahmens.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。
