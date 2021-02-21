@@ -1,6 +1,8 @@
 ---
-title: '快速入門'
-description: 'Newbe.Claptrap 快速入門'
+title: "快速入門"
+description: "Newbe.Claptrap 快速入門"
 ---
 
-哩個系列，我哋將會通過一個簡化嘅電商小應用嚟了解点點樣去用 Newbe.Claptrap 嚟開發一個伺服端系統。
+Newbe.Claptrap 开发框架是以 Actor 模式和事件溯源为理论基础的开发框架。对于需要对应并发问题的系统拥有一定的开发优势。
+
+本系列，我们同一个“拍卖竞价”的示例，来体验一下如何使用 Newbe.Claptrap 框架进行开发。
