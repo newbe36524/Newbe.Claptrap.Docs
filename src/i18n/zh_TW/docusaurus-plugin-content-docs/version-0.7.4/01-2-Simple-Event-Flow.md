@@ -11,9 +11,9 @@ description: "第二步——簡單業務，清空購物車。"
 
 ## 開篇摘要
 
-本篇，我通过实现“清空购物车”的需求来了解一下如何在已有的项目样例中增加一个业务实现。
+本篇，通過實現"清空購物車"的需求來瞭解一下如何在已有的項目範例中增加一個業務的實現。
 
-主要包含有以下这些步骤：
+主要包含有以下這些步驟：
 
 1. 定義 EventCode
 2. 定義 Event
@@ -23,15 +23,15 @@ description: "第二步——簡單業務，清空購物車。"
 6. 實現 Grain
 7. 修改 Controller
 
-这是一个从下向上的过程，实际的编码过程中开发也可以自上而下进行实现。
+這是一個從下向上的過程，實際的編碼過程中開發也可以自上而下進行實現。
 
 ## 定義 Event Code
 
-EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别，序列化等方面起到了重要的作用。
+EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別，序列化等方面起到了重要的作用。
 
-打开`HelloClaptrap.Models`项目中的`ClaptrapCodes`类。
+打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
 
-添加“清空购物车事件”的 EventCode。
+添加「清空購物車事件」的 EventCode。
 
 ```cs
   namespace HelloClaptrap.Models
@@ -49,11 +49,11 @@ EventCode 是 Claptrap 系统每个事件的唯一编码。其在事件的识别
 
 ## 定義 Event
 
-Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Event 会被持久化在持久层。
+Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
 
 在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
-添加如下代码：
+添加如下代碼：
 
 ```cs
 + using Newbe.Claptrap;
@@ -66,17 +66,17 @@ Event 是事件溯源的关键。用于改变 Claptrap 中的 State。并且 Eve
 + }
 ```
 
-由于在这个简单的业务场景中，清空购物车不需要特定的参数。因此，只要创建空类型即可。
+由於在這個簡單的業務場景中，清空購物車不需要特定的參數。因此，只要創建空類型即可。
 
-`IEventData`接口是框架中表示事件的空接口，用于在泛型推断时使用。
+`IEventData`介面是框架中表示事件的空介面，用於在泛型推斷時使用。
 
 ## 實現 EventHandler
 
-EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的业务场景，那么 EventHandler 就负责将 State 购物车中的内容清空即可。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的業務場景，那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
 
 在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
-添加如下代码：
+添加如下代碼：
 
 ```cs
 + using System.Threading.Tasks;
@@ -100,7 +100,7 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的�
 + }
 ```
 
-这里有一些常见的问题：
+這裡有一些常見的問題：
 
 1. NormalEventHandler 是什麼?
 
@@ -114,15 +114,15 @@ EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的�
 
    可以通過這篇[《Understanding the Whys, Whats, and Whens of ValueTask》](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask/)進行瞭解。
 
-EventHandler 实现完成之后，不要忘记对其进行单元测试。这里就不罗列了。
+EventHandler 實現完成之後，不要忘記對其進行單元測試。這裡就不羅列了。
 
 ## 註冊 EventHandler
 
-实现并测试完 EventHandler 之后，便可以将 EventHandler 进行注册，以便与 EventCode 以及 Claptrap 进行关联。
+實現並測試完 EventHandler 之後，便可以將 EventHandler 進行註冊，以便與 EventCode 以及 Claptrap 進行關聯。
 
 打开 `HelloClaptrap.Actors` 项目的 CartGrain 类。
 
-使用 Attribute 进行标记。
+使用 Attribute 進行標記。
 
 ```cs
   using Newbe.Claptrap;
@@ -146,15 +146,15 @@ EventHandler 实现完成之后，不要忘记对其进行单元测试。这里�
 
 ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记在 Grain 的实现类上，以实现 EventHandler 、 EventCode 和 ClaptrapGrain 三者之间的关联。
 
-关联之后，如果在此 Grain 中产生的对应 EventCode 的事件将会由指定的 EventHandler 进行处理。
+關聯之後，如果在此 Grain 中產生的對應 EventCode 的事件將會由指定的 EventHandler 進行處理。
 
 ## 修改 Grain 介面
 
-修改 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
+修改 Grain 介面的定義，才能夠提供外部與 Claptrap 的互通性。
 
 打开 HelloClaptrap.IActors 项目的 ICartGrain 接口。
 
-添加接口以及 Attribute。
+添加介面以及 Attribute。
 
 ```cs
   using System.Collections.Generic;
@@ -181,18 +181,18 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
   }
 ```
 
-其中增加了两部分内容：
+其中增加了兩部分內容：
 
 1. 標記了`ClaptrapEvent`，使得事件與 Grain 進行關聯。注意，這裡與前一步的`ClaptrapEventHandler`是不同的。此處標記的是 Event，上一步標記的是 EventHandler。
 2. 增加了 RemoveAllItemsAsync 方法，表示「清空購物車」的業務行為。需要注意的是 Grain 的方法定義有一定限制。詳細可以參見[《Developing a Grain》](https://dotnet.github.io/orleans/Documentation/grains/index.html)。
 
 ## 實現 Grain
 
-接下来按照上一步的接口修改，来修改相应的实现类。
+接下來按照上一步的介面修改，來修改相應的實現類。
 
 打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
-添加对应的实现。
+添加對應的實現。
 
 ```cs
   using System;
@@ -235,7 +235,7 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
   }
 ```
 
-增加了对接口方法的对应实现。需要注意的有以下几点：
+增加了對介面方法的對應實現。需要注意的有以下幾點：
 
 1. 一定要增加`if (StateData.Items?. Any() != true)`這行判斷。因為這可以明顯的減小存儲的開銷。
 
@@ -249,7 +249,7 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
 
 ## 修改 Controller
 
-前面的所有步骤完成之后，就已经完成了 Claptrap 的所有部分。但由于 Claptrap 无法直接提供与外部程序的互操作性。因此，还需要在在 Controller 层增加一个 API 以便外部进行“清空购物车”的操作。
+前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「清空購物車」的操作。
 
 打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
@@ -285,9 +285,9 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
 
 ## 小結
 
-至此，我们就完成了“清空购物车”这个简单需求的所有内容。
+至此，我們就完成了"清空購物車"這個簡單需求的所有內容。
 
-您可以从以下地址来获取本文章对应的源代码：
+你可以從以下位址來獲取本文章對應的原始程式碼：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart2/HelloClaptrap)
