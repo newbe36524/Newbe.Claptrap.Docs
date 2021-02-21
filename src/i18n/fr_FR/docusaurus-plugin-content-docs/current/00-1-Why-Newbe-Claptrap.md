@@ -143,4 +143,4 @@ Questions pratiques pendant le processus de demande, les lecteurs peuvent cherch
 
 ## Tout est prêt
 
-Je crois que vous avez une compréhension préliminaire du cadre.Maintenant, allez à la[- créer un projet, mettre en œuvre un panier simple,](01-1-Create-Project) commencer à essayer le projet.
+Je crois que vous avez une compréhension préliminaire du cadre.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。
