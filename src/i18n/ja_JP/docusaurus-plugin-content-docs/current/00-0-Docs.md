@@ -34,13 +34,13 @@ Claptrap and it`s Minions are coming.
 
 ## 参考文献
 
-このプロジェクトは、多くのオープンソースプロジェクトやブログ投稿に啓発されました：
+このプロジェクトは、多くのオープンソースプロジェクトやブログ投稿に触発されました：
 
 - [アクタ フレームワーク Orleans 上に構築された、分散、イベント トレーサビリティ、イベント駆動型、および最終的な整合性に基づく高性能フレームワークである Ray](https://github.com/RayTale/Ray)
 - [Event Sourcing Pattern](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn589792%28v%3dpandp.10%29)
 - [Event Sourcing Pattern 中国語訳](https://www.infoq.cn/article/event-sourcing)
 - [Orleans - Distributed Virtual Actor Model](https://github.com/dotnet/orleans)
-- [ENode 1.0 - Sagaの思想と実現](http://www.cnblogs.com/netfocus/p/3149156.html)
+- [ENode 1.0 - 佐賀の思想と実現](http://www.cnblogs.com/netfocus/p/3149156.html)
 
 ## Stargazers over time
 
