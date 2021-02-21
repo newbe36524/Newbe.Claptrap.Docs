@@ -7,6 +7,8 @@ With this reading, you're ready to try using Claptrap to implement your business
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Summary
 
 In this article, I learned how to add a business implementation to an existing project sample by implementing the need to "empty the shopping cart".
@@ -49,7 +51,7 @@ Add EventCode for "Empty Shopping Cart Events."
 
 Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-Create the`RemoveAllItemsFromCartEvent`class under the`Cart/Events`folder of the`HelloCladaptrap.Models`project.
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 Add the following code.：
 
@@ -70,9 +72,9 @@ The `IEventData`interface is an empty interface that represents an event in the 
 
 ## Implement EventHandler.
 
-EventHandler is used to update events to the State of Claptrap.For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。For example, in this business scenario, EventHandler is responsible for emptying the contents of the State shopping cart.
 
-Create the`RemoveAllItemsFromCartEventHandler`class under the`Cart/Events`folder of the`HelloCladaptrap.Actors`project.
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 Add the following code.：
 
@@ -188,7 +190,7 @@ Two parts have been added.：
 
 Next, follow the previous interface modification, to modify the corresponding implementation class.
 
-Open it.`HelloClap.Actors.`Project.`Cart.`under the folder.`CartGrain.`Class.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 Add the corresponding implementation.
 
@@ -249,7 +251,7 @@ The corresponding implementation of the interface method has been added.There ar
 
 Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.Therefore, it is also necessary to add an API on the Controller layer for the operation of "emptying the cart" externally.
 
-Open the`CartController`class under the`Controllers`folder of the`HelloCladaptrap.Web`project.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

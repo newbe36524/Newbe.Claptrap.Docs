@@ -7,6 +7,8 @@ Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec 
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Un résumé d’ouverture
 
 Dans cet article, j’ai appris à utiliser Minion dans un échantillon de projet existant pour compléter le traitement asynchrone de l’entreprise en mettant en œuvre les exigences de « commander des marchandises ».

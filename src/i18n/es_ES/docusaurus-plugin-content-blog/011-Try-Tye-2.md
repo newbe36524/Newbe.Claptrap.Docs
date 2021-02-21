@@ -1,6 +1,9 @@
 ---
 date: 2021-02-06
 title: Usar Tye para ayudar a desarrollar aplicaciones k8s es tan simple como eso (II)
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 En el último artículo, vamos a explorar las más formas de usarlo de Tye.Echemos un vistazo a cómo usar el descubrimiento de servicios en Tye.

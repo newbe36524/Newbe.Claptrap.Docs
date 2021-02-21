@@ -7,6 +7,8 @@ Avec cette lecture, vous pouvez commencer à essayer de faire des affaires avec 
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Un résumé d’ouverture
 
 Dans cet article, j’ai appris à ajouter une mise en œuvre d’entreprise à un échantillon de projet existant en mettant en œuvre la nécessité de « vider le panier ».
@@ -49,7 +51,7 @@ Ajoutez EventCode pour les événements empty shopping cart.
 
 L’événement est la clé de l’approvisionnement en événements.Utilisé pour changer d’État à Claptrap.Et l’événement est persisté à la couche de persistance.
 
-Créez`RemoveAllItems FromCartEvent``sous le dossier Cart/Events`du projet HelloClaptrap.Models .
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 Ajouter les éléments code：
 
@@ -72,7 +74,7 @@ Parce que dans ce scénario d’affaires simple, vider un panier ne nécessite p
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Par exemple, dans ce scénario d’entreprise, EventHandler est responsable de vider le contenu du panier d’État.
 
-Créez`supprimer tous les membres de la classeCartEventHandler sous le dossier Cart/Events`du projet HelloClaptrap.Actor s .
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 Ajouter les éléments code：
 
@@ -188,7 +190,7 @@ Deux parties ont été added：
 
 Ensuite, suivez les modifications d’interface de l’étape suivante pour modifier la classe de mise en œuvre correspondante.
 
-Ouvrez`classe CartGrain`le`Cart``dans le projet HelloClaptrap.actors`.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 Ajouter la mise en œuvre correspondante.
 
@@ -249,7 +251,7 @@ La mise en œuvre correspondante de la méthode d’interface a été ajoutée.I
 
 Au moment où toutes les étapes précédentes sont terminées, toutes les parties de Claptrap ont été terminées.Toutefois, Claptrap ne peut pas fournir directement l’interopérabilité avec des programmes externes.Par conséquent, vous devez également ajouter une API à la couche Contrôleur pour « vider le panier » à l’extérieur.
 
-Ouvrez le`CartController`sous le`contrôleurs`dossier`pour le projet helloClaptrap.web`.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

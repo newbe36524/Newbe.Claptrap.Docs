@@ -7,6 +7,8 @@ Vamos a implementar un simple requisito de "carrito de compras de comercio elect
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Requisitos empresariales
 
 Consiga un simple requisito de "carrito de compras de comercio electrónico", aquí para lograr unas pocas：de negocios simples
@@ -207,7 +209,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Este código contiene dos parámetros importantes, el`CartState`, que representa el estado actual del carro, y el evento`AddItemToCartEvent`.
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 Determinamos si el diccionario en el estado contiene SkuId y actualizamos su cantidad de acuerdo con nuestras necesidades empresariales.
 

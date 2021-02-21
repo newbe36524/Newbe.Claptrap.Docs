@@ -7,6 +7,8 @@ description: '第四步——利用Minion，商品下单'
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## 開篇摘要
 
 本篇，我通过实现“商品下单”的需求来了解一下如何在已有的项目样例中使用 Minion 来完成异步的业务处理。
@@ -404,7 +406,7 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 
 不过，还有一些问题，我们将在后续展开讨论。
 
-你可以從以下位址來獲取本文章對應的原始程式碼：
+您可以从以下地址来获取本文章对应的源代码：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)

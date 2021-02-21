@@ -1,6 +1,9 @@
 ---
 date: 2021-02-06
 title: Tye を使用して k8s アプリを開発するのはとても簡単です (ii)
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 前回は、Tye の使用方法をさらに探求します。この記事では、Tye でサービス検出を使用する方法について説明します。
@@ -29,7 +32,7 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用 tye init 创建 tye.yml 。
+次は tye init で tye.yml を作成します。
 
 tye.yml では、次のように表示されます：
 

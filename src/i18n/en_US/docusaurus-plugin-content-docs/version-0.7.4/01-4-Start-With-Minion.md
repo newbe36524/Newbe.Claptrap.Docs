@@ -7,6 +7,8 @@ With this reading, you're ready to try using Claptrap to implement your business
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Summary
 
 In this article, I learned how to use Minion in an existing project sample to complete asynchronous business processing by implementing the requirements of "ordering goods".

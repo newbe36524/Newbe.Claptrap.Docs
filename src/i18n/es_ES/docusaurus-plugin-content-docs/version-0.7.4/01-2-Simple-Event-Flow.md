@@ -7,6 +7,8 @@ Con esta lectura, puedes empezar a hacer negocios con Claptrap.
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Un resumen de apertura
 
 En este artículo, aprendí a agregar una implementación de negocio a un ejemplo de proyecto existente implementando la necesidad de "vaciar el carro de la compra".
@@ -49,7 +51,7 @@ Agregue EventCode para eventos vacíos del carro de la compra.
 
 El evento es la clave para el abastecimiento de eventos.Se utiliza para cambiar de estado en Claptrap.Y Event se conserva en la capa de persistencia.
 
-Cree```RemoveAllItems FromCartEvent en la carpeta Cart/Events`del proyecto de HelloClaptrap. Models.
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 Agregue los siguientes code：
 
@@ -72,7 +74,7 @@ Porque en este escenario empresarial simple, vaciar un carro de la compra no req
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。Por ejemplo, en este escenario empresarial, EventHandler es responsable de vaciar el contenido del carro de estado.
 
-Cree  clase RemoveAllItems FromCartEventHandler en la carpeta Cart/Events`del proyecto HelloClaptrap.
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 Agregue los siguientes code：
 
@@ -188,7 +190,7 @@ Se han added：dos partes
 
 A continuación, siga las modificaciones de interfaz del paso siguiente para modificar la clase de implementación correspondiente.
 
-Abra la clase`CartGrain`el `Cart en el proyecto de`HelloClaptrap.actors.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 Agregue la implementación correspondiente.
 
@@ -249,7 +251,7 @@ Se ha agregado la implementación correspondiente del método de interfaz.Hay lo
 
 Para cuando se completen todos los pasos anteriores, se han completado todas las partes de Claptrap.Sin embargo, Claptrap no puede proporcionar directamente interoperabilidad con programas externos.Por lo tanto, también debe agregar una API en la capa Controller para "vaciar el carro de la compra" externamente.
 
-Abra la CartController`en la carpeta Controllers``para el proyecto helloClaptrap.web`.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

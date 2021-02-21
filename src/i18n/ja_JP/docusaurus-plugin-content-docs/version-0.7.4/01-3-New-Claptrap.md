@@ -7,6 +7,8 @@ description: "ステップ 3 - Claptrap を定義し、商品在庫を管理し�
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## オープダイジェスト
 
 この記事では、"在庫管理" 要件を実装して、既存のプロジェクト サンプルで Claptrap を定義する方法について説明します。
@@ -68,7 +70,7 @@ Claptrap はイベント トレーサビリティ モードに基づくアクタ
 
 この例では、現在の SKU のインベントリを記録するだけで済むため、State の設計は非常に単純です。
 
-`HelloClaptrap.Models`プロジェクトに`Sku`フォルダを追加し、そのフォルダの下に`SkuState`します。
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
 次のようなコードを追加します：
 
@@ -92,7 +94,7 @@ Inventory は、現在の SKU のインベントリを表します。
 
 外部と Claptrap の相互運用性を提供するために、Grain インターフェイスの定義を定義します。
 
-`HelloClaptrap.IActors`プロジェクトに`ISkuGrain`します。
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 インターフェイスと Attribute を追加します。
 
@@ -136,7 +138,7 @@ Inventory は、現在の SKU のインベントリを表します。
 
 ISkuGrain を定義したら、実装用のコードを追加できます。
 
-`HelloClaptrap.Actors`プロジェクトの新しい`Sku`フォルダを作成し、そのフォルダに`SkuGrain`します。
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -253,7 +255,7 @@ ISkuGrain と SkuGrain はそれぞれ ICartGrain と CartGrain で同じアセ�
 
 EventCode は、Claptrap システムの各イベントの一意のエンコーディングです。これは、イベントの識別、シリアル化などにおいて重要な役割を果たします。
 
-`HelloClaptrap.Models`プロジェクトの`ClaptrapCodes`します。
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 [インベントリの更新] の EventCode を追加します。
 
@@ -287,7 +289,7 @@ EventCode は、Claptrap システムの各イベントの一意のエンコー�
 
 Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-`HelloClaptrap.Models`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEvent`します。
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 次のようなコードを追加します：
 
@@ -309,9 +311,9 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-EventHandlerはイベントを Claptrap の state への更新に使用します。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
-`HelloClaptrap.Actors`プロジェクトの`Sku/Events`フォルダの下に`InventoryUpdateEventHandler`します。
+在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 
 次のようなコードを追加します：
 
@@ -404,7 +406,7 @@ Attribute でタグ付けし、UpdateInventoryAsync 実行イベントを変更�
 
 在庫の照会と更新は、前に完了しました。ただし、通常、在庫には初期金額があり、このセクションではロジックのこの部分を補足します。
 
-HelloClaptrap.Actors プロジェクトの Sku フォルダに SkuStateInitHandler クラスを作成します。
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
@@ -502,7 +504,7 @@ HelloClaptrap.Actors`プロジェクトの``SkuGrain  クラスを`開きます�
 
 前のすべての手順が完了すると、Claptrap のすべての部分が完了します。ただし、Claptrap は外部プログラムとの相互運用性を直接提供できません。したがって、Controller 層に API を追加して、外部で "インベントリの読み取り" 操作を行う必要があります。
 
-HelloClaptrap.Web プロジェクトの Controllers フォルダに SkuController を作成します。
+在 HelloClaptrap.Web 项目的 Controllers 文件夹下新建 SkuController 类。
 
 ```cs
 + using System.Threading.Tasks;

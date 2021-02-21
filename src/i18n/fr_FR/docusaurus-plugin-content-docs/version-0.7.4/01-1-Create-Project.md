@@ -7,6 +7,8 @@ Mettons en œuvre un simple « panier d’achat e-commerce » pour comprendre 
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Exigences de l’entreprise
 
 Réalisez une simple exigence de « panier d’achat de commerce électronique », ici pour réaliser quelques affaires simples：
@@ -207,7 +209,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Ce code contient deux paramètres importants, le`CartState`, qui représente l’état actuel du panier, et l’événement`AddItemToCartEvent`.
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 Nous déterminons si le dictionnaire dans le statut contient SkuId et mettons à jour sa quantité en fonction de nos besoins commerciaux.
 

@@ -7,6 +7,8 @@ Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Eine Eröffnungszusammenfassung
 
 In diesem Artikel habe ich gelernt, wie man eine Geschäftsimplementierung zu einem vorhandenen Projektbeispiel hinzufügt, indem ich die Notwendigkeit implementiert habe, den Warenkorb zu leeren.
@@ -49,7 +51,7 @@ Fügen Sie EventCode für Leere Warenkorbereignisse hinzu.
 
 Event ist der Schlüssel zum Event Sourcing.Wird verwendet, um den Status in Claptrap zu ändern.Und Das Ereignis wird auf der Persistenzebene beibehalten.
 
-Erstellen Sie`RemoveAllItems FromCartEvent``unter dem Ordner Cart/Events`des Projekts HelloClaptrap.Models .
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 Fügen Sie den folgenden Code:
 
@@ -72,7 +74,7 @@ Denn in diesem einfachen Geschäftsszenario erfordert das Leeren eines Warenkorb
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。In diesem Geschäftsszenario ist EventHandler beispielsweise für das Leeren des Inhalts des Statuswagens verantwortlich.
 
-Erstellen Sie`RemoveAllItems FromCartEventHandler-Klasse unter dem Ordner Cart/Events`Ordner des HelloClaptrap.Actor s -Projekts.
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 Fügen Sie den folgenden Code:
 
@@ -188,7 +190,7 @@ Zwei Teile wurden added：
 
 Folgen Sie als Nächstes den Schnittstellenänderungen des nächsten Schritts, um die entsprechende Implementierungsklasse zu ändern.
 
-Öffnen Sie die`CartGrain-Klasse``Cart``im HelloClaptrap.actors-`-Projekt.
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 Fügen Sie die entsprechende Implementierung hinzu.
 
@@ -249,7 +251,7 @@ Die entsprechende Implementierung der Schnittstellenmethode wurde hinzugefügt.E
 
 Bis alle vorherigen Schritte abgeschlossen sind, sind alle Teile von Claptrap abgeschlossen.Claptrap kann jedoch keine direkte Interoperabilität mit externen Programmen bieten.Daher müssen Sie auch eine API auf der Controller-Ebene hinzufügen, um den Warenkorb extern zu leeren.
 
-Öffnen Sie den `CartController unter dem Ordner Controller``für helloClaptrap.web`-Projekt.
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

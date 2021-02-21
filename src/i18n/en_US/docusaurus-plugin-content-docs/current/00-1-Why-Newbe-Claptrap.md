@@ -143,4 +143,4 @@ Practical questions during the application process, readers can seek answers in 
 
 ## Everything is ready
 
-I believe you have a preliminary understanding of the framework.Now, go to[first step - create a project, implement a simple shopping cart,](01-1-Create-Project) start trying the project.
+I believe you have a preliminary understanding of the framework.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。

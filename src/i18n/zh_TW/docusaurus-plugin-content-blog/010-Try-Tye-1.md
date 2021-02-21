@@ -1,6 +1,9 @@
 ---
 date: 2021-01-30
 title: 使用 Tye 輔助開發 k8s 應用竟如此簡單（一）
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 最近正巧在進行 Newbe.Claptrap 新版本的開發，其中使用到了 Tye 來輔助 k8s 應用的開發。該系列我們就來簡單瞭解一下其用法。

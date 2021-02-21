@@ -7,6 +7,8 @@ description: "第二步——簡單業務，清空購物車。"
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## 開篇摘要
 
 本篇，通過實現"清空購物車"的需求來瞭解一下如何在已有的項目範例中增加一個業務的實現。
@@ -49,7 +51,7 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
 
 Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
 
-在`HelloClaptrap.Models`專案的`Cart/Events`資料夾下創建`RemoveAllItemsFromCartEvent`類。
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 添加如下代碼：
 
@@ -72,7 +74,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。例如此次的業務場景，那麼 EventHandler 就負責將 State 購物車中的內容清空即可。
 
-在`HelloClaptrap.Actors`專案的`Cart/Events`資料夾下創建。 `RemoveAllItemsFromCartEventHandler`類。
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 添加如下代碼：
 
@@ -188,7 +190,7 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
 
 接下來按照上一步的介面修改，來修改相應的實現類。
 
-打開`HelloClaptrap.Actors`專案中的`Cart`資料夾下的`CartGrain`類。
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 添加對應的實現。
 
@@ -249,7 +251,7 @@ ClaptrapEventHandlerAttribute 是框架定义的一个 Attribute，可以标记�
 
 前面的所有步驟完成之後，就已經完成了 Claptrap 的所有部分。但由於 Claptrap 無法直接提供與外部程式的互通性。因此，還需要在在 Controller 層增加一個 API 以便外部進行「清空購物車」的操作。
 
-打開`HelloClaptrap.Web`專案的`Controllers`資料夾下的`CartController`類。
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

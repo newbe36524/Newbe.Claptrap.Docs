@@ -7,6 +7,8 @@ Let's implement a simple "e-commerce cart" requirement to see how to develop usi
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Business needs
 
 Realize a simple "e-commerce shopping cart" requirement, where a few simple business：
@@ -207,7 +209,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-This code contains two important parameters that represent the current shopping cart state.`CartState.`and events that need to be handled.`AddItemToCartEvent.`。
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 We determine whether the dictionary in the state contains SkuId seamount according to business needs and update its number.
 

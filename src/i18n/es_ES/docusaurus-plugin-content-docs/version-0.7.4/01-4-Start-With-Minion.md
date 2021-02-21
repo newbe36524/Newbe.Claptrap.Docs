@@ -7,6 +7,8 @@ Con esta lectura, puedes empezar a hacer negocios con Claptrap.
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Un resumen de apertura
 
 En este artículo, aprendí a usar Minion en un ejemplo de proyecto existente para completar el procesamiento empresarial asincrónico mediante la implementación de los requisitos de "pedir mercancías".

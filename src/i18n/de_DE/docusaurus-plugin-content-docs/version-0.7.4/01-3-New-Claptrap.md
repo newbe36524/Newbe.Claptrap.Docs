@@ -7,6 +7,8 @@ Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Eine Eröffnungszusammenfassung
 
 In diesem Artikel lernte ich, wie man eine Claptrap in einem vorhandenen Projektbeispiel definiert, indem ich die Anforderungen der "Verwaltung von Inventar" implementiert e.B.
@@ -68,7 +70,7 @@ Denn Claptrap ist ein Schauspieler, der auf Event-Sourcing-Mustern basiert.Daher
 
 In diesem Beispiel müssen wir nur den Bestand der aktuellen SKU erfassen, daher ist der Zustandsentwurf sehr einfach.
 
-Fügen `Sku-` Sie`-Ordner zum HelloClaptrap.Models-`-Projekt hinzu und erstellen Sie einen`SkuState-`-Ordner.
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
 Fügen Sie den folgenden Code:
 
@@ -92,7 +94,7 @@ Der Lagerbestand stellt den Lagerbestand der aktuellen SKU dar.
 
 Definieren Sie die Definition der Grain-Schnittstelle, um externe Interoperabilität mit Claptrap bereitzustellen.
 
-Fügen Sie`ISkuGrain-Schnittstelle zu`HelloClaptrap.IActors``-Projekt hinzu.
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 Fügen Sie Schnittstellen sowie Attribut hinzu.
 
@@ -136,7 +138,7 @@ Es wurde added：
 
 Nachdem Sie ISkuGrain definiert haben, können Sie Code hinzufügen, um es zu implementieren.
 
-Erstellen `Sku-` Sie`neuen-Ordner für das Projekt HelloClaptrap.actors`Projekt, und fügen Sie den Ordner`SkuGrain`hinzu.
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -253,7 +255,7 @@ Wir haben den Hauptteil von Claptrap früher implementiert, aber wir haben den V
 
 EventCode ist der eindeutige Code für jedes Ereignis im Claptrap-System.Es spielt eine wichtige Rolle bei der Identifizierung und Serialisierung von Ereignissen.
 
-Öffnen Sie`der ClaptrapCodes-`-Klasse in`das HelloClaptrap.`-Projekt.
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 Fügen Sie EventCode für Update Inventory hinzu.
 
@@ -287,7 +289,7 @@ Fügen Sie EventCode für Update Inventory hinzu.
 
 Event ist der Schlüssel zum Event Sourcing.Wird verwendet, um den Status in Claptrap zu ändern.Und Das Ereignis wird auf der Persistenzebene beibehalten.
 
-Erstellen Sie`InventoryUpdateEvent`Klasse unter dem Ordner `-Sku/Events``helloClaptrap.models`Projekt.
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 Fügen Sie den folgenden Code:
 
@@ -311,7 +313,7 @@ Fügen Sie den folgenden Code:
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
-Erstellen Sie`InventoryUpdateEventHandler`-Klasse unter dem Ordner`Sku/Events``dem Projekt HelloClaptrap.Actors`.
+在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 
 Fügen Sie den folgenden Code:
 

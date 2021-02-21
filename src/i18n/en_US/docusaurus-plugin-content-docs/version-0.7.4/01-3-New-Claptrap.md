@@ -7,6 +7,8 @@ With this reading, you're ready to try using Claptrap to implement your business
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Summary
 
 In this article, I learned how to define a Claptrap in an existing project sample by implementing the requirements of "managing inventory".
@@ -68,7 +70,7 @@ Because Claptrap is an Actor based on event sourcing patterns.So it's important 
 
 In this example, we only need to record the inventory of the current SKU, so state design is very simple.
 
-Add`Sku`folder to the HelloClaptrap. project and create the`SkuState`under that folder.
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
 Add the following code.：
 
@@ -92,7 +94,7 @@ Inventory represents the inventory of the current SKU.
 
 Define the definition of the Grain interface to provide external interoperability with Claptrap.
 
-Add`ISkuGrain interface to`HelloClaptrap.IActors``project.
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 Add interfaces and Attributes.
 
@@ -136,7 +138,7 @@ The following has been added：
 
 Once you've defined ISkuGrain, you can add code to implement it.
 
-Create`new Sku`folder for the HelloClaptrap.Actors project and add the`SkuGrain`folder.
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -253,7 +255,7 @@ We have implemented the main part of Claptrap earlier, but we have not completed
 
 EventCode is the unique encoding of each event in the Claptrap system.It plays an important role in the identification and serialization of events.
 
-Open`ClaptrapCodes`classes in the`HelloCladaptrap.Models`project.
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 Add EventCode for Update Inventory.
 
@@ -287,7 +289,7 @@ Add EventCode for Update Inventory.
 
 Event is the key to the events sourcing.Used to change the State in Claptrap.And Event is persisted at the persistence layer.
 
-Create`InventoryUpdateEvent`under the`Sku/Events`folder of`helloClaptrap.`projects.
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 Add the following code.：
 
@@ -309,9 +311,9 @@ Add the following code.：
 
 ## Implement EventHandler.
 
-EventHandler is used to update events to the State of Claptrap.
+EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
-Create`InventoryUpdateEventHandler`class under the`Sku/Events`folder of`the HelloClaptrap.Actors`project.
+在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 
 Add the following code.：
 
@@ -404,7 +406,7 @@ Mark with Attribute and modify updateInventoryAsync to execute the event.
 
 We have completed the inventory query and update earlier.But generally there is an initial amount in inventory, and we are supplementing this part of the logic in this section.
 
-Create SkuStateInitHandler class under the Sku folder of the HelloClatrp.Actors project.
+在 HelloClaptrap.Actors 项目的 Sku 文件夹下创建 SkuStateInitHandler 类。
 
 ```cs
 + using System.Threading.Tasks;
@@ -502,7 +504,7 @@ Open`SkuGrain class for helloClaptrap.Actors`project`the`project.
 
 Once all the previous steps have been completed, you have completed all the parts of Claptrap.But because Clatrap could not directly provide interoperability with external programs.Therefore, you also need to add an API at the Controller layer for external "read inventory" operations.
 
-New SkuController class under the Controllers folder in HelloClaptrap.Web project.
+在 HelloClaptrap.Web 项目的 Controllers 文件夹下新建 SkuController 类。
 
 ```cs
 + using System.Threading.Tasks;

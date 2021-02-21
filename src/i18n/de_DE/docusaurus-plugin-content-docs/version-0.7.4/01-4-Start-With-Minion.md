@@ -7,6 +7,8 @@ Mit dieser Lektüre können Sie versuchen, Geschäfte mit Claptrap zu machen.
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Eine Eröffnungszusammenfassung
 
 In diesem Artikel habe ich gelernt, wie Man Minion in einem vorhandenen Projektbeispiel verwendet, um eine asynchrone Geschäftsabwicklung abzuschließen, indem ich die Anforderungen der "Bestellung von Waren" umsetze.

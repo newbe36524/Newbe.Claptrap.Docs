@@ -7,6 +7,8 @@ description: "ステップ2 - シンプルなビジネス、ショッピング�
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## オープダイジェスト
 
 この記事では、"ショッピング カートを空にする" という要件を実装することで、既存のプロジェクト サンプルにビジネス実装を追加する方法について説明します。
@@ -49,7 +51,7 @@ EventCode は、Claptrap システムの各イベントの一意のエンコー�
 
 Event は、イベントのトレーサビリティの鍵です。Claptrap の State を変更するために使用します。また、Event は永続化レイヤーに永続化されます。
 
-`RemoveAllItemsFromCartEvent`クラスは、`HelloClaptrap.Models  プロジェクトの Cart/Events`フォルダの下に します。
+在 HelloClaptrap.Models 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEvent 类。
 
 次のようなコードを追加します：
 
@@ -70,9 +72,9 @@ Event は、イベントのトレーサビリティの鍵です。Claptrap の S
 
 ## EventHandler を実装します
 
-EventHandlerはイベントを Claptrap の state への更新に使用します。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
+EventHandler 用于将事件更新到 Claptrap 的 State 上。たとえば、今回のビジネス シナリオでは、EventHandler が State ショッピング カートの内容を空にする責任があります。
 
-`HelloClaptrap.Actors`プロジェクトの`Cart/Events`フォルダの下に`RemoveAllItemsFromCartEventHandler`します。
+在 HelloClaptrap.Actors 项目的 Cart/Events 文件夹下创建 RemoveAllItemsFromCartEventHandler 类。
 
 次のようなコードを追加します：
 
@@ -188,7 +190,7 @@ Grain インターフェイスの定義を変更して、外部と Claptrap の�
 
 次に、前の手順のインターフェイスの変更に従って、対応する実装クラスを変更します。
 
-`HelloClaptrap.Actors`プロジェクトの`Cart`フォルダの下にある`CartGrain`します。
+打开 HelloClaptrap.Actors 项目中的 Cart 文件夹下的 CartGrain 类。
 
 対応する実装を追加します。
 
@@ -249,7 +251,7 @@ Grain インターフェイスの定義を変更して、外部と Claptrap の�
 
 前のすべての手順が完了すると、Claptrap のすべての部分が完了します。ただし、Claptrap は外部プログラムとの相互運用性を直接提供できません。したがって、外部で 「ショッピング カートを空にする」ための API を Controller 層に追加する必要があります。
 
-`elloClaptrap.Web`プロジェクトの`Controllers`フォルダの下にある`CartController`します。
+打开 HelloClaptrap.Web 项目的 Controllers 文件夹下的 CartController 类。
 
 ```cs
   using System.Threading.Tasks;

@@ -1,6 +1,9 @@
 ---
 date: 2021-02-06
 title: Using Tye to help develop k8s applications is as simple as that (II)
+tags:
+  - Newbe.Claptrap
+  - Tye
 ---
 
 In the last article, let's explore Tye's more ways of using it.Let's take a look at how to use service discovery in Tye.
@@ -29,7 +32,7 @@ dotnet new webapi -n TyeTest2
 dotnet sln .\TyeTest.sln add .\TyeTest2\TyeTest2.csproj
 ```
 
-然后使用 tye init 创建 tye.yml 。
+Then use tye init to create tye.yml
 
 You can find the following in tye.yml：
 

@@ -7,6 +7,8 @@ Implementieren wir eine einfache "E-Commerce-Warenkorb"-Anforderung, um zu verst
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## Geschäftsanforderungen
 
 Realisieren Sie eine einfache "E-Commerce-Warenkorb"-Anforderung, hier, um ein paar einfache Business-：zu erreichen
@@ -207,7 +209,7 @@ public class AddItemToCartEventHandler
 }
 ```
 
-Dieser Code enthält zwei wichtige Parameter, die cartState `, die den aktuellen Warenkorbstatus darstellt, und das Ereignis AddItemToCartEvent`.
+这段代码中，包含有两个重要参数，分别是表示当前购物车状态的 CartState 和需要处理的事件 AddItemToCartEvent。
 
 Wir bestimmen, ob das Wörterbuch im Status SkuId enthält und aktualisieren seine Menge entsprechend unseren Geschäftsanforderungen.
 
