@@ -7,6 +7,8 @@ description: "第三步——定义Claptrap，管理商品库存"
 
 <!-- more -->
 
+:::caution 该文档仅适用于 0.7 及以下版本，若想要查看最新版本内容，请点击右上角进行切换。 :::
+
 ## 開篇摘要
 
 本篇，我通过实现“管理库存”的需求来了解一下如何在已有的项目样例中定义一个 Claptrap。
@@ -68,7 +70,7 @@ State 在 Actor 模式中代表了 Actor 对象当前的数据表现。
 
 在该示例当中，我们只需要记录当前 SKU 的库存即可，因此，State 的设计非常的简单。
 
-在`HelloClaptrap.Models`项目添加`Sku`文件夹，并在该文件夹下创建`SkuState`类。
+在 HelloClaptrap.Models 项目添加 Sku 文件夹，并在该文件夹下创建 SkuState 类。
 
 添加如下代碼：
 
@@ -92,7 +94,7 @@ Inventory 表示当前 SKU 的库存。
 
 定义 Grain 接口的定义，才能够提供外部与 Claptrap 的互操作性。
 
-在`HelloClaptrap.IActors`项目中添加`ISkuGrain`接口。
+在 HelloClaptrap.IActors 项目中添加 ISkuGrain 接口。
 
 添加介面以及 Attribute。
 
@@ -136,7 +138,7 @@ Inventory 表示当前 SKU 的库存。
 
 定义好 ISkuGrain 之后，便可以添加代码进行实现。
 
-在`HelloClaptrap.Actors`项目新建`Sku`文件夹，并在该文件夹中添加`SkuGrain`类。
+在 HelloClaptrap.Actors 项目新建 Sku 文件夹，并在该文件夹中添加 SkuGrain 类。
 
 ```cs
 + using System;
@@ -253,7 +255,7 @@ Claptrap 对应的 Grain 需要在应用程序启动时进行注册，这样框�
 
 EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別，序列化等方面起到了重要的作用。
 
-打開`HelloClaptrap.Models`專案中的`ClaptrapCodes`類。
+打开 HelloClaptrap.Models 项目中的 ClaptrapCodes 类。
 
 添加“更新库存”的 EventCode。
 
@@ -287,7 +289,7 @@ EventCode 是 Claptrap 系統每個事件的唯一編碼。其在事件的識別
 
 Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Event 會被持久化在持久層。
 
-在`HelloClaptrap.Models`项目的`Sku/Events`文件夹下创建`InventoryUpdateEvent`类。
+在 HelloClaptrap.Models 项目的 Sku/Events 文件夹下创建 InventoryUpdateEvent 类。
 
 添加如下代碼：
 
@@ -311,7 +313,7 @@ Event 是事件溯源的關鍵。用於改變 Claptrap 中的 State。並且 Eve
 
 EventHandler 用于将事件更新到 Claptrap 的 State 上。
 
-在`HelloClaptrap.Actors`项目的`Sku/Events`文件夹下创建`InventoryUpdateEventHandler`类。
+在 HelloClaptrap.Actors 项目的 Sku/Events 文件夹下创建 InventoryUpdateEventHandler 类。
 
 添加如下代碼：
 
