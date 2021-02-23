@@ -187,26 +187,26 @@ services:
     project: TyeTest/TyeTest.csproj
 ```
 
-对比之前，一共有两处修改：
+Comparing with previse version, there are two changes made:
 
-1. 增加了`tyetest`服务配置的节点，以便能够启动测试应用
-2. 在`mongo`服务上增加了`bindings`。这是`tye`中组织服务之间相互连接的一种方式。其中的`connectionString`便是其他服务连接`mongo`所使用的链接串。
+1. Added`tyetest`service configuration to enable test app
+2. `bindings` were added to the`mongo`service.This is a way to manage connection for the services in`tye`.The`connectionString`is the connection string used for other service to connect `mongo`.
 
-修改完毕之后。使用`tye run`启动应用。
+After modification.Start the app with`tye run`.
 
-打开`swagger`页面，并访问 API，便可以在 mongo express 中查看到数据已经成功完成了写入：
+Open the`swagger`page, and access the API, then you can see in the mongo express that the data has been successfully completed writing：
 
 ![mongo express 2](/images/20210215-002.png)
 
-查看效果之后可以使用`Ctrl`+`C`停止`tye`以移除相关容器。
+After viewing the effect you can use`Ctrl`+`C`to stop`tye`to remove the relevant containers.
 
-## 最后，发到 K8S 里面试一下
+## Finally, send it to the K8S to try it out
 
-这次的样例，并不是直接使用`tye deploy`就可以完成了。
+This is an example that can not use`tye deploy`directly.
 
-首先，通常来说，中间件在生产环境中不太可能是通过部署在容器中的方式而存在的。即便是使用容器部署，也不会每次 deploy 都希望重新部署。也就是说，通常是直接连接已有的中间件就可以了。
+First, usually, the middleware is not likely to exist in a production environment by way of deployment in a container.Even with a container deployment, it's not going to want to be redeployed every time.That said, it is usually possible to connect the already existing middleware directly.
 
-其次，中间件连接字符串通常来说是以`secret`的形式存于`k8s`中。故而不太可能在 tye 脚本中进行指定。
+Second, the intermediate connection string is usually in the form of`secret`in`k8s`.故而不太可能在 tye 脚本中进行指定。
 
 故而，`tye`仅仅会帮助开发者检查需要部署的目标集群中是否已经存在符合要求的`secret`。当且仅当，目标集群中存在符合要求的`secret`才能部署。
 
