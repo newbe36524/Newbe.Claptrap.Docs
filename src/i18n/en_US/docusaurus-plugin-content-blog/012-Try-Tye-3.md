@@ -1,30 +1,30 @@
 ---
 date: 2021-02-15
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（三）
+title: Developing k8s apps with the Tye help is so simple (iii)
 tags:
   - Newbe.Claptrap
   - Tye
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中如何对数据库进行链接。
+Let's explore Tye's more ways of using it.This article we come to find out how to connect to the database in Tye.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 中间件链接
+## Middleware Connection
 
-绝大多数服务都需要用到外部中间件来支持应用程序的正常运行，通常来说，就包含有数据库、缓存中间件、消息队列和文件系统等等。
+The vast majority of services need to be used to external middleware to support the proper functioning of the application, usually, in terms of containing databases, cache middleware, message queues, and file systems, and so on.
 
-因此，在开发过程中需要在应用程序中管理对这些中间件的链接字符串。
+As a result, a link string to these middleware needs to be managed in the application during the development.
 
-Tye 提供了一种方式以便更加容易的管理这些链接字符串。
+Tye provides a way to manage these linked strings more easily.
 
-## 使用 Tye 启动 mongo
+## Launch of the Mongo with Tye
 
-首先，我们使用 Tye 来启动一个 mongo。
+First of all, we use Tye to start a mongo.
 
-手动创建一个 tye.yml:
+Create a tye.yml manually:
 
 ```yml tye.yml
 name: mongo-sample
@@ -49,19 +49,19 @@ services:
         value: example
 ```
 
-使用 tye run 便可以在本地启动一个 mongo 并且在 <http://localhost:8081> 通过 ui 查看 mongo 中的数据情况：
+Use tye run to start a mongo locally and at <http://localhost:8081> to see data in the mongo via ui：
 
 ![mongo express](/images/20210215-001.png)
 
-实际上就是使用 Tye 控制 docker desktop 启动 mongo。因此需要提前在本地安装好 docker desktop，以便启动。
+It is actually using Tye to control the docker desktop to start the mongo.Therefore, you need to install a local docker desktop.
 
-当然，这实际上和使用 `docker-compose` 没有什么实质性的区别。
+Of course, this doesn't actually make any substantial difference with using the `docker-compose`.
 
-## 创建应用程序连接 mongo
+## Create an application to connect to the mongo
 
-下面，我们创建一个应用，并且将应用与 mongo 进行连接。
+Below, we create an app and connect the app with the mongo.
 
-创建测试应用，并安装必要的包：
+Create a test application and install the necessary package：
 
 ```bash create-tye-mongo-test.sh
 dotnet new sln -n TyeTest
@@ -71,7 +71,7 @@ dotnet add ./TyeTest/TyeTest.csproj package Microsoft.Tye.Extensions.Configurati
 dotnet add ./TyeTest/TyeTest.csproj package MongoDB.Driver
 ```
 
-进入 Startup，向容器中注册 MongoClient :
+Enter Startup to register the MongoClient in the container:
 
 ```cs Startup.cs
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -90,13 +90,13 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-值得注意的是，这里使用了一个扩展方法从 `IConfiguration` 中读取 mongo 的连接字符串：
+It is worth thing here that an extended method is used here to read the connection string of the mongo from `IConfiguration`:
 
-1. `mongo` 实际上就是定义在 tye 中的服务名称。
-2. `GetConnectionString` 是来自于 `Microsoft.Tye.Extensions.Configuration` 的扩展方法
-3. `MongoClient` 应该全局单例还是 `Scope` 其实笔者也没查过资料。实际项目开发者注意按照需求调整。
+1. `mono` is actually the service name defined in tye
+2. `GetConnectionString` is an extension method from `Microsoft.Tye.Extensions.Configuration`
+3. `The MongoClient` should be a global single case or a `Scope` Actually the writer hasn't checked the information either.The actual project developer's attention is adjusted to the requirements.
 
-打开 `WeatherForecastController`，让我们在每次接受请求时，都写入一些数据到 `mongo` 中以验证效果。
+Open the `WeatherForecastController`and let us write some data to `mongo` each time you accept the request to verify the effect.
 
 ```cs WeatherForecastController.cs
 using System;
@@ -149,15 +149,15 @@ namespace TyeTest.Controllers
 }
 ```
 
-至此，测试应用就创建完毕了。预期的效果是，当接受到请求时，就会向 `mongo` 中的 `WeatherForecast` `collection` 写入一些数据。可以通过 mongo express UI 进行查看。
+At this point, the test application was created.The expected effect is that when a request is accepted, some data is written to the `WeatherForecast` `collection` in the `mongo`.It can be viewed through the mongo express UI.
 
-## 修改 tye.yml 以配置链接串
+## Modify the ty.yml to configure the connection string
 
-由于前面，我们是手动创建过了`tye.yml`。因此，我们现在直接在原来的基础上进行修改，以便加入测试应用。
+Thanks to the front, we have manually created the`tye.yml`.Therefore, we now make modifications directly on the original basis in order to join the test application.
 
-首先，将之前创建好的`tye.yml`放置到`TyeTest.sln`的根目录。
+First, place previously created`tye.yml`at the root of`TyeTest.sln`.
 
-然后修改为如下形式:
+Then change it to the following form:
 
 ```yml tye.yml
 name: mongo-sample
