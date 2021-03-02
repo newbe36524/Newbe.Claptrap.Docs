@@ -1,9 +1,9 @@
 ---
 title: Why Newbe.Claptrap
-description: Newbe.Claptrap - A service-side development framework with "event sourcing" and "Actor mode" as the basic theories
+description: Newbe.Claptrap - A service-side development framework with "event sourcing" and "Actor pattern" as the basic theories
 ---
 
-This article is an introduction to the main content of the Newbe.Claptrap project, through which readers can get a general understanding of the project content.
+This article is an introduction to the main content of the Newbe.Claptrap project, readers can get a general understanding of the project content as reading.
 
 <!-- more -->
 
