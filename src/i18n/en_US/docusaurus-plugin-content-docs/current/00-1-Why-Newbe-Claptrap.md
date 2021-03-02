@@ -9,9 +9,9 @@ This article is an introduction to the main content of the Newbe.Claptrap projec
 
 ## Wheels are derived from demand
 
-With the rapid development of Internet applications, relevant technical theories and means of implementation are constantly being created.A series of keywords such as Cloud Native Architecture, MicroServer Architecture, and DevOps are increasingly in the eyes of engineers.In summary, the emergence of these new theories and technologies is to solve some of the technical pain points in Internet applications：
+With the rapid development of Internet applications, relevant technical theories and means of implementation are constantly being created.A series of keywords such as Cloud Native Architecture, Microservice Architecture, and DevOps are increasingly in the eyes of engineers.In summary, the emergence of these new theories and technologies is to solve some of the technical pain points in Internet applications:
 
-**higher capacity scalability requirements are**.On the basis of commercial success, the number of users of Internet applications, system pressure and the number of hardware devices will increase significantly over time.This requires the application of capacity scalability in the province.This capacity scalability is often described as "applications need to support horizontal scaling."
+**higher capacity scalability requirements**.On the basis of commercial success, the number of users of Internet applications, system pressure and the number of hardware devices will increase significantly over time.This requires the application of capacity scalability.This capacity scalability is often described as "applications need to be support to scale out."
 
 **higher system stability requirements**.The application runs continuously to ensure the continued progress of business activities, which anyone associated with this application would like to see.But it's usually very difficult to do that.Today's Internet applications in the face of many competitors of the same kind, if not sound enough in this regard, then it is likely to lose some of the user's favor.
 
