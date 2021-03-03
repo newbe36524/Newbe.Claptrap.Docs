@@ -17,7 +17,7 @@ Docker Desktop is the basis for all of the following components to run.Developer
 
 <https://www.docker.com/products/docker-desktop>
 
-Once installed, you can use the following commands in the console to verify the:
+Once installed, you can use the following commands in the console to verify:
 
 ```bash
 PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> docker --version
@@ -28,11 +28,11 @@ Chinese mainland users, you need to configure an mirror for Docker Desktop.This 
 
 ### dotnet SDK
 
-本框架依赖于 net 5 SDK 和 runtime。开发者可以通过以下链接下载最新的 SDK 并按照提示进行安装：
+This framework relies on the net 5 SDK and runtime.Developers can download the latest SDKs via the links below and follow the prompts to install：
 
 <https://dotnet.microsoft.com/download/dotnet/5.0>
 
-安装完毕后，可以在控制台中使用以下命令验证安装效果：
+Once installed, you can use the following commands in the console to verify:
 
 ```bash
 PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> dotnet --version
@@ -41,13 +41,13 @@ PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> dotnet --version
 
 ### Tye
 
-Tye 是有微软开发提供的一款简化分布式应用开发的辅助命令行工具。
+Tye is an auxiliary command-line tool developed by Microsoft to simplify distributed application development.
 
-开发者可以在以下链接中找到最新的安装命令行脚本：
+Developers can find the latest installation command-line scripts in the links below:
 
 <https://www.nuget.org/packages/Microsoft.Tye>
 
-安装完毕后，可以在控制台中使用以下命令验证安装效果：
+Once installed, you can use the following commands in the console to verify:
 
 ```bash
 PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> tye --version
@@ -56,15 +56,15 @@ PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> tye --version
 
 ### Dapr
 
-Dapr 是 Newbe.Claptrap 运行的基石。可以通过以下官方文档了解开发环境的安装方式：
+Dapr is the cornerstone of Newbe.Claptrap's operations.The following official documentation can be used to understand how the development environment is installed：
 
 <https://docs.dapr.io/getting-started/>
 
-中文用户也可以通过以下链接查看中文介绍：
+Chinese users can also view the introduction to the Chinese link below：
 
 <https://dapr-cn.gitee.io/getting-started/>
 
-安装完毕后，可以在控制台中使用以下命令验证安装效果：
+Once installed, you can use the following commands in the console to verify:
 
 ```bash
 PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> dapr --version
@@ -72,48 +72,48 @@ CLI version: 1.0.0
 Runtime version: 1.0.0
 ```
 
-### 数据库
+### Databases
 
-Newbe.Claptrap 目前支持 `SQLite`/`Mysql`/`PostgreSQL`/`Mongodb` 多种数据库。
+Newbe.Clatraptrap currently supports `SQLite`/`Mysql`/`PostgreSQL`/`Mongodb` databases.
 
-开发者可以选择已经部署好的应用实例，也可以通过以下链接获取本项目开发时使用的`docker-compose.yml`文件以部署数据库：
+Developers can select app instances that have already been deployed well, or they can get the`docker-compose.yml`files used when this project was developed via the following link to deploy the database:
 
 <https://github.com/newbe36524/Newbe.Claptrap/tree/master/src/Docker/Database>
 
-## 可选组件
+## Optional Components
 
-这些组件是使用本框架进行开发时可选的组件。只有当需要使用到特定特性时才需要使用到。不过，我们仍然建议开发者安装这些组件。这样有助于开发者更有效的了解系统的运行情况。
+These components are the optional components when using this framework for development.You only need to use specific features if you need to.However, we still recommend that developers install these components.This helps developers better understand how the system is working.
 
 ### Grafana
 
-Grafana 可以将系统的监控数据以图表的形式展示出来，是一个非常优秀的开源方案。
+Grafana is a great open source solution for charting the monitoring data of the system.
 
-开发者可以使用以下链接中提供的`docker-compose.yml`来创建一个用于本项目的 Grafana 实例:
+Developers can create a Grafana instance for this project using the`docker-compose.yml`provided in the following link:
 
 <https://github.com/newbe36524/Newbe.Claptrap/tree/master/src/Docker/Monitor>
 
 ### Jaeger
 
-Jaeger 是一款分布式链路监控工具，可以帮助开发者进一步了解服务间的关系和性能细节。
+Jaeger is a distributed monitoring tool that can help developers learn more about the relationships and performance details between services.
 
-开发者可以通过以下链接提供的`docker-compose.yml`来构建一个用于本项目的 Jaeger 实例：
+The developer can run a Jaeger instance for this project by `docker-compose.yml` provided by following link:
 
 <https://github.com/newbe36524/Newbe.Claptrap/tree/master/src/Newbe.Claptrap.Template/HelloClaptrap>
 
-也可以从本项目的项目模板中找到这个`docker-compose.yml`文件。关于项目模板的详细介绍，将在下节进行说明。
+This`docker-compose.yml`file can also be found from the project template.A detailed introduction to the project template will be explained in the next section.
 
 ### Seq
 
-Seq 是一款高效的分布式日志管理工具，可以帮助开发者对多个应用程序的日志进行收集和可视化。
+Seq is a highly efficient distributed log management tool that can help developers collect and visualize the logs of multiple applications.
 
-开发者可以通过以下链接提供的`docker-compose.yml`来构建一个用于本项目的 Seq 实例：
+Developers can build a Seq instance for this project using the`docker-compose.yml`:
 
 <https://github.com/newbe36524/Newbe.Claptrap/tree/master/src/Newbe.Claptrap.Template/HelloClaptrap>
 
-也可以从本项目的项目模板中找到这个`docker-compose.yml`文件。关于项目模板的详细介绍，将在下节进行说明。
+This`docker-compose.yml`file can also be found from the project template.A detailed introduction to the project template will be explained in the next section.
 
-## 小结
+## Summary
 
-本篇，我们初步了解了如何为 Newbe.Claptrap 项目初始化一个基础可用的开发环境。
+In this article, we get a first look at how to initialize a basic available development environment for the Newbe.Claptrap project.
 
-下一篇，我们将使用该环境以及项目模板，创建第一个 Newbe.Claptrap 项目。
+Next, we'll use this environment and project templates to create the first Newbe.Claptrap project.
