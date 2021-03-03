@@ -46,7 +46,7 @@ Actor Pattern is a kind of concurrent programing pattern.It is convenient and ef
 
 First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor could be considered as a object create by `new` operator.And it includes some special features:
 
-**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be collectively referred to as actor`s state.The state of actor should be matained by itself.
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be collectively referred to as actor`s state.The state of the actor is maintained by the Actor itself.
 
 There are two points:
 
@@ -54,15 +54,15 @@ Firstly, state of actor must be change by itself. If you want to change the stat
 
 ![Update Actor state](/images/20190226-001.gif)
 
-Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example the public property of the class：in C#, if this class is referenced, the property in the class can be changed when obtained externally.It is not allowed to do so in actor pattern.
+Second, the state of the Actor is maintained only within the Actor and is not shared with any object outside of the current Actor.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example, the public properties of the class in C#, if this class is referenced, the properties in the class can be changed when obtained externally.It is not allowed to do so in actor pattern.
 
 ![Share Actor State](/images/20190226-003.gif)
 
-But it is still allow to retrive data out of the state by method.
+However, reading the data from within the Actor to the outside is still allowed.
 
 ![Read The Actor state](/images/20190226-002.gif)
 
-**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。The final value for this state must be 100.
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific point is that：If you use 100 threads to make a concurrent call to an Actor, let Actor make a + + operation on one of the int variables in the state.The final value for this state must be 100.
 
 ![Call Actor Concurrently](/images/20190226-004.gif)
 
@@ -70,14 +70,14 @@ However, single threads are not absolute, allowing concurrent processing in the 
 
 ![Read Actor Concurrently](/images/20190226-005.gif)
 
-> When reading about actor's single-threaded nature, readers often think about whether this can cause performance problems because Actor himself is handling it too slowly.On this point, I hope that readers will continue to hold on to this question and read it later in the search for answers.
+> When reading the Actor single-threaded properties, usually the reader takes into account whether this will result in the Actor itself dealing with slow and producing performance problems?On this point, it is hoped that readers will continue to hold this question to read later and look for answers.
 
-### Event traceability mode
+### Event sourcing pattern
 
 The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
-1. In general, CRUD applications take the practice of operating data storage directly.Such an implementation can result in performance bottlenecks due to inadequate database optimization, and this can be difficult to scale applications.
-2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But this can also lead to performance losses.
+1. In general, CRUD applications take the practice of operating data storage directly.Such a realization mode may result in a performance bottleneck due to insufficient optimization of the database, and this approach will be more difficult to achieve application telescopic.
+2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But in this way it is possible to trigger a performance loss.
 3. Unless additional auditing is added, the history of data changes is generally untraceable.Because the data store is usually saved in the final state of the data.
 
 In contrast to the CRUD approach, event sourcing avoids the limitations of the above description by design.The next step is to outline the basic working method of event sourcing around the "transfer" business scenario mentioned above.
