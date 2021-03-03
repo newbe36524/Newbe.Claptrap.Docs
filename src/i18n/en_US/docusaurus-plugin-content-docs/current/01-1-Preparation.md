@@ -1,30 +1,30 @@
 ---
-title: "第一步-开发环境准备"
-description: "第一步-开发环境准备"
+title: "Step 1 - Development environment preparation"
+description: "Step 1 - Development environment preparation"
 ---
 
-Newbe.Claptrap 框架依托于一些关键性的基础组件和一些可选的辅助组件。本篇我们来介绍一下如何准备一个开发环境。
+Newbe.Claptrap framework relies on some key foundation components and some optional components.In this article, we'll show you how to prepare a development environment.
 
 <!-- more -->
 
-## 必要组件
+## Required Components
 
-这些组件是使用本框架进行开发是必须要安装的组件。
+These components are components that must be installed for development using this framework.
 
 ### Docker Desktop
 
-Docker Desktop 是以下所有组件运行的基础。开发可以通过以下链接下载对应操作系统的版本并进行安装：
+Docker Desktop is the basis for all of the following components to run.Developer can download the version of the corresponding operating system and install:
 
 <https://www.docker.com/products/docker-desktop>
 
-安装完毕后，可以在控制台中使用以下命令验证安装效果：
+Once installed, you can use the following commands in the console to verify the:
 
 ```bash
 PS C:\Repos\newbe\Newbe.Claptrap.Docs\src> docker --version
 Docker version 20.10.2, build 2291f61
 ```
 
-中国大陆用户，需要为 Docker Desktop 配置好加速镜像。这将有助于后续环境的安装。
+Chinese mainland users, you need to configure an mirror for Docker Desktop.This will contribute to the installation of the subsequent environment.
 
 ### dotnet SDK
 
