@@ -44,7 +44,7 @@ This section will introduce some of the theoretical content that is closely inte
 
 Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would make a error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call ++ operator on the same int variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor could be considered as a object create by `new` operator.And it includes some special features:
 
 **It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In Actor mode, these properties are collectively referred to as the State of Actor.The state of actor should be matained by itself.
 
