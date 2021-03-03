@@ -46,7 +46,7 @@ Actor Pattern is a kind of concurrent programing pattern.It is convenient and ef
 
 First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor could be considered as a object create by `new` operator.And it includes some special features:
 
-**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In Actor mode, these properties are collectively referred to as the State of Actor.The state of actor should be matained by itself.
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be collectively referred to as actor`s state.The state of actor should be matained by itself.
 
 There are two points:
 
