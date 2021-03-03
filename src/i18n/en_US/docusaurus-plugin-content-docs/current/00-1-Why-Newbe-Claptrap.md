@@ -126,7 +126,7 @@ Now with the basics of the previous, here's how this framework implements the "t
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
-As shown in the figure above, the entire process is the general process of implementing the business scenario in this framework.In addition, there are some things that need to be noted：
+As shown in the figure above, the entire process is the general process of implementing the business scenario in this framework.In addition, there are some things that need to be noted:
 
 - The call between Client and Claptrap in the figure waits only for the first stage, which means that Client can get a response faster without having to wait for the entire process to end.
 - Claptrap A can accept requests again after processing its own requests and sending events to Minion A, which increases the throughput of Claptrap A.
