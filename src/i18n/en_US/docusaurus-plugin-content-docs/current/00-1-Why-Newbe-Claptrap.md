@@ -15,25 +15,25 @@ With the rapid development of Internet applications, relevant technical theories
 
 **higher system stability requirements**.The application runs continuously to ensure the continued progress of business activities, which anyone associated with this application would like to see.But it's usually very difficult to do that.Today's Internet applications in the face of many competitors of the same kind, if not sound enough in this regard, then it is likely to lose some of the user's favor.
 
-**higher functional scalability requirements are**."Embrace change", a word that comes into people when they mention "agile project management"-related content.This word fully reflects how important it is for today's Internet applications to be successful and to be functionally successful.It also reflects the changeable demand of products in the current Internet environment from one side.As a systems engineer, this should be considered at the beginning of the application.
+**higher functional scalability requirements**."Embracing Change", when people refer to the content related to "agile project management", will involve a word that will come to it.This word fully reflects how important it is for today's Internet applications to be successful and to be functionally successful.It also reflects the changeable demand of products in the current Internet environment from one side.As a systems engineer, this should be considered at the beginning of the application.
 
-**higher development ease of use requires**.The ease of development that belongs here refers to the degree of difficulty in developing the application system itself.The easier it is to develop, the more testable and deployable it is to apply its own code structure.
+**higher development easy-to-use requirements**.The ease of development that belongs here refers to the degree of difficulty in developing the application system itself.To be more easily developed, it is necessary to make a corresponding effort in applying its own code structure, auditability, and deployability.
 
-**higher performance requirements**.The performance requirements mentioned here are specifically performance requirements as system capacity increases.Avoid single-point performance issues in your system and give your application a horizontally scalable feature.In general, when performance problems occur, it is often the easiest way to solve them by adding physical devices.Under different system capacity, the optimization scheme for system performance is usually different.Therefore, the selection of technical solutions combined with the application scenario has always been a problem that system engineers need to consider.
+**higher performance requirements**.The performance requirements mentioned here are specific to the performance requirements when the system capacity is increased.Avoid single-point performance issues in your system and give your application a scale-out feature.In general, when performance problems occur, it is often the easiest way to solve them by adding physical devices.And the optimization of system performance is usually different under different system capacities.Therefore, the selection of technical solutions combined with the application scenario has always been a problem that system engineers need to consider.
 
 This project is based on the above system functional features of the requirements summarized a set of development framework.This contains relevant theoretical cornerstones, development libraries, and technical protocols.
 
-> There is no silver bullet in the world.One framework will not solve all the problems. The moon fell on the not wanting to be named
+> There is no "silver bullet" in the world as well.A set of frameworks can't solve all the problems. -- A man not named YUELUO
 
 ## From demand
 
-When explaining distributed systems, the simple business scenario of "account transfer" is often used to match the description.Here's a look at this business scenario.
+When explaining the distributed system, it is often used to the simple business scenario of "account transfer" to accompany the description.Here's a look at this business scenario.
 
-Suppose we need to build a business system with an account system.Each account has a balance.You now need to perform a transfer operation to transfer 300 of the balance of Account A to Account B.In addition, based on the basic requirements of the section above, we need to consider the following when implementing this scenario：
+Suppose we need to build a business system with an account system.Each account has a balance.You now need to perform a transfer operation to transfer 300 of the balance of Account A to Account B.In addition, based on the basic requirements of the section above, we need to consider the following when implementing this scenario:
 
 - You need to deal with a surge in system capacity.There may be only 1000 initial users at the beginning of the application.Thanks to good application promotion and the influx of bot accounts, the number of users has increased by three orders of magnitude in a month, that is, to a million levels.
-- The stability and recoverability of the system need to be considered.Minimize the average failure time of the system as a whole, and even system failures should be as easy to recover as possible.That is, to avoid a single point of failure.
-- Business scalability needs to be considered.Some business logic may need to be added later：limit the daily transfer amount according to the account level, SMS notification after the transfer is successful, transfer support a certain amount of secret-free transfer, specific account to achieve the "T1" to the account.
+- The stability and recoverability of the system need to be considered.Reduce the average fault time of the system as much as possible, even if a system failure should be as easy to recover as possible.That is, to avoid a single point of failure.
+- Business scalability needs to be considered.Some business logic may need to be added later: limit the daily transfer amount according to the account level, SMS notification after the transfer is successful, transfer support a certain amount of secret-free transfer, specific account to achieve the "T+1" to the account.
 - You need to consider the testability of your code.The business code and system code of the system can be well separated, and the correctness and performance of the business code and system code can be initially verified by means of unit testing.
 
 ## The theory of wheels
@@ -42,7 +42,7 @@ This section will introduce some of the theoretical content that is closely inte
 
 ### Actor Pattern
 
-Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.To give a simple example, if you use 100 threads in a non-synchronous lock to perform a s. . . operation on an int variable in memory.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would make a error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call ++ operator on the same int variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
 First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
