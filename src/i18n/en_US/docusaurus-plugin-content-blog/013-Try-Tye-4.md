@@ -6,23 +6,23 @@ tags:
   - Tye
 ---
 
-In the last article, let's explore Tye's more ways of using it.本篇我们来了解一下如何在 Tye 中如何进行日志的统一管理。
+In the last article, let's explore Tye's more ways of using it.This article we come to find out how to perform the unified management of logs in Tye.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 必不可少的日志管理
+## Essential log management
 
-对应用进行日志记录和分析是诊断排查线上问题的重要手段。而简单基于控制台或者文件的直接记录既不利于开发者直接读取也不利于大规模分析。
+Logging and analyzing applications is an important means to diagnose problems online.Simple console or file-based direct records are not conducive to developers' direct reading or large-scale analysis.
 
-因此，开发者往往会选择一些诸如`Exceptionless`或者`ELK`之类的日志管理方案，来实现线上环境的日志管理。
+As a result, developers often choose log management scenarios such as`Exceptionless`or`ELK`to implement log management for online environments.
 
-但是，我们仍然缺少一个在开发环境小巧可用、部署简易、最小资源占用、可视化良好的日志管理方案。
+However, we still lack a log management scenario that is small and available in a development environment, easy to deploy, minimal resource footprint, and well-visualized.
 
-故而，本案例，让我们来使用`Tye`中已经扩展可用的`Seq`工具，来作为开发环境的日志管理和可视化工具。
+So, in this case, let's use the`Seq`tool that has been extended in`Tye`as a log management and visualization tool for the development environment.
 
-## 创建测试应用
+## Create a test app
 
 ```bash create-tye-seq-test.sh
 dotnet new sln -n TyeTest
@@ -31,9 +31,9 @@ dotnet sln ./TyeTest.sln add ./TyeTest/TyeTest.csproj
 tye init
 ```
 
-通过以上命令，我们创建了一个测试的 API 项目，并且创建出了 tye.yml 文件。
+With the above command, we have created a testing API project, and a tye.yml file was created.
 
-直接使用`tye run`命令启动应用，我们其实可以在 tye dashboard 中查看到查看到以控制台方式输出的日志：
+Start the app directly with `tye run`command, and we can actually see in the tye dashboard the logs that are output in the console:
 
 ![console log](/images/20210216-001.png)
 
