@@ -122,7 +122,7 @@ Minion is a special actor as defined in this framework.it's an adjustment based 
 
 ### The realization of the business
 
-Now with the basics of the previous, here's how this framework implements the "transfer" scenario above.The following diagram begins with a look at the main processes：
+Now with the basics of the previous, here's how this framework implements the "transfer" scenario above.The following diagram begins with a look at the main processes:
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
