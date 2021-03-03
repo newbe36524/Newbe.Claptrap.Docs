@@ -212,23 +212,23 @@ As a result,`tye`will simply help developers check if the required`secret` alrea
 
 In this example, you need to have`secret`corresponding to`binding-product-mongo-secret`in the target cluster to be deployed using`tye`.
 
-具体的名称约定规则，可以参照如下内容：
+The specific name agreed rules can be made with reference to the following contents:
 
 <https://github.com/dotnet/tye/blob/master/docs/reference/deployment.md#validate-secrets>
 
-## 小结
+## Summary
 
-本篇，我们已经顺利完成了使用 Tye 来完成应用与中间件之间的链接配置。
+This article, we have successfully completed the use of Tye to complete the link configuration between the application and the middleware.
 
-不过还遗留一些问题没有细说：
+But there are still some remaining issues:
 
-- 如果一个中间存在多个绑定该如何处理
-- https 绑定该如何处理
+- What to do if there are multiple bindings in the middleware
+- what to do with https binding
 
-详细这些内容，请移步官方文档进行查看：
+For more information, please move to the official documentation to view:
 
 <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md>
 
-下一篇，我们将进一步在 Tye 中实现对纷繁复杂的日志进行统一管理。
+In the next article, we'll go one step further in Tye to implement unified management of complex logs.
 
 <!-- md Footer-Newbe-Claptrap.md -->
