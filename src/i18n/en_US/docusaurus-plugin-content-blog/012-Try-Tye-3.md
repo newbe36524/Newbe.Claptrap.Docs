@@ -206,11 +206,11 @@ This is an example that can not use`tye deploy`directly.
 
 First, usually, the middleware is not likely to exist in a production environment by way of deployment in a container.Even with a container deployment, it's not going to want to be redeployed every time.That said, it is usually possible to connect the already existing middleware directly.
 
-Second, the intermediate connection string is usually in the form of`secret`in`k8s`.故而不太可能在 tye 脚本中进行指定。
+Second, the intermediate connection string is usually in the form of`secret`in`k8s`.Therefore, it is unlikely to be specified in the tye script.
 
-故而，`tye`仅仅会帮助开发者检查需要部署的目标集群中是否已经存在符合要求的`secret`。当且仅当，目标集群中存在符合要求的`secret`才能部署。
+As a result,`tye`will simply help developers check if the required`secret` already exists in the target cluster that needs to be deployed.When and only if, the required`secret`exists in the target cluster to deploy.
 
-以本示例为例，需要在目标集群中存在`binding-production-mongo-secret`对应的`secret`才能都实现使用`tye`进行部署。
+In this example, you need to have`secret`corresponding to`binding-product-mongo-secret`in the target cluster to be deployed using`tye`.
 
 具体的名称约定规则，可以参照如下内容：
 
