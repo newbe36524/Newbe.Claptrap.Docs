@@ -37,11 +37,11 @@ Start the app directly with `tye run`command, and we can actually see in the tye
 
 ![console log](/images/20210216-001.png)
 
-缺陷也非常明显，这种方式非常不利于阅读和分析。
+The defect is also very apparent, and this way is very detrimental to reading and analysis.
 
-## 启用 Seq 记录和查看日志
+## Enable Seq logging and viewing logs
 
-打开 tye.yml ，加入 seq 的扩展配置:
+Open tye.yml and add the extended configuration of seq:
 
 ```yml tye.yml
 name: tyetest
@@ -53,39 +53,39 @@ services:
     project: TyeTest/TyeTest.csproj
 ```
 
-从上面的配置可以看出：
+As can be seen from the configuration above:
 
-1. 只是增加了一个 extensions 节点。在其中设置了一个 seq 的子节点并配置了日志存储的位置。
+1. Just add an extension node.A child node of seq is set up in it and the location of the log store is configured.
 
-使用`tye run`启动后，可以在 dashboard 中查看到启动好的 seq 服务。
+After starting with`tye run`, you can view the start good seq service in dashboard.
 
 ![seq service](/images/20210216-002.png)
 
-打开 seq 便可以看到 seq 的查询界面：
+Open seq then you can see the query interface of seq:
 
 ![seq search](/images/20210216-003.png)
 
-使用浏览器调用一下 swagger 界面中的 API。便可以在 seq 中查看到最新的日志。
+Use your browser to call up the API in the swagger interface.You can see the latest logs in seq.
 
 ![seq logs](/images/20210216-004.png)
 
-这便是使用 seq 最简单的一种方式。
+This is the easiest way to use seq.
 
-seq 的搜索方式是非常类似于 SQL 的流式查询语句，开发者可以通过以下链接学习如何使用 UI 进行查询：
+seq is searched in a very SQL-like way, and developers can learn how to query using the UI at the following link:
 
 <https://docs.datalust.co/docs/the-seq-query-language>
 
-## 我不想每次都重新部署 Seq
+## I don't want to redeploy the Seq every time.
 
-我们都知道， Tye 在停止运行时会尝试停止此次所有部署的容器，Seq 也是以容器的方式运行，因此，每次停止 Tye 时，容器都会被自动移除。这其实有点浪费时间。
+As we all know, Tye tries to stop all deployed containers when it stops running, and Seq runs as a container, so the container is automatically removed each time Tye is stopped.It's a bit of a waste of time.
 
-因此，此处在进一步介绍如何在本地长久部署一个 Seq 实现重复利用。
+Therefore, here is a further introduction to how to deploy a Seq for reuse locally for a long time.
 
-实际上，根据 Tye 中的代码，如果服务中已经存在一个名称为`seq`的服务，那么就会自动使用该服务，而跳过创建步骤。
+In fact, according to the code in Tye, if a service with the name`seq`already exists in the service, the service is automatically used and the creation steps are skipped.
 
-故此，我们只要本地部署一个 seq 服务，然后在`tye.yml`添加这个服务即可。
+So all we have to do is deploy an seq service locally and add it at `tye.yml`.
 
-Seq 可以使用 Windows 安装包或者使用 docker 的方式进行安装。本示例将使用 docker 进行安装：
+Seq can be installed using a Windows installation package or as a docker container.This example will use docker to install:
 
 ```yml docker-compose.yml
 version: '3.3'
@@ -103,9 +103,9 @@ services:
       - ./.seqlogs:/data
 ```
 
-使用`docker-compose up -d`方式长久启动 seq。那么就可以在 <http://localhost:5380> 查看到 seq dashboard。
+Use`docker-compose up -d to`seq in a long-term manner.Then you can view the seq dashboard at <http://localhost:5380>.
 
-然后，我们修改`tye.yml`:
+We then modify the`tye.yml`:
 
 ```yml tye.yml
 name: tyetest
