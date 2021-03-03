@@ -130,12 +130,12 @@ As shown in the figure above, the entire process is the general process of imple
 
 - The call between Client and Claptrap in the figure waits only for the first stage, which means that Client can get a response faster without having to wait for the entire process to end.
 - Claptrap A can accept requests again after processing its own requests and sending events to Minion A, which increases the throughput of Claptrap A.
-- Minion does more than just handle call agents between Claptrap.In Minion, you can also do things like：, send text messages, update database statistics, and more, depending on your business needs.
-- Minion can also have its own state, keeping some of the data in its own state so that it can query externally from itself without having to query from the corresponding Claptrap.For example：the last 24 hours of the account's transfer changes for quick query.
+- Minion does more than just handle call agents between Claptrap.In Minion, you can also do things like: send text messages, update database statistics, and more, depending on your business needs.
+- Minion can also have its own state, keeping some of the data in its own state so that it can query externally from itself without having to query from the corresponding Claptrap.For example: the last 24 hours of the account's transfer changes for quick query.
 
 ### Business capacity
 
-As mentioned earlier, this framework needs to build a system architecture that can scale horizontally in order to cope with the continued growth of business capacity.At this point, the framework is currently using open source[Dapr](https://dapr.io/)enable application and physical device downscailation.
+The previous reference to this framework requires the construction of a system architecture that can be extended horizontally, and only so can the sustained growth of business capacity be addressed.At this point, the framework is currently using open source[Dapr](https://dapr.io/)enable application and physical device downscailation.
 
 Of course, when it comes to data storage, it is bound to involve a series of problems, such as database clustering.These are the details of the technical application, not the content of the framework theory design.Therefore, only this framework can be scaled down based on the above open source architecture.
 
@@ -143,4 +143,4 @@ Practical questions during the application process, readers can seek answers in 
 
 ## Everything is ready
 
-I believe you have a preliminary understanding of the framework.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。
+I believe you have a preliminary understanding of the framework.Now, enter the[Newbe.Claptrap Quick Start](01-0-Quick-Start) to start trying the project.
