@@ -121,31 +121,31 @@ services:
         containerPort: 5341
 ```
 
-这里，主要的改动有：
+Here, the main changes are:
 
-1. 不再需要在 extensions 中指定日志存储此位置，因为这个时候时候的是外部的 seq 服务，指定这个参数已经没有意义了。
-2. 添加了一个名为`seq`的服务，其中`external: true`指定了其为一个外部服务。故而启动时不会尝试去创建这个服务。
+1. You no longer need to specify this location for log storage in extensions, because this is the time for an external seq service, and it no longer means to specify this parameter.
+2. Added a service called`seq`, where`external: true`specifies it as an external service.Therefore, no attempt is made to create this service at startup.
 
-这样使用`tye run`启动后得到的结果和先前效果是一致的。但是，不会在每次都重新启动一个新的 seq 实例。而是使用我们手动部署的 seq 实例。极大加快的启动速度。
+In this way the results obtained after starting with`tye run`are consistent with the previous effect.However, it is not going to restart a new seq instance every time.Instead use the seq instances that we deploy manually.A great acceleration of the speed of the start of the process.
 
-> tye 源码关于 seq 创建方式的判断位置： <https://github.com/dotnet/tye/blob/master/src/Microsoft.Tye.Extensions/Seq/SeqExtensions.cs#L15> docker 方式安装 seq： <https://docs.datalust.co/docs/getting-started-with-docker> Windows 直接安装 seq: <https://docs.datalust.co/docs/getting-started>
+> tye source code on the seq creation location： <https://github.com/dotnet/tye/blob/master/src/Microsoft.Tye.Extensions/Seq/SeqExtensions.cs#L15> docker way to install seq： <https://docs.datalust.co/docs/getting-started-with-docker> Windows directly install seq: <https://docs.datalust.co/docs/getting-started>
 
-## 最后，发到 K8S 里面试一下
+## Finally, send it to the K8S to try it out
 
-注意，和前面的 mongo 一样。 seq 并不会在使用`tye deploy`时主动创建。而是会尝试使用服务发现机制去寻找名为`seq`的服务。这其实和上节中手动创建 Seq 实例有点类似。
+Note that it's the same as the previous article about mongo. seq is not actively created when`tye deploy`is used.Instead it will try to use the service discovery mechanism to find a service called`seq`.This is actually a bit similar to the manual creation of the Seq instance in the previous section.
 
-因此，如果要部署`extensions`包含 seq 的 tye.yml。请确保 k8s 集群中存在名称为 seq 的服务，这样日志才能正常输出。
+So, if you want to deploy`extensions`containing seq tye.yml.Please make sure that there is a service named seq in the k8s cluster so that the log can be exported properly.
 
-## 小结
+## Summary
 
-本篇，我们已经顺利完成了使用 Tye 中的 seq 扩展来实现日志的统一管理。同时也顺便练习了如何在 tye 中将为外部服务添加绑定。
+This article, we have successfully completed the unified management of the log by using the seq extension in Tye.At the same time you also practiced how to add a binding for the external service in the tye.
 
-实际上，Tye 不仅仅提供了 seq 扩展日志扩展，其也提供了更加广为人知的`Elasticsearch`+`Kibana`方案。
+In fact, Tye not only provides seq extension log extensions, it also provides a more well-known`Elasticsearch``Kibana`scenario.
 
-开发者可以通过以下链接查看相关的操作方法：
+Developers can view the relevant actions at the following links:
 
 <https://github.com/dotnet/tye/blob/master/docs/recipes/logging_elastic.md>
 
-下一篇，我们将进一步研究在 Tye 中实现对分布式链路追踪的实现。
+Next, we will further study the realization of distributed tracking in Tye.
 
 <!-- md Footer-Newbe-Claptrap.md -->
