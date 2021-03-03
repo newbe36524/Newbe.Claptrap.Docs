@@ -1,12 +1,12 @@
 ---
 date: 2021-02-16
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（四）
+title: Developing k8s apps with the Tye help is so simple (IV)
 tags:
   - Newbe.Claptrap
   - Tye
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中如何进行日志的统一管理。
+In the last article, let's explore Tye's more ways of using it.本篇我们来了解一下如何在 Tye 中如何进行日志的统一管理。
 
 <!-- more -->
 
