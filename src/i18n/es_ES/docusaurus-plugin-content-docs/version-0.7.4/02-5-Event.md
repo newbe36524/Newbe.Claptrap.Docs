@@ -1,33 +1,33 @@
 ---
-title: '事件 （Event）'
-description: '事件 （Event）'
+title: 'Eventos'
+description: 'Eventos'
 ---
 
-Claptrap 是基于事件溯源的 Actor 模式。事件自然就起到了至关重要的作用。
+Claptrap es un patrón de actor basado en eventos.Naturalmente, los eventos desempeñan un papel vital.
 
-想要操作 Claptrap 就需要对其传递事件。事件也是改变 Claptrap State 的唯一参数。因此，在使用 Claptrap 构建系统时，所有的系统操作都会转换为事件而传入到 Claptrap 中。事件具有以下这些特点：
+Para operar Claptrap, necesitas pasarle eventos.Los eventos también son los únicos parámetros que cambian el estado de Claptrap.Por lo tanto, al crear un sistema con Claptrap, todas las operaciones del sistema se convierten en eventos y se pasan a Claptrap.Los eventos tienen los siguientes characteristics：
 
-## 事件是有序的
+## Los eventos se ordenan
 
-每个事件都包含有一个唯一的序列号。在本框架中，这个序列号被称为版本号（Version）。事件的版本号是一个从 1 开始逐 1 递增的序列。事件的有序性，确保了状态的计算不存在并发问题。这是状态数据可靠性的重要保证。
+Cada evento contiene un número de serie único.En este marco, este número de serie se denomina número de versión.El número de versión del evento es una secuencia que aumenta en 1 a 1.El orden del evento garantiza que no haya ningún problema con el cálculo del estado.Esta es una garantía importante de la fiabilidad de los datos de estado.
 
-事件的有序性直接反应了 Claptrap 执行事件的先后顺序。而由于需要确保这种顺序，Claptrap 在执行事件时，必须逐个事件进行处理。这点恰好与 Actor 模式的单线程特性产生了天然的契合。
+El orden de los eventos refleja directamente el orden en el que Claptrap ejecuta eventos.Debido a la necesidad de garantizar este orden, Claptrap debe controlar los eventos caso por caso al ejecutar eventos.Esto encaja naturalmente con la naturaleza de un solo hilo del patrón Actor.
 
-## 事件是不可变的
+## Los eventos se cambian
 
-事件一旦产生，它就是不可变的。事件溯源，正由于事件的不可变性，才使得数据是可靠的。因为只要读取事件，就能够还原出任何一个事件执行之后的状态。但不可变性并不是物理上的限制。你仍然可以修改物理存储中的事件数据。但请注意，这是危险的，极为不建议的行为。让我们联系设计模式中的“开闭原则”，经典的可以被概括为“对扩展开放，对修改封闭”。其中为什么要强调“对修改封闭”呢？就笔者看来，对修改封闭的原因其实是因为修改所带来的未知性。因为过往执行的代码，产生的数据。他们都已经形成了一定的封闭性。他们是经过已有的测试所验证的。如果尝试修改他们，势必就需要调整相应的测试，而这就更进一步加剧了修改，这可不是一件好事。事件的不可变是一种性质，更是一种要求。
+Una vez que se produce un evento, es imm cambiable.La trazabilidad de eventos hace que los datos sean fiables precisamente debido a la inmutabilidad del evento.Porque siempre que lea el evento, puede restaurar el estado después de ejecutar cualquier evento.Pero la inmutabilidad no es una limitación física.Todavía puede modificar los datos de eventos en el almacenamiento físico.Tenga en cuenta, sin embargo, que este es un comportamiento peligroso y altamente no aconsejado.Vamos a poner en contacto con el "principio de apertura y cierre" en el modo de diseño, el clásico se puede resumir como "abierto a la expansión, cerrado a la modificación".¿Por qué deberíamos enfatizar "cerrado a la modificación"?Desde el punto de vista del autor, la razón de la modificación del cierre se debe en realidad a la naturaleza desconocida provocada por la modificación.Debido al código ejecutado en el pasado, los datos resultantes.Todos ellos han formado un cierto grado de cierre.Han sido validados por pruebas existentes.Si intentas modificarlas, tendrás que ajustar las pruebas, y eso agrava aún más las modificaciones, lo cual no es algo bueno.La naturaleza inmédica del evento es una especie de naturaleza, pero también una especie de requisito.
 
-那如果由于一个 BUG 导致了过往的产生事件数据不正确，现在需要修正这个 BUG，该怎么办呢？笔者的建议，不要尝试修改已有的事件。应该追加新的事件和算法来修正当前的状态。不要去调整旧的内容。笔者认为这更符合开闭原则。开发者可以自行斟酌。
+Entonces, ¿qué pasa si un BUG causa datos de eventos incorrectos en el pasado y necesita ser corregido ahora?El consejo del autor es no intentar modificar los eventos existentes.Se deben anexar nuevos eventos y algoritmos para corregir el estado actual.No ajuste el contenido antiguo.El autor piensa que esto está más en línea con el principio de apertura y cierre.Los desarrolladores pueden hacerlo a su discreción.
 
-## 事件是永久的
+## El evento es permanente
 
-事件是确保 Claptrap State 正确性的重要参数。因此，需要确保事件被永久保存。但，这不是绝对的情况，如果满足以下条件，那么事件就允许被丢失：
+Los eventos son parámetros importantes para asegurarse de que Claptrap State es correcto.Por lo tanto, debe asegurarse de que el evento se guarda de forma permanente.Sin embargo, este no es un caso absoluto, y si se cumplen las siguientes condiciones, el evento permite la：
 
-1. 在丢失事件之前存在一个永久的 State 快照
-2. 对应的 Claptrap 已经生命终结，永远都不会再被激活
+1. Hay una instantánea de estado permanente antes de que se pierda el evento
+2. El Claptrap correspondiente está muerto y nunca se activará de nuevo
 
-反之，如果不满足以上的条件，那么请必须确保在生产环境中的事件被正确的保存在持久化层，并且已经有相应的容灾手段。
+Por el contrario, si no se cumplen las condiciones anteriores, es importante asegurarse de que los eventos en el entorno de producción se conservan correctamente en la capa de persistencia y que hay medios adecuados de tolerancia ante desastres.
 
-## ICON
+## Icono
 
 ![claptrap](/images/claptrap_icons/event.svg)
