@@ -1,39 +1,39 @@
 ---
 title: Why Newbe.Claptrap
-description: Newbe.Claptrap - A service-side development framework with "event sourcing" and "Actor pattern" as the basic theories
+description: Newbe.Claptrap - A service-side development framework with "event sourcing" and "Actor mode" as the basic theories
 ---
 
-This article is an introduction to the main content of the Newbe.Claptrap project, readers can get a general understanding of the project content as reading.
+This article is an introduction to the main content of the Newbe.Claptrap project, through which readers can get a general understanding of the project content.
 
 <!-- more -->
 
 ## Wheels are derived from demand
 
-With the rapid development of Internet applications, relevant technical theories and means of implementation are constantly being created.A series of keywords such as Cloud Native Architecture, Microservice Architecture, and DevOps are increasingly in the eyes of engineers.In summary, the emergence of these new theories and technologies is to solve some of the technical pain points in Internet applications:
+With the rapid development of Internet applications, relevant technical theories and means of implementation are constantly being created.A series of keywords such as Cloud Native Architecture, MicroServer Architecture, and DevOps are increasingly in the eyes of engineers.In summary, the emergence of these new theories and technologies is to solve some of the technical pain points in Internet applications：
 
-**higher capacity scalability requirements**.On the basis of commercial success, the number of users of Internet applications, system pressure and the number of hardware devices will increase significantly over time.This requires the application of capacity scalability.This capacity scalability is often described as "applications need to be support to scale out."
+**higher capacity scalability requirements are**.On the basis of commercial success, the number of users of Internet applications, system pressure and the number of hardware devices will increase significantly over time.This requires the application of capacity scalability in the province.This capacity scalability is often described as "applications need to support horizontal scaling."
 
 **higher system stability requirements**.The application runs continuously to ensure the continued progress of business activities, which anyone associated with this application would like to see.But it's usually very difficult to do that.Today's Internet applications in the face of many competitors of the same kind, if not sound enough in this regard, then it is likely to lose some of the user's favor.
 
-**higher functional scalability requirements**."Embracing Change", when people refer to the content related to "agile project management", will involve a word that will come to it.This word fully reflects how important it is for today's Internet applications to be successful and to be functionally successful.It also reflects the changeable demand of products in the current Internet environment from one side.As a systems engineer, this should be considered at the beginning of the application.
+**higher functional scalability requirements are**."Embrace change", a word that comes into people when they mention "agile project management"-related content.This word fully reflects how important it is for today's Internet applications to be successful and to be functionally successful.It also reflects the changeable demand of products in the current Internet environment from one side.As a systems engineer, this should be considered at the beginning of the application.
 
-**higher development easy-to-use requirements**.The ease of development that belongs here refers to the degree of difficulty in developing the application system itself.To be more easily developed, it is necessary to make a corresponding effort in applying its own code structure, auditability, and deployability.
+**higher development ease of use requires**.The ease of development that belongs here refers to the degree of difficulty in developing the application system itself.The easier it is to develop, the more testable and deployable it is to apply its own code structure.
 
-**higher performance requirements**.The performance requirements mentioned here are specific to the performance requirements when the system capacity is increased.Avoid single-point performance issues in your system and give your application a scale-out feature.In general, when performance problems occur, it is often the easiest way to solve them by adding physical devices.And the optimization of system performance is usually different under different system capacities.Therefore, the selection of technical solutions combined with the application scenario has always been a problem that system engineers need to consider.
+**higher performance requirements**.The performance requirements mentioned here are specifically performance requirements as system capacity increases.Avoid single-point performance issues in your system and give your application a horizontally scalable feature.In general, when performance problems occur, it is often the easiest way to solve them by adding physical devices.Under different system capacity, the optimization scheme for system performance is usually different.Therefore, the selection of technical solutions combined with the application scenario has always been a problem that system engineers need to consider.
 
 This project is based on the above system functional features of the requirements summarized a set of development framework.This contains relevant theoretical cornerstones, development libraries, and technical protocols.
 
-> There is no "silver bullet" in the world as well.A set of frameworks can't solve all the problems. -- A man not named YUELUO
+> There is no silver bullet in the world.One framework will not solve all the problems. The moon fell on the not wanting to be named
 
 ## From demand
 
-When explaining the distributed system, it is often used to the simple business scenario of "account transfer" to accompany the description.Here's a look at this business scenario.
+When explaining distributed systems, the simple business scenario of "account transfer" is often used to match the description.Here's a look at this business scenario.
 
-Suppose we need to build a business system with an account system.Each account has a balance.You now need to perform a transfer operation to transfer 300 of the balance of Account A to Account B.In addition, based on the basic requirements of the section above, we need to consider the following when implementing this scenario:
+Suppose we need to build a business system with an account system.Each account has a balance.You now need to perform a transfer operation to transfer 300 of the balance of Account A to Account B.In addition, based on the basic requirements of the section above, we need to consider the following when implementing this scenario：
 
 - You need to deal with a surge in system capacity.There may be only 1000 initial users at the beginning of the application.Thanks to good application promotion and the influx of bot accounts, the number of users has increased by three orders of magnitude in a month, that is, to a million levels.
-- The stability and recoverability of the system need to be considered.Reduce the average fault time of the system as much as possible, even if a system failure should be as easy to recover as possible.That is, to avoid a single point of failure.
-- Business scalability needs to be considered.Some business logic may need to be added later: limit the daily transfer amount according to the account level, SMS notification after the transfer is successful, transfer support a certain amount of secret-free transfer, specific account to achieve the "T+1" to the account.
+- The stability and recoverability of the system need to be considered.Minimize the average failure time of the system as a whole, and even system failures should be as easy to recover as possible.That is, to avoid a single point of failure.
+- Business scalability needs to be considered.Some business logic may need to be added later：limit the daily transfer amount according to the account level, SMS notification after the transfer is successful, transfer support a certain amount of secret-free transfer, specific account to achieve the "T1" to the account.
 - You need to consider the testability of your code.The business code and system code of the system can be well separated, and the correctness and performance of the business code and system code can be initially verified by means of unit testing.
 
 ## The theory of wheels
@@ -42,11 +42,11 @@ This section will introduce some of the theoretical content that is closely inte
 
 ### Actor Pattern
 
-Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would make a error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.For exmaple, just set up 100 thread to call ++ operator on the same int variable without mutex lock.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
+Actor Pattern is a kind of concurrent programing pattern.It is convenient and efficeint to solve some system concurrency problems.The concurrency problem here is talking about that it would curror error if there are multiple request to modify the same data as the time.It would raise if you are using multiple-thread programing.To give a simple example, if you use 100 threads in a non-synchronous lock to perform a s. . . operation on an int variable in memory.Final result of that variable should be less than 100 in common.Let`s take a look at how actor pattern could handle this problem.
 
-First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor could be considered as a object create by `new` operator.And it includes some special features:
+First of all, you can consider an Actor as an normal object here.In some object-oriented language(java/C#), a actor cound be considered as a object create by `new` operator.And it includes some special features:
 
-**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In actor pattern, all these properties or fields could be collectively referred to as actor`s state.The state of the actor is maintained by the Actor itself.
+**It own it`s own state**。All object could contains some properties or fields, it is normal in object-oriented language.In Actor mode, these properties are collectively referred to as the State of Actor.The state of actor should be matained by itself.
 
 There are two points:
 
@@ -54,15 +54,15 @@ Firstly, state of actor must be change by itself. If you want to change the stat
 
 ![Update Actor state](/images/20190226-001.gif)
 
-Second, the state of the Actor is maintained only within the Actor and is not shared with any object outside of the current Actor.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.For example, the public properties of the class in C#, if this class is referenced, the properties in the class can be changed when obtained externally.It is not allowed to do so in actor pattern.
+Secondly, state of actor is matained in actor, it is unable to share to any other object.In particularly, 'non-sharing' mentioned here also emphasizes that it cannot change the state of the actor through the change of an external properties.This is mainly to distinguish it from some programming languages with the "object reference" language feature.例如：在 C#的 class 的 public 属性，假如是引用类型，那么在外部获得这个 class 之后是可以改变 class 中的属性的。It is not allowed to do so in actor pattern.
 
 ![Share Actor State](/images/20190226-003.gif)
 
-However, reading the data from within the Actor to the outside is still allowed.
+But it is still allow to retrive data out of the state by method.
 
 ![Read The Actor state](/images/20190226-002.gif)
 
-**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.A specific point is that：If you use 100 threads to make a concurrent call to an Actor, let Actor make a + + operation on one of the int variables in the state.The final value for this state must be 100.
+**Single thread**。Actor could only accept one call at a time.The threads described here refer not exactly to threads in the computer, and the words used to highlight the "feature of Actor that can only handle one request at a time" are used.If the current Actor is accepting a call, the remaining calls are blocked until the end of the call, and the next request is not allowed to enter.This is actually similar to a mechanism for a synchronous lock.This mechanism avoids the possibility of concurrency issues when modifying the internal state of actor.具体一点说明：如果使用 100 个线程对一个 Actor 进行并发调用，让 Actor 对状态中的一个 int 变量进行 ++ 操作。The final value for this state must be 100.
 
 ![Call Actor Concurrently](/images/20190226-004.gif)
 
@@ -70,14 +70,14 @@ However, single threads are not absolute, allowing concurrent processing in the 
 
 ![Read Actor Concurrently](/images/20190226-005.gif)
 
-> When reading the Actor single-threaded properties, usually the reader takes into account whether this will result in the Actor itself dealing with slow and producing performance problems?On this point, it is hoped that readers will continue to hold this question to read later and look for answers.
+> When reading about actor's single-threaded nature, readers often think about whether this can cause performance problems because Actor himself is handling it too slowly.On this point, I hope that readers will continue to hold on to this question and read it later in the search for answers.
 
-### Event sourcing pattern
+### Event traceability mode
 
 The event sourcing pattern is a kind of software design idea.This kind of design idea is usually different from the traditional system design idea based on addition and deletion (CRUD).CRUD applications often have some limitations：
 
-1. In general, CRUD applications take the practice of operating data storage directly.Such a realization mode may result in a performance bottleneck due to insufficient optimization of the database, and this approach will be more difficult to achieve application telescopic.
-2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But in this way it is possible to trigger a performance loss.
+1. In general, CRUD applications take the practice of operating data storage directly.Such an implementation can result in performance bottlenecks due to inadequate database optimization, and this can be difficult to scale applications.
+2. There is often some data in a particular area that requires attention to the handling of concurrency issues to prevent errors in data updates.This often requires the introduction of related techniques such as locks, transactions, etc. to avoid such problems.But this can also lead to performance losses.
 3. Unless additional auditing is added, the history of data changes is generally untraceable.Because the data store is usually saved in the final state of the data.
 
 In contrast to the CRUD approach, event sourcing avoids the limitations of the above description by design.The next step is to outline the basic working method of event sourcing around the "transfer" business scenario mentioned above.
@@ -98,7 +98,7 @@ As shown in the figure above, the balance changes involved in the transfer busin
 
 Of course, the introduction of the event sourcing pattern also introduced some of the related technical problems of event sourcing.For example：Events can consume large amounts of storage, eventual consistency has to be applied, events are immutable, refactoring can be difficult, and so on.These related issues are described in more detail in some articles.Readers can read the extended reading for further understanding and evaluation.
 
-> Business complexity is not reduced by changes in system design, it is simply moved from one place to another. -- A man named YUELUO who is humble
+> Business complexity is not reduced by changes in system design, it is simply moved from one place to another. Always say the moon falls on your own food
 
 ## Let the wheels turn
 
@@ -110,7 +110,7 @@ Based on the reader's general understanding of the theory in the previous sectio
 
 Claptrap is a special actor defined in this framework.In addition to the two features mentioned above, Claptrap is defined as having the following characteristics：
 
-**The state is controlled by the event**。The state of the Actor is maintained inside the Actor.It is the same for Claptrap, but changing the state of Claptrap, in addition to the Actor, limits it to change only through events.This combines the event sourcing pattern with the Actor pattern.The correctness and traceability of the Actor state are ensured by the event sourcing mode.These events that change the state of Claptrap are generated by Claptrap itself.The event can occur because of an external call or because of a class trigger mechanism inside Claptrap.
+**The state is controlled by the event**。The state of the Actor is maintained inside the Actor.The same is true of Claptrap, but changing the state of Claptrap limits it to only events, in addition to modifications within Actor.This combines the event sourcing pattern with the Actor pattern.The correctness and traceability of the Actor state are ensured by the event sourcing mode.These events that change the state of Claptrap are generated by Claptrap itself.The event can occur because of an external call or because of a class trigger mechanism inside Claptrap.
 
 ### Minion
 
@@ -120,22 +120,22 @@ Minion is a special actor as defined in this framework.it's an adjustment based 
 
 **Read event from the corresponding Claptrap**。Like Claptrap, minion's state is controlled by events.The difference is that Minion, like its literal meaning, always gets events from the corresponding Claptrap, changing its state.Therefore, it can asynchronously handle subsequent actions after The Claptrap-generated event.
 
-### The realization of the business
+### Business implementation
 
-Now with the basics of the previous, here's how this framework implements the "transfer" scenario above.The following diagram begins with a look at the main processes:
+Now with the basics of the previous, here's how this framework implements the "transfer" scenario above.The following diagram begins with a look at the main processes：
 
 ![Claptrap & Minion](/images/20190228-003.gif)
 
-As shown in the figure above, the entire process is the general process of implementing the business scenario in this framework.In addition, there are some things that need to be noted:
+As shown in the figure above, the entire process is the general process of implementing the business scenario in this framework.In addition, there are some things that need to be noted：
 
 - The call between Client and Claptrap in the figure waits only for the first stage, which means that Client can get a response faster without having to wait for the entire process to end.
 - Claptrap A can accept requests again after processing its own requests and sending events to Minion A, which increases the throughput of Claptrap A.
-- Minion does more than just handle call agents between Claptrap.In Minion, you can also do things like: send text messages, update database statistics, and more, depending on your business needs.
-- Minion can also have its own state, keeping some of the data in its own state so that it can query externally from itself without having to query from the corresponding Claptrap.For example: the last 24 hours of the account's transfer changes for quick query.
+- Minion does more than just handle call agents between Claptrap.In Minion, you can also do things like：, send text messages, update database statistics, and more, depending on your business needs.
+- Minion can also have its own state, keeping some of the data in its own state so that it can query externally from itself without having to query from the corresponding Claptrap.For example：the last 24 hours of the account's transfer changes for quick query.
 
 ### Business capacity
 
-The previous reference to this framework requires the construction of a system architecture that can be extended horizontally, and only so can the sustained growth of business capacity be addressed.At this point, the framework is currently using open source[Dapr](https://dapr.io/)enable application and physical device downscailation.
+As mentioned earlier, this framework needs to build a system architecture that can scale horizontally in order to cope with the continued growth of business capacity.At this point, the framework is currently using open source[Dapr](https://dapr.io/)enable application and physical device downscailation.
 
 Of course, when it comes to data storage, it is bound to involve a series of problems, such as database clustering.These are the details of the technical application, not the content of the framework theory design.Therefore, only this framework can be scaled down based on the above open source architecture.
 
@@ -143,4 +143,4 @@ Practical questions during the application process, readers can seek answers in 
 
 ## Everything is ready
 
-I believe you have a preliminary understanding of the framework.Now, enter the[Newbe.Claptrap Quick Start](01-0-Quick-Start) to start trying the project.
+I believe you have a preliminary understanding of the framework.现在，进入[Newbe.Claptrap 快速入门](01-0-Quick-Start) 开始尝试该项目吧。
