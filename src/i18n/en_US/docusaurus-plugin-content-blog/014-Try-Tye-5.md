@@ -1,30 +1,30 @@
 ---
 date: 2021-02-16
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（五）
+title: Developing k8s apps with the Tye help is so simple (V)
 tags:
   - Newbe.Claptrap
   - Tye
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中实现对分布式链路追踪。
+In the last article, let's explore Tye's more ways of using it.This article we come to learn how to achieve distributed tracking in Tye.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 我是谁？我在哪儿？我咋了？
+## Who am I?Where am I?What's wrong with me?
 
-分布式系统纷繁复杂，特别以现在微服务架构的出现，使得应用系统中的应用实例变得更加多变难以捉摸。
+Distributed systems are complex, especially with the emergence of microservice architecture, making application instances in application systems more unpredictable.
 
-那么如何在如此繁杂的系统中找到一条业务调用链的上下游关系、性能细节、业务数据等等成为了一项开发者必然要面对的挑战。
+So how to find the upstream and downstream relationships, performance details, business data, etc. of a business call chain in such a complex system is a challenge that developers must face.
 
-使用分布式链路追踪系统无非是解决该问题的一个良好方法。目前市面上也有非常多可用的开源方案，其中不乏开箱即用的优秀用例：[SkyWalking](http://skywalking.apache.org/)、[Jaeger](https://www.jaegertracing.io/)和[Zipkin](https://zipkin.io/)等等。
+Using a distributed tracking system is a good way to solve this problem.There are also a number of open source options available on the market today, including great out-of-the-box use cases: [SkyWalking](http://skywalking.apache.org/),[Jaeger](https://www.jaegertracing.io/), and[Zipkin](https://zipkin.io/)and more.
 
-本篇，我们将探索 Tye 中已经实现扩展的 Zipkin 来演示一下分布式链路追踪的简易效果。
+In this article, we'll explore Zipkin, which has already been extended in Tye, to demonstrate the simple effects of distributed tracking.
 
-## 创建测试应用
+## Create a test app
 
-要测试分布式情况，那么至少需要两个应用实例才能够体现效果。因此，此处创建两个测试服务实例：
+To test a distributed situation, at least two application instances are required to be effective.Therefore, two test service instances are created here:
 
 ```bash create-tye-zipkin-test.sh
 dotnet new sln -n TyeTest
@@ -38,7 +38,7 @@ dotnet sln ./TyeTest.sln add ./TyeTest2/TyeTest2.csproj
 tye init
 ```
 
-在 TyeTest 项目的 Startup.cs 增加对 HttpClientFactory 的注册。
+In the TyeTest project Startup.cs add the registration of HttpClientFactory.
 
 ```cs
   public void ConfigureServices(IServiceCollection services)
@@ -52,7 +52,7 @@ tye init
   }
 ```
 
-进入 WeatherForecastController， 我们使用 HttpClient 来调用下游服务，并且将得到的数据返回：
+Enter the WeatherForecastController, we use HttpClient to call up the downstream services, and the data that will be obtained returns:
 
 ```cs
 using System;
@@ -97,13 +97,13 @@ namespace TyeTest.Controllers
 }
 ```
 
-这样，我们就得到了一个在服务 TyeTest 中调用 TyeTest2 的一个服务间调用的示例。
+In this way, we get an example of an inter-service call that calls TyeTest2 in service TyeTest.
 
-这其实和 [《使用 Tye 辅助开发 k8s 应用竟如此简单（二）》](011-Try-Tye-2) 中得到的测试用例是相同的。
+This is actually the same as the test case that was obtained in [< using the Tye Assist Development k8s application is so simple (ii) >](011-Try-Tye-2).
 
-然后使用`tye run`便可以启用测试应用。开发者可以在 swagger 页面中测试具体的效果。
+You can test application run by `tye run`.The developer can test the specific effects in the swagger page.
 
-但是！其实没完。此处我们还需要修改`Program.cs`变更默认的`Activity.DefaultIdFormat`:
+But!It's not over.Here we also need to modify`Program.cs` to change the default value of `Activity.DefaultIdFormat`:
 
 ```cs Program.cs
 using System;
@@ -136,14 +136,14 @@ namespace TyeTest
 }
 ```
 
-注意，两个应用都需要修改。
+Note that both apps need to be modified.
 
-这将会在消息请求头中添加这是一种符合 W3C 标准追踪头信息。不过，如果开发者是 net5 应用，则不需要变更了，因为这已经是默认行为。有关此内容的详细信息，开发者可以参阅：
+This will be added in the message request header as a compliance with W3C standard tracking header information.However, if the developer is a net5 app, there is no need to change it because this is already the default behavior.For more information about this content, developers can refer to：
 
 - <https://devblogs.microsoft.com/aspnet/improvements-in-net-core-3-0-for-troubleshooting-and-monitoring-distributed-apps/>
 - <https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/default-activityidformat-changed>
 
-## 启用 Zipkin
+## Enable Zipkin
 
 接下来，我们修改 tye.yml 来启用 zipkin 以监控服务间的调用：
 
