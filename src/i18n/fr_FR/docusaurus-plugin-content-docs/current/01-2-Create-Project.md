@@ -1,162 +1,162 @@
 ---
-title: "Étape 2 - Créer un projet"
-description: "Étape 2 - Créer un projet"
+title: "第二步-创建项目"
+description: "第二步-创建项目"
 ---
 
-Au cours de article [première étape - Développement environnement](01-1-Preparation.md) , continuons à apprendre à créer un projet Newbe.Claptrap.
+接上一篇 [第一步-开发环境准备](01-1-Preparation.md) ，我们继续了解如何创建一个 Newbe.Claptrap 项目。
 
 <!-- more -->
 
-## Installer le modèle de projet
+## 安装项目模板
 
-Ouvrez la console pour exécuter les commandes suivantes pour installer le dernier projet templates：
+打开控制台运行以下命令来安装最新的项目模板：
 
 ```bash
 dotnet new --install Newbe.Claptrap.Template
 ```
 
-Une fois installé, vous pouvez afficher le modèle de projet installé dans les résultats d’installation.
+安装完毕后，可以在安装结果中查看到已经安装的项目模板。
 
-![newbe.claptrap.template installé](/images/20200709-001.png)
+![newbe.claptrap.template安装完毕](/images/20200709-001.png)
 
-## Créer un projet
+## 创建项目
 
-Sélectionnez un emplacement, créez un dossier, et cet exemple choisit de créer un dossier appelé`HelloClaptrap`sous`D:\Répoque`.Le dossier agira comme le dossier de code pour le nouveau projet.
+选择一个位置，创建一个文件夹，本示例选择在`D:\Repo`下创建一个名为`HelloClaptrap`的文件夹。该文件夹将会作为新项目的代码文件夹。
 
-Ouvrez la console et passez l’annuaire de travail`D:\Repo/HelloClaptrap`.Vous pouvez ensuite créer un environnement de projet en exécutant les éléments commands：
+打开控制台，并且将工作目录切换到`D:\Repo\HelloClaptrap`。然后运行以下命令便可以创建出项目：
 
 ```bash
 dotnet new newbe.claptrap --name HelloClaptrap
 ```
 
-> En général, nous recommandons`D:\Repo, helloClaptrap`un dossier entrepôt Git.Gérez votre code source grâce au contrôle de la version.
+> 通常来说，我们建议将`D:\Repo\HelloClaptrap`创建为 Git 仓库文件夹。通过版本控制来管理您的源码。
 
-## Démarrer le projet
+## 启动项目
 
-Ensuite, nous utilisons la ligne de commande pour démarrer le projet.Passez la ligne de commande`C :\Rles epos/HelloClaptrap-HelloClaptrap`, exécutez les command：
+接下来，我们使用命令行启动项目。将命令行切换到`C:\Repos\HelloClaptrap\HelloClaptrap`，运行以下命令：
 
 ```bash
-tye exécuter
+tye run
 ```
 
-Après le démarrage, vous pouvez voir tous les éléments contenus dans le modèle de projet sur le tye dashboard：
+启动之后可以在 tye dashboard 上查看到项目模板包含的所有项目：
 
-![service newbe.claptrap](/images/20210217-002.png)
+![newbe.claptrap service](/images/20210217-002.png)
 
-> L’adresse du tableau de bord tye est généralement <http://localhost:8000>, et si le port est occupé, d’autres ports sont automatiquement utilisés, et vous pouvez afficher les invites sur la ligne de commande pour obtenir l’adresse spécifique actuelle.
+> tye dashboard 的地址通常为 <http://localhost:8000>， 若端口被占用将自动使用其他端口，可以查看命令行上的提示，以得到当前具体的地址。
 
-Nous pouvons trouver l’adresse d’exploitation du service`sur l’interface indiquée ci-`-dessus.Par exemple, comme indiqué dans la figure ci-dessus, son adresse de point de terminaison est<http://localhost:14285>.
+我们可以在如上图所示的界面上找到`helloclaptrap-webapi`服务的运行地址。例如，上图所示，其终结点地址为<http://localhost:14285>。
 
-Par conséquent, nous utilisons le navigateur pour ouvrir l’adresse pour afficher l’interface fanfaronnade.
+因此，我们使用浏览器打开该地址，以查看 swagger 界面。
 
-Sur la page fanfaronnade, essayez d’appeler`/AuctionItems/{itemId}/status`API：
+在 swagger 页面上，尝试调用`​/AuctionItems​/{itemId}​/status`API：
 
-![newbe.claptrap AuctionItems Newbe.claptrap AuctionItems Newbe.claptrap AuctionItems newbe](/images/20210217-003.png)
+![newbe.claptrap AuctionItems​](/images/20210217-003.png)
 
-Le retour du service à 200 indique que les composantes du service actuel ont commencé normalement.
+服务返回 200 说明当前服务各个组件已经正常启动。
 
-## Découvrez le projet
+## 体验项目
 
-Les projets créés à l’aide de modèles de projet sont en fait un programme qui simule les enchères.
+使用项目模板创建的项目实际上是一个模拟拍卖竞价业务的程序。
 
-Les enchères aux enchères sont un scénario d’affaires typique qui peut avoir un scénario d’affaires dans lequel une demande doit être traitée.L’utilisation de Newbe.Claptrap peut simplement résoudre le problème.Nous continuerons d’utiliser ce scénario d’affaires pour la démonstration dans les documents ultérieurs, alors voici une description simple du scénario d’affaires.
+拍卖竞价是一个典型的可能具有并发请求需要处理的业务场景。使用 Newbe.Claptrap 可以很简单的解决该问题。后续的文档中我们将连续使用该业务场景进行演示，因此，此处进行一下简单的业务场景说明。
 
-### Règles d’affaires
+### 业务规则
 
-Les règles commerciales sont à peu près aussi follows：
+业务规则大致如下：
 
-1. Chaque article de vente aux enchères `un`
-2. Les ventes aux enchères ne peuvent être vendues aux enchères que pour une période de temps
-3. L’article de vente aux enchères a un prix d’enchères de départ
-4. Tous les enchérisseurs ont une utilisation unique `'`
-5. Les enchérisseurs peuvent enchérir indéfiniment sur un article d’enchères pendant la période d’enchères, et tant que leur enchère est supérieure à l’enchère maximale actuelle, elle peut être comptée comme une offre valide et devenir l’enchérisseur actuel pour l’enchère.
-6. Les détails de toutes les offres réussies, y compris le temps d’offre, le montant de l’offre, le soumissionnaire, doivent être enregistrés.
+1. 每个拍卖品由一个唯一的 `itemId`
+2. 拍卖品只能在一段时间内进行竞价拍卖
+3. 拍卖品有一个起始拍卖价格
+4. 所有的竞拍者都拥有一个唯一的 `userId`
+5. 竞拍者在拍卖时间段内可以无限次对拍卖品进行出价，只要其出价大于当前最高出价，即可算作有效出价，并成为该拍卖品目前的得标人
+6. 需要记录所有成功出价的详细情况，包括出价时间，出价额，出价人。
 
-L’état des objets vendus aux enchères est aussi follows：
+拍卖品的状态如下：
 
-- `0 prévu` 'attente pour commencer le tournage
-- `1 OnSell` enchères
-- `2 Vendu` a été abattu
-- `3 Invendus` streaming
+- `0 Planned` 等待开拍
+- `1 OnSell` 正在拍卖
+- `2 Sold` 已经拍出
+- `3 UnSold` 流拍
 
-### Conception de l’API
+### API 设计
 
-Pour l’effet de démonstration le plus simple, cet exemple conçoit l’API ：
+为了最简单的演示效果，本样例设计了以下这些 API ：
 
-- `GET/AuctionItems/{itemId}/status` l’état actuel des enchères de la vente aux enchères spécifiée
-- `GET/AuctionItems/{itemId}` détails de l’article d’enchères spécifié
-- `post/AuctionItems` pour des objets de vente aux enchères désignés
+- `GET /AuctionItems/{itemId}/status` 获取指定拍卖品当前的竞价状态
+- `GET /AuctionItems/{itemId}` 获取指定拍卖品的详细信息
+- `POST ​/AuctionItems` 对指定的拍卖品进行出价
 
-Utilisons un scénario simple pour faire l’expérience des effets de ces API.
+下面我们使用一个简单的场景来体验一下这些 API 的效果。
 
-#### Recherchez les articles de vente aux enchères actuellement aux enchères
+#### 寻找当前在拍的拍卖品
 
-Étant donné que l’état des enchères est influencé par le temps, afin que les développeurs trouvent des objets d’enchères dans divers États à tout moment, des algorithmes basés sur le temps sont utilisés pour générer des enchères dans tous les États.
+由于拍卖品的状态受到时间的影响，为了让开发者可以在任何时候都可以找到各种状态的拍卖品，项目中使用了一些基于时间的算法，来生成所有状态的拍卖品。
 
-Les développeurs peuvent utiliser les appels 0/1/2/3 four itemId`GET/AuctionItems/{itemId}/status`l’état actuel de la vente aux enchères.
+开发者可以使用 0/1/2/3 四个 itemId 调用`GET /AuctionItems/{itemId}/status`获取拍卖品当前的状态。
 
-Il ya au moins une vente aux enchères avec `1 OnSell` sur.Pour plus de commodité ultérieure, supposons que son itemId est 1.
+其中至少存在一个状态为 `1 OnSell` 的拍卖品。为了后续方便说明，我们假设其 itemId 为 1。
 
-#### Voir les détails de la vente aux enchères
+#### 查看拍卖品的详细信息
 
-En `GET/AuctionItems/{itemId}` pouvez trouver les détails de l’article de vente aux enchères.Par exemple, si nous interrogeons avec itemId pour 1, nous pouvons obtenir les résultats suivants :
+使用 `GET /AuctionItems/{itemId}` 可以查询到拍卖品的详细信息。例如，我们使用 itemId 为 1 进行查询，可能可以得到如下结果:
 
 ```json
 {
-  « état »: {
-    « enchèresRecords »: nul,
-    « basePrice »: 10,
-    « startTime »: « 2021-02-27T12:59:12.673013+08:00 »,
-    « fin Temps »: « 2021-02-27T16:59:12.673013+08:00 »
+  "state": {
+    "biddingRecords": null,
+    "basePrice": 10,
+    "startTime": "2021-02-27T12:59:12.673013+08:00",
+    "endTime": "2021-02-27T16:59:12.673013+08:00"
   }
 }
 ```
 
-Les résultats ci-dessus montrent que：
+以上结果说明：
 
-- La vente aux enchères commence à basePrice 10
-- La période d’enchères est le startTime - endTime période de temps
-- Le dossier actuel des enchères est vide
+- 该拍卖品的起拍价格为 basePrice 10
+- 竞拍时间段为 startTime - endTime 时间的时段
+- 当前的竞拍记录 biddingRecords 为空
 
-La période peut changer en fonction de l’heure de début du projet en raison du temps qu’il faut pour démarrer le modèle de projet.
+其中时段可能由于启动项目模板的时间发生变化，视具体项目启动时间而定。
 
-#### Essayez d’enchérir
+#### 尝试出价
 
-Ensuite, nous appelons`POST / AuctionItems`pour essayer d’enchérir sur l’article de vente aux enchères actuellement en vente aux enchères, et appeler et passer dans les paramètres comme follows：
-
-```json
-{
-  « userId »: 1,
-  « prix »: 36524,
-  « itemId »: 1
-}
-```
-
-Les paramètres sont décrits below：
-
-- Enchérisseur userId est 1
-- Offre 36524
-- L’article de vente aux enchères Id 1
-
-Ça va results：
+接下来，我们调用`POST ​/AuctionItems`尝试对当前在拍的拍卖品进行出价，调用并传入参数如下：
 
 ```json
 {
-  « succès »: vrai,
-  « userId »: 1,
-  « auctionItemStatus »: 1,
-  « nowPrice »: 36524
+  "userId": 1,
+  "price": 36524,
+  "itemId": 1
 }
 ```
 
-Les résultats du retour montrent que：
+参数说明如下：
 
-- L’offre de succès a été couronnée de succès
-- Enchérisseur userId est 1
-- La dernière offre est 36524
-- L’état actuel de la vente aux enchères `1 OnSell`
+- 出价人 userId 为 1
+- 出价为 36524
+- 拍卖品为 itemId 1
 
-Vous pouvez `dernières enchères à l{itemId}` utilisant le GET/AuctionItems/：
+这将得到结果：
+
+```json
+{
+  "success": true,
+  "userId": 1,
+  "auctionItemStatus": 1,
+  "nowPrice": 36524
+}
+```
+
+返回结果表明：
+
+- success 出价成功
+- 出价人 userId 为 1
+- 最新出价为 36524
+- 拍卖品当前状态为 `1 OnSell`
+
+然后在使用 `GET /AuctionItems/{itemId}` 便可以查看到当前最新的拍卖品情况：
 
 ```json
 {
@@ -175,22 +175,22 @@ Vous pouvez `dernières enchères à l{itemId}` utilisant le GET/AuctionItems/�
 }
 ```
 
-Les résultats ci-dessus montrent que：
+以上结果说明：
 
-- Les enregistrements d’enchères ont été mis à jour pour inclure les derniers détails de la vente aux enchères.
+- 出价记录已更新，添加了最新的一条竞拍详情。
 
-Cela complète la présentation d’enchères la plus simple.
+这样便完成了最简单的出价演示。
 
-Les développeurs peuvent expérimenter avec des états et des paramètres plus différents pour expérimenter l’utilisation sous-jacente des API ci-dessus.Par exemple, une enchère est inférieure à l’enchère la plus élevée actuelle, une enchère pour un élément non-remake, et ainsi de suite.
+开发者可以自行尝试更多不同的状态和参数体验以上 API 的基础用法。例如，出价小于当前最高出价，对非再拍商品进行出价等等操作。
 
-## Arrêter le projet
+## 停止项目
 
-Si vous souhaitez arrêter un projet de modèle qui est actuellement en cours d’exécution.Vous pouvez arrêter un programme en cours d’exécution en appuyant sur`Ctrl``C`sur le panneau de commande où vous venez d’exécuter`course de tye`.
+若想要停止当前正在运行的模板项目。只要在刚才运行`tye run`的控制台上使用键盘按下`Ctrl`+`C`即可停止正在运行的程序。
 
-## Résumé
+## 小结
 
-Dans cet article, nous avons appris les étapes de base pour l’installation et l’utilisation de modèles de projet.
+本篇我们了解了安装项目模板和使用项目模板的基本步骤。
 
-Ensuite, nous couvrirons les principaux éléments contenus dans le modèle de projet.
+下一步，我们将介绍项目模板中包含的主要内容。
 
 <!-- md Footer-Newbe-Claptrap.md -->
