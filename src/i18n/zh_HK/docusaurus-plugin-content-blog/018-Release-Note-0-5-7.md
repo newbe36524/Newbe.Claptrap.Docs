@@ -40,6 +40,6 @@ Newbe.Claptrap 0.5.7 发布，新增本地化全球化支持.
 
 添加了一篇开发文档：
 
-- [第二步——简单业务，清空购物车](https://claptrap.newbe.pro/docs/01-2-Simple-Event-Flow)
+- [第二步——簡單業務，清空購物車。](https://claptrap.newbe.pro/docs/01-2-Simple-Event-Flow)
 
 <!-- md Footer-Newbe-Claptrap.md -->
