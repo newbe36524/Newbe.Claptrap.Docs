@@ -1,26 +1,26 @@
 ---
 date: 2020-07-10
-title: Newbe.Claptrap 0.3.2 发布，初版
+title: Newbe.Claptrap 0.3.2 Sortie, Première Édition
 tags:
   - Newbe.Claptrap
-  - 更新说明
+  - Mettre à jour la description
 ---
 
-Newbe.Claptrap 0.3.2 发布，初版.
+Newbe.Claptrap 0.3.2 Sortie, Première Édition.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 更新说明
+## Mettre à jour la description
 
-1. 添加了项目模板，现在可以通过简单的两行命令就创建出所有的项目脚手架
+1. Avec l’ajout d’un modèle de projet, vous pouvez maintenant créer tous les échafaudages de projet avec une commande simple à deux lignes
 
    ```shell
-   dotnet new --install Newbe.Claptrap.Template
-   dotnet new newbe.claptrap --name HelloClaptrap
+   dotnet nouveau - installer Newbe.Claptrap.Template
+   dotnet nouveau newbe.claptrap - nom HelloClaptrap
    ```
 
-2. 发布了第一篇项目入门指南《第一步——创建项目，实现简易购物车》
+2. Lancement du premier guide de lancement du projet, « The First Step - Creating a Project for a Simple Shopping Cart »
 
 <!-- md Footer-Newbe-Claptrap.md -->
