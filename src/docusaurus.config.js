@@ -10,28 +10,28 @@ module.exports = {
   organizationName: "newbe36524", // Usually your GitHub org/user name.
   projectName: "Newbe.Claptrap", // Usually your repo name.
   i18n: {
-    defaultLocale: "en_US",
+    defaultLocale: "en-US",
     locales: [
-      "de_DE",
-      "en_US",
-      "es_ES",
-      "fr_FR",
-      "ja_JP",
-      "ru_RU",
-      "zh_Hans",
-      "zh_HK",
-      "zh_TW",
+      "de-DE",
+      "en-US",
+      "es-ES",
+      "fr-FR",
+      "ja-JP",
+      "ru-RU",
+      "zh-Hans",
+      "zh-HK",
+      "zh-TW",
     ],
     localeConfigs: {
-      en_US: { label: "English" },
-      zh_Hans: { label: "简体中文" },
-      zh_HK: { label: "粤语" },
-      zh_TW: { label: "繁體中文" },
-      ru_RU: { label: "русский язык" },
-      de_DE: { label: "Deutsche" },
-      es_ES: { label: "Español" },
-      fr_FR: { label: "français" },
-      ja_JP: { label: "日本語" },
+      "en-US": { label: "English" },
+      "zh-Hans": { label: "简体中文" },
+      "zh-HK": { label: "粤语" },
+      "zh-TW": { label: "繁體中文" },
+      "ru-RU": { label: "русский язык" },
+      "de-DE": { label: "Deutsche" },
+      "es-ES": { label: "Español" },
+      "fr-FR": { label: "français" },
+      "ja-JP": { label: "日本語" },
     },
   },
   plugins: [
@@ -118,12 +118,12 @@ module.exports = {
         {
           type: "localeDropdown",
           position: "right",
-          // dropdownItemsAfter: [
-          //   {
-          //     to: 'https://github.com/facebook/docusaurus/issues/3526',
-          //     label: 'Help Us Translate',
-          //   },
-          // ],
+          dropdownItemsAfter: [
+            {
+              to: "https://crowdin.com/project/newbeclaptrap/invite",
+              label: "Help Us Translate",
+            },
+          ],
         },
       ],
     },
