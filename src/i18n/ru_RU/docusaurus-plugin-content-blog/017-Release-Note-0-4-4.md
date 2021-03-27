@@ -1,32 +1,32 @@
 ---
 date: 2020-07-15
-title: Newbe.Claptrap 0.4.4 выпущен с новой поддержкой RabbitMQ
+title: Newbe.Claptrap 0.4.4 发布，新增RabbitMQ支持
 tags:
   - Newbe.Claptrap
-  - Инструкции по обновлению
+  - 更新说明
 ---
 
-Newbe.Claptrap 0.4.4 выпущен с новой поддержкой RabbitMQ.
+Newbe.Claptrap 0.4.4 发布，新增 RabbitMQ 支持。
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## Инструкции по обновлению
+## 更新说明
 
-### Библиотека классов
+### 类库
 
-1. Поддержка RabbitMQ в качестве EventCenter
-2. Поддерживает переключение между EventCenter от Orleans Directly Client и RabbitMQ
+1. 支持 RabbitMQ 作为 EventCenter
+2. 支持在 Orleans Directly Client 和 RabbitMQ 的 EventCenter 之间做切换
 
-### Документы
+### 文档
 
-Веб-сайт документации по разработке в Интернете <http://claptrap.newbe.pro>
+上线开发文档网站 <http://claptrap.newbe.pro>
 
-Добавлено описание нескольких терминов：
+添加了若干术语的说明：
 
-- [Режим Actor](../docs/02-1-Actor-Pattern)
-- [Отслеживание событий](../docs/02-2-Event-Sourcing)
+- [Actor 模式](../docs/02-1-Actor-Pattern)
+- [事件溯源](../docs/02-2-Event-Sourcing)
 - [Claptrap](../docs/02-3-Claptrap)
 - [Minion](../docs/02-4-Minion)
 
