@@ -1,45 +1,45 @@
 ---
 date: 2020-07-23
-title: Newbe.Claptrap 0.5.7 发布，新增本地化全球化支持
+title: Newbe.Claptrap 0.5.7 выпущен с новой поддержкой глобализации локализации
 tags:
   - Newbe.Claptrap
-  - 更新说明
+  - Инструкции по обновлению
 ---
 
-Newbe.Claptrap 0.5.7 发布，新增本地化全球化支持.
+Newbe.Claptrap 0.5.7 выпущен с новой поддержкой глобализации локализации.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 更新内容
+## Что нового
 
-### 类库
+### Библиотека классов
 
-1. 增加本地化支持，框架日志和错误信息支持本地化显示。
+1. Добавлена поддержка локализации, журналы платформы и сообщения об ошибках для поддержки локализованного отображения.
 
-### 文章
+### Статьи
 
-[构建一个简易的火车票售票系统，Newbe.Claptrap 框架用例，第一步——业务分析](004-Create-A-Train-Ticketing-System-In-Newbe-Claptrap-1)
+[Создайте простую систему продажи билетов на поезд, newbe.Claptrap Fraм вариант использования, первый шаг - бизнес-аналитика](004-Create-A-Train-Ticketing-System-In-Newbe-Claptrap-1)
 
-感谢 [@wangjun8868](https://github.com/wangjun8868) 使用 Blazor 制作的界面。
+Спасибо [@wangjun8868](https://github.com/wangjun8868) интерфейс, сделанный с помощью Blazor.
 
-### 开发文档
+### Документация по разработке
 
-添加更全面的本地化支持，感谢 [crowdin](https://crowdin.com/) 为开源项目提供的翻译协作平台：
+Добавьте более полную поддержку локализации, чтобы поблагодарить [crowdin](https://crowdin.com/) платформу совместной работы по переводу для проектов с открытым исходным кодом：
 
-- [简体中文](https://claptrap.newbe.pro/zh_Hans) 原文
-- [粤语](https://claptrap.newbe.pro/zh_HK) 感谢 [@kotone](https://github.com/kotoneme) 提供的翻译支持
-- [繁體中文](https://claptrap.newbe.pro/zh_TW) 感谢 [@kotone](https://github.com/kotoneme) 提供的翻译支持
-- [English](https://claptrap.newbe.pro/) 机翻，人工校对
-- [русский язык](https://claptrap.newbe.pro/ru_RU) 机翻
-- [Deutsche](https://claptrap.newbe.pro/de_DE) 机翻
-- [Español](https://claptrap.newbe.pro/es_ES) 机翻
-- [français](https://claptrap.newbe.pro/fr_FR) 机翻
-- [日本語](https://claptrap.newbe.pro/ja_JP) 机翻
+- [упрощенный китайский](https://claptrap.newbe.pro/zh_Hans) оригинал
+- [Кантонский](https://claptrap.newbe.pro/zh_HK) спасибо [@kotone](https://github.com/kotoneme) за поддержку перевода
+- [Традиционный китайский](https://claptrap.newbe.pro/zh_TW) спасибо [@kotone](https://github.com/kotoneme) за поддержку перевода
+- [English](https://claptrap.newbe.pro/) , ручная коррекция
+- [хе-](https://claptrap.newbe.pro/ru_RU) машина перевернулась
+- [deutsche](https://claptrap.newbe.pro/de_DE) перевернулся
+- [опрокидывание](https://claptrap.newbe.pro/es_ES) машины español
+- [français](https://claptrap.newbe.pro/fr_FR) перевернулся
+- [японский](https://claptrap.newbe.pro/ja_JP) перевернулся
 
-添加了一篇开发文档：
+Добавлена документация по разработке：
 
-- [第二步——简单业务，清空购物车](https://claptrap.newbe.pro/docs/01-2-Simple-Event-Flow)
+- [Шаг 2 - простой бизнес, опустошить корзину](https://claptrap.newbe.pro/docs/01-2-Simple-Event-Flow)
 
 <!-- md Footer-Newbe-Claptrap.md -->
