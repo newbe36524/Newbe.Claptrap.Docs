@@ -1,29 +1,29 @@
 ---
 date: 2020-08-18
-title: Newbe.Claptrap 0.6.5 发布，新增MongoDB支持
+title: Newbe.Claptrap 0.6.5 выпущен с новой поддержкой MongoDB
 tags:
   - Newbe.Claptrap
-  - 更新说明
+  - Инструкции по обновлению
 ---
 
-Newbe.Claptrap 0.6.5 发布，新增 MongoDB 支持。
+Newbe.Claptrap 0.6.5 выпущен с новой поддержкой MongoDB.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 更新内容
+## Что нового
 
-### 类库
+### Библиотека классов
 
-1. 增加 MongoDB 作为 Event 和 State 的存储器
+1. Дозагрей MongoDB в качестве памяти для Event и State
 
-### 文章
+### Статьи
 
 - <https://www.newbe.pro/Net-Conf/2020-07-30-Focus-on-Microservices>
-- [年轻的樵夫哟，你掉的是这个免费 8 核 4G 公网服务器，还是这个随时可用的 Docker 实验平台？](007-Play-With-Docker)
+- [Молодой лесник, вы уронили этот бесплатный 8-ядерный 4G-сервер или эту готовую к использованию экспериментальную платформу Docker?](007-Play-With-Docker)
 
-### 开发文档
+### Документация по разработке
 
 - {% post_link Newbe.Claptrap/Get-Started-3 %}
 - {% post_link Newbe.Claptrap/Get-Started-4 %}
