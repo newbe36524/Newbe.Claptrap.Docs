@@ -237,13 +237,13 @@ namespace HelloClaptrap.Actors.AuctionItem
 This code indicates that：
 
 1. Data can be validated through Claptrap State before generating events to determine whether to generate the next event.This is necessary because it keeps out unnecessary events.It is necessary in terms of operational logic, persistence space, or execution efficiency.
-2. Once the necessary verification has been made, you can `this. CreateEvent` to create an event.This is an extension method that builds some of the underlying information about Event.Developers only need to care about the custom business data section.For `NewBidderEvent` is the business data that developers need to be concerned about.
-3. Once the event creation is complete, you can save and execute the `handleEventAsync` the Claptrap object.In this method Claptrap will persist the event and call Handler to update Claptrap's State.The following describes how to write Handler
+2. After the necessary validation, an event can be created by `this.CreateEvent`.This is an extension method that builds some of the underlying information about Event.Developers only need to care about the custom business data section.For `NewBidderEvent` is the business data that developers need to be concerned about.
+3. Once the event creation is complete, you can save and execute the `HandleEventAsync` the Claptrap object.In this method Claptrap will persist the event and call Handler to update Claptrap's State.The following describes how to write Handler
 4. After calling `HandleEventAsync` , if there are no errors, the event has been successfully persisted.And you can think that State in Claptrap has been updated correctly.Therefore, the latest data can now be read from State and returned to the caller.
 
 ### Handler layer
 
-The Handler layer is responsible for executing the business logic of the event and updating the data to State.Because both Event and State are objects in memory, so.Handler's code implementation is generally very simple.Here's the handler `triggered when the` NewBidderEvent is triggered.
+The Handler layer is responsible for executing the business logic of the event and updating the data to State.Because both Event and State are objects in memory, so.Handler's code implementation is generally very simple.Below is the Handler that is called when the `NewBidderEvent` is triggered.
 
 ```cs NewBidderEventHandler.cs
 using System.Threading.Tasks;
@@ -275,10 +275,10 @@ namespace HelloClaptrap.Actors.AuctionItem.Events
 
             var records = stateData.BiddingRecords;
 
-            records. Add(eventData.Price, new BiddingRecord
+            records.Add(eventData.Price, new BiddingRecord
             {
                 Price = eventData.Price,
-                BiddingTime = _clock. UtcNow,
+                BiddingTime = _clock.UtcNow,
                 UserId = eventData.UserId
             });
             stateData.BiddingRecords = records;
@@ -291,13 +291,13 @@ namespace HelloClaptrap.Actors.AuctionItem.Events
 This code indicates that：
 
 1. `NewBidderEventHandler` inherited `NormalEventHandler` as the base class, which was added primarily to simplify handler implementations.Its generic parameters are the State type corresponding to Claptrap and the EventData type for Event.
-2. Handler implements the HandleEvent `method inherited from the` normaleventhandler `the` class.The primary purpose in this method is to update State.
+2. Handler implements the `HandleEvent` method inherited from the base class `NormalEventHandler`.The primary purpose in this method is to update State.
 
 In addition to the obvious code above, there are some important operating mechanisms for Handler that must be explained here：
 
-1. Handler requires a tag on the corresponding Actor type to be used.This is `role played by Claptrap Event Handler, ClaptrapCodes.NewBidderEvent` in AuctionItemActor.
+1. Handler requires a tag on the corresponding Actor type to be used.The AuctionItemActor `[CladaptrapEventHandler (typeof (NewBidderEventHandler), ClastrapCodes.NewBidderEvent)]` plays this role.
 2. Handler implements `IDispose` and `IAsyncDispose` interfaces.This indicates that Handler will be created on demand when handling events.You can refer to the instructions in The Life Cycle of Objects in the TODO Claptrap System.
-3. Because of the event sourcing mechanism, developers should take into account the idempotentness of `logic in the handleEvent` method when writing Handler.In other words, you must ensure that the same parameters `handleEvent` the handleEvent method and get exactly the same results.Otherwise, unexpected results can occur when the practice is traced.You can refer to the instructions in HOW TODO Events and States Work.
+3. Due to the existence of an event sourcing mechanism, developers have to fully consider the power of the logic in the `HandleEvent` method when writing Handler.In other words, you must ensure that the same parameters `HandleEvent` the handleEvent method and get exactly the same results.Otherwise, unexpected results can occur when the practice is traced.You can refer to the instructions in HOW TODO Events and States Work.
 
 With the Handler layer, you can update State through events.
 
