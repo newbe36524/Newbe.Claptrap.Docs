@@ -181,11 +181,11 @@ The above results show that：
 
 This completes the simplest bid presentation.
 
-Developers can experiment with more different states and parameters to experience the underlying usage of the above APIs.For example, a bid is less than the current highest bid, a bid for a non-remake item, and so on.
+Developers can experiment with more different status and parameters to experience the underlying usage of the above APIs.For example, a bid is less than the current highest bid, a bid for a non-remake item, and so on.
 
 ## Stop the project
 
-If you want to stop a template project that is currently running.You can stop a running program by pressing`Ctrl``C`on the control panel where you just ran`tye run`.
+If you want to stop a template project that is currently running.You can stop a running program by pressing`Ctrl`+`C`on the control panel where you just ran`tye run`.
 
 ## Summary
 
