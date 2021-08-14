@@ -3,6 +3,6 @@ title: "Quick start"
 description: "Newbe.Claptrap Quick Start"
 ---
 
-Newbe.Claptrap 开发框架是以 Actor 模式和事件溯源为理论基础的开发框架。对于需要对应并发问题的系统拥有一定的开发优势。
+Newbe.Claptrap is a development framework based on the Actor pattern and event sourcing theory.There is a certain advantage for the system that needs to correspond to the concurrent problem.
 
-本系列，我们同一个“拍卖竞价”的示例，来体验一下如何使用 Newbe.Claptrap 框架进行开发。
+In this series, we share an example of Auction Auctions to experience how to develop using the Newbe.Claptrap framework.
