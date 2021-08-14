@@ -406,7 +406,7 @@ Minion 是一种特殊的 Claptrap，换言之，它也是一种 Claptrap。而 
 
 不过，还有一些问题，我们将在后续展开讨论。
 
-您可以从以下地址来获取本文章对应的源代码：
+你可以從以下位址來獲取本文章對應的原始程式碼：
 
 - [Github](https://github.com/newbe36524/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
 - [Gitee](https://gitee.com/yks/Newbe.Claptrap.Examples/tree/master/src/Newbe.Claptrap.QuickStart4/HelloClaptrap)
