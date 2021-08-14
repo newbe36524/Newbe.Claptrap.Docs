@@ -1,30 +1,30 @@
 ---
 date: 2021-02-15
-title: 使用 Tye 辅助开发 k8s 应用竟如此简单（三）
+title: Developing k8s apps with the Tye help is so simple (iii)
 tags:
   - Newbe.Claptrap
   - Tye
 ---
 
-续上篇，这篇我们来进一步探索 Tye 更多的使用方法。本篇我们来了解一下如何在 Tye 中如何对数据库进行链接。
+Let's explore Tye's more ways of using it.This article we come to find out how to connect to the database in Tye.
 
 <!-- more -->
 
 <!-- md Header-Newbe-Claptrap.md -->
 
-## 中间件链接
+## Middleware Connection
 
-绝大多数服务都需要用到外部中间件来支持应用程序的正常运行，通常来说，就包含有数据库、缓存中间件、消息队列和文件系统等等。
+The vast majority of services need to be used to external middleware to support the proper functioning of the application, usually, in terms of containing databases, cache middleware, message queues, and file systems, and so on.
 
-因此，在开发过程中需要在应用程序中管理对这些中间件的链接字符串。
+As a result, a link string to these middleware needs to be managed in the application during the development.
 
-Tye 提供了一种方式以便更加容易的管理这些链接字符串。
+Tye provides a way to manage these linked strings more easily.
 
-## 使用 Tye 启动 mongo
+## Launch of the Mongo with Tye
 
-首先，我们使用 Tye 来启动一个 mongo。
+First of all, we use Tye to start a mongo.
 
-手动创建一个 tye.yml:
+Create a tye.yml manually:
 
 ```yml tye.yml
 name: mongo-sample
@@ -49,19 +49,19 @@ services:
         value: example
 ```
 
-使用 tye run 便可以在本地启动一个 mongo 并且在 <http://localhost:8081> 通过 ui 查看 mongo 中的数据情况：
+Use tye run to start a mongo locally and at <http://localhost:8081> to see data in the mongo via ui：
 
 ![mongo express](/images/20210215-001.png)
 
-实际上就是使用 Tye 控制 docker desktop 启动 mongo。因此需要提前在本地安装好 docker desktop，以便启动。
+It is actually using Tye to control the docker desktop to start the mongo.Therefore, you need to install a local docker desktop.
 
-当然，这实际上和使用 `docker-compose` 没有什么实质性的区别。
+Of course, this doesn't actually make any substantial difference with using the `docker-compose`.
 
-## 创建应用程序连接 mongo
+## Create an application to connect to the mongo
 
-下面，我们创建一个应用，并且将应用与 mongo 进行连接。
+Below, we create an app and connect the app with the mongo.
 
-创建测试应用，并安装必要的包：
+Create a test application and install the necessary package：
 
 ```bash create-tye-mongo-test.sh
 dotnet new sln -n TyeTest
@@ -71,7 +71,7 @@ dotnet add ./TyeTest/TyeTest.csproj package Microsoft.Tye.Extensions.Configurati
 dotnet add ./TyeTest/TyeTest.csproj package MongoDB.Driver
 ```
 
-进入 Startup，向容器中注册 MongoClient :
+Enter Startup to register the MongoClient in the container:
 
 ```cs Startup.cs
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -90,13 +90,13 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-值得注意的是，这里使用了一个扩展方法从 `IConfiguration` 中读取 mongo 的连接字符串：
+It is worth thing here that an extended method is used here to read the connection string of the mongo from `IConfiguration`:
 
-1. `mongo` 实际上就是定义在 tye 中的服务名称。
-2. `GetConnectionString` 是来自于 `Microsoft.Tye.Extensions.Configuration` 的扩展方法
-3. `MongoClient` 应该全局单例还是 `Scope` 其实笔者也没查过资料。实际项目开发者注意按照需求调整。
+1. `mono` is actually the service name defined in tye
+2. `GetConnectionString` is an extension method from `Microsoft.Tye.Extensions.Configuration`
+3. `The MongoClient` should be a global single case or a `Scope` Actually the writer hasn't checked the information either.The actual project developer's attention is adjusted to the requirements.
 
-打开 `WeatherForecastController`，让我们在每次接受请求时，都写入一些数据到 `mongo` 中以验证效果。
+Open the `WeatherForecastController`and let us write some data to `mongo` each time you accept the request to verify the effect.
 
 ```cs WeatherForecastController.cs
 using System;
@@ -149,15 +149,15 @@ namespace TyeTest.Controllers
 }
 ```
 
-至此，测试应用就创建完毕了。预期的效果是，当接受到请求时，就会向 `mongo` 中的 `WeatherForecast` `collection` 写入一些数据。可以通过 mongo express UI 进行查看。
+At this point, the test application was created.The expected effect is that when a request is accepted, some data is written to the `WeatherForecast` `collection` in the `mongo`.It can be viewed through the mongo express UI.
 
-## 修改 tye.yml 以配置链接串
+## Modify the ty.yml to configure the connection string
 
-由于前面，我们是手动创建过了`tye.yml`。因此，我们现在直接在原来的基础上进行修改，以便加入测试应用。
+Thanks to the front, we have manually created the`tye.yml`.Therefore, we now make modifications directly on the original basis in order to join the test application.
 
-首先，将之前创建好的`tye.yml`放置到`TyeTest.sln`的根目录。
+First, place previously created`tye.yml`at the root of`TyeTest.sln`.
 
-然后修改为如下形式:
+Then change it to the following form:
 
 ```yml tye.yml
 name: mongo-sample
@@ -187,48 +187,48 @@ services:
     project: TyeTest/TyeTest.csproj
 ```
 
-对比之前，一共有两处修改：
+Comparing with previse version, there are two changes made:
 
-1. 增加了`tyetest`服务配置的节点，以便能够启动测试应用
-2. 在`mongo`服务上增加了`bindings`。这是`tye`中组织服务之间相互连接的一种方式。其中的`connectionString`便是其他服务连接`mongo`所使用的链接串。
+1. Added`tyetest`service configuration to enable test app
+2. `bindings` were added to the`mongo`service.This is a way to manage connection for the services in`tye`.The`connectionString`is the connection string used for other service to connect `mongo`.
 
-修改完毕之后。使用`tye run`启动应用。
+After modification.Start the app with`tye run`.
 
-打开`swagger`页面，并访问 API，便可以在 mongo express 中查看到数据已经成功完成了写入：
+Open the`swagger`page, and access the API, then you can see in the mongo express that the data has been successfully completed writing：
 
 ![mongo express 2](/images/20210215-002.png)
 
-查看效果之后可以使用`Ctrl`+`C`停止`tye`以移除相关容器。
+After viewing the effect you can use`Ctrl`+`C`to stop`tye`to remove the relevant containers.
 
-## 最后，发到 K8S 里面试一下
+## Finally, send it to the K8S to try it out
 
-这次的样例，并不是直接使用`tye deploy`就可以完成了。
+This is an example that can not use`tye deploy`directly.
 
-首先，通常来说，中间件在生产环境中不太可能是通过部署在容器中的方式而存在的。即便是使用容器部署，也不会每次 deploy 都希望重新部署。也就是说，通常是直接连接已有的中间件就可以了。
+First, usually, the middleware is not likely to exist in a production environment by way of deployment in a container.Even with a container deployment, it's not going to want to be redeployed every time.That said, it is usually possible to connect the already existing middleware directly.
 
-其次，中间件连接字符串通常来说是以`secret`的形式存于`k8s`中。故而不太可能在 tye 脚本中进行指定。
+Second, the intermediate connection string is usually in the form of`secret`in`k8s`.Therefore, it is unlikely to be specified in the tye script.
 
-故而，`tye`仅仅会帮助开发者检查需要部署的目标集群中是否已经存在符合要求的`secret`。当且仅当，目标集群中存在符合要求的`secret`才能部署。
+As a result,`tye`will simply help developers check if the required`secret` already exists in the target cluster that needs to be deployed.When and only if, the required`secret`exists in the target cluster to deploy.
 
-以本示例为例，需要在目标集群中存在`binding-production-mongo-secret`对应的`secret`才能都实现使用`tye`进行部署。
+In this example, you need to have`secret`corresponding to`binding-product-mongo-secret`in the target cluster to be deployed using`tye`.
 
-具体的名称约定规则，可以参照如下内容：
+The specific name agreed rules can be made with reference to the following contents:
 
 <https://github.com/dotnet/tye/blob/master/docs/reference/deployment.md#validate-secrets>
 
-## 小结
+## Summary
 
-本篇，我们已经顺利完成了使用 Tye 来完成应用与中间件之间的链接配置。
+This article, we have successfully completed the use of Tye to complete the link configuration between the application and the middleware.
 
-不过还遗留一些问题没有细说：
+But there are still some remaining issues:
 
-- 如果一个中间存在多个绑定该如何处理
-- https 绑定该如何处理
+- What to do if there are multiple bindings in the middleware
+- what to do with https binding
 
-详细这些内容，请移步官方文档进行查看：
+For more information, please move to the official documentation to view:
 
 <https://github.com/dotnet/tye/blob/master/docs/reference/service_discovery.md>
 
-下一篇，我们将进一步在 Tye 中实现对纷繁复杂的日志进行统一管理。
+In the next article, we'll go one step further in Tye to implement unified management of complex logs.
 
 <!-- md Footer-Newbe-Claptrap.md -->
