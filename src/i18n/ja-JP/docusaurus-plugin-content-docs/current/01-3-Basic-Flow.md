@@ -90,7 +90,7 @@ namespace HelloClaptrap.WebApi.Controllers
 
 #### Claptrap レイヤーの読み取り専用操作
 
-次に、Claptrap レイヤーの動作について説明します。ide の「実装の検索」機能を使用すると、`<code>HelloClaptrap.Actors`プロジェクト</code>の`AuctionItemActor`で、`の GetStatusAsync`メソッドに関連するセクションを参照してください：
+次に、Claptrap レイヤーの動作について説明します。ide の「実装の検索」機能を使用すると、`HelloClaptrap.Actors`プロジェクトの`AuctionItemActor`で、`の GetStatusAsync`メソッドに関連するセクションを参照してください：
 
 ```cs AuctionItemActor.cs
 using System.Linq;
@@ -147,8 +147,8 @@ namespace HelloClaptrap.Actors.AuctionItem
 
 このコードは：、
 
-1. `auctionItemActor` には、 `Attribute`</code> がシステムスキャン  Claptrap</code> コンポーネントをスキャンするための重要な基礎を提供するいくつかの `<code>Attribute  がマークされています。機能の詳細については、次の記事で説明します。</li>
-<li><code>AuctionItemActor` は `ClaptrapBoxActor を継承<AuctionItemState>`。このクラスを継承すると、 `Actor` イベント トレーサビリティのコア サポートも追加されます。
+1. `auctionItemActor` には、 `Attribute` がシステムスキャン  Claptrapコンポーネントをスキャンするための重要な基礎を提供するいくつかの `Attribute  がマークされています。機能の詳細については、次の記事で説明します。
+AuctionItemActor` は `ClaptrapBoxActor を継承AuctionItemState`。このクラスを継承すると、 `Actor` イベント トレーサビリティのコア サポートも追加されます。
 3. `AuctionItemActor` コンストラクターでは、 `ActorHost` および `IClaptrapActorCommonService`。ここで `ActorHost` は Dapr SDK によって提供されるパラメータで、現在のアクタの Id や型などの基本情報を表します。 `IClaptrapActorCommonService` は、Claptrap フレームワークによって提供されるサービス インターフェイスであり、Claptrap のすべての動作は、インターフェイス内の関連する型を変更して実装されます。
 4. `GetStatusAsync` Claptrap の State を介してデータを直接読み取ることができます。イベント トレーサビリティ メカニズムが存在するため、開発者は、Claptrap の State が常に正しい、最新、および使用可能な状態にあると常に考え続けることができます。永続化レイヤーと対話する方法に関係なく、Claptrap の State のデータを常に信頼できます。
 

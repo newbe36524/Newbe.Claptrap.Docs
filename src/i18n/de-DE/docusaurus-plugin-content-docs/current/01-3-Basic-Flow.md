@@ -147,16 +147,17 @@ Namespace HelloClaptrap.Actors.AuctionItem
 
 Dieser Code gibt an, dass：
 
-1. ` <code>Attribut-` sind auf der auctionItemActor</code> markiert, die `eine wichtige` s für das Scannen von Systemscans `Claptrap` Komponenten bieten.Die Features werden in den nachfolgenden Artikeln ausführlicher erläutert.
+1. ` <code>Attribut-` sind auf der auctionItemActor markiert, die `eine wichtige` s für das Scannen von Systemscans `Claptrap` Komponenten bieten.Die Features werden in den nachfolgenden Artikeln ausführlicher erläutert.
 2. `Der AuctionItemActor` `ClaptrapBoxActor<AuctionItemState>`geerbt.Durch das Vererben dieser Klasse wird auch `Unterstützung` Event-Sourcing zur Anwendung des Akteurs hinzugefügt.
 3. `TheActor` Konstruktor hat die `ActorHost` und `IClaptrapActorCommonService`eingeführt.Wobei `ActorHost-` ein Parameter ist, der vom Dapr SDK bereitgestellt wird und grundlegende Informationen wie die ID und den Typ des aktuellen Actor darstellt. `IClaptrapActorCommonService` ist die Vom Claptrap-Framework bereitgestellte Dienstschnittstelle, und das gesamte Verhalten von Claptrap wird durch Ändern der relevanten Typen in der Schnittstelle implementiert.
 4. `GetStatusAsync` Daten direkt aus dem Zustand in Claptrap lesen.Aufgrund des Ereignisbeschaffungsmechanismus können Entwickler immer denken, dass State in Claptrap immer im richtigen, aktuellen und verfügbaren Zustand ist.Sie können Statusdaten in Claptrap immer vertrauen, ohne darüber nachzudenken, wie Sie mit der Persistenzschicht interagieren.
 
 #### Claptrap-Layer schreibt
 
-Schreibgeschützte Claptrap-Vorgänge sind Vorgänge, die Actor aufrufen, ohne den Claptrap-Status zu ändern.Der Schreibvorgang ist es wert, dass Der Schauspieler den Zustand von Claptrap ändert.Aufgrund des Ereignisrückverfolgbarkeitsmechanismus müssen Sie ihn durch Ereignisse ändern, um den Status von Claptrap zu ändern.Sie können die</code> von Claptrap `, indem Sie die TryBidding-Methode verwenden, um zu erfahren, wie Sie eine event：</p>
+Schreibgeschützte Claptrap-Vorgänge sind Vorgänge, die Actor aufrufen, ohne den Claptrap-Status zu ändern.Der Schreibvorgang ist es wert, dass Der Schauspieler den Zustand von Claptrap ändert.Aufgrund des Ereignisrückverfolgbarkeitsmechanismus müssen Sie ihn durch Ereignisse ändern, um den Status von Claptrap zu ändern.Sie können die von Claptrap`, indem Sie die TryBidding-Methode verwenden, um zu erfahren, wie Sie eine event：
 
-<pre><code class="cs AuctionItemActor.cs">mit System.Linq;
+```cs
+mit System.Linq;
 mit System.Threading.Tasks;
 mit Dapr.Actors.Runtime;
 mit HelloClaptrap.Actors.AuctionItem.Events;
@@ -231,7 +232,7 @@ Namespace HelloClaptrap.Actors.AuctionItem
 
     -
 
-`</pre>
+```
 
 Dieser Code gibt an, dass：
 

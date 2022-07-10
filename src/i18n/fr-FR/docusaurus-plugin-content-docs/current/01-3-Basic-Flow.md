@@ -77,9 +77,9 @@ Ce code indique que：
 
 1. `GetStatus`créé`ClaptrapIdentity`, qui est le[Claptrap Identity](https://claptrap.newbe.pro/zh_Hans/docs/02-10-Claptrap-Identity), qui est utilisé pour localiser un`claptrap`
 2. Prochain appel`_actorProxyFactory`pour obtenir un proxy acteur.Ceci est implémenté par une interface fournie par Dapr.
-3. Appelez le`GetStatusAsync`pour l’agent de</code>`enchères créé, afin que vous puissiez appeler la méthode pour l’instance Claptrap correspondante.</li>
-<li>Les résultats retournés de Claptrap sont emballés et retournés en tant que résultats de l’API.</li>
-</ol>
+3. Appelez le`GetStatusAsync`pour l’agent de`enchères créé, afin que vous puissiez appeler la méthode pour l’instance Claptrap correspondante.
+4. Les résultats retournés de Claptrap sont emballés et retournés en tant que résultats de l’API.
+
 
 <p spaces-before="0">Il s’agit d’une simple représentation de l’API layer：méthode qui appelle acteur en créant un proxy acteur.La couche API est en fait la couche d’entrée du système.Vous pouvez plus que simplement exposer l’API d’une manière reposant.Il est parfaitement possible d’utiliser Grpc ou autre chose.</p>
 
@@ -91,7 +91,7 @@ Ce code indique que：
 
 <h4 spaces-before="0">Opérations de lecture de la couche Claptrap</h4>
 
-<p spaces-before="0">Jetons un coup d’oeil à la façon dont la couche Claptrap fonctionne.Avec la fonction Mise en œuvre find de l’IDE, vous trouverez<code>AuctionItemActor`pour la classe de mise en œuvre du projet</code>`IAuctionItemActor dans le projet<code>HelloClaptrap.Actors`, et voici quelques-unes des sections liées au projet`GetStatus Async`method：</p>
+<p spaces-before="0">Jetons un coup d’oeil à la façon dont la couche Claptrap fonctionne.Avec la fonction Mise en œuvre find de l’IDE, vous trouverez AuctionItemActor`pour la classe de mise en œuvre du projet `IAuctionItemActor dans le projet HelloClaptrap.Actors`, et voici quelques-unes des sections liées au projet`GetStatus Async`method：</p>
 
 ```cs AuctionItemActor.cs
 en utilisant System.Linq;
@@ -148,7 +148,7 @@ en utilisant Newbe.Claptrap.Dapr;
 
 Ce code indique que：
 
-1. ` <code>attribut` sont marqués sur le</code> auctionItemActor, qui fournissent `un` s basi important pour la numérisation du système `claptrap` composants.Les fonctionnalités seront expliquées plus en détail dans les articles suivants.
+1. `attribut` sont marqués sur le auctionItemActor, qui fournissent `un` s basi important pour la numérisation du système `claptrap` composants.Les fonctionnalités seront expliquées plus en détail dans les articles suivants.
 2. `The AuctionItemActor` hérité `ClaptrapBoxActor<AuctionItemState>`.Hériter de cette classe ajoute également `soutien` 'approvisionnement événement à la demande de l’acteur.
 3. `'` le constructeur a présenté `ActorHost` et `IClaptrapActorCommonService`.Lorsque `ActorHost` est un paramètre fourni par le Dapr SDK qui représente des informations de base telles que l’ID et le type de l’acteur actuel. `IClaptrapActorCommonService` est l’interface de service fournie par le framework Claptrap, et tout le comportement de Claptrap est implémenté en changeant les types pertinents dans l’interface.
 4. `GetStatusAsync` lire les données directement de State in Claptrap.En raison du mécanisme d’approvisionnement en événements, les développeurs peuvent toujours penser que l’état dans Claptrap est toujours dans l’état correct, à jour et disponible.Vous pouvez toujours faire confiance aux données de l’État dans Claptrap, sans penser à la façon dont vous interagissez avec la couche de persistance.
