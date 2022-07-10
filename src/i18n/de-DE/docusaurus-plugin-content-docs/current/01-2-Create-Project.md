@@ -156,9 +156,9 @@ Die Rücklaufergebnisse zeigen, dass：
 - Das letzte Gebot ist 36524
 - Der aktuelle Stand der Auktion `1 OnSell`
 
-Sie können die neuesten Auktionen{itemId}</code> mit dem GET/AuctionItems/：`</p>
+Sie können die neuesten Auktionen{itemId} mit dem `GET/AuctionItems/：`
 
-<pre><code class="json">{
+```json
   "state": {
     "biddingRecords": {
       "36524": {
@@ -172,7 +172,7 @@ Sie können die neuesten Auktionen{itemId}</code> mit dem GET/AuctionItems/：`<
     "endTime": "2021-02-27T16:59:12.673013+08:00"
   }
 }
-`</pre>
+```
 
 Die obigen Ergebnisse zeigen, dass：
 
@@ -184,9 +184,9 @@ Entwickler können mit unterschiedlichen Zuständen und Parametern experimentier
 
 ## Beenden des Projekts
 
-Wenn Sie ein Vorlagenprojekt beenden möchten, das gerade ausgeführt wird.Sie können ein laufendes Programm beenden, indem Sie`Strg``C-`auf dem Bedienfeld drücken, in dem Sie</code>-Tye-Run ausgeführt haben.</p>
+Wenn Sie ein Vorlagenprojekt beenden möchten, das gerade ausgeführt wird.Sie können ein laufendes Programm beenden, indem Sie`Strg``C-`auf dem Bedienfeld drücken, in dem Sie-Tye-Run ausgeführt haben.
 
-<h2 spaces-before="0">Zusammenfassung</h2>
+Zusammenfassung
 
 <p spaces-before="0">In diesem Artikel haben wir die grundlegenden Schritte zum Installieren und Verwenden von Projektvorlagen gelernt.</p>
 

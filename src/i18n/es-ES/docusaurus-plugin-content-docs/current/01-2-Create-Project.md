@@ -75,8 +75,8 @@ Las reglas de negocio son más o menos tan follows：
 El estado de los artículos de subasta es el follows：
 
 - `0` planificadas esperando para empezar a disparar
-- subasta de</code> de `1 OnSell</li>
-<li><code>2` vendidos ha sido baleado
+- subasta de de `1 OnSell
+- 2` vendidos ha sido baleado
 - `3 Streaming de` sin vender
 
 ### Diseño de API

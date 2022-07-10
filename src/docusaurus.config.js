@@ -12,26 +12,26 @@ module.exports = {
   i18n: {
     defaultLocale: "en-US",
     locales: [
-      "de-DE",
+      // "de-DE",
       "en-US",
-      "es-ES",
-      "fr-FR",
-      "ja-JP",
-      "ru-RU",
+      // "es-ES",
+      // "fr-FR",
+      // "ja-JP",
+      // "ru-RU",
       "zh-Hans",
-      "zh-HK",
+      // "zh-HK",
       "zh-TW",
     ],
     localeConfigs: {
       "en-US": { label: "English" },
       "zh-Hans": { label: "简体中文" },
-      "zh-HK": { label: "粤语" },
+      // "zh-HK": { label: "粤语" },
       "zh-TW": { label: "繁體中文" },
-      "ru-RU": { label: "русский язык" },
-      "de-DE": { label: "Deutsche" },
-      "es-ES": { label: "Español" },
-      "fr-FR": { label: "français" },
-      "ja-JP": { label: "日本語" },
+      // "ru-RU": { label: "русский язык" },
+      // "de-DE": { label: "Deutsche" },
+      // "es-ES": { label: "Español" },
+      // "fr-FR": { label: "français" },
+      // "ja-JP": { label: "日本語" },
     },
   },
   plugins: [
@@ -67,18 +67,18 @@ module.exports = {
       // theme: require("prism-react-renderer/themes/github"),
       // darkTheme: require("prism-react-renderer/themes/palenight"),
     },
-    algolia: {
-      apiKey: "6e0145abb5d335f273b4d8205992745f",
-      indexName: "newbe",
+    // algolia: {
+    //   apiKey: "6e0145abb5d335f273b4d8205992745f",
+    //   indexName: "newbe",
 
-      // Optional: see doc section bellow
-      contextualSearch: true,
+    //   // Optional: see doc section bellow
+    //   contextualSearch: true,
 
-      // Optional: Algolia search parameters
-      searchParameters: {},
+    //   // Optional: Algolia search parameters
+    //   searchParameters: {},
 
-      //... other Algolia params
-    },
+    //   //... other Algolia params
+    // },
     navbar: {
       title: "Newbe.Claptrap",
       logo: {
@@ -172,9 +172,6 @@ module.exports = {
       ],
       copyright: `MIT ${new Date().getFullYear()} newbe36524. Built with Docusaurus.`,
     },
-    gtag: {
-      trackingID: "UA-100658571-3",
-    },
   },
   presets: [
     [
@@ -196,6 +193,9 @@ module.exports = {
           feedOptions: {
             type: "all", // required. 'rss' | 'feed' | 'all'
           },
+        },
+        gtag: {
+          trackingID: "UA-100658571-3",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

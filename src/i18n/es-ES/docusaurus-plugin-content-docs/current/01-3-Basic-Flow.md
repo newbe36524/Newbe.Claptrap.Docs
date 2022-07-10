@@ -75,14 +75,14 @@ espacio de nombres HelloClaptrap.WebApi.Controllers
 
 Este código indica que：
 
-1. `GetStatus`creado por primera vez``ClaptrapIdentity, que es el</a>de identidad Claptrap
+1. `GetStatus`creado por primera vez``ClaptrapIdentity, que es elde identidad Claptrap
 
-, que se utiliza para localizar una`específica claptrap`</li> 
+, que se utiliza para localizar una`específica claptrap`
    
    2 A continuación, llame a`_actorProxyFactory`para obtener el proxy de un actor.Esto es implementado por una interfaz proporcionada por Dapr.
-3 Llame al</code>getstatusasync`para el agente de`auctionItemActor creado`, para que pueda llamar al método de la instancia de Claptrap correspondiente.</li>
-<li>Los resultados devueltos de Claptrap se ajustan y devuelven como resultados de la API.</li>
-</ol>
+3 Llame algetstatusasync`para el agente de`auctionItemActor creado`, para que pueda llamar al método de la instancia de Claptrap correspondiente.
+Los resultados devueltos de Claptrap se ajustan y devuelven como resultados de la API.
+
 
 <p spaces-before="0">Esta es una representación simple de la API layer：método que llama actor mediante la creación de un actor proxy.La capa API es en realidad la capa de entrada del sistema.Puede exponer la API de una manera más que inquieta.Es perfectamente posible usar Grpc o algo más.</p>
 
@@ -94,7 +94,7 @@ Este código indica que：
 
 <h4 spaces-before="0">Operaciones de solo lectura de la capa Claptrap</h4>
 
-<p spaces-before="0">Echemos un vistazo a cómo funciona la capa Claptrap.Con la característica Buscar implementación del IDE, encontrará<code>`AuctionItemActor para la clase de implementación para el proyecto</code>IAuctionItemActor de`en el proyecto``HelloClaptrap.Actors, y aquí están algunas de las secciones relacionadas con la<code>GetStatus Async`method：</p> 
+<p spaces-before="0">Echemos un vistazo a cómo funciona la capa Claptrap.Con la característica Buscar implementación del IDE, encontrará<code>`AuctionItemActor para la clase de implementación para el proyecto</code>IAuctionItemActor de`en el proyecto``HelloClaptrap.Actors, y aquí están algunas de las secciones relacionadas con la GetStatus Async`method：</p> 
   
 
 ```cs AuctionItemActor.cs
@@ -153,9 +153,9 @@ espacio de nombres HelloClaptrap.Actors.AuctionItem
 
 Este código indica que：
 
-1. ` <code>` de atributos se marcan en el</code> auctionItemActor, que proporcionan `un` s basi importante para el análisis del sistema `componentes` Claptrap.Las características se explicarán con más detalle en artículos posteriores.
+1. ` <code>` de atributos se marcan en el auctionItemActor, que proporcionan `un` s basi importante para el análisis del sistema `componentes` Claptrap.Las características se explicarán con más detalle en artículos posteriores.
 2. `El AuctionItemActor` heredó `<AuctionItemState>`ClaptrapBoxActor.Heredar esta clase también agrega compatibilidad `` abastecimiento de eventos a la aplicación del actor.
-3. `constructor de` De ThemActor presentó el</code> ActorHost `y <code>IClaptrapActorCommonService`.Donde `ActorHost` es un parámetro proporcionado por el SDK de Dapr que representa información básica como el identificador y el tipo del actor actual. `IClaptrapActorCommonService` es la interfaz de servicio proporcionada por el marco de Claptrap y todo el comportamiento de Claptrap se implementa cambiando los tipos relevantes de la interfaz.
+3. `constructor de` De ThemActor presentó el ActorHost `y <code>IClaptrapActorCommonService`.Donde `ActorHost` es un parámetro proporcionado por el SDK de Dapr que representa información básica como el identificador y el tipo del actor actual. `IClaptrapActorCommonService` es la interfaz de servicio proporcionada por el marco de Claptrap y todo el comportamiento de Claptrap se implementa cambiando los tipos relevantes de la interfaz.
 4. `GetStatusAsync` leer datos directamente desde State en Claptrap.Debido al mecanismo de abastecimiento de eventos, los desarrolladores siempre pueden pensar que State en Claptrap siempre está en el estado correcto, actualizado y disponible.Siempre puede confiar en los datos de Estado en Claptrap, sin pensar en cómo interactúa con la capa de persistencia.
 
 
