@@ -172,9 +172,6 @@ module.exports = {
       ],
       copyright: `MIT ${new Date().getFullYear()} newbe36524. Built with Docusaurus.`,
     },
-    gtag: {
-      trackingID: "UA-100658571-3",
-    },
   },
   presets: [
     [
@@ -196,6 +193,9 @@ module.exports = {
           feedOptions: {
             type: "all", // required. 'rss' | 'feed' | 'all'
           },
+        },
+        gtag: {
+          trackingID: "UA-100658571-3",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
